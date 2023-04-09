@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
                 </div>
                 <form className="mt-8 space-y-6" action="#" method="POST">
                     <input type="hidden" name="remember" value="true" />
-                    <div className="rounded-md shadow-sm -space-y-px space-y-3">
+                    <div className="rounded-md shadow-sm space-y-3">
                         <div>
                             <label htmlFor="email-address" className="sr-only">
                                 Email address
