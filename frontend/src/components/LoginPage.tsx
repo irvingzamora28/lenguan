@@ -1,7 +1,45 @@
-import React from "react";
-import loginImage from "../assets/images/login-image.jpg"
+import React, { useState } from "react";
+import loginImage from "../assets/images/login-image.jpg";
+import axios from "axios";
+
+interface LoginData {
+    email: string;
+    password: string;
+}
 
 const LoginPage: React.FC = () => {
+    const [loginData, setLoginData] = useState<LoginData>({
+        email: "",
+        password: "",
+    });
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setLoginData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setErrorMessage("");
+
+        try {
+            await axios.get("/sanctum/csrf-cookie");
+            const response = await axios.post("/api/login", loginData);
+            // Save the token and handle successful login
+            console.log(response.data);
+        } catch (error: any) {
+            if (error.response) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                setErrorMessage("An error occurred. Please try again.");
+            }
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-blue-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
