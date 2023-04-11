@@ -6,11 +6,12 @@ import LoginPage from './components/LoginPage'
 import NotFoundPage from './components/NotFoundPage'
 import RegisterPage from './components/RegisterPage'
 import './index.css'
+import ColorButtons from './components/ColorButtons'
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <div>Hello world</div>,
+        element: <ColorButtons />,
         errorElement: <NotFoundPage/>
     },
     {
