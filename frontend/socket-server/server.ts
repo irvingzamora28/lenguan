@@ -1,3 +1,4 @@
+// server.ts
 import express from 'express';
 import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer, Socket } from 'socket.io';
@@ -34,6 +35,7 @@ io.on('connection', (socket: Socket) => {
 
   if (gameState.players.length < 2) {
     gameState.players.push(socket.id);
+    console.log(`Player ${gameState.players.indexOf(socket.id) + 1} connected`);
     socket.emit('player-assignment', gameState.players.indexOf(socket.id) + 1);
   } else {
     socket.emit('player-assignment', 0);

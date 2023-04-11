@@ -13,11 +13,16 @@ const ColorButtons: React.FC = () => {
     const [currentColor, setCurrentColor] = useState(getRandomColor());
     const [score, setScore] = useState({ player1: 0, player2: 0 });
     const [gameStatus, setGameStatus] = useState<string | null>(null);
+    const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentColor(getRandomColor());
         }, 10000);
+
+        socket.on("player-assignment", (player: number) => {
+            setPlayerNumber(player);
+        });
 
         socket.on("update-score", (updatedScore) => {
             setScore(updatedScore);
@@ -29,6 +34,7 @@ const ColorButtons: React.FC = () => {
 
         return () => {
             clearInterval(interval);
+            socket.off("player-assignment");
             socket.off("update-score");
             socket.off("game-over");
         };
@@ -43,6 +49,11 @@ const ColorButtons: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center">
+            {playerNumber !== null && (
+                <h2 className="text-2xl font-semibold mb-4">
+                    {playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}
+                </h2>
+            )}
             <h1 className="text-4xl font-bold mb-8">
                 {gameStatus ? gameStatus : `Press ${currentColor} button`}
             </h1>
