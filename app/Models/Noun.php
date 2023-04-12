@@ -25,4 +25,14 @@ class Noun extends Model
     {
         return $this->hasMany(GameRound::class);
     }
+
+    public function gameSessions()
+    {
+        return $this->hasMany(GameSession::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'noun_category', 'noun_id', 'category_id');
+    }
 }

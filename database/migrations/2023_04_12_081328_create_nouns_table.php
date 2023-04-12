@@ -15,6 +15,7 @@ return new class extends Migration
             $collection->foreign('language_id')->references('_id')->on('languages');
             $collection->integer('difficulty_level')->comment('the difficulty level of the noun (1 for beginner, 2 for intermediate, 3 for advanced)');
             $collection->foreign('translation_id')->references('_id')->on('translations')->nullable();
+            $collection->timestamps();
         });
     }
 
