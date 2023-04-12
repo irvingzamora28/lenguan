@@ -15,14 +15,28 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\AuthController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/login', [AuthController::class, 'login']);
 
+// Player routes
+Route::post('register', [PlayerController::class, 'register']);
+Route::post('login', [PlayerController::class, 'login']);
+Route::apiResource('players', PlayerController::class)->middleware('auth:api');
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+// Language routes
+Route::apiResource('languages', LanguageController::class);
 
+// Noun routes
+Route::apiResource('nouns', NounController::class);
+
+// GameSession routes
+Route::apiResource('game_sessions', GameSessionController::class);
+
+// GameRound routes
+Route::apiResource('game_rounds', GameController::class);
+
+// Leaderboard routes
+Route::apiResource('leaderboards', LeaderboardController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
