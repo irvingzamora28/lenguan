@@ -1,0 +1,71 @@
+[{
+        "word": "Haus",
+        "gender": "das",
+        "translation": "house",
+        "difficulty_level": 1,
+        "category": "Household"
+    },
+    {
+        "word": "Katze",
+        "gender": "die",
+        "translation": "cat",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Hund",
+        "gender": "der",
+        "translation": "dog",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Apfel",
+        "gender": "der",
+        "translation": "apple",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Auto",
+        "gender": "das",
+        "translation": "car",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Computer",
+        "gender": "der",
+        "translation": "computer",
+        "difficulty_level": 1,
+        "category": "Technology"
+    },
+    {
+        "word": "Berg",
+        "gender": "der",
+        "translation": "mountain",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Hemd",
+        "gender": "das",
+        "translation": "shirt",
+        "difficulty_level": 1,
+        "category": "Clothing"
+    },
+    {
+        "word": "Stuhl",
+        "gender": "der",
+        "translation": "chair",
+        "difficulty_level": 1,
+        "category": "Furniture"
+    },
+    {
+        "word": "Fußball",
+        "gender": "der",
+        "translation": "soccer",
+        "difficulty_level": 1,
+        "category": "Sports"
+    }
+]
