@@ -2,6 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NounController;
+use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\GameSessionController;
+use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,28 +20,36 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\AuthController;
 
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-// Player routes
-Route::post('register', [PlayerController::class, 'register']);
-Route::post('login', [PlayerController::class, 'login']);
-Route::apiResource('players', PlayerController::class)->middleware('auth:api');
+Route::group(['prefix' => 'nouns'], function () {
+    Route::get('/', [NounController::class, 'index']);
+    Route::get('/{noun}', [NounController::class, 'show']);
+});
 
-// Language routes
-Route::apiResource('languages', LanguageController::class);
+Route::group(['prefix' => 'players'], function () {
+    Route::post('/register', [PlayerController::class, 'register']);
+    Route::post('/login', [PlayerController::class, 'login']);
+    Route::get('/', [PlayerController::class, 'index']);
+    Route::get('/{player}', [PlayerController::class, 'show']);
+});
 
-// Noun routes
-Route::apiResource('nouns', NounController::class);
+Route::group(['prefix' => 'game-sessions'], function () {
+    Route::get('/', [GameSessionController::class, 'index']);
+    Route::post('/', [GameSessionController::class, 'store']);
+    Route::get('/{gameSession}', [GameSessionController::class, 'show']);
+});
 
-// GameSession routes
-Route::apiResource('game_sessions', GameSessionController::class);
+Route::group(['prefix' => 'leaderboards'], function () {
+    Route::get('/', [LeaderboardController::class, 'index']);
+    Route::get('/{leaderboard}', [LeaderboardController::class, 'show']);
+});
 
-// GameRound routes
-Route::apiResource('game_rounds', GameController::class);
-
-// Leaderboard routes
-Route::apiResource('leaderboards', LeaderboardController::class);
+Route::group(['prefix' => 'languages'], function () {
+    Route::get('/', [LanguageController::class, 'index']);
+    Route::get('/{language}', [LanguageController::class, 'show']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
