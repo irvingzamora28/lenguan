@@ -1,0 +1,918 @@
+[{
+        "word": "Affe",
+        "gender": "der",
+        "translation": "monkey",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Ameise",
+        "gender": "die",
+        "translation": "ant",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Bär",
+        "gender": "der",
+        "translation": "bear",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Biene",
+        "gender": "die",
+        "translation": "bee",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Delfin",
+        "gender": "der",
+        "translation": "dolphin",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Eichhörnchen",
+        "gender": "das",
+        "translation": "squirrel",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Elefant",
+        "gender": "der",
+        "translation": "elephant",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Ente",
+        "gender": "die",
+        "translation": "duck",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Eule",
+        "gender": "die",
+        "translation": "owl",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Fledermaus",
+        "gender": "die",
+        "translation": "bat",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Frosch",
+        "gender": "der",
+        "translation": "frog",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Gans",
+        "gender": "die",
+        "translation": "goose",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Gazelle",
+        "gender": "die",
+        "translation": "gazelle",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Gepard",
+        "gender": "der",
+        "translation": "cheetah",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Giraffe",
+        "gender": "die",
+        "translation": "giraffe",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Gorilla",
+        "gender": "der",
+        "translation": "gorilla",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Hai",
+        "gender": "der",
+        "translation": "shark",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Hamster",
+        "gender": "der",
+        "translation": "hamster",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Hase",
+        "gender": "der",
+        "translation": "rabbit",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Hirsch",
+        "gender": "der",
+        "translation": "deer",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Huhn",
+        "gender": "das",
+        "translation": "chicken",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Hummel",
+        "gender": "die",
+        "translation": "bumblebee",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Igel",
+        "gender": "der",
+        "translation": "hedgehog",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Kamel",
+        "gender": "das",
+        "translation": "camel",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Känguru",
+        "gender": "das",
+        "translation": "kangaroo",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Kaninchen",
+        "gender": "das",
+        "translation": "rabbit",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Karpfen",
+        "gender": "der",
+        "translation": "carp",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Katze",
+        "gender": "die",
+        "translation": "cat",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Koala",
+        "gender": "der",
+        "translation": "koala",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Kolibri",
+        "gender": "der",
+        "translation": "hummingbird",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Kuh",
+        "gender": "die",
+        "translation": "cow",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Lama",
+        "gender": "das",
+        "translation": "llama",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Löwe",
+        "gender": "der",
+        "translation": "lion",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Maus",
+        "gender": "die",
+        "translation": "mouse",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Maulwurf",
+        "gender": "der",
+        "translation": "mole",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Meerjungfrau",
+        "gender": "die",
+        "translation": "mermaid",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Möwe",
+        "gender": "die",
+        "translation": "seagull",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Mops",
+        "gender": "der",
+        "translation": "pug",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Mücke",
+        "gender": "die",
+        "translation": "mosquito",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Nashorn",
+        "gender": "das",
+        "translation": "rhinoceros",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Nilpferd",
+        "gender": "das",
+        "translation": "hippopotamus",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Orang-Utan",
+        "gender": "der",
+        "translation": "orangutan",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Otter",
+        "gender": "der",
+        "translation": "otter",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Panda",
+        "gender": "der",
+        "translation": "panda",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Papagei",
+        "gender": "der",
+        "translation": "parrot",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Pferd",
+        "gender": "das",
+        "translation": "horse",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Pinguin",
+        "gender": "der",
+        "translation": "penguin",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Rabe",
+        "gender": "der",
+        "translation": "raven",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Ratte",
+        "gender": "die",
+        "translation": "rat",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Reh",
+        "gender": "das",
+        "translation": "roe deer",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Rentier",
+        "gender": "das",
+        "translation": "reindeer",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Robbe",
+        "gender": "die",
+        "translation": "seal",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Schildkröte",
+        "gender": "die",
+        "translation": "turtle",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Schimpanse",
+        "gender": "der",
+        "translation": "chimp",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Schlange",
+        "gender": "die",
+        "translation": "snake",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Schnecke",
+        "gender": "die",
+        "translation": "snail",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Schwan",
+        "gender": "der",
+        "translation": "swan",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Seehund",
+        "gender": "der",
+        "translation": "seal",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Spinne",
+        "gender": "die",
+        "translation": "spider",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Stier",
+        "gender": "der",
+        "translation": "bull",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Storch",
+        "gender": "der",
+        "translation": "stork",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Tiger",
+        "gender": "der",
+        "translation": "tiger",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Tintenfisch",
+        "gender": "der",
+        "translation": "squid",
+        "difficulty_level": 3,
+        "category": "Animals"
+    },
+    {
+        "word": "Vogel",
+        "gender": "der",
+        "translation": "bird",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Wal",
+        "gender": "der",
+        "translation": "whale",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Wolf",
+        "gender": "der",
+        "translation": "wolf",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Zebra",
+        "gender": "das",
+        "translation": "zebra",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Ziege",
+        "gender": "die",
+        "translation": "goat",
+        "difficulty_level": 2,
+        "category": "Animals"
+    },
+    {
+        "word": "Zoo",
+        "gender": "der",
+        "translation": "zoo",
+        "difficulty_level": 1,
+        "category": "Animals"
+    },
+    {
+        "word": "Apfel",
+        "gender": "der",
+        "translation": "apple",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Banane",
+        "gender": "die",
+        "translation": "banana",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Birne",
+        "gender": "die",
+        "translation": "pear",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Brokkoli",
+        "gender": "der",
+        "translation": "broccoli",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Butter",
+        "gender": "die",
+        "translation": "butter",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Brot",
+        "gender": "das",
+        "translation": "bread",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Ei",
+        "gender": "das",
+        "translation": "egg",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Erdbeere",
+        "gender": "die",
+        "translation": "strawberry",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Essig",
+        "gender": "der",
+        "translation": "vinegar",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Fleisch",
+        "gender": "das",
+        "translation": "meat",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Gurke",
+        "gender": "die",
+        "translation": "cucumber",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Hähnchen",
+        "gender": "das",
+        "translation": "chicken",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Honig",
+        "gender": "der",
+        "translation": "honey",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Joghurt",
+        "gender": "der",
+        "translation": "yogurt",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Käse",
+        "gender": "der",
+        "translation": "cheese",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Karotte",
+        "gender": "die",
+        "translation": "carrot",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Kartoffel",
+        "gender": "die",
+        "translation": "potato",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Ketchup",
+        "gender": "der",
+        "translation": "ketchup",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Kiwi",
+        "gender": "die",
+        "translation": "kiwi",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Knoblauch",
+        "gender": "der",
+        "translation": "garlic",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Kohl",
+        "gender": "der",
+        "translation": "cabbage",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Kuchen",
+        "gender": "der",
+        "translation": "cake",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Käsekuchen",
+        "gender": "der",
+        "translation": "cheesecake",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Lasagne",
+        "gender": "die",
+        "translation": "lasagna",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Limonade",
+        "gender": "die",
+        "translation": "lemonade",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Mandarine",
+        "gender": "die",
+        "translation": "mandarin",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Marmelade",
+        "gender": "die",
+        "translation": "jam",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Milch",
+        "gender": "die",
+        "translation": "milk",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Möhre",
+        "gender": "die",
+        "translation": "carrot",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Muffin",
+        "gender": "der",
+        "translation": "muffin",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Nudel",
+        "gender": "die",
+        "translation": "noodle",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Obst",
+        "gender": "das",
+        "translation": "fruit",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Orange",
+        "gender": "die",
+        "translation": "orange",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Paprika",
+        "gender": "die",
+        "translation": "bell pepper",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pasta",
+        "translation": "pasta",
+        "gender": "die",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pfannkuchen",
+        "gender": "der",
+        "translation": "pancake",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pfeffer",
+        "gender": "der",
+        "translation": "pepper",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pilz",
+        "gender": "der",
+        "translation": "mushroom",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pizza",
+        "gender": "die",
+        "translation": "pizza",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Pommes",
+        "gender": "die",
+        "translation": "fries",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Quark",
+        "gender": "der",
+        "translation": "quark",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Reis",
+        "gender": "der",
+        "translation": "rice",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Rindfleisch",
+        "gender": "das",
+        "translation": "beef",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Rosinen",
+        "gender": "die",
+        "translation": "raisins",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Salat",
+        "gender": "der",
+        "translation": "salad",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Sahne",
+        "gender": "die",
+        "translation": "cream",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Salz",
+        "gender": "das",
+        "translation": "salt",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Schinken",
+        "gender": "der",
+        "translation": "ham",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Schokolade",
+        "gender": "die",
+        "translation": "chocolate",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Soße",
+        "gender": "die",
+        "translation": "sauce",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Spaghetti",
+        "gender": "die",
+        "translation": "spaghetti",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Spinat",
+        "translation": "spinach",
+        "gender": "der",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Tomate",
+        "gender": "die",
+        "translation": "tomato",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Traube",
+        "gender": "die",
+        "translation": "grape",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Vanille",
+        "gender": "die",
+        "translation": "vanilla",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Wasser",
+        "gender": "das",
+        "translation": "water",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Wein",
+        "gender": "der",
+        "translation": "wine",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Wurst",
+        "gender": "die",
+        "translation": "sausage",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Zimt",
+        "gender": "der",
+        "translation": "cinnamon",
+        "difficulty_level": 3,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Zitrone",
+        "gender": "die",
+        "translation": "lemon",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Zucker",
+        "gender": "der",
+        "translation": "sugar",
+        "difficulty_level": 1,
+        "category": "Food & Drinks"
+    },
+    {
+        "word": "Zwiebel",
+        "gender": "die",
+        "translation": "onion",
+        "difficulty_level": 2,
+        "category": "Food & Drinks"
+    }
+]

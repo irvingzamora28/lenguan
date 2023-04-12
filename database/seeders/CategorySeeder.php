@@ -26,7 +26,7 @@ class CategorySeeder extends Seeder
             'Body',
             'School',
             'Professions',
-            'People and Family',
+            'People & Family',
             'Health',
             'Weather',
             'Time',
