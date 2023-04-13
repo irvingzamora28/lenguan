@@ -914,5 +914,1813 @@
         "translation": "onion",
         "difficulty_level": 2,
         "category": "Food & Drinks"
+    },
+    {
+        "word": "Auto",
+        "gender": "das",
+        "translation": "car",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrrad",
+        "gender": "das",
+        "translation": "bicycle",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Zug",
+        "gender": "der",
+        "translation": "train",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Bus",
+        "gender": "der",
+        "translation": "bus",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Flugzeug",
+        "gender": "das",
+        "translation": "airplane",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Motorrad",
+        "gender": "das",
+        "translation": "motorcycle",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "U-Bahn",
+        "gender": "die",
+        "translation": "subway",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Straßenbahn",
+        "gender": "die",
+        "translation": "tram",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Lastwagen",
+        "gender": "der",
+        "translation": "truck",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Schiff",
+        "gender": "das",
+        "translation": "ship",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Boot",
+        "gender": "das",
+        "translation": "boat",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Hubschrauber",
+        "gender": "der",
+        "translation": "helicopter",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Taxi",
+        "gender": "das",
+        "translation": "taxi",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Roller",
+        "gender": "der",
+        "translation": "scooter",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Lieferwagen",
+        "gender": "der",
+        "translation": "delivery van",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Wohnmobil",
+        "gender": "das",
+        "translation": "RV",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fähre",
+        "gender": "die",
+        "translation": "ferry",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gleis",
+        "gender": "das",
+        "translation": "track",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Bahnsteig",
+        "gender": "der",
+        "translation": "platform",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Flughafen",
+        "gender": "der",
+        "translation": "airport",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Bahnhof",
+        "gender": "der",
+        "translation": "train station",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrkarte",
+        "gender": "die",
+        "translation": "ticket",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gepäck",
+        "gender": "das",
+        "translation": "luggage",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Reifen",
+        "gender": "der",
+        "translation": "tire",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Lenkrad",
+        "gender": "das",
+        "translation": "steering wheel",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Ampel",
+        "gender": "die",
+        "translation": "traffic light",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Kreisverkehr",
+        "gender": "der",
+        "translation": "roundabout",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Brücke",
+        "gender": "die",
+        "translation": "bridge",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Tunnel",
+        "gender": "der",
+        "translation": "tunnel",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrstuhl",
+        "gender": "der",
+        "translation": "elevator",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Rolltreppe",
+        "gender": "die",
+        "translation": "escalator",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Güterzug",
+        "gender": "der",
+        "translation": "freight train",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Segelboot",
+        "gender": "das",
+        "translation": "sailboat",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Anhänger",
+        "gender": "der",
+        "translation": "trailer",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Kofferraum",
+        "gender": "der",
+        "translation": "trunk",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Motor",
+        "gender": "der",
+        "translation": "engine",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Geschwindigkeitsbegrenzung",
+        "gender": "die",
+        "translation": "speed limit",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Parkplatz",
+        "gender": "der",
+        "translation": "parking lot",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Tankstelle",
+        "gender": "die",
+        "translation": "gas station",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Straße",
+        "gender": "die",
+        "translation": "street",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Autobahn",
+        "gender": "die",
+        "translation": "highway",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Luftballon",
+        "gender": "der",
+        "translation": "hot air balloon",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Zeppelin",
+        "gender": "der",
+        "translation": "zeppelin",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Tretboot",
+        "gender": "das",
+        "translation": "pedal boat",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Jetski",
+        "gender": "das",
+        "translation": "jet ski",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Seilbahn",
+        "gender": "die",
+        "translation": "cable car",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Rikscha",
+        "gender": "die",
+        "translation": "rickshaw",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Hoverboard",
+        "gender": "das",
+        "translation": "hoverboard",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Schlitten",
+        "gender": "der",
+        "translation": "sled",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "U-Boot",
+        "gender": "das",
+        "translation": "submarine",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Raumfähre",
+        "gender": "die",
+        "translation": "space shuttle",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Straßenkarte",
+        "gender": "die",
+        "translation": "road map",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Navigationsgerät",
+        "gender": "das",
+        "translation": "GPS",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Parkuhr",
+        "gender": "die",
+        "translation": "parking meter",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fußgängerzone",
+        "gender": "die",
+        "translation": "pedestrian zone",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Einbahnstraße",
+        "gender": "die",
+        "translation": "one-way street",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrzeug",
+        "gender": "das",
+        "translation": "vehicle",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gangschaltung",
+        "gender": "die",
+        "translation": "gearshift",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Kupplung",
+        "gender": "die",
+        "translation": "clutch",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Bremse",
+        "gender": "die",
+        "translation": "brake",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Auspuff",
+        "gender": "der",
+        "translation": "exhaust",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Carsharing",
+        "gender": "das",
+        "translation": "car sharing",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrschule",
+        "gender": "die",
+        "translation": "driving school",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Führerschein",
+        "gender": "der",
+        "translation": "driver's license",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Haltestelle",
+        "gender": "die",
+        "translation": "bus stop",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Raststätte",
+        "gender": "die",
+        "translation": "rest stop",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Kreuzung",
+        "gender": "die",
+        "translation": "intersection",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Stau",
+        "gender": "der",
+        "translation": "traffic jam",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "S-Bahn",
+        "gender": "die",
+        "translation": "urban railway",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Regionalbahn",
+        "gender": "die",
+        "translation": "regional train",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fernbus",
+        "gender": "der",
+        "translation": "long-distance bus",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Elektroauto",
+        "gender": "das",
+        "translation": "electric car",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Hybridauto",
+        "gender": "das",
+        "translation": "hybrid car",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gleitschirm",
+        "gender": "der",
+        "translation": "paraglider",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fallschirm",
+        "gender": "der",
+        "translation": "parachute",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Draisine",
+        "gender": "die",
+        "translation": "handcar",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Limousine",
+        "gender": "die",
+        "translation": "limousine",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Schneemobil",
+        "gender": "das",
+        "translation": "snowmobile",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Segway",
+        "gender": "der",
+        "translation": "segway",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Tandem",
+        "gender": "das",
+        "translation": "tandem",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Skateboard",
+        "gender": "das",
+        "translation": "skateboard",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Inlineskates",
+        "gender": "die",
+        "translation": "inline skates",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fahrradweg",
+        "gender": "der",
+        "translation": "bike path",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Pannendienst",
+        "gender": "der",
+        "translation": "roadside assistance",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gepäckträger",
+        "gender": "der",
+        "translation": "luggage rack",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Zoll",
+        "gender": "der",
+        "translation": "customs",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Reisebus",
+        "gender": "die",
+        "translation": "tour bus",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Taxistand",
+        "gender": "der",
+        "translation": "taxi stand",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Fährboot",
+        "gender": "das",
+        "translation": "ferry boat",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Rettungswagen",
+        "gender": "der",
+        "translation": "ambulance",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Feuerwehrauto",
+        "gender": "das",
+        "translation": "fire truck",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Streifenwagen",
+        "gender": "der",
+        "translation": "patrol car",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Müllwagen",
+        "gender": "der",
+        "translation": "garbage truck",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Lieferwagen",
+        "gender": "der",
+        "translation": "delivery van",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Güterzug",
+        "gender": "der",
+        "translation": "freight train",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Schneepflug",
+        "gender": "der",
+        "translation": "snowplow",
+        "difficulty_level": 3,
+        "category": "Transportation"
+    },
+    {
+        "word": "Abschleppwagen",
+        "gender": "der",
+        "translation": "tow truck",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Eisenbahn",
+        "gender": "die",
+        "translation": "railway",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    },
+    {
+        "word": "Gleis",
+        "gender": "das",
+        "translation": "rail",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Bahnsteig",
+        "gender": "der",
+        "translation": "platform",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Anker",
+        "gender": "der",
+        "translation": "anchor",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Landebahn",
+        "gender": "die",
+        "translation": "runway",
+        "difficulty_level": 2,
+        "category": "Transportation"
+    },
+    {
+        "word": "Tunnel",
+        "gender": "der",
+        "translation": "tunnel",
+        "difficulty_level": 1,
+        "category": "Transportation"
+    }, {
+        "word": "Computer",
+        "gender": "der",
+        "translation": "computer",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Laptop",
+        "gender": "der",
+        "translation": "laptop",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Tastatur",
+        "gender": "die",
+        "translation": "keyboard",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Maus",
+        "gender": "die",
+        "translation": "mouse",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Bildschirm",
+        "gender": "der",
+        "translation": "screen",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Drucker",
+        "gender": "der",
+        "translation": "printer",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Smartphone",
+        "gender": "das",
+        "translation": "smartphone",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Tablet",
+        "gender": "das",
+        "translation": "tablet",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Kopfhörer",
+        "gender": "die",
+        "translation": "headphones",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Lautsprecher",
+        "gender": "der",
+        "translation": "speaker",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Mikrofon",
+        "gender": "das",
+        "translation": "microphone",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Kamera",
+        "gender": "die",
+        "translation": "camera",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Fernbedienung",
+        "gender": "die",
+        "translation": "remote control",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Fernseher",
+        "gender": "der",
+        "translation": "television",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Router",
+        "gender": "der",
+        "translation": "router",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Modem",
+        "gender": "das",
+        "translation": "modem",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Internet",
+        "gender": "das",
+        "translation": "internet",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Software",
+        "gender": "die",
+        "translation": "software",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Hardware",
+        "gender": "die",
+        "translation": "hardware",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Programm",
+        "gender": "das",
+        "translation": "program",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Betriebssystem",
+        "gender": "das",
+        "translation": "operating system",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Prozessor",
+        "gender": "der",
+        "translation": "processor",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Grafikkarte",
+        "gender": "die",
+        "translation": "graphics card",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Festplatte",
+        "gender": "die",
+        "translation": "hard drive",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "USB-Stick",
+        "gender": "der",
+        "translation": "USB stick",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Ladegerät",
+        "gender": "das",
+        "translation": "charger",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Kabel",
+        "gender": "das",
+        "translation": "cable",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Steckdose",
+        "gender": "die",
+        "translation": "socket",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Batterie",
+        "gender": "die",
+        "translation": "battery",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Roboter",
+        "gender": "der",
+        "translation": "robot",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Drohne",
+        "gender": "die",
+        "translation": "drone",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Satellit",
+        "gender": "der",
+        "translation": "satellite",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Teleskop",
+        "gender": "das",
+        "translation": "telescope",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Mikroskop",
+        "gender": "das",
+        "translation": "microscope",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Smartwatch",
+        "gender": "die",
+        "translation": "smartwatch",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Navigationssystem",
+        "gender": "das",
+        "translation": "navigation system",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Bluetooth",
+        "gender": "das",
+        "translation": "Bluetooth",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "WLAN",
+        "gender": "das",
+        "translation": "Wi-Fi",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "App",
+        "gender": "die",
+        "translation": "app",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Datenbank",
+        "gender": "die",
+        "translation": "database",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Server",
+        "gender": "der",
+        "translation": "server",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Videokonferenz",
+        "gender": "die",
+        "translation": "video conference",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "E-Book",
+        "gender": "das",
+        "translation": "e-book",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Podcast",
+        "gender": "der",
+        "translation": "podcast",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Streaming",
+        "gender": "das",
+        "translation": "streaming",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Cloud",
+        "gender": "die",
+        "translation": "cloud",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Kryptowährung",
+        "gender": "die",
+        "translation": "cryptocurrency",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Algorithmus",
+        "gender": "der",
+        "translation": "algorithm",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Künstliche Intelligenz",
+        "gender": "die",
+        "translation": "artificial intelligence",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Virtual Reality",
+        "gender": "die",
+        "translation": "virtual reality",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Augmented Reality",
+        "gender": "die",
+        "translation": "augmented reality",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Datenbrille",
+        "gender": "die",
+        "translation": "smart glasses",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "3D-Drucker",
+        "gender": "der",
+        "translation": "3D printer",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Wearable",
+        "gender": "das",
+        "translation": "wearable",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Datenschutz",
+        "gender": "der",
+        "translation": "data protection",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Virus",
+        "gender": "der",
+        "translation": "virus",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Firewall",
+        "gender": "die",
+        "translation": "firewall",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Antivirenprogramm",
+        "gender": "das",
+        "translation": "antivirus program",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Webcam",
+        "gender": "die",
+        "translation": "webcam",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "E-Mail",
+        "gender": "die",
+        "translation": "email",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Suchmaschine",
+        "gender": "die",
+        "translation": "search engine",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Blog",
+        "gender": "der",
+        "translation": "blog",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Social Media",
+        "gender": "die",
+        "translation": "social media",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Digitalkamera",
+        "gender": "die",
+        "translation": "digital camera",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "USB-Anschluss",
+        "gender": "der",
+        "translation": "USB port",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Speicherkarte",
+        "gender": "die",
+        "translation": "memory card",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Netzwerk",
+        "gender": "das",
+        "translation": "network",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Backup",
+        "gender": "das",
+        "translation": "backup",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Download",
+        "gender": "der",
+        "translation": "download",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Upload",
+        "gender": "der",
+        "translation": "upload",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Passwort",
+        "gender": "das",
+        "translation": "password",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Benutzername",
+        "gender": "der",
+        "translation": "username",
+        "difficulty_level": 1,
+        "category": "Technology"
+    }, {
+        "word": "Cybersicherheit",
+        "gender": "die",
+        "translation": "cybersecurity",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Phishing",
+        "gender": "das",
+        "translation": "phishing",
+        "difficulty_level": 2,
+        "category": "Technology"
+    }, {
+        "word": "Spam",
+        "gender": "der",
+        "translation": "spam",
+        "difficulty_level": 1,
+        "category": "Technology"
+
+    }, {
+        "word": "Natur",
+        "gender": "die",
+        "translation": "nature",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Berg",
+        "gender": "der",
+        "translation": "mountain",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Fluss",
+        "gender": "der",
+        "translation": "river",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "See",
+        "gender": "der",
+        "translation": "lake",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Meer",
+        "gender": "das",
+        "translation": "sea",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Ozean",
+        "gender": "der",
+        "translation": "ocean",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Wald",
+        "gender": "der",
+        "translation": "forest",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Baum",
+        "gender": "der",
+        "translation": "tree",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Blume",
+        "gender": "die",
+        "translation": "flower",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Pflanze",
+        "gender": "die",
+        "translation": "plant",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Tier",
+        "gender": "das",
+        "translation": "animal",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Vogel",
+        "gender": "der",
+        "translation": "bird",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Fisch",
+        "gender": "der",
+        "translation": "fish",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Schmetterling",
+        "gender": "der",
+        "translation": "butterfly",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sonne",
+        "gender": "die",
+        "translation": "sun",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Mond",
+        "gender": "der",
+        "translation": "moon",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Stern",
+        "gender": "der",
+        "translation": "star",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Wolke",
+        "gender": "die",
+        "translation": "cloud",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Regen",
+        "gender": "der",
+        "translation": "rain",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Schnee",
+        "gender": "der",
+        "translation": "snow",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Eis",
+        "gender": "das",
+        "translation": "ice",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Wind",
+        "gender": "der",
+        "translation": "wind",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sturm",
+        "gender": "der",
+        "translation": "storm",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Blitz",
+        "gender": "der",
+        "translation": "lightning",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Donner",
+        "gender": "der",
+        "translation": "thunder",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Nebel",
+        "gender": "der",
+        "translation": "fog",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Bergkette",
+        "gender": "die",
+        "translation": "mountain range",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Tal",
+        "gender": "das",
+        "translation": "valley",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Wüste",
+        "gender": "die",
+        "translation": "desert",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Insel",
+        "gender": "die",
+        "translation": "island",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Strand",
+        "gender": "der",
+        "translation": "beach",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Küste",
+        "gender": "die",
+        "translation": "coast",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Gletscher",
+        "gender": "der",
+        "translation": "glacier",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Vulkan",
+        "gender": "der",
+        "translation": "volcano",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Wasserfall",
+        "gender": "der",
+        "translation": "waterfall",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Höhle",
+        "gender": "die",
+        "translation": "cave",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Wiese",
+        "gender": "die",
+        "translation": "meadow",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Feld",
+        "gender": "das",
+        "translation": "field",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Acker",
+        "gender": "der",
+        "translation": "farmland",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Garten",
+        "gender": "der",
+        "translation": "garden",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Park",
+        "gender": "der",
+        "translation": "park",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Stein",
+        "gender": "der",
+        "translation": "stone",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Fels",
+        "gender": "der",
+        "translation": "rock",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Erde",
+        "gender": "die",
+        "translation": "earth",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sand",
+        "gender": "der",
+        "translation": "sand",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Lehm",
+        "gender": "der",
+        "translation": "clay",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Gras",
+        "gender": "das",
+        "translation": "grass",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Laub",
+        "gender": "das",
+        "translation": "foliage",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Ast",
+        "gender": "der",
+        "translation": "branch",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Wurzel",
+        "gender": "die",
+        "translation": "root",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Blatt",
+        "gender": "das",
+        "translation": "leaf",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Knospe",
+        "gender": "die",
+        "translation": "bud",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Samen",
+        "gender": "der",
+        "translation": "seed",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Frucht",
+        "gender": "die",
+        "translation": "fruit",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Beere",
+        "gender": "die",
+        "translation": "berry",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Nuss",
+        "gender": "die",
+        "translation": "nut",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Pilz",
+        "gender": "der",
+        "translation": "mushroom",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Muschel",
+        "gender": "die",
+        "translation": "shell",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Koralle",
+        "gender": "die",
+        "translation": "coral",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Alge",
+        "gender": "die",
+        "translation": "algae",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Moos",
+        "gender": "das",
+        "translation": "moss",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Farn",
+        "gender": "der",
+        "translation": "fern",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Kaktus",
+        "gender": "der",
+        "translation": "cactus",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Gebirge",
+        "gender": "das",
+        "translation": "mountains",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Landschaft",
+        "gender": "die",
+        "translation": "landscape",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Umwelt",
+        "gender": "die",
+        "translation": "environment",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Ökosystem",
+        "gender": "das",
+        "translation": "ecosystem",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Tierwelt",
+        "gender": "die",
+        "translation": "fauna",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Pflanzenwelt",
+        "gender": "die",
+        "translation": "flora",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Klima",
+        "gender": "das",
+        "translation": "climate",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Jahreszeit",
+        "gender": "die",
+        "translation": "season",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Frühling",
+        "gender": "der",
+        "translation": "spring",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sommer",
+        "gender": "der",
+        "translation": "summer",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Herbst",
+        "gender": "der",
+        "translation": "autumn",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Winter",
+        "gender": "der",
+        "translation": "winter",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sonnenaufgang",
+        "gender": "der",
+        "translation": "sunrise",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sonnenuntergang",
+        "gender": "der",
+        "translation": "sunset",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Mond",
+        "gender": "der",
+        "translation": "moon",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Stern",
+        "gender": "der",
+        "translation": "star",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Sternschnuppe",
+        "gender": "die",
+        "translation": "shooting star",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Meteor",
+        "gender": "der",
+        "translation": "meteor",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Komet",
+        "gender": "der",
+        "translation": "comet",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Sonnenschein",
+        "gender": "der",
+        "translation": "sunshine",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Regenbogen",
+        "gender": "der",
+        "translation": "rainbow",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Dämmerung",
+        "gender": "die",
+        "translation": "dusk",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Morgendämmerung",
+        "gender": "die",
+        "translation": "dawn",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Tropfen",
+        "gender": "der",
+        "translation": "droplet",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Welle",
+        "gender": "die",
+        "translation": "wave",
+        "difficulty_level": 1,
+        "category": "Nature"
+    },
+    {
+        "word": "Strömung",
+        "gender": "die",
+        "translation": "current",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Gezeiten",
+        "gender": "die",
+        "translation": "tides",
+        "difficulty_level": 2,
+        "category": "Nature"
+    },
+    {
+        "word": "Ebbe",
+        "gender": "die",
+        "translation": "low tide",
+        "difficulty_level": 2,
+        "category": "Nature"
     }
 ]
