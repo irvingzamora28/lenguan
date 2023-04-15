@@ -7,6 +7,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\GameSessionController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,10 @@ use App\Http\Controllers\LanguageController;
 |
 */
 use App\Http\Controllers\AuthController;
+
+Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
+Route::post('submit-answer', [GameController::class, 'submitAnswer']);
+Route::put('update-scores', [GameController::class, 'updateScores']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
