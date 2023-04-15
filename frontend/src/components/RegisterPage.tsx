@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import registerImage from "../assets/images/register-image.jpg";
+import "../assets/scss/components/RegisterPage.scss";
+
 import axios from "axios";
 
 interface RegisterData {
@@ -68,7 +70,7 @@ const RegisterPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-light py-12 px-4 sm:px-6 lg:px-8">
+        <div className="register__section min-h-screen flex items-center justify-center bg-blue-light py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <img
@@ -97,7 +99,7 @@ const RegisterPage: React.FC = () => {
                 >
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm space-y-3 ">
-                        <div>
+                    <div>
                             <label htmlFor="email-address" className="sr-only">
                                 Email address
                             </label>
@@ -111,6 +113,22 @@ const RegisterPage: React.FC = () => {
                                 onChange={handleChange}
                                 value={registerData.email}
                                 placeholder="Email address"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="name" className="sr-only">
+                                Name
+                            </label>
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                autoComplete="name"
+                                required
+                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                onChange={handleChange}
+                                value={registerData.name}
+                                placeholder="Name"
                             />
                         </div>
                         <div>
