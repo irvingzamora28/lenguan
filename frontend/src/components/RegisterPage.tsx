@@ -45,7 +45,7 @@ const RegisterPage: React.FC = () => {
             if (error.response) {
                 const { data } = error.response;
                 const errorFields = Object.keys(data.errors);
-                let errorMessageLines:string[] = [];
+                let errorMessageLines: string[] = [];
                 errorFields.forEach((field) => {
                     console.error(`${field}: ${data.errors[field][0]}`);
                     errorMessageLines.push(`${data.errors[field][0]}`);
@@ -70,21 +70,21 @@ const RegisterPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="register__section min-h-screen flex items-center justify-center bg-blue-light py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+        <section className="register__section">
+            <div className="register__section-content">
                 <div>
                     <img
-                        className="mx-auto h-28 w-auto md:h-80"
+                        className="register__image"
                         src={registerImage}
                         alt="Register"
                     />
                     <div>
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        <h2 className="register__heading">
                             Create your account
                         </h2>
                     </div>
                     {errorMessage && (
-                        <div className="text-red-500 text-center font-semibold">
+                        <div className="register__error">
                             {errorMessage.map((line, index) => (
                                 <li key={index}>{line}</li>
                             ))}
@@ -92,14 +92,14 @@ const RegisterPage: React.FC = () => {
                     )}
                 </div>
                 <form
-                    className="mt-8 space-y-6"
+                    className="register__form"
                     action="#"
                     method="POST"
                     onSubmit={handleSubmit}
                 >
                     <input type="hidden" name="remember" value="true" />
-                    <div className="rounded-md shadow-sm space-y-3 ">
-                    <div>
+                    <div className="register__form-container">
+                        <div className="register__form-control-field">
                             <label htmlFor="email-address" className="sr-only">
                                 Email address
                             </label>
@@ -109,13 +109,13 @@ const RegisterPage: React.FC = () => {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                className="register__input"
                                 onChange={handleChange}
                                 value={registerData.email}
                                 placeholder="Email address"
                             />
                         </div>
-                        <div>
+                        <div className="register__form-control-field">
                             <label htmlFor="name" className="sr-only">
                                 Name
                             </label>
@@ -125,13 +125,13 @@ const RegisterPage: React.FC = () => {
                                 type="text"
                                 autoComplete="name"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                className="register__input"
                                 onChange={handleChange}
                                 value={registerData.name}
                                 placeholder="Name"
                             />
                         </div>
-                        <div>
+                        <div className="register__form-control-field">
                             <label htmlFor="password" className="sr-only">
                                 Password
                             </label>
@@ -141,13 +141,13 @@ const RegisterPage: React.FC = () => {
                                 type="password"
                                 autoComplete="new-password"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                className="register__input"
                                 onChange={handleChange}
                                 value={registerData.password}
                                 placeholder="Password"
                             />
                         </div>
-                        <div>
+                        <div className="register__form-control-field">
                             <label
                                 htmlFor="password_confirmation"
                                 className="sr-only"
@@ -160,7 +160,7 @@ const RegisterPage: React.FC = () => {
                                 type="password"
                                 autoComplete="new-password"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                className="register__input"
                                 placeholder="Confirm password"
                                 onChange={handleChange}
                                 value={registerData.password_confirmation}
@@ -168,16 +168,13 @@ const RegisterPage: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
+                        <button type="submit" className="register__submit">
                             Register
                         </button>
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
     );
 };
 
