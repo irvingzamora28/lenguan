@@ -29,5 +29,5 @@ export async function refreshCsrfToken(): Promise<void> {
     } catch (error) {
         console.error(error);
     }
-    setTimeout(refreshCsrfToken, 1 * 60 * 1000); // Refresh token every 15 minutes
+    setTimeout(refreshCsrfToken, 120 * 60 * 1000); // Refresh token every 120 minutes
 }

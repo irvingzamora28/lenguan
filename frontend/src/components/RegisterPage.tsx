@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import registerImage from "../assets/images/register-image.jpg";
 import "../assets/scss/components/RegisterPage.scss";
 
-import axios from "axios";
-import { getCsrfToken, refreshCsrfToken } from "../utils/csrf-token";
+import { refreshCsrfToken } from "../utils/csrf-token";
 import api from "../utils/api";
 
 interface RegisterData {
@@ -14,10 +13,6 @@ interface RegisterData {
 }
 
 const RegisterPage: React.FC = () => {
-	axios.defaults.baseURL = "http://localhost:8000/";
-	// axios.defaults.withCredentials = true;
-	// axios.defaults.headers.common["X-XSRF-TOKEN"] = "ALALA";
-
 	const [registerData, setRegisterData] = useState<RegisterData>({
 		name: "",
 		email: "",
@@ -39,112 +34,25 @@ const RegisterPage: React.FC = () => {
 		setErrorMessage([]);
 
 		try {
-			// const csrfToken = await getCsrfToken();
-			// console.log(csrfToken);
-			// axios.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
-			// await axios.get('/sanctum/csrf-cookie');
-			// const response = await axios.post("/api/register", registerData);
-			const response = await axios.post("/api/register", registerData, {
-                withCredentials: true,
-				headers: {
-					// "X-CSRF-TOKEN": csrfToken,
-				},
-			});
-			// await api.get('/sanctum/csrf-cookie');
-			// const response = await api.post('/api/register', { key: 'value' });
-			console.log(response);
-			// Handle response here
-
-			// Handle successful registration
-			console.log("response", response.data);
-			// your axios request here
+			const response = await api.post("/api/register", registerData);
 		} catch (error: any) {
-			console.error("Error in handleSubmit:", error); // Add this line to log the error object
 			if (error.response) {
 				const { data } = error.response;
 				const errorFields = Object.keys(data.errors);
 				let errorMessageLines: string[] = [];
 				errorFields.forEach((field) => {
-					console.error(`${field}: ${data.errors[field][0]}`);
 					errorMessageLines.push(`${data.errors[field][0]}`);
 				});
 				setErrorMessage(errorMessageLines);
 			} else {
-				console.error(error);
 				setErrorMessage(["An error occurred. Please try again."]);
 			}
-			console.log(errorMessage);
 		}
 	};
 
 	useEffect(() => {
 		// Call the refreshCsrfToken function to start refreshing the token
-		// refreshCsrfToken();
-		const url = "http://localhost:8000/api/data";
-		// axios.get("http://localhost:8000/sanctum/csrf-cookie").then((response) => {
-		// 	// Make the POST request with the CSRF token and authorization header
-		//     console.log(`Before the request ${response.data.csrfToken}`);
-		//     console.log(response);
-		//     console.log(`Before the request headers ${response.headers['private']}`);
-			const response = api.post("/api/data", {});
-
-			// axios
-			// 	.post(
-			// 		url,
-			// 		{
-			// 			data: "my data",
-			// 		},
-			// 		{
-			// 			// withCredentials: true,
-			// 			// headers: {
-			// 			// 	"X-CSRF-TOKEN": response.data.csrfToken,
-			// 			// 	Authorization: "Bearer my-token",
-			// 			// },
-			// 		}
-			// 	)
-			// 	.then((response) => {
-			// 		console.log(response.data);
-			// 	})
-			// 	.catch((error) => {
-			// 		console.error(error);
-			// 	});
-		// });
-
-        // const csrfCookie = document.cookie.split("; ").find((row) => row.startsWith("XSRF-TOKEN="));
-        // const csrfToken = csrfCookie ? csrfCookie.split("=")[1] : null;
-        // console.log(`Before the request ${csrfToken}`);
-
-		// axios
-		// 	.get("http://localhost:8000/sanctum/csrf-cookie", {
-		// 		withCredentials: true,
-		// 	})
-		// 	.then((response) => {
-		// 		// Extract the CSRF token from the cookie
-		// 		const csrfCookie = document.cookie.split("; ").find((row) => row.startsWith("XSRF-TOKEN="));
-		// 		const csrfToken = csrfCookie ? csrfCookie.split("=")[1] : null;
-        //         console.log(`After the request ${csrfToken}`);
-
-		// 		// Make subsequent requests with the CSRF token included in the headers
-		// 		axios
-		// 			.post(
-		// 				"http://localhost:8000/api/data",
-		// 				{
-		// 					// Request body
-		// 				},
-		// 				{
-		// 				withCredentials: true,
-		// 					// headers: {
-		// 					// 	"X-XSRF-TOKEN": csrfToken,
-		// 					// },
-		// 				}
-		// 			)
-		// 			.then((response) => {
-		// 				// Handle response
-		// 			})
-		// 			.catch((error) => {
-		// 				// Handle error
-		// 			});
-		// 	});
+		refreshCsrfToken();
 
 		return () => {};
 	}, []);
