@@ -25,8 +25,18 @@ Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
 Route::post('submit-answer', [GameController::class, 'submitAnswer']);
 Route::put('update-scores', [GameController::class, 'updateScores']);
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::group(['middleware' => ['csrf']], function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+//     Route::post('/data', function (Request $request) {
+//         return "Hello world";
+//     });
+});
+
+Route::post('/data', function () {
+    // Handle request
+    return "Hello world";
+})->middleware('csrf');
 
 Route::group(['prefix' => 'nouns'], function () {
     Route::get('/', [NounController::class, 'index']);

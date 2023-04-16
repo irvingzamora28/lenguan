@@ -49,6 +49,7 @@ const ColorButtons: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center">
+            <div className="d-none bg-green-500 bg-red-500 bg-blue-500 bg-yellow-500"></div>
             {playerNumber !== null && (
                 <h2 className="text-2xl font-semibold mb-4">
                     {playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}
