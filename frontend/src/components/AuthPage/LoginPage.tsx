@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginImage from "../assets/images/login-image.jpg";
+import loginImage from "../../assets/images/login-image.jpg";
 import axios from "axios";
 
 interface LoginData {

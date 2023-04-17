@@ -1,6 +1,6 @@
 import './App.css'
-import LoginPage from './components/LoginPage'
-import RegisterPage from './components/RegisterPage'
+import LoginPage from './components/AuthPage/LoginPage'
+import RegisterPage from './components/AuthPage/RegisterPage'
 
 function App() {
 

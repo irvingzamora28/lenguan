@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import registerImage from "../assets/images/register-image.jpg";
-import "../assets/scss/components/RegisterPage.scss";
+import registerImage from "../../assets/images/register-image.jpg";
+import "../../assets/scss/components/RegisterPage.scss";
 
-import { refreshCsrfToken } from "../utils/csrf-token";
-import api from "../utils/api";
+import { refreshCsrfToken } from "../../utils/csrf-token";
+import api from "../../utils/api";
 
 interface RegisterData {
 	name: string;
