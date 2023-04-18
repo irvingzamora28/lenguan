@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import registerImage from "../../assets/images/register-image.jpg";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import "../../assets/scss/components/RegisterPage.scss";
-
 import { refreshCsrfToken } from "../../utils/csrf-token";
 import api from "../../utils/api";
+
 
 interface RegisterData {
 	name: string;
@@ -35,6 +37,12 @@ const RegisterPage: React.FC = () => {
 
 		try {
 			const response = await api.post("/api/register", registerData);
+            // Check response if it has a message, if it does toast.success the message
+            if (response.data.message) {
+                toast.success(response.data.message, {
+                    position: 'top-right'
+                  });
+            }
 		} catch (error: any) {
 			if (error.response) {
 				const { data } = error.response;
@@ -59,6 +67,7 @@ const RegisterPage: React.FC = () => {
 
 	return (
 		<section className="register__section">
+        <ToastContainer />
 			<div className="register__section-content">
 				<div>
 					<img className="register__image" src={registerImage} alt="Register" />
