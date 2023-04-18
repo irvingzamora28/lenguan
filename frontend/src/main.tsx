@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import App from './App'
 import LoginPage from './components/AuthPage/LoginPage'
 import NotFoundPage from './components/NotFoundPage'
 import RegisterPage from './components/AuthPage/RegisterPage'
 import './index.css'
 import ColorButtons from './components/ColorButtons'
+import DashboardPage from './components/DashboardPage/DashboardPage'
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <ColorButtons />,
+        element: <DashboardPage />,
         errorElement: <NotFoundPage/>
     },
     {
