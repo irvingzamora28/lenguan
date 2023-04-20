@@ -5,8 +5,8 @@ import LoginPage from './components/AuthPage/LoginPage'
 import NotFoundPage from './components/NotFoundPage'
 import RegisterPage from './components/AuthPage/RegisterPage'
 import './index.css'
-import ColorButtons from './components/ColorButtons'
 import DashboardPage from './components/DashboardPage/DashboardPage'
+import GenderDuelPage from './components/GenderDuelPage/GenderDuelPage'
 
 const router = createBrowserRouter([
     {
@@ -21,7 +21,11 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />,
-    }
+    },
+    {
+        path: "/gender-duel",
+        element: <GenderDuelPage />,
+    },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
