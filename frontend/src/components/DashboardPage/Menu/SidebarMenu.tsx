@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { MdPlayLesson, MdInsertChartOutlined, MdDashboard } from "react-icons/md";
+import { GiThorHammer } from "react-icons/gi";
+import { BsFillAwardFill } from "react-icons/bs";
 import SubMenu from "./SubMenu";
 
 const SidebarMenu: React.FC = () => {
@@ -9,48 +11,45 @@ const SidebarMenu: React.FC = () => {
 		<aside className="sidebar flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2" style={{ height: "90.5vh" }}>
 			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
 				<span className="text-2xl">
-					<i className="bx bx-home"></i>
+					<MdDashboard />
 				</span>
 				<span>Dashboard</span>
 			</a>
 
 			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
 				<span className="text-2xl">
-					<i className="bx bx-cart"></i>
+					<MdPlayLesson />
 				</span>
-				<span>Cart</span>
+				<span>Lessons</span>
 			</a>
 
-			<SubMenu label="Shopping" icon={<i className="bx bx-shopping-bag"></i>}>
+			<SubMenu label="Battles and Challenges" icon={<GiThorHammer />}>
 				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					Category 1
+					Challenge 1
 				</a>
 				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					Category 2
+					Challenge 2
 				</a>
 				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					Category 3
+					Challenge 3
 				</a>
 			</SubMenu>
 
 			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
 				<span className="text-2xl">
-					<i className="bx bx-heart"></i>
+					<MdInsertChartOutlined />
 				</span>
-				<span>My Favourite</span>
+				<span>Leaderboard</span>
 			</a>
 
-			<SubMenu label="Profile" icon={<i className="bx bx-user"></i>}>
-				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					My Items
-				</a>
-				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					My Pictures
-				</a>
-				<a href="#" className="transition hover:text-blue-600 text-sm p-2">
-					My Collection
-				</a>
-			</SubMenu>
+            <a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+				<span className="text-2xl">
+					<BsFillAwardFill />
+				</span>
+				<span>Awards</span>
+			</a>
+
+
 		</aside>
 	);
 };
