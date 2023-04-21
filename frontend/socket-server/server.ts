@@ -41,7 +41,9 @@ io.on('connection', (socket: Socket) => {
     socket.emit('player-assignment', 0);
   }
 
-  socket.on('correct-color-clicked', (color: string) => {
+  socket.on('correct-gender-clicked', (gender: string) => {
+    console.log(`Correct gender clicked ${gender}`);
+
     if (gameState.players.length === 2) {
       const playerIndex = gameState.players.indexOf(socket.id);
       if (playerIndex !== -1) {
