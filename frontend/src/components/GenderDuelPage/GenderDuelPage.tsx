@@ -2,21 +2,27 @@ import React, { useState, useEffect } from "react";
 import socket from "./../../../socket-server/socket";
 import correctSound from "../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../assets/audio/incorrect-choice.mp3";
+import "../../assets/scss/components/GenderDuelPage.scss";
+import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
 
 const genders = [
 	{
 		name: "Der",
 		color: "blue",
+		icon: <FaMars />,
 	},
 	{
 		name: "Die",
 		color: "red",
+		icon: <FaVenus />,
 	},
 	{
 		name: "Das",
 		color: "green",
+		icon: <FaNeuter />,
 	},
 ];
+
 const words = [
 	{
 		word: "Haus",
@@ -63,24 +69,23 @@ type GameStatus = {
 const GenderDuelPage: React.FC = () => {
 	const [currentWord, setCurrentWord] = useState<Word | null>(null);
 	const [score, setScore] = useState({ player1: 0, player2: 0 });
-    const [gameStatus, setGameStatus] = useState<GameStatus>({message:"", active:true, sound:null});
+	const [gameStatus, setGameStatus] = useState<GameStatus>({ message: "", active: true, sound: null });
 	const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 	const [intervalId, setIntervalId] = useState<number | NodeJS.Timer | undefined>(undefined);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
-    const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
+	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 
-    const resetAnimation = () => {
-        setCorrectGender(null);
-        setIncorrectGender(null);
-    };
-
+	const resetAnimation = () => {
+		setCorrectGender(null);
+		setIncorrectGender(null);
+	};
 
 	useEffect(() => {
 		if (gameStatus.sound) {
 			const audio = new Audio(gameStatus.sound);
 			audio.play();
 		}
-        setGameStatus({ message: ``, active: true, sound: null });
+		setGameStatus({ message: ``, active: true, sound: null });
 	}, [gameStatus.sound]);
 
 	useEffect(() => {
@@ -99,7 +104,7 @@ const GenderDuelPage: React.FC = () => {
 		});
 
 		socket.on("game-over", (message: string) => {
-			setGameStatus({message: message, active:false, sound: correctSound});
+			setGameStatus({ message: message, active: false, sound: correctSound });
 		});
 
 		return () => {
@@ -117,8 +122,8 @@ const GenderDuelPage: React.FC = () => {
 			setCorrectGender(gender);
 			clearInterval(intervalId);
 			setTimeout(() => {
-                setCurrentWord(getRandomWord());
-                console.log(`new word: ${currentWord?.word}`);
+				setCurrentWord(getRandomWord());
+				console.log(`new word: ${currentWord?.word}`);
 
 				const interval = setInterval(() => {
 					setCurrentWord(getRandomWord());
@@ -127,36 +132,42 @@ const GenderDuelPage: React.FC = () => {
 				console.log(`new word: ${currentWord?.word}`);
 				setIntervalId(interval);
 			}, 1000);
-            setGameStatus({ message: `Correct! The gender of "${currentWord.word}" is "${gender}"`, active: true, sound: correctSound });
+			setGameStatus({ message: `Correct! The gender of "${currentWord.word}" is "${gender}"`, active: true, sound: correctSound });
 		} else {
-            console.log(`Incorrect`);
-            setIncorrectGender(gender);
+			console.log(`Incorrect`);
+			setIncorrectGender(gender);
 			setGameStatus({ message: `Incorrect! The gender of "${currentWord?.word}" is not "${gender}".`, active: true, sound: incorrectSound });
 		}
 	};
 
 	return (
-		<div className="flex flex-col items-center">
-			<div className="d-none bg-green-500 bg-red-500 bg-blue-500 bg-yellow-500"></div>
-			{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-			<h1 className="text-4xl font-bold mb-8">{!gameStatus.active ? gameStatus.message : `Press the correct gender for ${currentWord?.word}`}</h1>
+		<div className="flex flex-col items-center bg-gradient-to-t from-blue-400 to-blue-100 min-h-screen">
+            <div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
+            <div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
+            <div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
+			{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
+			<h1 className="gender_duel__title">{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}</h1>
 			<div className="flex flex-wrap justify-center">
 				{genders.map((gender) => (
 					<button
-                    key={gender.color}
-                    className={`bg-${gender.color.toLowerCase()}-500 w-32 h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 ${correctGender === gender.name.toLowerCase() ? "animate-correct" : (incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : "")}`}
-                    onClick={() => handleButtonClick(gender.name.toLowerCase())}
-                    onAnimationEnd={resetAnimation}
-                    disabled={!gameStatus.active}
-                >
-                    {gender.name}
-                </button>
-
+						key={gender.color}
+						className={`bg-${gender.color.toLowerCase()}-500 w-32 h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 hover:shadow-lg active:bg-${gender.color.toLowerCase()}-700 active:scale-95 ${
+							correctGender === gender.name.toLowerCase() ? "animate-correct" : incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : ""
+						} transition duration-300 ease-in-out shadow-md bg-gradient-to-t from-${gender.color.toLowerCase()}-400 to-${gender.color.toLowerCase()}-500`}
+						onClick={() => handleButtonClick(gender.name.toLowerCase())}
+						onAnimationEnd={resetAnimation}
+						disabled={!gameStatus.active}
+					>
+						<div className="flex flex-row justify-center text-4xl">
+							{gender.icon}
+							<span className="font-semibold">{gender.name}</span>
+						</div>
+					</button>
 				))}
 			</div>
-			<div className="mt-8">
-				<p>Player 1: {score.player1}</p>
-				<p>Player 2: {score.player2}</p>
+			<div className="mt-8 text-white">
+				<p className="font-semibold">Player 1: {score.player1}</p>
+				<p className="font-semibold">Player 2: {score.player2}</p>
 			</div>
 		</div>
 	);
