@@ -2,7 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes bounce {
+@keyframes incorrect-bounce {
+	0%,
+	20%,
+	60%,
+	100% {
+		transform: translateX(0);
+	}
+	40% {
+		transform: translateX(-20px);
+	}
+	80% {
+		transform: translateX(-10px);
+	}
+}
+
+.animate-incorrect {
+	animation: incorrect-bounce 500ms ease 1;
+}
+
+@keyframes correct-bounce {
 	0%,
 	20%,
 	60%,
@@ -17,6 +36,6 @@
 	}
 }
 
-.animate-bounce {
-	animation: bounce 1s ease 1;
+.animate-correct {
+	animation: correct-bounce 1s ease 1;
 }

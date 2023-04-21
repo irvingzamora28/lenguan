@@ -56,24 +56,31 @@ type Word = {
 
 type GameStatus = {
 	message: string;
-	onGoing: boolean;
+	active: boolean;
 	sound: string | null;
 };
 
 const GenderDuelPage: React.FC = () => {
 	const [currentWord, setCurrentWord] = useState<Word | null>(null);
 	const [score, setScore] = useState({ player1: 0, player2: 0 });
-    const [gameStatus, setGameStatus] = useState<GameStatus>({message:"", onGoing:true, sound:null});
+    const [gameStatus, setGameStatus] = useState<GameStatus>({message:"", active:true, sound:null});
 	const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 	const [intervalId, setIntervalId] = useState<number | NodeJS.Timer | undefined>(undefined);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
+    const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
+
+    const resetAnimation = () => {
+        setCorrectGender(null);
+        setIncorrectGender(null);
+    };
+
 
 	useEffect(() => {
 		if (gameStatus.sound) {
 			const audio = new Audio(gameStatus.sound);
 			audio.play();
 		}
-        setGameStatus({ message: ``, onGoing: true, sound: null });
+        setGameStatus({ message: ``, active: true, sound: null });
 	}, [gameStatus.sound]);
 
 	useEffect(() => {
@@ -92,7 +99,7 @@ const GenderDuelPage: React.FC = () => {
 		});
 
 		socket.on("game-over", (message: string) => {
-			setGameStatus({message: message, onGoing:false, sound: correctSound});
+			setGameStatus({message: message, active:false, sound: correctSound});
 		});
 
 		return () => {
@@ -120,10 +127,11 @@ const GenderDuelPage: React.FC = () => {
 				console.log(`new word: ${currentWord?.word}`);
 				setIntervalId(interval);
 			}, 1000);
-            setGameStatus({ message: `Correct! The gender of "${currentWord.word}" is "${gender}"`, onGoing: true, sound: correctSound });
+            setGameStatus({ message: `Correct! The gender of "${currentWord.word}" is "${gender}"`, active: true, sound: correctSound });
 		} else {
             console.log(`Incorrect`);
-			setGameStatus({ message: `Incorrect! The gender of "${currentWord?.word}" is not "${gender}".`, onGoing: true, sound: incorrectSound });
+            setIncorrectGender(gender);
+			setGameStatus({ message: `Incorrect! The gender of "${currentWord?.word}" is not "${gender}".`, active: true, sound: incorrectSound });
 		}
 	};
 
@@ -131,17 +139,19 @@ const GenderDuelPage: React.FC = () => {
 		<div className="flex flex-col items-center">
 			<div className="d-none bg-green-500 bg-red-500 bg-blue-500 bg-yellow-500"></div>
 			{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-			<h1 className="text-4xl font-bold mb-8">{!gameStatus.onGoing ? gameStatus.message : `Press the correct gender for ${currentWord?.word}`}</h1>
+			<h1 className="text-4xl font-bold mb-8">{!gameStatus.active ? gameStatus.message : `Press the correct gender for ${currentWord?.word}`}</h1>
 			<div className="flex flex-wrap justify-center">
 				{genders.map((gender) => (
 					<button
-						key={gender.color}
-						className={`bg-${gender.color.toLowerCase()}-500 w-32 h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 ${correctGender === gender.name.toLowerCase() ? "animate-bounce" : ""}`}
-						onClick={() => handleButtonClick(gender.name.toLowerCase())}
-						disabled={!gameStatus.onGoing}
-					>
-						{gender.name}
-					</button>
+                    key={gender.color}
+                    className={`bg-${gender.color.toLowerCase()}-500 w-32 h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 ${correctGender === gender.name.toLowerCase() ? "animate-correct" : (incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : "")}`}
+                    onClick={() => handleButtonClick(gender.name.toLowerCase())}
+                    onAnimationEnd={resetAnimation}
+                    disabled={!gameStatus.active}
+                >
+                    {gender.name}
+                </button>
+
 				))}
 			</div>
 			<div className="mt-8">
