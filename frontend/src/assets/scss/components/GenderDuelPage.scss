@@ -3,6 +3,11 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.gender_duel__text-shadow {
+    @apply text-4xl font-secular text-white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 @keyframes disappear {
     0% {
       opacity: 1;
