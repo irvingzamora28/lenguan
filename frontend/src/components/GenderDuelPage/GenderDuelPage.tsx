@@ -45,6 +45,8 @@ const GenderDuelPage: React.FC = () => {
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [disappearing, setDisappearing] = useState(false);
+	const [gameStarted, setGameStarted] = useState(false);
+	const [waitingPlayer, setWaitingPlayer] = useState<number | null>(null);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
@@ -64,12 +66,25 @@ const GenderDuelPage: React.FC = () => {
 	}, [gameStatus.sound]);
 
 	useEffect(() => {
+		socket.on("start-game", () => {
+			setGameStarted(true);
+		});
+
+		socket.on("both-players-connected", () => {
+			setGameStarted(true);
+		});
+
 		socket.on("new-word", (newWord: Word) => {
-            setCurrentWord(newWord);
-          });
+			setCurrentWord(newWord);
+		});
 
 		socket.on("player-assignment", (player: number) => {
 			setPlayerNumber(player);
+			if (player === 1) {
+				setWaitingPlayer(2);
+			} else if (player === 2) {
+				setWaitingPlayer(1);
+			}
 		});
 
 		socket.on("update-score", (updatedScore) => {
@@ -81,10 +96,12 @@ const GenderDuelPage: React.FC = () => {
 		});
 
 		return () => {
+			socket.off("start-game");
 			socket.off("player-assignment");
+			socket.off("new-word");
 			socket.off("update-score");
 			socket.off("game-over");
-            socket.off("new-word");
+			socket.off("both-players-connected");
 		};
 	}, []);
 
@@ -103,37 +120,57 @@ const GenderDuelPage: React.FC = () => {
 		}
 	};
 
+	const handleStartButtonClick = () => {
+		console.log("Start button clicked");
+		console.log("playerNumber: ", playerNumber);
+
+		socket.emit("start-game");
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
-			<div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
-			<div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
-			<div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
-			{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-			<h1 className={`gender_duel__title ${disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetDisappearing}>
-				{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}
-			</h1>
-			<div className="flex flex-wrap justify-center">
-				{genders.map((gender) => (
-					<button
-						key={gender.color}
-						className={`bg-${gender.color.toLowerCase()}-500 w-16 h-16 md:w-32 md:h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 hover:shadow-lg active:bg-${gender.color.toLowerCase()}-700 active:scale-95 ${
-							correctGender === gender.name.toLowerCase() ? "animate-correct" : incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : ""
-						} transition duration-300 ease-in-out shadow-box bg-gradient-to-t from-${gender.color.toLowerCase()}-400 to-${gender.color.toLowerCase()}-500`}
-						onClick={() => handleButtonClick(gender.name.toLowerCase())}
-						onAnimationEnd={resetAnimation}
-						disabled={!gameStatus.active}
-					>
-						<div className="flex flex-row justify-center items-center text-lg md:text-4xl">
-							{gender.icon}
-							<span className="font-semibold">{gender.name}</span>
-						</div>
+			{!gameStarted && (
+				<>
+					<button className="bg-green-500 px-6 py-2 rounded-lg text-white font-semibold mb-4" onClick={handleStartButtonClick} disabled={playerNumber === null || playerNumber === 0}>
+						Start
 					</button>
-				))}
-			</div>
-			<div className="mt-8 text-white">
-				<p className="font-semibold">Player 1: {score.player1}</p>
-				<p className="font-semibold">Player 2: {score.player2}</p>
-			</div>
+					{playerNumber === 2 && <p className="text-white">Waiting for the opponent...</p>}
+					{waitingPlayer !== null && <p className="text-white">Player {waitingPlayer} waiting for you</p>}
+				</>
+			)}
+			{gameStarted && (
+				<>
+					<div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
+					<div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
+					<div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
+					{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
+					<h1 className={`gender_duel__title ${disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetDisappearing}>
+						{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}
+					</h1>
+					<div className="flex flex-wrap justify-center">
+						{genders.map((gender) => (
+							<button
+								key={gender.color}
+								className={`bg-${gender.color.toLowerCase()}-500 w-16 h-16 md:w-32 md:h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 hover:shadow-lg active:bg-${gender.color.toLowerCase()}-700 active:scale-95 ${
+									correctGender === gender.name.toLowerCase() ? "animate-correct" : incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : ""
+								} transition duration-300 ease-in-out shadow-box bg-gradient-to-t from-${gender.color.toLowerCase()}-400 to-${gender.color.toLowerCase()}-500`}
+								onClick={() => handleButtonClick(gender.name.toLowerCase())}
+								onAnimationEnd={resetAnimation}
+								disabled={!gameStatus.active}
+							>
+								<div className="flex flex-row justify-center items-center text-lg md:text-4xl">
+									{gender.icon}
+									<span className="font-semibold">{gender.name}</span>
+								</div>
+							</button>
+						))}
+					</div>
+					<div className="mt-8 text-white">
+						<p className="font-semibold">Player 1: {score.player1}</p>
+						<p className="font-semibold">Player 2: {score.player2}</p>
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

@@ -81,7 +81,12 @@ io.on('connection', (socket: Socket) => {
     console.log(`User connected: ${socket.id}`);
     console.log(`gameState.players.length: ${gameState.players.length}`);
 
-  emitNewWord();
+    socket.on("start-game", () => {
+        if (gameState.players.length === 2) {
+            io.emit("both-players-connected");
+            emitNewWord();
+        }
+    });
 
   if (gameState.players.length < 2) {
     gameState.players.push(socket.id);
