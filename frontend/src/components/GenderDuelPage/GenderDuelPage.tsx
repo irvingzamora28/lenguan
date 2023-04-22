@@ -70,10 +70,6 @@ const GenderDuelPage: React.FC = () => {
 			setGameStarted(true);
 		});
 
-		socket.on("both-players-connected", () => {
-			setGameStarted(true);
-		});
-
 		socket.on("new-word", (newWord: Word) => {
 			setCurrentWord(newWord);
 		});

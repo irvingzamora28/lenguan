@@ -1,8 +1,11 @@
 // server.ts
 import express from 'express';
 import { Server as HttpServer } from 'http';
-import { Server as SocketIOServer, Socket } from 'socket.io';
+import { Server as SocketIOServer, Socket as BaseSocket } from 'socket.io';
 
+interface GenderDuelSocket extends BaseSocket {
+  playerNumber?: number;
+}
 const app = express();
 const server = new HttpServer(app);
 const io = new SocketIOServer(server, {
@@ -27,6 +30,8 @@ const gameState: GameState = {
 };
 
 let intervalId: NodeJS.Timeout;
+
+const availablePlayerNumbers = [1, 2];
 
 const words = [
 	{
@@ -77,24 +82,28 @@ server.listen(3001, () => {
   console.log('Socket.IO server is running on port 3001');
 });
 
-io.on('connection', (socket: Socket) => {
+io.on('connection', (socket: GenderDuelSocket) => {
     console.log(`User connected: ${socket.id}`);
     console.log(`gameState.players.length: ${gameState.players.length}`);
 
     socket.on("start-game", () => {
         if (gameState.players.length === 2) {
-            io.emit("both-players-connected");
-            emitNewWord();
+          io.emit("start-game");
+          emitNewWord();
         }
-    });
+      });
 
-  if (gameState.players.length < 2) {
-    gameState.players.push(socket.id);
-    console.log(`Player ${gameState.players.indexOf(socket.id) + 1} connected`);
-    socket.emit('player-assignment', gameState.players.indexOf(socket.id) + 1);
-  } else {
-    socket.emit('player-assignment', 0);
-  }
+    if (availablePlayerNumbers.length > 0) {
+        const playerNumber = availablePlayerNumbers.shift()!;
+        gameState.players.push(socket.id);
+        console.log(`Player ${playerNumber} connected`);
+        socket.emit("player-assignment", playerNumber);
+
+        // Add player number to the socket object
+        socket.playerNumber = playerNumber;
+      } else {
+        socket.emit("player-assignment", 0);
+      }
 
   socket.on('correct-gender-clicked', (gender: string) => {
     console.log(`Correct gender clicked ${gender}`);
@@ -124,6 +133,11 @@ io.on('connection', (socket: Socket) => {
     const playerIndex = gameState.players.indexOf(socket.id);
     if (playerIndex !== -1) {
       gameState.players.splice(playerIndex, 1);
+      // Reclaim the player number when a player disconnects
+      if (socket.playerNumber) {
+        availablePlayerNumbers.push(socket.playerNumber);
+        availablePlayerNumbers.sort(); // Keep the array sorted
+      }
     }
   });
 });
