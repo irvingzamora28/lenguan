@@ -1,32 +1,50 @@
 .gender_duel__title {
-    @apply text-8xl font-secular mb-8 text-white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	@apply text-8xl font-secular mb-8 text-white;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .gender_duel__subtitle {
-    @apply text-4xl font-secular mb-8 text-white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	@apply text-4xl font-secular mb-8 text-white;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .gender_duel__text-shadow {
-    @apply text-4xl font-secular text-white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	@apply text-4xl font-secular text-white;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes disappear {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0);
+	}
+}
 
-  .animate-disappear {
-    animation: disappear 1s ease-in-out;
-  }
+.animate-disappear {
+	animation: disappear 1s ease-in-out;
+}
+
+@keyframes appear {
+	0% {
+        opacity: 0;
+        transform: scale(0);
+	}
+	50% {
+        opacity: 0;
+		transform: scale(0.5);
+	}
+	100% {
+        opacity: 1;
+	}
+}
+
+.animate-appear {
+	animation: appear 100ms ease-in;
+}

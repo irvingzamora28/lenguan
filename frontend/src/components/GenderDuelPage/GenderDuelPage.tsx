@@ -45,12 +45,15 @@ const GenderDuelPage: React.FC = () => {
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [disappearing, setDisappearing] = useState(false);
+    const [appearing, setAppearing] = useState(false);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [waitingPlayer, setWaitingPlayer] = useState<number | null>(null);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
 		setIncorrectGender(null);
+        setDisappearing(false);
+        setAppearing(false);
 	};
 
 	const resetDisappearing = () => {
@@ -72,6 +75,7 @@ const GenderDuelPage: React.FC = () => {
 
 		socket.on("new-word", (newWord: Word) => {
 			setCurrentWord(newWord);
+			setAppearing(true);
 		});
 
 		socket.on("player-assignment", (player: number) => {
@@ -135,6 +139,7 @@ const GenderDuelPage: React.FC = () => {
 						<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
 						<span className="relative gender_duel__text-shadow font-bold">START</span>
 					</button>
+					{waitingPlayer !== null ? <p className="text-2xl font-semibold m-4 text-white">Player {waitingPlayer} waiting for you</p> : <p className="text-white">Waiting for the opponent...</p>}
 				</>
 			)}
 			{gameStarted && (
@@ -143,7 +148,7 @@ const GenderDuelPage: React.FC = () => {
 					<div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
 					<div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
 					{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-					<h1 className={`gender_duel__title ${disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetDisappearing}>
+					<h1 className={`gender_duel__title ${appearing ? "animate-appear" : disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetAnimation}>
 						{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}
 					</h1>
 					<div className="flex flex-wrap justify-center">
