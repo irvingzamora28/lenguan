@@ -74,10 +74,15 @@ const GenderDuelPage: React.FC = () => {
 	const [intervalId, setIntervalId] = useState<number | NodeJS.Timer | undefined>(undefined);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
+	const [disappearing, setDisappearing] = useState(false);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
 		setIncorrectGender(null);
+	};
+
+	const resetDisappearing = () => {
+		setDisappearing(false);
 	};
 
 	useEffect(() => {
@@ -121,6 +126,7 @@ const GenderDuelPage: React.FC = () => {
 			socket.emit("correct-gender-clicked", gender);
 			setCorrectGender(gender);
 			clearInterval(intervalId);
+			setDisappearing(true);
 			setTimeout(() => {
 				setCurrentWord(getRandomWord());
 				console.log(`new word: ${currentWord?.word}`);
@@ -132,21 +138,23 @@ const GenderDuelPage: React.FC = () => {
 				console.log(`new word: ${currentWord?.word}`);
 				setIntervalId(interval);
 			}, 1000);
-			setGameStatus({ message: `Correct! The gender of "${currentWord.word}" is "${gender}"`, active: true, sound: correctSound });
+			setGameStatus({ message: ``, active: true, sound: correctSound });
 		} else {
 			console.log(`Incorrect`);
 			setIncorrectGender(gender);
-			setGameStatus({ message: `Incorrect! The gender of "${currentWord?.word}" is not "${gender}".`, active: true, sound: incorrectSound });
+			setGameStatus({ message: ``, active: true, sound: incorrectSound });
 		}
 	};
 
 	return (
 		<div className="flex flex-col items-center bg-gradient-to-t from-blue-400 to-blue-100 min-h-screen">
-            <div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
-            <div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
-            <div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
+			<div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
+			<div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
+			<div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
 			{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-			<h1 className="gender_duel__title">{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}</h1>
+			<h1 className={`gender_duel__title ${disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetDisappearing}>
+				{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}
+			</h1>
 			<div className="flex flex-wrap justify-center">
 				{genders.map((gender) => (
 					<button
