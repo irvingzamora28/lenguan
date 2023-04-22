@@ -26,12 +26,62 @@ const gameState: GameState = {
   score: { player1: 0, player2: 0 },
 };
 
+let intervalId: NodeJS.Timeout;
+
+const words = [
+	{
+		word: "Haus",
+		gender: "das",
+		translation: "house",
+		difficulty_level: 1,
+		category: "Housing",
+	},
+	{
+		word: "Apfel",
+		gender: "der",
+		translation: "apple",
+		difficulty_level: 1,
+		category: "Food & Drinks",
+	},
+	{
+		word: "Katze",
+		gender: "die",
+		translation: "cat",
+		difficulty_level: 1,
+		category: "Animals",
+	},
+];
+
+const getRandomWord = () => {
+	const randomIndex = Math.floor(Math.random() * words.length);
+	return words[randomIndex];
+};
+
+const emitNewWord = () => {
+    const newWord = getRandomWord();
+    io.emit("new-word", newWord);
+    console.log(`New word emitted: ${newWord.word}`);
+
+    // Clear the existing 10-second interval
+    clearInterval(intervalId);
+
+    // Reset the 10-second interval
+    intervalId = setInterval(() => {
+      if (gameState.players.length === 2) {
+        emitNewWord();
+      }
+    }, 10000);
+  };
+
 server.listen(3001, () => {
   console.log('Socket.IO server is running on port 3001');
 });
 
 io.on('connection', (socket: Socket) => {
-  console.log(`User connected: ${socket.id}`);
+    console.log(`User connected: ${socket.id}`);
+    console.log(`gameState.players.length: ${gameState.players.length}`);
+
+  emitNewWord();
 
   if (gameState.players.length < 2) {
     gameState.players.push(socket.id);
@@ -53,6 +103,12 @@ io.on('connection', (socket: Socket) => {
           gameState.score = { player1: 0, player2: 0 };
         } else {
           io.emit('update-score', gameState.score);
+          clearInterval(intervalId);
+
+          // Set the 1-second interval to emit a new word
+          intervalId = setInterval(() => {
+            emitNewWord();
+          }, 1000);
         }
       }
     }
