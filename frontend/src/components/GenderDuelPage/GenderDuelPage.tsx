@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import socket from "./../../../socket-server/socket";
 import correctSound from "../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../assets/audio/incorrect-choice.mp3";
@@ -45,15 +45,16 @@ const GenderDuelPage: React.FC = () => {
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [disappearing, setDisappearing] = useState(false);
-    const [appearing, setAppearing] = useState(false);
+	const [appearing, setAppearing] = useState(false);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [waitingPlayer, setWaitingPlayer] = useState<number | null>(null);
+	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
 		setIncorrectGender(null);
-        setDisappearing(false);
-        setAppearing(false);
+		setDisappearing(false);
+		setAppearing(false);
 	};
 
 	const resetDisappearing = () => {
@@ -113,6 +114,16 @@ const GenderDuelPage: React.FC = () => {
 			setDisappearing(true);
 
 			setGameStatus({ message: ``, active: true, sound: correctSound });
+
+			if ("speechSynthesis" in window) {
+				const utterance = new SpeechSynthesisUtterance(`${gender} ${currentWord.word}`);
+				speechSynthesisRef.current = utterance;
+				utterance.lang = "de-DE";
+				utterance.rate = 0.8;
+				speechSynthesis.speak(utterance);
+			} else {
+				console.log("Text-to-speech not supported in this browser");
+			}
 		} else {
 			console.log(`Incorrect`);
 			setIncorrectGender(gender);
@@ -131,7 +142,7 @@ const GenderDuelPage: React.FC = () => {
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
 			{!gameStarted && (
 				<>
-                    <span className="gender_duel__subtitle font-semibold m-4 text-white">PLAYER {playerNumber}</span>
+					<span className="gender_duel__subtitle font-semibold m-4 text-white">PLAYER {playerNumber}</span>
 					<button
 						className="flex items-center shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
 						onClick={handleStartButtonClick}
