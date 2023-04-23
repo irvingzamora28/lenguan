@@ -44,7 +44,6 @@ const GenderDuelPage: React.FC = () => {
 	const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
-	const [disappearing, setDisappearing] = useState(false);
 	const [appearing, setAppearing] = useState(false);
 	const [gameStarted, setGameStarted] = useState(false);
 	const [waitingPlayer, setWaitingPlayer] = useState<number | null>(null);
@@ -53,13 +52,9 @@ const GenderDuelPage: React.FC = () => {
 	const resetAnimation = () => {
 		setCorrectGender(null);
 		setIncorrectGender(null);
-		setDisappearing(false);
 		setAppearing(false);
 	};
 
-	const resetDisappearing = () => {
-		setDisappearing(false);
-	};
 
 	useEffect(() => {
 		if (gameStatus.sound) {
@@ -111,7 +106,6 @@ const GenderDuelPage: React.FC = () => {
 		if (currentWord && gender === currentWord.gender) {
 			socket.emit("correct-gender-clicked", gender);
 			setCorrectGender(gender);
-			setDisappearing(true);
 
 			setGameStatus({ message: ``, active: true, sound: correctSound });
 
@@ -159,14 +153,16 @@ const GenderDuelPage: React.FC = () => {
 					<div className="d-none bg-blue-500 active:bg-blue-700 from-blue-400 to-blue-500"></div>
 					<div className="d-none bg-green-500 active:bg-green-700 from-green-400 to-green-500"></div>
 					{playerNumber !== null && <h2 className="text-2xl font-semibold mb-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
-					<h1 className={`gender_duel__title ${appearing ? "animate-appear" : disappearing ? "animate-disappear" : ""}`} onAnimationEnd={resetAnimation}>
+					<h1 className={`gender_duel__title ${appearing ? "animate-appear" :  ""}`} onAnimationEnd={resetAnimation}>
 						{!gameStatus.active ? gameStatus.message : `${currentWord?.word}`}
 					</h1>
-					<div className="flex flex-wrap justify-center">
+					<div className="flex flex-wrap justify-center w-4/5">
 						{genders.map((gender) => (
 							<button
 								key={gender.color}
-								className={`bg-${gender.color.toLowerCase()}-500 w-16 h-16 md:w-32 md:h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 hover:shadow-lg active:bg-${gender.color.toLowerCase()}-700 active:scale-95 ${
+								className={`${
+									correctGender === gender.name.toLowerCase() ? "animate-grow" : correctGender !== null && correctGender !== gender.name.toLowerCase() ? "hidden" : ""
+								} bg-${gender.color.toLowerCase()}-500 w-16 h-16 md:w-32 md:h-32 m-4 rounded-lg focus:outline-none hover:bg-${gender.color.toLowerCase()}-600 hover:shadow-lg active:bg-${gender.color.toLowerCase()}-700 active:scale-95 ${
 									correctGender === gender.name.toLowerCase() ? "animate-correct" : incorrectGender === gender.name.toLowerCase() ? "animate-incorrect" : ""
 								} transition duration-300 ease-in-out shadow-box bg-gradient-to-t from-${gender.color.toLowerCase()}-400 to-${gender.color.toLowerCase()}-500`}
 								onClick={() => handleButtonClick(gender.name.toLowerCase())}
