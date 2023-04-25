@@ -4,6 +4,8 @@ import correctSound from "../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../assets/audio/incorrect-choice.mp3";
 import "../../assets/scss/components/GenderDuelPage.scss";
 import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const genders = [
 	{
@@ -38,7 +40,7 @@ type Score = {
 const GenderDuelPage: React.FC = () => {
 	const [word, setWord] = useState<Word | null>(null);
 	const [score, setScore] = useState<Score>({});
-	const [playerNumber, setPlayerNumber] = useState(0);
+	const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [gameStatus, setGameStatus] = useState("waiting");
@@ -46,6 +48,7 @@ const GenderDuelPage: React.FC = () => {
 	const [appearing, setAppearing] = useState(false);
 	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 	const [soundEffect, setSoundEffect] = useState<string | null>(null);
+	const usernameInput = useRef<HTMLInputElement>(null);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
@@ -54,23 +57,9 @@ const GenderDuelPage: React.FC = () => {
 	};
 
 	useEffect(() => {
-		const getUsername = () => {
-			const userInput = prompt("Please enter your username or leave it empty to join as a guest:");
-			if (userInput === "") {
-				return `Guest_${Math.floor(Math.random() * 1000)}`;
-			} else {
-				return userInput;
-			}
-		};
-
-		const tempUsername = getUsername();
-		setUsername(tempUsername);
-		// You can use tempUsername while connecting to the socket
-	}, []);
-
-	useEffect(() => {
 		if (username) {
 			socket.emit("register-player", username);
+			console.log(`emited register-player with username: ${username}`);
 		}
 	}, [username]);
 
@@ -85,6 +74,8 @@ const GenderDuelPage: React.FC = () => {
 	useEffect(() => {
 		socket.on("player-assignment", (assignedPlayerNumber: number) => {
 			setPlayerNumber(assignedPlayerNumber);
+			console.log(assignedPlayerNumber);
+			console.log(`gameStatus: ${gameStatus}`);
 		});
 
 		socket.on("new-word", (newWord: Word) => {
@@ -92,7 +83,7 @@ const GenderDuelPage: React.FC = () => {
 		});
 
 		socket.on("update-score", (updatedScore: Score) => {
-            console.log(score);
+			console.log(score);
 
 			setScore(updatedScore);
 		});
@@ -142,23 +133,69 @@ const GenderDuelPage: React.FC = () => {
 		socket.emit("start-game");
 	};
 
+	const handleUsernameSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const usernameValue = usernameInput.current?.value;
+        if (usernameValue && usernameValue.trim() !== '') {
+          setUsername(usernameValue);
+        } else {
+          toast.error('Please enter a valid username or join as a guest.', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      };
+
+
+	const handleEnterAsGuest = () => {
+		setUsername(`Guest_${Math.floor(Math.random() * 1000)}`);
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
+            <ToastContainer />
 			{gameStatus !== "playing" && <h1 className="gender_duel__title text-center">Gender Duel</h1>}
 			{playerNumber === 0 ? (
 				<p>Game is full. Please wait for an available slot.</p>
 			) : (
 				<>
-					{playerNumber !== null && <h2 className="gender_duel__subtitle font-semibold m-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${username}`}</h2>}
-					{gameStatus === "waiting" && (
-						<button
-							className="flex items-center shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
-							onClick={handleStartGame}
-						>
-							<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
-							<span className="relative gender_duel__text-shadow font-bold">START</span>
-						</button>
+					{username === null ? (
+						<div className="flex flex-col items-center">
+							<h2 className="text-2xl font-bold mb-4 text-white">Enter your username or join as a guest</h2>
+							<form className="flex flex-col items-center mb-4" onSubmit={handleUsernameSubmit}>
+								<label className="text-white mb-2" htmlFor="usernameInput">
+								</label>
+								<input id="usernameInput" type="text" ref={usernameInput} placeholder="Username" className="w-full p-2 mb-2 text-black border-2 border-white rounded-md focus:outline-none focus:border-yellow-400" />
+								<button
+									type="submit"
+									className="bg-red-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 transition-all ease-out duration-300"
+								>
+									Submit
+								</button>
+							</form>
+							<button
+								onClick={handleEnterAsGuest}
+								className="bg-red-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 hover:bg-gradient-to-r hover:from-red-400 hover:to-red-400 hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300"
+							>
+								<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
+								<span className="relative gender_duel__text-shadow text-xl font-bold">Enter as a guest</span>
+							</button>
+
+						</div>
+					) : (
+						<>
+							{playerNumber !== null && <h2 className="gender_duel__subtitle font-semibold m-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${username}`}</h2>}
+							{gameStatus === "waiting" && (
+								<button
+									className="flex items-center shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
+									onClick={handleStartGame}
+								>
+									<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
+									<span className="relative gender_duel__text-shadow text-4xl font-bold">START</span>
+								</button>
+							)}
+						</>
 					)}
+
 					{gameStatus === "playing" && word && (
 						<>
 							<div className="d-none bg-red-500 active:bg-red-700 from-red-400 to-red-500"></div>
@@ -189,14 +226,16 @@ const GenderDuelPage: React.FC = () => {
 							</div>
 						</>
 					)}
-					<div className="mt-8 text-white">
-						<h2 className="">Score</h2>
-						{Object.entries(score).map(([player, playerScore]) => (
-							<p key={player} className="font-semibold">
-								{player}: {playerScore}
-							</p>
-						))}
-					</div>
+					{gameStatus !== "waiting" && (
+						<div className="mt-8 text-white">
+							<h2 className="">Score</h2>
+							{Object.entries(score).map(([player, playerScore]) => (
+								<p key={player} className="font-semibold">
+									{player}: {playerScore}
+								</p>
+							))}
+						</div>
+					)}
 				</>
 			)}
 		</div>

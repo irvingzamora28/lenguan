@@ -102,6 +102,8 @@ io.on('connection', (socket : GenderDuelSocket) => {
 
 
     socket.on("register-player", (playerUsername: string) => {
+        console.log(`availablePlayerNumbers: ${availablePlayerNumbers}`);
+
         if (availablePlayerNumbers.length > 0) {
           const playerNumber = availablePlayerNumbers.shift()!;
           gameState.players[socket.id] = playerUsername;
