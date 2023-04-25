@@ -109,7 +109,8 @@ io.on('connection', (socket : GenderDuelSocket) => {
           gameState.players[socket.id] = playerUsername;
           gameState.score[playerUsername] = 0;
           console.log(`Player ${playerNumber} connected`);
-          socket.emit("player-assignment", playerNumber);
+          console.log(`Number of players connected: ${Object.keys(gameState.players).length}`);
+          socket.emit("player-assignment", { playerNumber, connectedPlayers: Object.keys(gameState.players).length, maxPlayers: MAX_PLAYERS });
 
           socket.playerNumber = playerNumber;
         } else {

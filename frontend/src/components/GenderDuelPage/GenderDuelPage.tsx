@@ -48,6 +48,8 @@ const GenderDuelPage: React.FC = () => {
 	const [appearing, setAppearing] = useState(false);
 	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 	const [soundEffect, setSoundEffect] = useState<string | null>(null);
+    const [maxPlayers, setMaxPlayers] = useState<number | null>(null);
+    const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 	const usernameInput = useRef<HTMLInputElement>(null);
 
 	const resetAnimation = () => {
@@ -72,11 +74,26 @@ const GenderDuelPage: React.FC = () => {
 	}, [soundEffect]);
 
 	useEffect(() => {
-		socket.on("player-assignment", (assignedPlayerNumber: number) => {
-			setPlayerNumber(assignedPlayerNumber);
-			console.log(assignedPlayerNumber);
-			console.log(`gameStatus: ${gameStatus}`);
-		});
+		socket.on("player-assignment", (assignedData: { playerNumber: number; connectedPlayers: number, maxPlayers: number }) => {
+            const { playerNumber, connectedPlayers, maxPlayers } = assignedData;
+            setPlayerNumber(playerNumber);
+            setMaxPlayers(maxPlayers);
+            setConnectedPlayers(connectedPlayers);
+
+            if (playerNumber === 0) {
+              setGameStatus("waiting");
+            } else if (connectedPlayers < maxPlayers) {
+              setGameStatus("waiting-for-opponent");
+            } else {
+              setGameStatus("ready");
+            }
+
+            console.log(`Number of players currently in the game: ${connectedPlayers}`);
+            console.log(`Max players: ${maxPlayers}`);
+
+            console.log(playerNumber);
+            console.log(`gameStatus: ${gameStatus}`);
+        });
 
 		socket.on("new-word", (newWord: Word) => {
 			setWord(newWord);
@@ -192,7 +209,9 @@ const GenderDuelPage: React.FC = () => {
 									<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
 									<span className="relative gender_duel__text-shadow text-4xl font-bold">START</span>
 								</button>
-							)}
+                            )}
+                            {gameStatus === "waiting-for-opponent" && <p className="text-2xl font-semibold m-4 text-white">Waiting for the opponent...</p> }
+                            {gameStatus === "ready" && <p className="text-2xl font-semibold m-4 text-white">GAME READY</p>}
 						</>
 					)}
 
