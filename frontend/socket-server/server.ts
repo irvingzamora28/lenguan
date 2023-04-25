@@ -1,3 +1,4 @@
+//server.ts
 import express from 'express';
 import {Server as HttpServer} from 'http';
 import {Server as SocketIOServer, Socket as BaseSocket} from 'socket.io';
@@ -21,12 +22,12 @@ interface Score {
 }
 
 interface GameState {
-    players: string[];
-    score: Score;
+  players: { [key: string]: string };
+  score: Score;
 }
 
 const gameState: GameState = {
-    players: [],
+    players: {},
     score: {}
 };
 
@@ -58,109 +59,6 @@ const words = [
         difficulty_level: 1,
         category: "Animals"
     },
-    {
-        word: "Auto",
-        gender: "das",
-        translation: "car",
-        difficulty_level: 1,
-        category: "Transportation"
-    }, {
-        word: "Baum",
-        gender: "der",
-        translation: "tree",
-        difficulty_level: 1,
-        category: "Nature"
-    }, {
-        word: "Maus",
-        gender: "die",
-        translation: "mouse",
-        difficulty_level: 2,
-        category: "Animals"
-    }, {
-        word: "Wasser",
-        gender: "das",
-        translation: "water",
-        difficulty_level: 1,
-        category: "Food & Drinks"
-    }, {
-        word: "Kuh",
-        gender: "die",
-        translation: "cow",
-        difficulty_level: 2,
-        category: "Animals"
-    }, {
-        word: "Stuhl",
-        gender: "der",
-        translation: "chair",
-        difficulty_level: 1,
-        category: "Furniture"
-    }, {
-        word: "Flugzeug",
-        gender: "das",
-        translation: "airplane",
-        difficulty_level: 2,
-        category: "Transportation"
-    }, {
-        word: "Hund",
-        gender: "der",
-        translation: "dog",
-        difficulty_level: 1,
-        category: "Animals"
-    }, {
-        word: "Tisch",
-        gender: "der",
-        translation: "table",
-        difficulty_level: 1,
-        category: "Furniture"
-    }, {
-        word: "Schaf",
-        gender: "das",
-        translation: "sheep",
-        difficulty_level: 2,
-        category: "Animals"
-    }, {
-        word: "Buch",
-        gender: "das",
-        translation: "book",
-        difficulty_level: 1,
-        category: "Education"
-    }, {
-        word: "Fahrrad",
-        gender: "das",
-        translation: "bicycle",
-        difficulty_level: 2,
-        category: "Transportation"
-    }, {
-        word: "Fenster",
-        gender: "das",
-        translation: "window",
-        difficulty_level: 1,
-        category: "Housing"
-    }, {
-        word: "Vogel",
-        gender: "der",
-        translation: "bird",
-        difficulty_level: 1,
-        category: "Animals"
-    }, {
-        word: "Kleid",
-        gender: "das",
-        difficulty_level: 2,
-        translation: "dress",
-        category: "Fashion"
-    }, {
-        word: "Eis",
-        gender: "das",
-        translation: "ice cream",
-        difficulty_level: 2,
-        category: "Food & Drinks"
-    }, {
-        word: "Spinne",
-        gender: "die",
-        translation: "spider",
-        difficulty_level: 3,
-        category: "Animals"
-    },
 ];
 
 const getRandomWord = () => {
@@ -177,7 +75,7 @@ const emitNewWord = () => {
 
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-        if (gameState.players.length === MAX_PLAYERS) {
+            if (Object.keys(gameState.players).length === MAX_PLAYERS) {
             emitNewWord();
         }
     }, 10000);
@@ -196,39 +94,45 @@ io.on('connection', (socket : GenderDuelSocket) => {
     }`);
 
     socket.on("start-game", () => {
-        if (gameState.players.length === MAX_PLAYERS) {
+            if (Object.keys(gameState.players).length === MAX_PLAYERS) {
             io.emit("start-game");
             emitNewWord();
         }
     });
 
-    if (availablePlayerNumbers.length > 0) {
-        const playerNumber = availablePlayerNumbers.shift()!;
-        gameState.players.push(socket.id);
-        gameState.score[`player${playerNumber}`] = 0;
-        console.log(`Player ${playerNumber} connected`);
-        socket.emit("player-assignment", playerNumber);
 
-        socket.playerNumber = playerNumber;
-    } else {
-        socket.emit("player-assignment", 0);
-    }
+    socket.on("register-player", (playerUsername: string) => {
+        if (availablePlayerNumbers.length > 0) {
+          const playerNumber = availablePlayerNumbers.shift()!;
+          gameState.players[socket.id] = playerUsername;
+          gameState.score[playerUsername] = 0;
+          console.log(`Player ${playerNumber} connected`);
+          socket.emit("player-assignment", playerNumber);
+
+          socket.playerNumber = playerNumber;
+        } else {
+          socket.emit("player-assignment", 0);
+        }
+      });
+
 
     socket.on('correct-gender-clicked', (gender : string) => {
         console.log(`Correct gender clicked ${gender}`);
+            console.log(gameState.players);
+            console.log(`gameState.players.length: ${Object.keys(gameState.players).length} `);
+            console.log(gameState.score);
 
-        if (gameState.players.length === MAX_PLAYERS) {
-            const playerIndex = gameState.players.indexOf(socket.id);
-            if (playerIndex !== -1) {
-                const playerKey = `player${
-                    playerIndex + 1
-                }` as keyof Score;
-                gameState.score[playerKey] += 1;
-                if (gameState.score[playerKey] >= 10) {
+            if (Object.keys(gameState.players).length === MAX_PLAYERS) {
+                const playerNumber = gameState.players[socket.id];
+                console.log(`playerNumber: ${playerNumber}`);
+                if (playerNumber) {
+                    gameState.score[playerNumber]++;
+
+                if (gameState.score[playerNumber] >= 10) {
                     io.emit(
                         'game-over',
                         `Player ${
-                            playerIndex + 1
+                            playerNumber + 1
                         } wins!`
                     );
                     for (let i = 1; i <= MAX_PLAYERS; i++) {
@@ -247,19 +151,13 @@ io.on('connection', (socket : GenderDuelSocket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${
-            socket.id
-        }`);
-        const playerIndex = gameState.players.indexOf(socket.id);
-        if (playerIndex !== -1) {
-            gameState.players.splice(playerIndex, 1);
-            if (socket.playerNumber) {
-                availablePlayerNumbers.push(socket.playerNumber);
-                availablePlayerNumbers.sort(); // Keep the array sorted
-            }
-            delete gameState.score[`player${
-                    socket.playerNumber
-                }`];
+        console.log(`User disconnected: ${socket.id}`);
+        const playerNumber = gameState.players[socket.id];
+        if (playerNumber) {
+          availablePlayerNumbers.push(parseInt(playerNumber.slice(-1)));
+          availablePlayerNumbers.sort(); // Keep the array sorted
+          delete gameState.players[socket.id];
+          delete gameState.score[playerNumber];
         }
-    });
+      });
 });

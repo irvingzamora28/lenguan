@@ -5,10 +5,6 @@ import incorrectSound from "../../assets/audio/incorrect-choice.mp3";
 import "../../assets/scss/components/GenderDuelPage.scss";
 import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
 
-// type GenderDuelPageProps = {
-//   socket: Socket;
-// }
-
 const genders = [
 	{
 		name: "Der",
@@ -46,9 +42,10 @@ const GenderDuelPage: React.FC = () => {
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [gameStatus, setGameStatus] = useState("waiting");
+	const [username, setUsername] = useState<string | null>(null);
 	const [appearing, setAppearing] = useState(false);
 	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
-    const [soundEffect, setSoundEffect] = useState<string | null>(null)
+	const [soundEffect, setSoundEffect] = useState<string | null>(null);
 
 	const resetAnimation = () => {
 		setCorrectGender(null);
@@ -56,12 +53,33 @@ const GenderDuelPage: React.FC = () => {
 		setAppearing(false);
 	};
 
-    useEffect(() => {
+	useEffect(() => {
+		const getUsername = () => {
+			const userInput = prompt("Please enter your username or leave it empty to join as a guest:");
+			if (userInput === "") {
+				return `Guest_${Math.floor(Math.random() * 1000)}`;
+			} else {
+				return userInput;
+			}
+		};
+
+		const tempUsername = getUsername();
+		setUsername(tempUsername);
+		// You can use tempUsername while connecting to the socket
+	}, []);
+
+	useEffect(() => {
+		if (username) {
+			socket.emit("register-player", username);
+		}
+	}, [username]);
+
+	useEffect(() => {
 		if (soundEffect) {
 			const audio = new Audio(soundEffect);
 			audio.play();
 		}
-        setSoundEffect(null)
+		setSoundEffect(null);
 	}, [soundEffect]);
 
 	useEffect(() => {
@@ -74,6 +92,8 @@ const GenderDuelPage: React.FC = () => {
 		});
 
 		socket.on("update-score", (updatedScore: Score) => {
+            console.log(score);
+
 			setScore(updatedScore);
 		});
 
@@ -100,21 +120,21 @@ const GenderDuelPage: React.FC = () => {
 		if (word && word.gender === gender) {
 			socket.emit("correct-gender-clicked", gender);
 			setCorrectGender(gender);
-            setSoundEffect(correctSound)
+			setSoundEffect(correctSound);
 
 			if ("speechSynthesis" in window) {
-                const utterance = new SpeechSynthesisUtterance(`${gender} ${word.word}`);
+				const utterance = new SpeechSynthesisUtterance(`${gender} ${word.word}`);
 				speechSynthesisRef.current = utterance;
 				utterance.lang = "de-DE";
 				utterance.rate = 0.8;
 				speechSynthesis.speak(utterance);
 			} else {
-                console.log("Text-to-speech not supported in this browser");
+				console.log("Text-to-speech not supported in this browser");
 			}
 		} else {
-            console.log(`Incorrect`);
+			console.log(`Incorrect`);
 			setIncorrectGender(gender);
-            setSoundEffect(incorrectSound)
+			setSoundEffect(incorrectSound);
 		}
 	};
 
@@ -128,8 +148,8 @@ const GenderDuelPage: React.FC = () => {
 			{playerNumber === 0 ? (
 				<p>Game is full. Please wait for an available slot.</p>
 			) : (
-                <>
-                {playerNumber !== null && <h2 className="gender_duel__subtitle font-semibold m-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${playerNumber}`}</h2>}
+				<>
+					{playerNumber !== null && <h2 className="gender_duel__subtitle font-semibold m-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${username}`}</h2>}
 					{gameStatus === "waiting" && (
 						<button
 							className="flex items-center shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
