@@ -22,9 +22,18 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        $username = strstr($request->email, '@', true); // extract username from email
+        $base_username = $username; // store the base username for reference
+        $counter = 1; // initialize counter for adding digits to the username
+        while (User::where('username', $username)->exists()) { // check if username already exists
+            $username = $base_username . $counter; // add a digit to the username
+            $counter++;
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $username, // store the unique username
             'password' => Hash::make($request->password),
         ]);
 
@@ -32,6 +41,7 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'User registered successfully. Please check your email to verify your account.']);
     }
+
 
     public function login(Request $request)
     {
