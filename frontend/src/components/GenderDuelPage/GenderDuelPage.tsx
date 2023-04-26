@@ -33,14 +33,20 @@ type Word = {
 	category: string;
 };
 
-type Score = {
-	[playerNumber: string]: number;
+interface Player {
+    id: string;
+    name: string;
+    score: number;
+}
+
+type Players = {
+	[players: string]: Player;
 };
 
 const GenderDuelPage: React.FC = () => {
 	const [word, setWord] = useState<Word | null>(null);
-	const [score, setScore] = useState<Score>({});
-	const [playerNumber, setPlayerNumber] = useState<number | null>(null);
+    const [players, setPlayers] = useState<Players>({});
+    const [playerNumber, setPlayerNumber] = useState<number | null>(null);
 	const [correctGender, setCorrectGender] = useState<string | null>(null);
 	const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
 	const [gameStatus, setGameStatus] = useState("waiting");
@@ -73,36 +79,41 @@ const GenderDuelPage: React.FC = () => {
 		setSoundEffect(null);
 	}, [soundEffect]);
 
+    useEffect(() => {
+        console.log(`gameStatus changed to ${gameStatus}`);
+      }, [gameStatus]);
+
+
 	useEffect(() => {
 		socket.on("player-assignment", (assignedData: { playerNumber: number; connectedPlayers: number, maxPlayers: number }) => {
             const { playerNumber, connectedPlayers, maxPlayers } = assignedData;
             setPlayerNumber(playerNumber);
             setMaxPlayers(maxPlayers);
             setConnectedPlayers(connectedPlayers);
-
-            if (playerNumber === 0) {
-              setGameStatus("waiting");
-            } else if (connectedPlayers < maxPlayers) {
-              setGameStatus("waiting-for-opponent");
-            } else {
-              setGameStatus("ready");
-            }
-
+            console.log(`playerNumber: ${playerNumber}`);
             console.log(`Number of players currently in the game: ${connectedPlayers}`);
             console.log(`Max players: ${maxPlayers}`);
 
-            console.log(playerNumber);
+            if (playerNumber === 0) {
+                setGameStatus("waiting");
+            } else if (connectedPlayers < maxPlayers) {
+                setGameStatus("waiting-for-opponent");
+                console.log("waiting for opponent");
+                console.log(`gameStatus: ${gameStatus}`);
+            } else {
+                setGameStatus("ready");
+            }
             console.log(`gameStatus: ${gameStatus}`);
+
         });
 
 		socket.on("new-word", (newWord: Word) => {
 			setWord(newWord);
 		});
 
-		socket.on("update-score", (updatedScore: Score) => {
-			console.log(score);
-
-			setScore(updatedScore);
+		socket.on("update-score", (players: Players) => {
+			console.log(players);
+            setPlayers(players);
 		});
 
 		socket.on("start-game", () => {
@@ -114,12 +125,17 @@ const GenderDuelPage: React.FC = () => {
 			alert(message);
 		});
 
+        socket.on("game-ready", () => {
+            setGameStatus("ready");
+		});
+
 		return () => {
 			socket.off("player-assignment");
 			socket.off("new-word");
 			socket.off("update-score");
 			socket.off("start-game");
 			socket.off("game-over");
+			socket.off("game-ready");
 		};
 	}, [socket]);
 
@@ -201,7 +217,7 @@ const GenderDuelPage: React.FC = () => {
 					) : (
 						<>
 							{playerNumber !== null && <h2 className="gender_duel__subtitle font-semibold m-4 text-white">{playerNumber === 0 ? "Spectator" : `Player ${username}`}</h2>}
-							{gameStatus === "waiting" && (
+                            {gameStatus === "ready" && <>
 								<button
 									className="flex items-center shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
 									onClick={handleStartGame}
@@ -209,9 +225,10 @@ const GenderDuelPage: React.FC = () => {
 									<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
 									<span className="relative gender_duel__text-shadow text-4xl font-bold">START</span>
 								</button>
-                            )}
+                            <p className="text-2xl font-semibold m-4 text-white">GAME READY</p>
+                            </>
+                            }
                             {gameStatus === "waiting-for-opponent" && <p className="text-2xl font-semibold m-4 text-white">Waiting for the opponent...</p> }
-                            {gameStatus === "ready" && <p className="text-2xl font-semibold m-4 text-white">GAME READY</p>}
 						</>
 					)}
 
@@ -245,12 +262,12 @@ const GenderDuelPage: React.FC = () => {
 							</div>
 						</>
 					)}
-					{gameStatus !== "waiting" && (
+					{gameStatus === "playing" && (
 						<div className="mt-8 text-white">
 							<h2 className="">Score</h2>
-							{Object.entries(score).map(([player, playerScore]) => (
-								<p key={player} className="font-semibold">
-									{player}: {playerScore}
+							{Object.entries(players).map(([id, player]) => (
+								<p key={player.id} className="font-semibold">
+									{player.name} {player.score}
 								</p>
 							))}
 						</div>
