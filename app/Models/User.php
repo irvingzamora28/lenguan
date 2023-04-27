@@ -15,6 +15,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
     protected $collection = 'users';
 
+    protected $connection = 'mongodb';
+
     /**
      * The attributes that are mass assignable.
      *
