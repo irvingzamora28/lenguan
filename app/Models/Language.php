@@ -9,6 +9,9 @@ class Language extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mongodb';
+    protected $collection = 'languages';
+
     protected $fillable = ['name'];
 
     public function nouns()
