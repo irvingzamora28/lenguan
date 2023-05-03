@@ -13,6 +13,8 @@ return new class extends Migration
             $collection->string('username')->comment("the player's chosen username");
             $collection->string('email')->comment("the player's email address");
             $collection->string('password')->comment("the player's hashed password");
+            $collection->array('languages');
+            $collection->array('progress');
             $collection->timestamp('created_at')->comment('the date and time the player account was created');
             $collection->timestamp('updated_at')->comment('the date and time the player account was last updated');
         });
