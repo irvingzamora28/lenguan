@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Relations\BelongsToMany;
+use Jenssegers\Mongodb\Relations\HasMany;
 
 class Course extends Model
 {
@@ -21,8 +23,8 @@ class Course extends Model
         return $this->belongsTo(Language::class);
     }
 
-    public function lessons()
+    public function levels(): BelongsToMany
     {
-        return $this->hasMany(Lesson::class);
+        return $this->belongsToMany(Level::class, null, 'course_ids', 'level_ids');
     }
 }

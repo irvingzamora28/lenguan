@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('goals', function (Blueprint $collection) {
             $collection->id();
             $collection->string('name');
+            $collection->foreignId('language_id')->constrained('languages');
             $collection->timestamps();
         });
     }

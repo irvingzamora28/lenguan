@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Level;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Goal;
 
-class LessonsSeeder extends Seeder
+class LessonSeeder extends Seeder
 {
     public function run()
     {
@@ -248,7 +249,7 @@ class LessonsSeeder extends Seeder
 
 
 
-
+        $course = Course::where('name', 'German for Beginners')->first();
         foreach ($lessonsData as $levelData) {
             $level = Level::where('name', $levelData['level'])->first();
 
@@ -269,6 +270,7 @@ class LessonsSeeder extends Seeder
                         }
                     }
                 }
+                $course->levels()->attach($level);
             }
         }
     }

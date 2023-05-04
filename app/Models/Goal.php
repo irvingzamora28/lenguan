@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Relations\BelongsTo;
 use Jenssegers\Mongodb\Relations\BelongsToMany;
 
 class Goal extends Model
@@ -13,7 +14,12 @@ class Goal extends Model
     protected $connection = 'mongodb';
     protected $collection = 'goals';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'language_id'];
+
+    public function language(): BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'language_id', '_id');
+    }
 
     public function lessons(): BelongsToMany
     {
