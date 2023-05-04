@@ -16,6 +16,7 @@ return new class extends Migration
             $collection->string('name');
             $collection->string('description');
             $collection->foreignId('course_id')->constrained('courses');
+            $collection->string('content');
             $collection->array('exercises');
             $collection->array('quizzes');
             $collection->timestamps();

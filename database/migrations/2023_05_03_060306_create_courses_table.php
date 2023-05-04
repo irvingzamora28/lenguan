@@ -19,7 +19,7 @@ return new class extends Migration
             $collection->string('description');
             $collection->string('image');
             $collection->foreignId('language_id')->constrained('languages');
-            $collection->index('lessons');
+            $collection->array('levels');
             $collection->timestamps();
         });
     }
