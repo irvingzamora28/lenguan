@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
+use Jenssegers\Mongodb\Relations\BelongsToMany;
 
 class Lesson extends Model
 {
@@ -15,6 +16,11 @@ class Lesson extends Model
     protected $fillable = [
         'name', 'description', 'course_id',
     ];
+
+    public function goals(): BelongsToMany
+    {
+        return $this->belongsToMany(Goal::class, null, 'lesson_ids', 'goal_ids');
+    }
 
     public function course()
     {
