@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { RiLineChartLine } from "react-icons/ri";
-import { AiOutlineLike, AiOutlineMessage, AiOutlineShareAlt } from "react-icons/ai";
-import SidebarMenu from "./Menu/SidebarMenu";
-import Navbar from "./Navbar/Navbar";
-import SocialFeedCard from "./Cards/SocialFeedCard";
-import LeaderboardCard from "./Cards/LeaderboardCard";
-import FriendsCard from "./Cards/FriendsCard";
-import ChartsCard from "./Cards/ChartsCard";
+import SidebarMenu from "../../Items/Menu/SidebarMenu";
+import Navbar from "../../Items/Navbar/Navbar";
+import SocialFeedCard from "../../Items/Cards/SocialFeedCard";
+import LeaderboardCard from "../../Items/Cards/LeaderboardCard";
+import FriendsCard from "../../Items/Cards/FriendsCard";
+import ChartsCard from "../../Items/Cards/ChartsCard";
 
 const DashboardPage: React.FC = () => {
 	const [profileOpen, setProfileOpen] = useState(false);

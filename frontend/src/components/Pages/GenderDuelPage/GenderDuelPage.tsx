@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import socket from "./../../../socket-server/socket";
-import correctSound from "../../assets/audio/correct-choice.mp3";
-import incorrectSound from "../../assets/audio/incorrect-choice.mp3";
-import "../../assets/scss/components/GenderDuelPage.scss";
+import socket from "../../../../socket-server/socket";
+import correctSound from "../../../assets/audio/correct-choice.mp3";
+import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
+import "../../../assets/scss/components/GenderDuelPage.scss";
 import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

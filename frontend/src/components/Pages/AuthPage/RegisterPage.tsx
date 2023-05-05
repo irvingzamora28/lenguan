@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import registerImage from "../../assets/images/register-image.jpg";
+import registerImage from "../../../assets/images/register-image.jpg";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import "../../assets/scss/components/RegisterPage.scss";
-import { refreshCsrfToken } from "../../utils/csrf-token";
-import api from "../../utils/api";
+import "../../../assets/scss/components/RegisterPage.scss";
+import { refreshCsrfToken } from "../../../utils/csrf-token";
+import api from "../../../utils/api";
 
 
 interface RegisterData {

@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import LoginPage from './components/AuthPage/LoginPage'
-import NotFoundPage from './components/NotFoundPage'
-import RegisterPage from './components/AuthPage/RegisterPage'
+import LoginPage from './components/Pages/AuthPage/LoginPage'
+import NotFoundPage from './components/Pages/NotFoundPage'
+import RegisterPage from './components/Pages/AuthPage/RegisterPage'
 import './index.css'
-import DashboardPage from './components/DashboardPage/DashboardPage'
-import GenderDuelPage from './components/GenderDuelPage/GenderDuelPage'
+import DashboardPage from './components/Pages/DashboardPage/DashboardPage'
+import GenderDuelPage from './components/Pages/GenderDuelPage/GenderDuelPage'
+import LessonsPage from './components/Pages/LessonsPage/LessonsPage'
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />,
+    },
+    {
+        path: "/lessons",
+        element: <LessonsPage />,
     },
     {
         path: "/gender-duel",
