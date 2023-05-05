@@ -86,15 +86,15 @@ const LessonsPage: React.FC = () => {
 				{asideOpen && <SidebarMenu />}
 				<div className="container mx-auto px-4">
 					<div className="grid grid-cols-1 gap-4">
-						<div className="flex justify-between">
+						<div className="flex flex-col md:flex-row justify-between">
 							<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
 								<Filter onFilterChange={handleFilterChange} />
 							</div>
-							<div className="p-4 self-end">
+							<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
 								<label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
 									Search:
 								</label>
-								<input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search lessons..." className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+								<input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search lessons..." className="border w-full border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" />
 							</div>
 						</div>
 					</div>
