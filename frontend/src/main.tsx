@@ -8,6 +8,7 @@ import './index.css'
 import DashboardPage from './components/Pages/DashboardPage/DashboardPage'
 import GenderDuelPage from './components/Pages/GenderDuelPage/GenderDuelPage'
 import LessonsPage from './components/Pages/LessonsPage/LessonsPage'
+import LessonPage from './components/Pages/LessonsPage/LessonPage'
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         path: "/lessons",
         element: <LessonsPage />,
     },
+    {
+        path: '/lessons/:id',
+        element: <LessonPage />,
+      },
     {
         path: "/gender-duel",
         element: <GenderDuelPage />,

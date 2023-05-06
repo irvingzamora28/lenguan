@@ -7,7 +7,7 @@ import Filter from "../../Items/Forms/Filter";
 // Mock data for lessons
 const mockLessons = [
 	{
-		id: 1,
+		_id: "1",
 		image: "https://picsum.photos/300/200",
 		title: "Introduction to Programming",
 		description: "Learn the basics of programming, including variables, data types, loops, and functions.",
@@ -15,7 +15,7 @@ const mockLessons = [
 		tags: ["Beginner", "Programming"],
 	},
 	{
-		id: 2,
+		_id: "2",
 		image: "https://picsum.photos/300/200",
 		title: "Web Development Basics",
 		description: "Get started with web development by learning HTML, CSS, and JavaScript fundamentals.",
@@ -23,7 +23,7 @@ const mockLessons = [
 		tags: ["Beginner", "Web Development"],
 	},
 	{
-		id: 3,
+		_id: "3",
 		image: "https://picsum.photos/300/200",
 		title: "Advanced JavaScript",
 		description: "Dive deeper into JavaScript with advanced concepts like closures, prototypes, and async/await.",
@@ -31,7 +31,7 @@ const mockLessons = [
 		tags: ["Advanced", "JavaScript"],
 	},
 	{
-		id: 4,
+		_id: "4",
 		image: "https://picsum.photos/300/200",
 		title: "React and Redux",
 		description: "Learn how to build modern web applications using React for the UI and Redux for state management.",
@@ -41,7 +41,7 @@ const mockLessons = [
 ];
 
 interface Lesson {
-	id: number;
+	_id: string;
 	image: string;
 	title: string;
 	description: string;
@@ -103,7 +103,7 @@ const LessonsPage: React.FC = () => {
 							<h2 className="text-2xl font-bold mb-4">Lessons</h2>
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 								{filteredLessons.map((lesson) => (
-									<LessonCard key={lesson.id} image={lesson.image} title={lesson.title} description={lesson.description} progress={lesson.progress} tags={lesson.tags} />
+									<LessonCard key={lesson._id} _id={lesson._id} image={lesson.image} title={lesson.title} description={lesson.description} progress={lesson.progress} tags={lesson.tags} />
 								))}
 							</div>
 						</div>
