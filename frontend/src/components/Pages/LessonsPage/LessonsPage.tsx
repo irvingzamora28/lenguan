@@ -3,6 +3,7 @@ import SidebarMenu from "../../Items/Menu/SidebarMenu";
 import Navbar from "../../Items/Navbar/Navbar";
 import LessonCard from "../../Items/Cards/LessonCard";
 import Filter from "../../Items/Forms/Filter";
+import Layout from "../../Layout/Layout";
 
 // Mock data for lessons
 const mockLessons = [
@@ -80,37 +81,31 @@ const LessonsPage: React.FC = () => {
 	};
 
 	return (
-		<main className="min-h-screen w-full bg-gray-100 text-gray-700">
-			<Navbar asideOpen={asideOpen} setAsideOpen={setAsideOpen} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />
-			<div className="flex">
-				{asideOpen && <SidebarMenu />}
-				<div className="container mx-auto px-4">
-					<div className="grid grid-cols-1 gap-4">
-						<div className="flex flex-col md:flex-row justify-between">
-							<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
-								<Filter onFilterChange={handleFilterChange} />
-							</div>
-							<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
-								<label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-									Search:
-								</label>
-								<input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search lessons..." className="border w-full border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-							</div>
-						</div>
+		<Layout>
+			<div className="grid grid-cols-1 gap-4">
+				<div className="flex flex-col md:flex-row justify-between">
+					<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
+						<Filter onFilterChange={handleFilterChange} />
 					</div>
-					<div className="grid grid-cols-1 gap-4 mt-4">
-						<div className="p-4">
-							<h2 className="text-2xl font-bold mb-4">Lessons</h2>
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-								{filteredLessons.map((lesson) => (
-									<LessonCard key={lesson._id} _id={lesson._id} image={lesson.image} title={lesson.title} description={lesson.description} progress={lesson.progress} tags={lesson.tags} />
-								))}
-							</div>
-						</div>
+					<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
+						<label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+							Search:
+						</label>
+						<input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search lessons..." className="border w-full border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" />
 					</div>
 				</div>
 			</div>
-		</main>
+			<div className="grid grid-cols-1 gap-4 mt-4">
+				<div className="p-4">
+					<h2 className="text-2xl font-bold mb-4">Lessons</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+						{filteredLessons.map((lesson) => (
+							<LessonCard key={lesson._id} _id={lesson._id} image={lesson.image} title={lesson.title} description={lesson.description} progress={lesson.progress} tags={lesson.tags} />
+						))}
+					</div>
+				</div>
+			</div>
+		</Layout>
 	);
 };
 

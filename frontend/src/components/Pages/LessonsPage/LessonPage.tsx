@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "../../Items/Navbar/Navbar";
-import SidebarMenu from "../../Items/Menu/SidebarMenu";
+import Layout from "../../Layout/Layout";
 
 const IndividualLessonPage: React.FC = () => {
-    const [profileOpen, setProfileOpen] = useState(false);
-	const [asideOpen, setAsideOpen] = useState(true);
-    const { id } = useParams<{ id: string }>();
+	const { id } = useParams<{ id: string }>();
 
 	const activities = [
 		{ title: "Exercises", icon: "your-icon-source" },
@@ -16,13 +13,8 @@ const IndividualLessonPage: React.FC = () => {
 	];
 
 	return (
-        <main className="min-h-screen w-full bg-gray-100 text-gray-700">
-			<Navbar asideOpen={asideOpen} setAsideOpen={setAsideOpen} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />
-			<div className="flex">
-				{asideOpen && <SidebarMenu />}
-				<div className="container mx-auto px-4 py-8">
+		<Layout>
 			<h2 className="text-2xl font-bold mb-6">Lesson {id}</h2>
-
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 				<div className="grid md:grid-flow-col grid-cols-2 md:grid-cols-4 col-span-4 lg:col-span-3 bg-white gap-4 mb-8">
 					{activities.map((activity, index) => (
@@ -48,10 +40,7 @@ const IndividualLessonPage: React.FC = () => {
 					</ul>
 				</div>
 			</div>
-		</div>
-			</div>
-		</main>
-		
+		</Layout>
 	);
 };
 
