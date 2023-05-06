@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ChartData, ChartOptions } from "chart.js";
 import { Line } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -62,7 +62,7 @@ const VocabularyChartCard: React.FC = () => {
 	};
 
 	return (
-		<div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-2xl">
+		<div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-xl">
 			<h3 className="text-2xl font-bold mb-4">Progress</h3>
 			<div className="tabs">
 				<ul className="flex">

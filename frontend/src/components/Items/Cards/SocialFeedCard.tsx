@@ -25,7 +25,7 @@ const entries = [
 const SocialFeedCard: React.FC = () => (
     <>
         {/* Social Feed Card */}
-        <div className="col-span-1 md:col-span-2 bg-white p-6 rounded-xl drop-shadow-2xl">
+        <div className="col-span-1 md:col-span-2 bg-white p-6 rounded-xl drop-shadow-xl">
             {entries.map((entry, index) => (
                 <div key={entry.id} className="mb-8">
                     <div className="flex items-start gap-4">

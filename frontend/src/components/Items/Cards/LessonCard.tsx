@@ -12,7 +12,7 @@ interface LessonCardProps {
 
 const LessonCard: React.FC<LessonCardProps> = ({ _id, image, title, description, progress, tags }) => {
   return (
-    <div className="rounded-lg shadow-md bg-white">
+    <div className="rounded-lg shadow-xl bg-white">
       <img src={image} alt={title} className="w-full h-40 rounded-t-lg object-cover" />
       <div className="p-4">
         <Link to={`/lessons/${_id}`} className="text-decoration-none">

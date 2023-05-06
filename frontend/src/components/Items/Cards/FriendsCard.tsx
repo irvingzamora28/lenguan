@@ -20,7 +20,7 @@ const FriendsCard: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-2xl">
+    <div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-xl">
       <h3 className="text-2xl font-bold mb-4">Friends</h3>
       {friends.map((friend) => (
         <div
