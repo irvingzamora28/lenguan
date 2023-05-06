@@ -6,6 +6,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const VocabularyChartCard: React.FC = () => {
 	const [activeTab, setActiveTab] = useState<number>(0);
 
+	// TODO: Consider making a chart for mistakes made
 	// Sample data for the line chart
 	const chartData1: ChartData<"line"> = {
 		labels: ["JUN-01", "JUN-02", "JUN-03", "JUN-04", "JUN-05", "JUN-06", "JUN-07"],
@@ -47,7 +48,7 @@ const VocabularyChartCard: React.FC = () => {
 		},
 	};
 
-    const chartOptions2: ChartOptions<"line"> = {
+	const chartOptions2: ChartOptions<"line"> = {
 		responsive: true,
 		plugins: {
 			legend: {
