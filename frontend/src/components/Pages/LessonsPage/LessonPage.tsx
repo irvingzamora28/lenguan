@@ -1,25 +1,31 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
+import { AiFillBell } from "react-icons/ai";
+import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
+import { TbBarbell, TbVocabulary } from "react-icons/tb";
 
 const IndividualLessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const activities = [
-		{ title: "Exercises", icon: "your-icon-source" },
-		{ title: "Quizzes", icon: "your-icon-source" },
-		{ title: "Vocabulary", icon: "your-icon-source" },
-		{ title: "Tips & Tricks", icon: "your-icon-source" },
+		{ title: "Exercises", icon: <TbBarbell /> },
+		{ title: "Quizzes", icon: <MdOutlineQuiz /> },
+		{ title: "Vocabulary", icon: <TbVocabulary /> },
+		{ title: "Tips & Tricks", icon: <MdOutlineTipsAndUpdates /> },
 	];
 
 	return (
 		<Layout>
+            <AiFillBell />
 			<h2 className="text-2xl font-bold mb-6">Lesson {id}</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 				<div className="grid md:grid-flow-col grid-cols-2 md:grid-cols-4 col-span-4 lg:col-span-3 bg-white gap-4 mb-8">
 					{activities.map((activity, index) => (
 						<div key={index} className="bg-white shadow-md rounded-lg p-4 text-center">
-							<img src={activity.icon} alt={activity.title} className="mx-auto mb-4 w-16 h-16" />
+                            <div className="flex justify-center text-3xl">
+							{activity.icon}
+                            </div>
 							<h3 className="text-xl font-bold">{activity.title}</h3>
 						</div>
 					))}
