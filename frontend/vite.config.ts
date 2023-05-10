@@ -24,9 +24,11 @@ export default defineConfig({
       },
     },
   },
+  assetsInclude: ['**/*.md', '**/*.mdx'],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'resources/js'),
+      '@lesson': resolve(__dirname, 'src/lessons'),
     },
   },
 });

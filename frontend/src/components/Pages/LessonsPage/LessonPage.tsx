@@ -4,6 +4,17 @@ import Layout from "../../Layout/Layout";
 import { AiFillBell } from "react-icons/ai";
 import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { TbBarbell, TbVocabulary } from "react-icons/tb";
+import Markdown from 'markdown-to-jsx';
+import Lesson from "../../Items/Lesson/Lesson";
+
+interface LayoutProps {
+	children: React.ReactNode;
+}
+
+// surprise, it's a div instead!
+const MyParagraph: React.FC<LayoutProps> = ({ children, ...props }) => (
+    <div {...props}>{children}</div>
+);
 
 const IndividualLessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -35,7 +46,7 @@ const IndividualLessonPage: React.FC = () => {
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 				<div className="md:col-span-3 bg-white shadow-md rounded-lg p-4">
 					<h3 className="text-xl font-bold mb-4">Lesson Content</h3>
-					<p>Here goes the lesson content...</p>
+                    <Lesson language="german" lessonNumber={1} />
 				</div>
 				<div className="bg-white shadow-md rounded-lg p-4">
 					<h3 className="text-xl font-bold mb-4">Vocabulary</h3>

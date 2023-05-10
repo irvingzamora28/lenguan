@@ -1,0 +1,62 @@
+import React, { useEffect, useState } from "react";
+import Markdown from "markdown-to-jsx";
+import BoldText from "./BoldText";
+
+interface LessonProps {
+  language: string;
+  lessonNumber: number;
+}
+
+const Lesson: React.FC<LessonProps> = ({ language, lessonNumber }) => {
+  const [lessonData, setLessonData] = useState({ content: "" });
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchFileContent = async () => {
+      try {
+        const lessonModule = await import(
+          `../../../lessons/${language}/lesson${lessonNumber}.mdx`
+        );
+        const response = await fetch(lessonModule.default);
+        if (response.ok) {
+          const text = await response.text();
+          setLessonData({ content: text });
+          setError(null);
+        } else {
+          setError(
+            `There was an error getting the lesson content. Please try again later`
+          );
+        }
+      } catch (error) {
+        const errMsg = (error as Error).message;
+        setError(`There was an error getting the lesson content. Please try again later`);
+      }
+    };
+
+    fetchFileContent();
+  }, [language, lessonNumber]);
+
+  return (
+    <div>
+      {error ? (
+        <div className="error-message">
+          <p>{error}</p>
+        </div>
+      ) : (
+        <Markdown
+          options={{
+            overrides: {
+              BoldText: {
+                component: BoldText,
+              },
+            },
+          }}
+        >
+          {lessonData.content}
+        </Markdown>
+      )}
+    </div>
+  );
+};
+
+export default Lesson;
