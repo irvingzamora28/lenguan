@@ -9,96 +9,85 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text }) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
 	const [isRepeating, setIsRepeating] = useState(false);
-    const [isRestarting, setIsRestarting] = useState(false);
+	const [isRestarting, setIsRestarting] = useState(false);
+
 	const utteranceRef = useRef(new SpeechSynthesisUtterance(text));
 	utteranceRef.current.lang = "de-DE";
-
-	const handlePlayPause = () => {
-		console.log(`isPlaying ${isPlaying} | isPaused ${isPaused}`);
-
-		if (!isPlaying && !isPaused) {
-			utteranceRef.current.rate = 0.8;
-			utteranceRef.current.pitch = 1;
-			window.speechSynthesis.cancel();
-			setIsPlaying(true);
-
-			const voices = window.speechSynthesis.getVoices();
-			const selectedVoice = voices.find((voice) => voice.lang === "de-DE");
-			if (selectedVoice) {
-				utteranceRef.current.voice = selectedVoice;
-			}
-			window.speechSynthesis.speak(utteranceRef.current);
-		} else {
-			if (isPaused) {
-				console.log(`resume`);
-
-				setIsPaused(!isPaused);
-				window.speechSynthesis.resume();
-				setIsPlaying(true);
-			} else {
-				setIsPaused(true);
-				console.log(`pause`);
-				window.speechSynthesis.pause();
-				setIsPlaying(false);
-			}
-		}
-	};
-
-	// Add this useEffect hook to your component
-	useEffect(() => {
-		console.log(`changed isRepeating ${isRepeating} | isPlaying ${isPlaying} | isPaused ${isPaused}`);
-
-		if (isRepeating && !isPlaying && !isPaused) {
-			handlePlayPause();
-		}
-	}, [isPlaying, isPaused, isRepeating, handlePlayPause]);
-
-    useEffect(() => {
-        if (isRestarting && !isPlaying && !isPaused) {
-            handlePlayPause();
-            setIsRestarting(false);
-        }
-    }, [isPlaying, isPaused, isRestarting, handlePlayPause]);
-
 
 	useEffect(() => {
 		utteranceRef.current.text = text;
 	}, [text]);
 
-	const handleRepeat = () => {
-		setIsRepeating((isRepeating) => !isRepeating);
+	const handlePlay = () => {
+		utteranceRef.current.rate = 0.8;
+		utteranceRef.current.pitch = 1;
+		window.speechSynthesis.cancel();
+		setIsPlaying(true);
+
+		const voices = window.speechSynthesis.getVoices();
+		const selectedVoice = voices.find((voice) => voice.lang === "de-DE");
+		if (selectedVoice) {
+			utteranceRef.current.voice = selectedVoice;
+		}
+		window.speechSynthesis.speak(utteranceRef.current);
 	};
+
+	const handlePause = () => {
+		setIsPaused(true);
+		window.speechSynthesis.pause();
+		setIsPlaying(false);
+	};
+
+	const handleResume = () => {
+		setIsPaused(false);
+		window.speechSynthesis.resume();
+		setIsPlaying(true);
+	};
+
+	const handlePlayPause = () => {
+		if (!isPlaying && !isPaused) handlePlay();
+		else if (isPaused) handleResume();
+		else handlePause();
+	};
+
+	const handleRepeat = () => {
+		setIsRepeating(!isRepeating);
+	};
+
+	const handleRestart = () => {
+		window.speechSynthesis.cancel();
+		setIsPlaying(false);
+		setIsPaused(false);
+		setIsRestarting(true);
+	};
+
+	useEffect(() => {
+		if ((isRepeating || isRestarting) && !isPlaying && !isPaused) {
+			handlePlayPause();
+			if (isRestarting) setIsRestarting(false);
+		}
+	}, [isPlaying, isPaused, isRepeating, isRestarting]);
 
 	useEffect(() => {
 		utteranceRef.current.onend = () => {
 			setIsPlaying(false);
 			setIsPaused(false);
-			console.log(`onend isRepeating ${isRepeating}`);
-			console.log(`onend isPlaying ${isPlaying} | isPaused ${isPaused}`);
 		};
-		// Dependency array includes isRepeating and handlePlayPause to ensure up-to-date values are used
-	}, [isRepeating, handlePlayPause]);
-
-	const handleRestart = () => {
-        window.speechSynthesis.cancel();
-        setIsPlaying(false);
-        setIsPaused(false);
-        setIsRestarting(true);
-    };
-
+	}, []);
 
 	return (
-		<>
-			<div className="bg-green-200 rounded-lg p-4 flex items-center justify-center space-x-4">
-				<button onClick={handleRestart}>
-					<FiRewind size={24} />
-				</button>
-				<button onClick={handlePlayPause}>{isPlaying ? <FiPauseCircle size={24} /> : <FiPlayCircle size={24} />}</button>
-				<button onClick={handleRepeat}>
-					<FiRepeat size={24} className={isRepeating ? "text-green-600" : ""} />
-				</button>
-			</div>
-		</>
+		<div className="bg-green-200 rounded-lg p-4 flex items-center justify-center space-x-4 shadow-lg hover:shadow-xl">
+			<button onClick={handleRestart} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+				<FiRewind size={24} />
+			</button>
+			<button onClick={handlePlayPause} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+				{isPlaying ? <FiPauseCircle size={24} /> : <FiPlayCircle size={24} />}
+			</button>
+			<button onClick={handleRepeat} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+				<FiRepeat size={24} className={`text-green-600 ${isRepeating && "text-white bg-green-600 rounded-full"}`} />
+			</button>
+		</div>
 	);
 };
+
 export default TextToSpeechPlayer;
