@@ -6,6 +6,7 @@ import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { TbBarbell, TbVocabulary } from "react-icons/tb";
 import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
+import TextToSpeechPlayer from "../../Items/Lesson/TextToSpeechPlayer";
 
 const IndividualLessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -64,6 +65,7 @@ const IndividualLessonPage: React.FC = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 				<div className="md:col-span-3 bg-white shadow-md rounded-lg p-4">
+					<TextToSpeechPlayer text="Hallo, wie geht es dir?" />
 					{error ? (
 						<>
 							<h3 className="text-xl font-bold mb-4">Lesson Content</h3>
