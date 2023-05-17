@@ -8,6 +8,7 @@ use App\Http\Controllers\GameSessionController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use App\Http\Controllers\GameController;
 |
 */
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 
 Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
 Route::post('submit-answer', [GameController::class, 'submitAnswer']);
@@ -33,10 +35,21 @@ Route::group(['middleware' => ['csrf']], function () {
 //     });
 });
 
+
+
 Route::post('/data', function () {
     // Handle request
     return "Hello world";
 })->middleware('csrf');
+
+Route::group(['prefix' => 'courses'], function () {
+    Route::get('/', [CourseController::class, 'index']);
+    Route::get('/{course_id}/levels', [CourseController::class, 'levels']);
+    Route::get('/{course_id}/lessons', [CourseController::class, 'lessons']);
+});
+
+Route::group(['prefix' => 'lessons'], function () {
+});
 
 Route::group(['prefix' => 'nouns'], function () {
     Route::get('/', [NounController::class, 'index']);
