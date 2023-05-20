@@ -1,60 +1,25 @@
 import React, { useEffect, useState } from "react";
-import SidebarMenu from "../../Items/Menu/SidebarMenu";
-import Navbar from "../../Items/Navbar/Navbar";
 import LessonCard from "../../Items/Cards/LessonCard";
 import Filter from "../../Items/Forms/Filter";
 import Layout from "../../Layout/Layout";
-
-// Mock data for lessons
-const mockLessons = [
-	{
-		_id: "1",
-		image: "https://picsum.photos/300/200",
-		title: "Introduction to Programming",
-		description: "Learn the basics of programming, including variables, data types, loops, and functions.",
-		progress: 25,
-		tags: ["Beginner", "Programming"],
-	},
-	{
-		_id: "2",
-		image: "https://picsum.photos/300/200",
-		title: "Web Development Basics",
-		description: "Get started with web development by learning HTML, CSS, and JavaScript fundamentals.",
-		progress: 60,
-		tags: ["Beginner", "Web Development"],
-	},
-	{
-		_id: "3",
-		image: "https://picsum.photos/300/200",
-		title: "Advanced JavaScript",
-		description: "Dive deeper into JavaScript with advanced concepts like closures, prototypes, and async/await.",
-		progress: 80,
-		tags: ["Advanced", "JavaScript"],
-	},
-	{
-		_id: "4",
-		image: "https://picsum.photos/300/200",
-		title: "React and Redux",
-		description: "Learn how to build modern web applications using React for the UI and Redux for state management.",
-		progress: 50,
-		tags: ["Intermediate", "React", "Redux"],
-	},
-];
+import api from "../../../utils/api";
 
 interface Lesson {
 	_id: string;
 	image: string;
-	title: string;
+	name: string;
 	description: string;
 	progress: number;
-	tags: string[];
+}
+
+interface Goals {
+	_id: string;
+	name: string;
 }
 
 const LessonsPage: React.FC = () => {
-	const [profileOpen, setProfileOpen] = useState(false);
-	const [asideOpen, setAsideOpen] = useState(true);
-	const [lessons, setLessons] = useState<Lesson[]>(mockLessons);
-	const [filteredLessons, setFilteredLessons] = useState<Lesson[]>(mockLessons);
+	const [lessons, setLessons] = useState<Lesson[]>([]);
+	const [filteredLessons, setFilteredLessons] = useState<Lesson[]>([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedFilter, setSelectedFilter] = useState("All");
 
@@ -62,12 +27,12 @@ const LessonsPage: React.FC = () => {
 		let filtered = lessons;
 
 		if (searchTerm) {
-			filtered = filtered.filter((lesson) => lesson.title.toLowerCase().includes(searchTerm.toLowerCase()));
+			filtered = filtered.filter((lesson) => lesson.name.toLowerCase().includes(searchTerm.toLowerCase()));
 		}
 
-		if (selectedFilter !== "All") {
-			filtered = filtered.filter((lesson) => lesson.tags.includes(selectedFilter));
-		}
+		// if (selectedFilter !== "All") {
+		// 	filtered = filtered.filter((lesson) => lesson.tags.includes(selectedFilter));
+		// }
 
 		setFilteredLessons(filtered);
 	}, [searchTerm, selectedFilter, lessons]);
@@ -79,6 +44,24 @@ const LessonsPage: React.FC = () => {
 	const handleFilterChange = (filterValue: string) => {
 		setSelectedFilter(filterValue);
 	};
+
+	const fetchGoals = async () => {
+		const response = await api.get("/api/goals/645380bc118d5d794c0084fd");
+		console.log(response.data);
+	};
+
+	const fetchLessons = async () => {
+		const response = await api.get("/api/courses/645380bc118d5d794c0084ff/lessons");
+		console.log(response.data);
+		console.log(response.data);
+
+		setLessons(response.data);
+	};
+
+	useEffect(() => {
+		fetchLessons();
+		fetchGoals();
+	}, []);
 
 	return (
 		<Layout>
@@ -100,7 +83,7 @@ const LessonsPage: React.FC = () => {
 					<h2 className="text-2xl font-bold mb-4">Lessons</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 						{filteredLessons.map((lesson) => (
-							<LessonCard key={lesson._id} _id={lesson._id} image={lesson.image} title={lesson.title} description={lesson.description} progress={lesson.progress} tags={lesson.tags} />
+							<LessonCard key={lesson._id} _id={lesson._id} image={"https://picsum.photos/300/200"} name={lesson.name} description={lesson.description} progress={lesson.progress} tags={[]} />
 						))}
 					</div>
 				</div>

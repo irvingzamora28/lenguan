@@ -22,12 +22,13 @@ class CourseController extends Controller
 
     public function lessons($course_id)
     {
-        $course = Course::with('levels.lessons')->findOrFail($course_id);
+        $course = Course::with('levels.lessons.goals')->findOrFail($course_id);
 
         $lessons = collect([]);
         foreach ($course->levels as $level) {
             foreach ($level->lessons as $lesson) {
-                $lesson->level_name = $level->name; // Add the level name as a property
+                $lesson->level_name = $level->name;
+                $lesson->progress = 0;
                 $lessons->push($lesson);
             }
         }

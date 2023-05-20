@@ -22,6 +22,7 @@ use App\Http\Controllers\LessonController;
 */
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GoalController;
 
 Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
 Route::post('submit-answer', [GameController::class, 'submitAnswer']);
@@ -48,7 +49,8 @@ Route::group(['prefix' => 'courses'], function () {
     Route::get('/{course_id}/lessons', [CourseController::class, 'lessons']);
 });
 
-Route::group(['prefix' => 'lessons'], function () {
+Route::group(['prefix' => 'goals'], function () {
+    Route::get('/{language_id}', [GoalController::class, 'index']);
 });
 
 Route::group(['prefix' => 'nouns'], function () {

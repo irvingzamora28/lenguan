@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 interface LessonCardProps {
   _id: string;
   image: string;
-  title: string;
+  name: string;
   description: string;
   progress: number;
   tags: string[];
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ _id, image, title, description, progress, tags }) => {
+const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, description, progress, tags }) => {
   return (
     <div className="rounded-lg shadow-xl bg-white">
-      <img src={image} alt={title} className="w-full h-40 rounded-t-lg object-cover" />
+      <img src={image} alt={name} className="w-full h-40 rounded-t-lg object-cover" />
       <div className="p-4">
         <Link to={`/lessons/${_id}`} className="text-decoration-none">
-          <h3 className="text-xl font-bold mb-2">{title}</h3>
+          <h3 className="text-xl font-bold mb-2">{name}</h3>
         </Link>
         <p className="text-gray-700 mb-4">{description}</p>
         <div className="w-full h-2 bg-gray-200 rounded mb-4">
