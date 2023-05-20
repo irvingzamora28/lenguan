@@ -7,10 +7,10 @@ interface LessonCardProps {
   name: string;
   description: string;
   progress: number;
-  tags: string[];
+  goals: string[];
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, description, progress, tags }) => {
+const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, description, progress, goals }) => {
   return (
     <div className="rounded-lg shadow-xl bg-white">
       <img src={image} alt={name} className="w-full h-40 rounded-t-lg object-cover" />
@@ -26,9 +26,9 @@ const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, description, 
           ></div>
         </div>
         <ul className="flex flex-wrap">
-          {tags.map((tag, index) => (
+          {goals.map((goal, index) => (
             <li key={index} className="text-sm bg-gray-200 px-2 py-1 rounded mr-1 mb-1">
-              {tag}
+              {goal}
             </li>
           ))}
         </ul>
