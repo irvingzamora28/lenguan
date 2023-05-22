@@ -1,5 +1,7 @@
 import React from "react";
 import Markdown from "markdown-to-jsx";
+import TextToSpeechPlayer from "../../Items/Lesson/TextToSpeechPlayer";
+
 interface LessonProps {
 	content: string;
 }
@@ -35,6 +37,9 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "py-3",
 							},
 						},
+                        TextToSpeechPlayer: {
+                            component: TextToSpeechPlayer
+                        },
 						blockquote: {
 							props: {
 								className: "text-md italic font-normal text-gray-500 dark:text-white",
