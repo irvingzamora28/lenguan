@@ -32,6 +32,21 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "pl-5 py-3 list-decimal",
 							},
 						},
+                        table: {
+							props: {
+								className: "table-auto w-full text-center",
+							},
+						},
+                        thead: {
+							props: {
+								className: "border-b font-medium dark:border-neutral-500",
+							},
+						},
+                        tr: {
+							props: {
+								className: "border-b dark:border-neutral-500",
+							},
+						},
 						p: {
 							props: {
 								className: "py-3",
