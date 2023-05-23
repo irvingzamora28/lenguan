@@ -7,6 +7,7 @@ import { TbBarbell, TbVocabulary } from "react-icons/tb";
 import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
 import TextToSpeechPlayer from "../../Items/Lesson/TextToSpeechPlayer";
+import dasAlphabet from "../../../assets/audio/lessons/german/lesson1/das-alphabet.mp3"
 import NotFoundPage from "../NotFoundPage";
 
 const IndividualLessonPage: React.FC = () => {
@@ -70,7 +71,7 @@ const IndividualLessonPage: React.FC = () => {
 
 					<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<div className="md:col-span-3 bg-white shadow-md rounded-lg p-4">
-							<TextToSpeechPlayer text="Hallo, wie geht es dir?" />
+							<TextToSpeechPlayer text="Hallo, wie geht es dir?" mp3File={dasAlphabet} />
 							<Lesson content={lessonContent} />
 						</div>
 						<div className="bg-white shadow-md rounded-lg p-4">

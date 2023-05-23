@@ -3,10 +3,11 @@ import { FiPauseCircle, FiPlayCircle, FiRepeat, FiRewind } from "react-icons/fi"
 
 interface TextToSpeechPlayerProps {
 	text: string;
+	displayText?: boolean;
 	mp3File?: string;
 }
 
-const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, mp3File }) => {
+const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayText = false, mp3File = "" }) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
 	const [isRepeating, setIsRepeating] = useState(false);
@@ -26,43 +27,50 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, mp3File }
 	}, [text, mp3File]);
 
 	const handlePlay = () => {
-		if (audioRef.current) {
-			audioRef.current.play();
-		} else {
-			// The rest of your handlePlay function...
-			utteranceRef.current.rate = 0.8;
-			utteranceRef.current.pitch = 1;
-			window.speechSynthesis.cancel();
-			setIsPlaying(true);
+        if (audioRef.current) {
+            audioRef.current.play();
+            setIsPlaying(true);
+            setIsPaused(false);
+        } else {
+            utteranceRef.current.rate = 0.8;
+            utteranceRef.current.pitch = 1;
+            window.speechSynthesis.cancel();
+            setIsPlaying(true);
+            setIsPaused(false);
 
-			const voices = window.speechSynthesis.getVoices();
-			const selectedVoice = voices.find((voice) => voice.lang === "de-DE");
-			if (selectedVoice) {
-				utteranceRef.current.voice = selectedVoice;
-			}
-			window.speechSynthesis.speak(utteranceRef.current);
-		}
-	};
+            const voices = window.speechSynthesis.getVoices();
+            const selectedVoice = voices.find((voice) => voice.lang === "de-DE");
+            if (selectedVoice) {
+                utteranceRef.current.voice = selectedVoice;
+            }
+            window.speechSynthesis.speak(utteranceRef.current);
+        }
+    };
 
-	const handlePause = () => {
-		if (audioRef.current) {
-			audioRef.current.pause();
-		} else {
-			setIsPaused(true);
-			window.speechSynthesis.pause();
-			setIsPlaying(false);
-		}
-	};
+    const handlePause = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setIsPaused(true);
+        } else {
+            setIsPaused(true);
+            setIsPlaying(false);
+            window.speechSynthesis.pause();
+        }
+    };
 
-	const handleResume = () => {
-		if (audioRef.current) {
-			audioRef.current.play();
-		} else {
-			setIsPaused(false);
-			window.speechSynthesis.resume();
-			setIsPlaying(true);
-		}
-	};
+    const handleResume = () => {
+        if (audioRef.current) {
+            audioRef.current.play();
+            setIsPlaying(true);
+            setIsPaused(false);
+        } else {
+            setIsPaused(false);
+            setIsPlaying(true);
+            window.speechSynthesis.resume();
+        }
+    };
+
 
 	const handlePlayPause = () => {
 		if (!isPlaying && !isPaused) handlePlay();
@@ -102,7 +110,7 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, mp3File }
 
 	return (
 		<>
-			<p className={`bg-primary-200 dark:bg-primary-800`}>{text}</p>
+			{displayText ? <p className={`bg-primary-200 dark:bg-primary-800`}>{text}</p> : <></>}
 			<div className="bg-green-200 rounded-lg p-4 flex items-center justify-center space-x-4 shadow-lg hover:shadow-xl">
 				<button onClick={handleRestart} className="hover:bg-green-300 hover:text-white rounded-full p-2">
 					<FiRewind size={24} />
