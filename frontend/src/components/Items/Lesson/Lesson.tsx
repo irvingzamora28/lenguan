@@ -32,6 +32,11 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "pl-5 py-3 list-decimal",
 							},
 						},
+                        li: {
+							props: {
+								className: "pl-2 py-3",
+							},
+						},
                         table: {
 							props: {
 								className: "table-auto w-full text-center",

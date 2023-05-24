@@ -164,10 +164,10 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 		<>
 			{displayText ? <p className={`bg-primary-200 dark:bg-primary-800`}>{text}</p> : <></>}
 			{miniPlayer ? (
-				<div className="bg-green-200 w-fit rounded-lg p-0 flex flex-col md:flex-row items-center justify-center md:space-y-0 md:space-x-4 shadow-lg hover:shadow-xl">
+				<div className="bg-green-200 inline-flex w-fit rounded-lg p-0 md:flex-row items-center justify-center md:space-y-0 md:space-x-4 shadow-lg hover:shadow-xl">
 					<div className="flex items-center justify-center space-x-4">
 						<button onClick={handlePlayPause} className="hover:bg-green-300 hover:text-white rounded-full p-2">
-							{isPlaying ? <FiPauseCircle size={24} /> : <FiPlayCircle size={24} />}
+							{isPlaying ? <FiPauseCircle size={16} /> : <FiPlayCircle size={16} />}
 						</button>
 					</div>
 				</div>
