@@ -39,6 +39,14 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 		}
 	}, [audioRef.current]);
 
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.addEventListener("ended", () => {
+                setIsPlaying(false);
+            });
+        }
+    }, [audioRef.current]);
+
 	useEffect(() => {
 		utteranceRef.current.text = text;
 
