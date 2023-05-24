@@ -14,6 +14,7 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 	const [isRestarting, setIsRestarting] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
+	const [playbackRate, setPlaybackRate] = useState(1); // New state for playback rate
 
 	const utteranceRef = useRef(new SpeechSynthesisUtterance(text));
 	utteranceRef.current.lang = "de-DE";
@@ -44,6 +45,13 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 			audioRef.current = new Audio(mp3File);
 		}
 	}, [text, mp3File]);
+
+	// Set the playback rate on the audio element whenever it changes
+	useEffect(() => {
+		if (audioRef.current) {
+			audioRef.current.playbackRate = playbackRate;
+		}
+	}, [playbackRate]);
 
 	useEffect(() => {
 		if (audioRef.current) {
@@ -154,17 +162,42 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 	return (
 		<>
 			{displayText ? <p className={`bg-primary-200 dark:bg-primary-800`}>{text}</p> : <></>}
-			<div className="bg-green-200 rounded-lg p-4 flex items-center justify-center space-x-4 shadow-lg hover:shadow-xl">
-				<button onClick={handleRestart} className="hover:bg-green-300 hover:text-white rounded-full p-2">
-					<FiRewind size={24} />
-				</button>
-				<button onClick={handlePlayPause} className="hover:bg-green-300 hover:text-white rounded-full p-2">
-					{isPlaying ? <FiPauseCircle size={24} /> : <FiPlayCircle size={24} />}
-				</button>
-				<button onClick={handleRepeat} className="hover:bg-green-300 hover:text-white rounded-full p-2">
-					<FiRepeat size={24} className={`${isRepeating && "text-green-600 rounded-full"}`} />
-				</button>
-				{mp3File && <input type="range" min={0} max={duration} value={currentTime} onChange={handleProgressBarClick} className="w-full slider accent-slate-600" />}
+			<div className="bg-green-200 rounded-lg p-4 flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 shadow-lg hover:shadow-xl">
+				<div className="flex items-center justify-center space-x-4">
+					{mp3File && (
+						<div className="inline-block relative w-24">
+							<select
+								value={playbackRate}
+								onChange={(e) => setPlaybackRate(Number(e.target.value))}
+								className="block appearance-none w-full bg-white border border-gray-200 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+							>
+								<option value={0.5}>0.5x</option>
+								<option value={1}>1x</option>
+								<option value={1.5}>1.5x</option>
+								<option value={2}>2x</option>
+							</select>
+							<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+								<svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+									<path d="M10 12l-6-5h12l-6 5z" />
+								</svg>
+							</div>
+						</div>
+					)}
+					<button onClick={handleRestart} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+						<FiRewind size={24} />
+					</button>
+					<button onClick={handlePlayPause} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+						{isPlaying ? <FiPauseCircle size={24} /> : <FiPlayCircle size={24} />}
+					</button>
+					<button onClick={handleRepeat} className="hover:bg-green-300 hover:text-white rounded-full p-2">
+						<FiRepeat size={24} className={`${isRepeating && "text-green-600 rounded-full"}`} />
+					</button>
+				</div>
+				{mp3File && (
+					<div className="w-full md:w-auto">
+						<input type="range" min={0} max={duration} value={currentTime} onChange={handleProgressBarClick} className="w-full md:w-auto slider accent-slate-600" />
+					</div>
+				)}
 			</div>
 		</>
 	);
