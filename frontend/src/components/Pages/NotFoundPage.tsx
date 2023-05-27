@@ -33,11 +33,11 @@ const NotFoundPage = () => {
 		);
 	} else {
 		return (
-			<div className="flex flex-col items-center justify-center h-screen text-gray-600">
+			<div className="flex flex-col items-center justify-center h-screen text-maintext">
 				<h1 className="text-6xl font-semibold">404</h1>
 				<p className="text-2xl">Oops! Page not found.</p>
 				<p className="mt-2">We could not find the page you were looking for.</p>
-				<a href="/" className="mt-6 text-blue-600 hover:text-blue-800 hover:underline">
+				<a href="/" className="mt-6 text-primary-600 hover:text-primary-800 hover:underline">
 					Go back home
 				</a>
 			</div>

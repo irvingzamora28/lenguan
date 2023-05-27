@@ -25,7 +25,7 @@ const entries = [
 const SocialFeedCard: React.FC = () => (
     <>
         {/* Social Feed Card */}
-        <div className="col-span-1 md:col-span-2 bg-white p-6 rounded-xl drop-shadow-xl">
+        <div className="col-span-1 md:col-span-2 bg-backgroundalt p-6 rounded-xl drop-shadow-xl">
             {entries.map((entry, index) => (
                 <div key={entry.id} className="mb-8">
                     <div className="flex items-start gap-4">
@@ -33,9 +33,9 @@ const SocialFeedCard: React.FC = () => (
                         <div className="flex flex-col">
                             <div className="flex items-center justify-between w-full">
                                 <h4 className="text-xl font-bold">{entry.username}</h4>
-                                <span className="text-gray-500 text-sm">{entry.timestamp}</span>
+                                <span className="text-sm">{entry.timestamp}</span>
                             </div>
-                            <p className="text-gray-500">{entry.topic}</p>
+                            <p className="">{entry.topic}</p>
                         </div>
                     </div>
                     {entry.imageUrl && (
@@ -45,21 +45,21 @@ const SocialFeedCard: React.FC = () => (
                     )}
                     <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <button className="text-gray-500 hover:text-blue-500 transition-colors">
+                            <button className="hover:text-primary-500 transition-colors">
                                 <AiOutlineLike className="text-2xl" />
                             </button>
-                            <span className="text-gray-500">{entry.likes} likes</span>
+                            <span className="">{entry.likes} likes</span>
                         </div>
-                        <button className="text-gray-500 hover:text-blue-500 transition-colors">
+                        <button className="hover:text-primary-500 transition-colors">
                             <AiOutlineMessage className="text-2xl" />
                         </button>
-                        <button className="text-gray-500 hover:text-blue-500 transition-colors">
+                        <button className="hover:text-primary-500 transition-colors">
                             <AiOutlineShareAlt className="text-2xl" />
                         </button>
                     </div>
                     <div className="mt-4">
-                        <h5 className="font-bold">Caption</h5>
-                        <p className="text-gray-500">{entry.caption}</p>
+                        <h5 className="text-title font-bold">Caption</h5>
+                        <p className="text-subtitle">{entry.caption}</p>
                     </div>
                     {index < entries.length - 1 && (
                         <hr className="my-6 border-t border-gray-200" />

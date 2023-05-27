@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [asideOpen]);
 
   return (
-    <main className="min-h-screen w-full bg-gray-100 text-gray-700">
+    <main className="min-h-screen w-full bg-background text-maintext">
       <Navbar
         asideOpen={asideOpen}
         setAsideOpen={setAsideOpen}

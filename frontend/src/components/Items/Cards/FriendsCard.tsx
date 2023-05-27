@@ -20,7 +20,7 @@ const FriendsCard: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-xl">
+    <div className="col-span-1 md:col-span-2 h-fit bg-backgroundalt p-6 rounded-xl drop-shadow-xl">
       <h3 className="text-2xl font-bold mb-4">Friends</h3>
       {friends.map((friend) => (
         <div
@@ -38,7 +38,7 @@ const FriendsCard: React.FC = () => {
             </div>
           </div>
           <div>
-            <span className="bg-blue-500 py-2 px-4 rounded-full text-white">
+            <span className="bg-primary-500 py-2 px-4 rounded-full text-maintextalt">
               Challenge
             </span>
           </div>
@@ -47,7 +47,7 @@ const FriendsCard: React.FC = () => {
       <div className="flex justify-end">
         <a
           href="#"
-          className="hover:text-blue-500 transition-colors hover:underline"
+          className="hover:text-primary-500 transition-colors hover:underline"
         >
           See all friends
         </a>
