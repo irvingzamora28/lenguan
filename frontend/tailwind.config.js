@@ -5,7 +5,7 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-                primary: colors.rose,
+                primary: colors.blue,
 				secondary: colors.gray, // a softer color to complement cyan
 				accent: colors.orange, // for accent, a contrasting color to cyan
                 background: colors.slate['100'],
