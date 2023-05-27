@@ -74,7 +74,8 @@ const LessonsPage: React.FC = () => {
 						<Filter onFilterChange={handleFilterChange} filterOptions={goals} />
 					</div>
 					<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
-						<label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                        {/* TODO: Implement dark text */}
+						<label htmlFor="countries" className="block mb-2 text-sm font-medium text-title dark:text-gray-400">
 							Search:
 						</label>
 						<input type="text" value={searchTerm} onChange={handleSearchChange} placeholder="Search lessons..." className="border w-full border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" />
@@ -83,7 +84,7 @@ const LessonsPage: React.FC = () => {
 			</div>
 			<div className="grid grid-cols-1 gap-4 mt-4">
 				<div className="p-4">
-					<h2 className="text-2xl font-bold mb-4">Lessons</h2>
+					<h2 className="text-2xl font-bold mb-4 text-title">Lessons</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 						{filteredLessons.map((lesson) => (
 							<LessonCard key={lesson._id} _id={lesson._id} image={"https://picsum.photos/300/200"} name={lesson.name} description={lesson.description} progress={lesson.progress} goals={lesson.goals.map((goal: Goal): string => goal.name)} />

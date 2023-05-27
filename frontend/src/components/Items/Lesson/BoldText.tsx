@@ -6,7 +6,7 @@ interface BoldTextProps {
 
 const BoldText: React.FC<BoldTextProps> = ({ children }) => {
     return (
-        <div className="text-red-500">{children}</div>
+        <div className="text-accent-500">{children}</div>
     );
 };
 

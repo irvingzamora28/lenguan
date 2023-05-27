@@ -12,7 +12,7 @@ const SubMenu: React.FC<{
     <div>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600 w-full justify-between"
+        className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600 w-full justify-between"
       >
         <div className="flex items-center space-x-1">
           <span className="text-2xl">{icon}</span>

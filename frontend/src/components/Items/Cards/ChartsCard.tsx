@@ -62,17 +62,17 @@ const VocabularyChartCard: React.FC = () => {
 	};
 
 	return (
-		<div className="col-span-1 md:col-span-2 h-fit bg-white p-6 rounded-xl drop-shadow-xl">
+		<div className="col-span-1 md:col-span-2 h-fit bg-backgroundalt p-6 rounded-xl drop-shadow-xl">
 			<h3 className="text-2xl font-bold mb-4">Progress</h3>
 			<div className="tabs">
 				<ul className="flex">
-					<li className={`-mb-px mr-1 ${activeTab === 0 ? "border-blue-500 border-b-2" : "border-gray-200"}`}>
-						<a className={`bg-white inline-block cursor-pointer py-2 px-4 font-semibold ${activeTab === 0 ? "text-blue-500" : "text-gray-500"} hover:text-blue-800`} onClick={() => setActiveTab(0)}>
+					<li className={`-mb-px mr-1 ${activeTab === 0 ? "border-primary-500 border-b-2" : "border-secondary-200"}`}>
+						<a className={`bg-backgroundalt inline-block cursor-pointer py-2 px-4 font-semibold ${activeTab === 0 ? "text-primary-500" : "text-secondary-500"} hover:text-primary-600`} onClick={() => setActiveTab(0)}>
 							Vocabulary
 						</a>
 					</li>
-					<li className={`-mb-px mr-1 ${activeTab === 1 ? "border-blue-500 border-b-2" : "border-gray-200"}`}>
-						<a className={`bg-white inline-block cursor-pointer py-2 px-4 font-semibold ${activeTab === 1 ? "text-blue-500" : "text-gray-500"} hover:text-blue-800`} onClick={() => setActiveTab(1)}>
+					<li className={`-mb-px mr-1 ${activeTab === 1 ? "border-primary-500 border-b-2" : "border-secondary-200"}`}>
+						<a className={`bg-backgroundalt inline-block cursor-pointer py-2 px-4 font-semibold ${activeTab === 1 ? "text-primary-500" : "text-secondary-500"} hover:text-primary-600`} onClick={() => setActiveTab(1)}>
 							Gender Duel
 						</a>
 					</li>

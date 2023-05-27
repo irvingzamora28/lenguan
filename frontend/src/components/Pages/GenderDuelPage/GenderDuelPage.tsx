@@ -281,7 +281,7 @@ const GenderDuelPage: React.FC = () => {
 						</>
 					)}
 					{gameStatus === "playing" && (
-						<div className="mt-8 text-white">
+						<div className="mt-8 text-maintextalt">
 							<h2 className="">Score</h2>
 							{Object.entries(players).map(([id, player]) => (
 								<p key={player.id} className="font-semibold">
