@@ -6,11 +6,9 @@ import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { TbBarbell, TbVocabulary } from "react-icons/tb";
 import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
-import TextToSpeechPlayer from "../../Items/Lesson/TextToSpeechPlayer";
-import dasAlphabet from "../../../assets/audio/lessons/german/lesson1/das-alphabet.mp3"
 import NotFoundPage from "../NotFoundPage";
 
-const IndividualLessonPage: React.FC = () => {
+const LessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const [lessonContent, setLessonContent] = useState("");
 	const [vocabulary, setVocabulary] = useState<string[]>([]);
@@ -88,4 +86,4 @@ const IndividualLessonPage: React.FC = () => {
 	);
 };
 
-export default IndividualLessonPage;
+export default LessonPage;
