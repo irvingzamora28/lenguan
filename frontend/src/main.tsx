@@ -10,6 +10,7 @@ import GenderDuelPage from "./components/Pages/GenderDuelPage/GenderDuelPage";
 import LessonsPage from "./components/Pages/LessonsPage/LessonsPage";
 import LessonPage from "./components/Pages/LessonsPage/LessonPage";
 import ExercisesPage from "./components/Pages/LessonsPage/ExercisesPage";
+import ListeningExercise from "./components/Pages/LessonsPage/ListeningExercise";
 
 const router = createBrowserRouter([
 	{
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     {
         path: "/exercises",
         element: <ExercisesPage />,
+    },
+    {
+        path: "/listening-exercise/:id",
+        element: <ListeningExercise />,
     },
 	{
 		path: "/gender-duel",
