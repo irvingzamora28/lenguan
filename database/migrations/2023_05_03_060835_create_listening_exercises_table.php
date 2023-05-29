@@ -15,6 +15,7 @@ return new class extends Migration
             $collection->id();
             $collection->string('audio_url');
             $collection->string('transcript');
+            $collection->array('options');
             $collection->string('prompt');
             $collection->string('answer');
             $collection->foreignId('lesson_id')->constrained('lessons');

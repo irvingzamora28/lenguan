@@ -28,6 +28,11 @@ class Lesson extends Model
         return $this->belongsTo(Level::class);
     }
 
+    public function listeningExercises()
+    {
+        return $this->hasMany(ListeningExercise::class);
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);
