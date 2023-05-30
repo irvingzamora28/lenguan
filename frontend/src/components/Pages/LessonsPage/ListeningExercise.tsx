@@ -106,7 +106,17 @@ const ListeningExercise: React.FC = () => {
 		setCurrentExercise(shuffledExercises);
 	}, []);
 
-    // TODO: Add ability to set time limit
+	useEffect(() => {
+        if (currentExercise[exerciseIndex]) {
+            const audioElement = document.getElementById('exercise-audio') as HTMLAudioElement;
+            setTimeout(() => {
+                audioElement.load();
+                audioElement.play();
+            }, 1000); // wait for 1 second before playing the next audio
+        }
+    }, [exerciseIndex, currentExercise]);
+
+	// TODO: Add ability to set time limit
 	return (
 		<Layout>
 			{!currentExercise[exerciseIndex] ? (
@@ -118,7 +128,7 @@ const ListeningExercise: React.FC = () => {
 				<>
 					<div className="w-full max-w-md mx-auto">
 						<h1 className="text-2xl font-bold mb-4">Match the Audio</h1>
-						<audio controls src={currentExercise[exerciseIndex].audio}>
+						<audio id="exercise-audio" controls src={currentExercise[exerciseIndex]?.audio}>
 							Your browser does not support the audio element.
 						</audio>
 						<div className="mt-4">
