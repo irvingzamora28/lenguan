@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
-import asd from "../../../assets/audio/exercises/german/lesson1/Hallo.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
+import Layout from "../../Layout/Layout";
 
 interface Exercise {
 	audio: string;
@@ -62,61 +62,84 @@ const initialExercises: Exercise[] = [
 	},
 ];
 
+const shuffleArray = (array: any[]) => {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+};
+
 const ListeningExercise: React.FC = () => {
 	const [exerciseIndex, setExerciseIndex] = useState(0);
 	const [currentExercise, setCurrentExercise] = useState<Exercise[]>([]);
-    const [soundEffect, setSoundEffect] = useState<string | null>(null);
-    const [selectedAnswer, setSelectedAnswer] = useState<string>('');
+	const [soundEffect, setSoundEffect] = useState<string | null>(null);
+	const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+	const [progress, setProgress] = useState<number>(0);
 
 	const checkAnswer = (selectedAnswer: string) => {
-        setSelectedAnswer(selectedAnswer);
+		setSelectedAnswer(selectedAnswer);
 
 		if (currentExercise[exerciseIndex] && selectedAnswer === currentExercise[exerciseIndex].correctAnswer) {
 			setSoundEffect(correctSound);
 			setExerciseIndex((prevIndex) => prevIndex + 1);
+			setSelectedAnswer("");
+			setProgress((prevProgress) => prevProgress + 1);
 		} else {
 			setSoundEffect(incorrectSound);
 		}
 	};
 
-    useEffect(() => {
-        if (soundEffect) {
-            const audio = new Audio(soundEffect);
-            audio.play();
-        }
-        setSoundEffect(null);
-    }, [soundEffect]);
-
+	useEffect(() => {
+		if (soundEffect) {
+			const audio = new Audio(soundEffect);
+			audio.play();
+		}
+		setSoundEffect(null);
+	}, [soundEffect]);
 
 	useEffect(() => {
-		setCurrentExercise(initialExercises);
+		const shuffledExercises = JSON.parse(JSON.stringify(initialExercises)); // Deep copy
+		shuffledExercises.forEach((exercise: Exercise) => {
+			exercise.options = shuffleArray(exercise.options);
+		});
+		setCurrentExercise(shuffledExercises);
 	}, []);
 
-	if (!currentExercise[exerciseIndex]) {
-		return (
-			<div>
-				<h1>Listening Exercise</h1>
-				<p>No more exercises!</p>
-			</div>
-		);
-	}
-
+    // TODO: Add ability to set time limit
 	return (
-		<div className="w-full max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Match the Audio</h1>
-      <audio controls src={currentExercise[exerciseIndex].audio}>Your browser does not support the audio element.</audio>
-      <div className="mt-4">
-        {currentExercise[exerciseIndex].options.map((option, index) => (
-          <button
-            key={index}
-            className={`block w-full p-2 mb-2 text-left ${option === selectedAnswer ? 'bg-blue-200' : 'bg-white'} border border-gray-200 rounded`}
-            onClick={() => checkAnswer(option)}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    </div>
+		<Layout>
+			{!currentExercise[exerciseIndex] ? (
+				<div>
+					<h1>Listening Exercise</h1>
+					<p>No more exercises!</p>
+				</div>
+			) : (
+				<>
+					<div className="w-full max-w-md mx-auto">
+						<h1 className="text-2xl font-bold mb-4">Match the Audio</h1>
+						<audio controls src={currentExercise[exerciseIndex].audio}>
+							Your browser does not support the audio element.
+						</audio>
+						<div className="mt-4">
+							{currentExercise[exerciseIndex].options.map((option, index) => (
+								<button key={index} className={`block w-full p-2 mb-2 text-left ${option === selectedAnswer ? "bg-primary-200" : "bg-backgroundalt"} border border-gray-200 rounded`} onClick={() => checkAnswer(option)}>
+									{option}
+								</button>
+							))}
+						</div>
+						<div className="mt-4 py-2">
+							<div className="w-full bg-backgroundalt border border-gray-200 rounded">
+								<div className="h-2 bg-primary-600 rounded" style={{ width: `${(progress / currentExercise.length) * 100}%` }} />
+							</div>
+							<p className="my-2">
+								Progress: {progress} / {currentExercise.length}
+							</p>
+						</div>
+					</div>
+				</>
+			)}
+		</Layout>
 	);
 };
 
