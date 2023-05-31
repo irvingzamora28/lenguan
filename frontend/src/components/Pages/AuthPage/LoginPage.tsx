@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import loginImage from "../../../assets/images/login-image.jpg";
 import axios from "axios";
+import { useAppDispatch } from "../../../redux/hooks";
+import { loginRequest, loginSuccess, loginFailure } from '../../../redux/authSlice'; // import actions
 
 interface LoginData {
     email: string;
@@ -8,6 +10,7 @@ interface LoginData {
 }
 
 const LoginPage: React.FC = () => {
+    const dispatch = useAppDispatch(); // initialize dispatch
     const [loginData, setLoginData] = useState<LoginData>({
         email: "",
         password: "",
@@ -25,17 +28,21 @@ const LoginPage: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setErrorMessage("");
-
+        dispatch(loginRequest()); // dispatch login request
         try {
             await axios.get("/sanctum/csrf-cookie");
             const response = await axios.post("/api/login", loginData);
             // Save the token and handle successful login
             console.log(response.data);
+            dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
+
         } catch (error: any) {
             if (error.response) {
                 setErrorMessage(error.response.data.message);
+                dispatch(loginFailure(error.response.data.message));
             } else {
                 setErrorMessage("An error occurred. Please try again.");
+                dispatch(loginFailure("An error occurred. Please try again."));
             }
         }
     };

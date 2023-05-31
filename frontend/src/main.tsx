@@ -11,11 +11,14 @@ import LessonsPage from "./components/Pages/LessonsPage/LessonsPage";
 import LessonPage from "./components/Pages/LessonsPage/LessonPage";
 import ExercisesPage from "./components/Pages/LessonsPage/ExercisesPage";
 import ListeningExercise from "./components/Pages/LessonsPage/ListeningExercise";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import PrivateRoute from "./components/Utilities/PrivateRoute";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <DashboardPage />,
+		element: <PrivateRoute><DashboardPage /></PrivateRoute>,
 		errorElement: <NotFoundPage />,
 	},
 	{
@@ -50,6 +53,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </React.StrictMode>
 );
