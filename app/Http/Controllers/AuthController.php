@@ -37,7 +37,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // $user->sendEmailVerificationNotification();
 
         return response()->json(['message' => 'User registered successfully. Please check your email to verify your account.']);
     }
@@ -59,10 +58,6 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-
-        // if (!$user->hasVerifiedEmail()) {
-        //     return response()->json(['message' => 'Email not verified'], 403);
-        // }
 
         $token = $user->createToken($request->email)->plainTextToken;
 
