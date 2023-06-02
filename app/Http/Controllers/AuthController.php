@@ -48,7 +48,6 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'device_name' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -61,11 +60,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        if (!$user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email not verified'], 403);
-        }
+        // if (!$user->hasVerifiedEmail()) {
+        //     return response()->json(['message' => 'Email not verified'], 403);
+        // }
 
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->email)->plainTextToken;
 
         return response()->json(['token' => $token]);
     }
