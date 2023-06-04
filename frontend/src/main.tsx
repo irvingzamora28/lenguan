@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
 import LoginPage from "./components/Pages/AuthPage/LoginPage";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import RegisterPage from "./components/Pages/AuthPage/RegisterPage";
@@ -14,6 +14,7 @@ import ListeningExercise from "./components/Pages/LessonsPage/ListeningExercise"
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const router = createBrowserRouter([
 	{
@@ -52,9 +53,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
-);
+    <React.StrictMode>
+      <Provider store={store}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </Provider>
+    </React.StrictMode>
+  );
+
