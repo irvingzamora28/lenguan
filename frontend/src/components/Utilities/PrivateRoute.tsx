@@ -1,22 +1,17 @@
 import React, { ReactNode, useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import AuthContext from "../../contexts/AuthContext";
-// import { AuthContext } from "../../contexts/AuthContext";
+import { useIsAuthenticated } from "../../redux/hooks";
 
 interface PrivateRouteProps {
-    children: ReactNode;
-  }
+	children: ReactNode;
+}
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children}) => {
-  const { auth } = useContext(AuthContext);
-  const location = useLocation();
-    console.log(auth);
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+	const isAuthenticated = useIsAuthenticated();
+	const location = useLocation();
+	console.log(isAuthenticated);
 
-  return auth && Object.keys(auth).length !== 0 ? (
-    <>{children}</>
-  ) : (
-    <Navigate to="/login" state={{ from: location }} />
-  );
+	return isAuthenticated ? <>{children}</> : <Navigate to="/login" state={{ from: location }} />;
 };
 
 export default PrivateRoute;

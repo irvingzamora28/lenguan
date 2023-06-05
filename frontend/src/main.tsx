@@ -14,7 +14,6 @@ import ListeningExercise from "./components/Pages/LessonsPage/ListeningExercise"
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
-import { AuthProvider } from "./contexts/AuthContext";
 
 const router = createBrowserRouter([
 	{
@@ -55,9 +54,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
       <Provider store={store}>
-        <AuthProvider>
           <RouterProvider router={router} />
-        </AuthProvider>
       </Provider>
     </React.StrictMode>
   );

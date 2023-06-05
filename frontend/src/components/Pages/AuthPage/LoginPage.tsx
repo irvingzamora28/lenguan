@@ -4,8 +4,7 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { loginRequest, loginSuccess, loginFailure } from "../../../redux/authSlice"; // import actions
 import api from "../../../utils/api";
 import { refreshCsrfToken } from "../../../utils/csrf-token";
-// import { AuthContext } from "../../../contexts/AuthContext";
-import AuthContext from "../../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 interface LoginData {
 	email: string;
@@ -17,7 +16,6 @@ const LoginPage: React.FC = () => {
 	const [success, setSuccess] = useState(false);
 	// const { login } = useContext(AuthContext);
 	// console.log(login);
-	const { setAuth } = useContext(AuthContext);
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
 		password: "",
@@ -43,9 +41,6 @@ const LoginPage: React.FC = () => {
 			const response = await api.post("/api/login", loginData);
 			console.log(response);
 			const accessToken = response?.data?.token;
-			if (setAuth) {
-				setAuth({ accessToken });
-			}
 			setSuccess(true);
 			// await login(loginData.email, loginData.password);
 			// dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
@@ -79,7 +74,7 @@ const LoginPage: React.FC = () => {
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <Link to={"/"} >Go to Home</Link>
                     </p>
                 </section>
             ) : (
