@@ -43,7 +43,7 @@ const LoginPage: React.FC = () => {
 			const accessToken = response?.data?.token;
 			setSuccess(true);
 			// await login(loginData.email, loginData.password);
-			// dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
+			dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
 		} catch (error: any) {
 			console.log(`error`);
 			console.log(error);
