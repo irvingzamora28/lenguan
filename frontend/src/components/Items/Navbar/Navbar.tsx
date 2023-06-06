@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { FiMenu } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/authSlice";
 
 const Navbar: React.FC<{
 	asideOpen: boolean;
@@ -7,6 +9,12 @@ const Navbar: React.FC<{
 	profileOpen: boolean;
 	setProfileOpen: (open: boolean) => void;
 }> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
+    const dispatch = useDispatch();
+
+    const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
+        dispatch(logout());
+    }
+
 	return (
 		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2">
 			<div className="flex items-center space-x-2">
@@ -37,7 +45,7 @@ const Navbar: React.FC<{
 							</a>
 						</div>
 						<div className="p-2">
-							<button className="flex items-center space-x-2 transition hover:text-primary-600">
+							<button className="flex items-center space-x-2 transition hover:text-primary-600" onClick={handleLogout}>
 								<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
 								</svg>
