@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { loginRequest, loginSuccess, loginFailure } from "../../../redux/authSlice"; // import actions
 import api from "../../../utils/api";
 import { refreshCsrfToken } from "../../../utils/csrf-token";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginData {
 	email: string;
@@ -13,9 +13,7 @@ interface LoginData {
 
 const LoginPage: React.FC = () => {
 	const dispatch = useAppDispatch(); // initialize dispatch
-	const [success, setSuccess] = useState(false);
-	// const { login } = useContext(AuthContext);
-	// console.log(login);
+	const navigate = useNavigate();
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
 		password: "",
@@ -41,8 +39,7 @@ const LoginPage: React.FC = () => {
 			const response = await api.post("/api/login", loginData);
 			console.log(response);
 			const accessToken = response?.data?.token;
-			setSuccess(true);
-			// await login(loginData.email, loginData.password);
+			navigate("/");
 			dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
 		} catch (error: any) {
 			console.log(`error`);
@@ -67,17 +64,6 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<>
-        {
-            success ?
-            (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <Link to={"/"} >Go to Home</Link>
-                    </p>
-                </section>
-            ) : (
 			<div className="min-h-screen flex items-center justify-center bg-primary-100 py-12 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-md w-full space-y-8">
 					<div>
@@ -143,9 +129,6 @@ const LoginPage: React.FC = () => {
 					</form>
 				</div>
 			</div>
-
-            )
-        }
 		</>
 	);
 };
