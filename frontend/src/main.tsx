@@ -12,13 +12,18 @@ import LessonPage from "./components/Pages/LessonsPage/LessonPage";
 import ExercisesPage from "./components/Pages/LessonsPage/ExercisesPage";
 import ListeningExercise from "./components/Pages/LessonsPage/ListeningExercise";
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <PrivateRoute><DashboardPage /></PrivateRoute>,
+		element: (
+			<PrivateRoute>
+				<DashboardPage />
+			</PrivateRoute>
+		),
 		errorElement: <NotFoundPage />,
 	},
 	{
@@ -37,14 +42,14 @@ const router = createBrowserRouter([
 		path: "/lessons/:id",
 		element: <LessonPage />,
 	},
-    {
-        path: "/exercises",
-        element: <ExercisesPage />,
-    },
-    {
-        path: "/listening-exercise/:id",
-        element: <ListeningExercise />,
-    },
+	{
+		path: "/exercises",
+		element: <ExercisesPage />,
+	},
+	{
+		path: "/listening-exercise/:id",
+		element: <ListeningExercise />,
+	},
 	{
 		path: "/gender-duel",
 		element: <GenderDuelPage />,
@@ -52,10 +57,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
-      <Provider store={store}>
-          <RouterProvider router={router} />
-      </Provider>
-    </React.StrictMode>
-  );
-
+	<React.StrictMode>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<RouterProvider router={router} />
+			</PersistGate>
+		</Provider>
+	</React.StrictMode>
+);
