@@ -12,6 +12,14 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    include: ['./src/__tests__/**'],
+    exclude: ['./src/__tests__/setup.ts'],
+    setupFiles: './src/__tests__/setup.ts',
+    reporters: 'verbose'
+  },
   server: {
     host: 'localhost',
     port: 3000,

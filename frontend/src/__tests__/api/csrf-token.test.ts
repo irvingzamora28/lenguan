@@ -2,9 +2,10 @@
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import { getCsrfToken, refreshCsrfToken } from '../../utils/csrf-token';
+import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+vi.mock('axios');
+const mockedAxios = axios
 
 describe('getCsrfToken', () => {
   afterEach(() => {
@@ -32,7 +33,7 @@ describe('getCsrfToken', () => {
 
 describe('refreshCsrfToken', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     document.body.innerHTML = '';
     document.cookie = 'XSRF-TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   });
@@ -75,7 +76,7 @@ describe('refreshCsrfToken', () => {
     const error = new Error('Request failed');
     mockedAxios.get.mockRejectedValueOnce(error);
 
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     await refreshCsrfToken();
 
