@@ -4,6 +4,7 @@ import { User } from "../types";
 // TODO: Define user interface
 interface AuthState {
 	isAuthenticated: boolean;
+	isGuest: boolean; // add this
 	token: string | null;
 	user: User | null;
 	isLoading: boolean;
@@ -14,6 +15,7 @@ const initialState: AuthState = {
 	user: null,
 	token: null,
 	isAuthenticated: false,
+	isGuest: false,
 	isLoading: false,
 	error: null,
 };
@@ -26,8 +28,8 @@ export const authSlice = createSlice({
 			state.isAuthenticated = true;
 			state.token = action.payload.token;
 			state.user = action.payload.user;
-            state.isLoading = false;
-            state.error = null;
+			state.isLoading = false;
+			state.error = null;
 		},
 		loginRequest: (state) => {
 			state.isLoading = true;
@@ -40,11 +42,15 @@ export const authSlice = createSlice({
 		logout: (state) => {
 			state.isAuthenticated = false;
 			state.token = null;
+            state.isGuest = false;
 			state.user = null;
 		},
+        guestLogin: (state) => {
+            state.isGuest = true;
+        },
 	},
 });
 
-export const { loginSuccess, loginRequest, loginFailure, logout } = authSlice.actions;
+export const { loginSuccess, loginRequest, loginFailure, guestLogin, logout } = authSlice.actions;
 
 export default authSlice.reducer;
