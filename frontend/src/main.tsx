@@ -16,52 +16,31 @@ import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
 import { PersistGate } from "redux-persist/integration/react";
 
+const privateRoutes = [
+  { path: "/", element: <DashboardPage /> },
+  { path: "/lessons", element: <LessonsPage /> },
+  { path: "/lessons/:id", element: <LessonPage /> },
+  { path: "/exercises", element: <ExercisesPage /> },
+  { path: "/listening-exercise/:id", element: <ListeningExercise /> },
+  { path: "/gender-duel", element: <GenderDuelPage /> },
+];
+
+const publicRoutes = [
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
+];
+
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: (
-			<PrivateRoute>
-				<DashboardPage />
-			</PrivateRoute>
-		),
-		errorElement: <NotFoundPage />,
-	},
-	{
-		path: "/login",
-		element: <LoginPage />,
-	},
-	{
-		path: "/register",
-		element: <RegisterPage />,
-	},
-	{
-		path: "/lessons",
-		element: <LessonsPage />,
-	},
-	{
-		path: "/lessons/:id",
-		element: <LessonPage />,
-	},
-	{
-		path: "/exercises",
-		element: <ExercisesPage />,
-	},
-	{
-		path: "/listening-exercise/:id",
-		element: <ListeningExercise />,
-	},
-	{
-		path: "/gender-duel",
-		element: <GenderDuelPage />,
-	},
+  ...privateRoutes.map(route => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
+  ...publicRoutes,
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<RouterProvider router={router} />
-			</PersistGate>
-		</Provider>
-	</React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>
 );
