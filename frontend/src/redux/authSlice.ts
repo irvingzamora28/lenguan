@@ -45,12 +45,12 @@ export const authSlice = createSlice({
             state.isGuest = false;
 			state.user = null;
 		},
-        guestLogin: (state) => {
+        loginGuest: (state) => {
             state.isGuest = true;
         },
 	},
 });
 
-export const { loginSuccess, loginRequest, loginFailure, guestLogin, logout } = authSlice.actions;
+export const { loginSuccess, loginRequest, loginFailure, loginGuest, logout } = authSlice.actions;
 
 export default authSlice.reducer;

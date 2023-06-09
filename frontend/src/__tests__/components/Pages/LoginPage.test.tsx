@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "./../../../components/Pages/AuthPage/LoginPage";
 import { LoginService } from "./../../../services/LoginService";
-import { loginSuccess, loginRequest, loginFailure } from "./../../../redux/authSlice";
+import { loginSuccess, loginRequest, loginFailure, loginGuest } from "./../../../redux/authSlice";
 import { describe, it, beforeEach, vi } from "vitest";
 import { Provider } from "react-redux";
 import store from "./../../../redux/store";
@@ -71,6 +71,25 @@ describe("LoginPage", () => {
 			);
 		});
 	});
+
+    it("should set guest to true when 'Continue as Guest' button is clicked", async () => {
+        const mockDispatch = vi.spyOn(store, "dispatch");
+
+		const { getByLabelText, getByText } = render(
+			<Provider store={store}>
+				<BrowserRouter>
+					<LoginPage />
+				</BrowserRouter>
+			</Provider>
+		);
+        fireEvent.click(getByText('Continue as Guest'));
+        await waitFor(() => {
+			expect(mockDispatch).toHaveBeenCalledWith(loginGuest());
+            const newState = store.getState();
+	        expect(newState.auth.isGuest).toBe(true);
+		});
+
+    });
 
 	it("should display an error message for invalid login", async () => {
         const mockDispatch = vi.spyOn(store, "dispatch");

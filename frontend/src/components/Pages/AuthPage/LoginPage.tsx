@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import loginImage from "./../../../assets/images/login-image.jpg";
 import { useAppDispatch } from "../../../redux/hooks";
-import { loginRequest, loginSuccess, loginFailure, guestLogin } from "../../../redux/authSlice"; // import actions
+import { loginRequest, loginSuccess, loginFailure, loginGuest } from "../../../redux/authSlice"; // import actions
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./../../Items/Forms/LoginForm";
 import { LoginService } from "./../../../services/LoginService";
@@ -20,8 +20,8 @@ const LoginPage: React.FC = () => {
 	});
 	const [errorMessage, setErrorMessage] = useState<string[]>();
 
-	const handleGuestLogin = () => {
-		dispatch(guestLogin());
+	const handleLoginGuest = () => {
+		dispatch(loginGuest());
 		navigate("/");
 	};
 
@@ -69,7 +69,7 @@ const LoginPage: React.FC = () => {
 						<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
 					</div>
 					<LoginForm onSubmit={handleSubmit} onChange={handleChange} errorMessage={errorMessage} />
-					<button onClick={handleGuestLogin} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
+					<button onClick={handleLoginGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
 						Continue as Guest
 					</button>
 				</div>
