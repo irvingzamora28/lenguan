@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
 import { useUser } from "../../../redux/hooks";
 
-const Navbar: React.FC<{
+interface NavBarProps {
 	asideOpen: boolean;
 	setAsideOpen: (open: boolean) => void;
 	profileOpen: boolean;
 	setProfileOpen: (open: boolean) => void;
-}> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
-    const dispatch = useDispatch();
-    const user = useUser();
+}
 
-    const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
-        dispatch(logout());
-    }
+const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
+	const dispatch = useDispatch();
+	const user = useUser();
+	const profileMenuRef = useRef<HTMLDivElement>(null);
+
+	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
+		dispatch(logout());
+	};
+
+	const handleClickOutside = (event: MouseEvent) => {
+		if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+			if (!event.target || !(event.target as HTMLElement).closest(".profile-button")) {
+				setProfileOpen(false);
+			}
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2">
@@ -25,12 +43,12 @@ const Navbar: React.FC<{
 				</button>
 				<div>Logo</div>
 			</div>
-			<div>
-				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full">
+			<div className="z-10">
+				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button">
 					<img src="https://picsum.photos/45" alt="plchldr.co" />
 				</button>
 				{profileOpen && (
-					<div className="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
+					<div ref={profileMenuRef} className="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
 						<div className="flex items-center space-x-2 p-2">
 							<img src="https://picsum.photos/45" alt="plchldr.co" className="h-9 w-9 rounded-full" />
 							<div className="font-medium">{user?.name}</div>
