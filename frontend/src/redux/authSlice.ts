@@ -42,12 +42,13 @@ export const authSlice = createSlice({
 		logout: (state) => {
 			state.isAuthenticated = false;
 			state.token = null;
-            state.isGuest = false;
+			state.isGuest = false;
 			state.user = null;
 		},
-        loginGuest: (state) => {
-            state.isGuest = true;
-        },
+		loginGuest: (state, action: PayloadAction<{ user: User }>) => {
+			state.isGuest = true;
+			state.user = action.payload.user;
+		},
 	},
 });
 

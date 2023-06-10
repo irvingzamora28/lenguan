@@ -5,6 +5,7 @@ import { loginRequest, loginSuccess, loginFailure, loginGuest } from "../../../r
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./../../Items/Forms/LoginForm";
 import { LoginService } from "./../../../services/LoginService";
+import { generateGuestUser } from "../../../utils/userUtils";
 
 interface LoginData {
 	email: string;
@@ -21,7 +22,8 @@ const LoginPage: React.FC = () => {
 	const [errorMessage, setErrorMessage] = useState<string[]>();
 
 	const handleLoginGuest = () => {
-		dispatch(loginGuest());
+        const guestUser = generateGuestUser(); // Generate a random guest user
+        dispatch(loginGuest({user: guestUser}));
 		navigate("/");
 	};
 
