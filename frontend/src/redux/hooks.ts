@@ -13,3 +13,8 @@ export function useIsGuest() {
 	const isGuest = useAppSelector((state) => state.auth.isGuest);
 	return Boolean(isGuest);
 }
+
+export function useUser() {
+	const user = useAppSelector((state) => state.auth.user);
+	return user;
+}

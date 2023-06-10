@@ -2,6 +2,7 @@ import React from "react";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
+import { useUser } from "../../../redux/hooks";
 
 const Navbar: React.FC<{
 	asideOpen: boolean;
@@ -10,6 +11,7 @@ const Navbar: React.FC<{
 	setProfileOpen: (open: boolean) => void;
 }> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
     const dispatch = useDispatch();
+    const user = useUser();
 
     const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
         dispatch(logout());
@@ -31,7 +33,7 @@ const Navbar: React.FC<{
 					<div className="absolute right-2 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
 						<div className="flex items-center space-x-2 p-2">
 							<img src="https://picsum.photos/45" alt="plchldr.co" className="h-9 w-9 rounded-full" />
-							<div className="font-medium">Irving Zamora</div>
+							<div className="font-medium">{user?.name}</div>
 						</div>
 						<div className="flex flex-col space-y-3 p-2">
 							<a href="#" className="transition hover:text-primary-600">
