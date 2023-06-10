@@ -1,4 +1,4 @@
-import authReducer, { loginSuccess, loginFailure, logout, guestLogin } from './../../redux/authSlice';
+import authReducer, { loginSuccess, loginFailure, logout, loginGuest } from './../../redux/authSlice';
 import { User } from './../../types';
 
 describe('auth reducer', () => {
@@ -31,8 +31,8 @@ describe('auth reducer', () => {
     expect(actual.error).toEqual(dummyError);
   });
 
-  it('should handle guestLogin', () => {
-    const actual = authReducer(initialState, guestLogin());
+  it('should handle loginGuest', () => {
+    const actual = authReducer(initialState, loginGuest());
     expect(actual.isGuest).toEqual(true);
   });
 
