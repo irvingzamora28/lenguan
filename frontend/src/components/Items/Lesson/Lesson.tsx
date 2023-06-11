@@ -1,6 +1,6 @@
 import React from "react";
 import Markdown from "markdown-to-jsx";
-import TextToSpeechPlayer from "../../Items/Lesson/TextToSpeechPlayer";
+import TextToSpeechPlayer from "../Misc/TextToSpeechPlayer";
 
 interface LessonProps {
 	content: string;
