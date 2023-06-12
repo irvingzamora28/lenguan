@@ -6,21 +6,35 @@ import { loginSuccess, loginRequest, loginFailure, loginGuest } from "./../../..
 import { describe, it, beforeEach, vi } from "vitest";
 import { Provider } from "react-redux";
 import store from "./../../../redux/store";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
+import { generateGuestUser } from "../../../utils/userUtils";
+
+vi.mock("../../../utils/userUtils", () => ({
+	generateGuestUser: vi.fn(),
+}));
+
+const mockNavigate = vi.fn();
+vi.mock("react-router-dom", async () => {
+	const mod = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+	return {
+		...mod,
+		useNavigate: () => mockNavigate,
+	};
+});
 
 describe("LoginPage", () => {
+	const mockUser = { id: 123, name: "John Doe", email: "test@example.com" };
 	beforeEach(() => {
 		// Clear all mocks before each test
 		vi.clearAllMocks();
 
-         // Mock LoginService.login
-         LoginService.login = vi.fn().mockResolvedValue({
-            data: {
-                token: "mockAccessToken",
-                user: { id: 123, name: "John Doe", email: "test@example.com" },
-            },
-        });
-
+		// Mock LoginService.login
+		LoginService.login = vi.fn().mockResolvedValue({
+			data: {
+				token: "mockAccessToken",
+				user: mockUser,
+			},
+		});
 	});
 
 	it("should render the login form", () => {
@@ -54,26 +68,25 @@ describe("LoginPage", () => {
 		fireEvent.change(passwordInput, { target: { value: "password" } });
 		fireEvent.click(submitButton);
 
-
 		expect(LoginService.login).toHaveBeenCalledWith({
-            email: "test@example.com",
+			email: "test@example.com",
 			password: "password",
 		});
-
 
 		await waitFor(() => {
 			expect(mockDispatch).toHaveBeenCalledWith(loginRequest());
 			expect(mockDispatch).toHaveBeenCalledWith(
 				loginSuccess({
 					token: "mockAccessToken",
-					user: { id: 123, name: "John Doe", email: "test@example.com" },
+					user: mockUser,
 				})
 			);
+			expect(mockNavigate).toHaveBeenCalledWith("/");
 		});
 	});
 
-    it("should set guest to true when 'Continue as Guest' button is clicked", async () => {
-        const mockDispatch = vi.spyOn(store, "dispatch");
+	it("should handle guest login when 'Continue as Guest' is clicked", async () => {
+		const mockDispatch = vi.spyOn(store, "dispatch");
 
 		const { getByLabelText, getByText } = render(
 			<Provider store={store}>
@@ -82,51 +95,53 @@ describe("LoginPage", () => {
 				</BrowserRouter>
 			</Provider>
 		);
-        fireEvent.click(getByText('Continue as Guest'));
-        await waitFor(() => {
-			expect(mockDispatch).toHaveBeenCalledWith(loginGuest());
-            const newState = store.getState();
-	        expect(newState.auth.isGuest).toBe(true);
-		});
+		const submitButton = getByText("Continue as Guest");
+		(generateGuestUser as vi.Mock).mockReturnValue(mockUser);
 
-    });
+		fireEvent.click(submitButton);
+
+		await waitFor(() => {
+			expect(mockDispatch).toHaveBeenCalledWith(loginRequest());
+			expect(mockDispatch).toHaveBeenCalledWith(loginGuest({ user: mockUser }));
+			expect(mockNavigate).toHaveBeenCalledWith("/");
+		});
+	});
 
 	it("should display an error message for invalid login", async () => {
-        const mockDispatch = vi.spyOn(store, "dispatch");
+		const mockDispatch = vi.spyOn(store, "dispatch");
 
-        // Modify the mock for this test to simulate a failed login
-        LoginService.login = vi.fn().mockRejectedValue({
-            response: {
-                data: {
-                    message: "Invalid credentials",
-                },
-            },
-        });
+		// Modify the mock for this test to simulate a failed login
+		LoginService.login = vi.fn().mockRejectedValue({
+			response: {
+				data: {
+					message: "Invalid credentials",
+				},
+			},
+		});
 
-        const { getByLabelText, getByText, queryByText } = render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <LoginPage />
-                </BrowserRouter>
-            </Provider>
-        );
-        const emailInput = getByLabelText("Email address");
-        const passwordInput = getByLabelText("Password");
-        const submitButton = getByText("Sign in");
+		const { getByLabelText, getByText, queryByText } = render(
+			<Provider store={store}>
+				<BrowserRouter>
+					<LoginPage />
+				</BrowserRouter>
+			</Provider>
+		);
+		const emailInput = getByLabelText("Email address");
+		const passwordInput = getByLabelText("Password");
+		const submitButton = getByText("Sign in");
 
-        fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-        fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
-        fireEvent.click(submitButton);
+		fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+		fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
+		fireEvent.click(submitButton);
 
-        expect(LoginService.login).toHaveBeenCalledWith({
-            email: "test@example.com",
-            password: "wrongpassword",
-        });
+		expect(LoginService.login).toHaveBeenCalledWith({
+			email: "test@example.com",
+			password: "wrongpassword",
+		});
 
-        await waitFor(() => {
-            expect(mockDispatch).toHaveBeenCalledWith(loginFailure("Invalid credentials"));
-            expect(queryByText("Invalid credentials")).toBeInTheDocument();
-        });
-    });
-
+		await waitFor(() => {
+			expect(mockDispatch).toHaveBeenCalledWith(loginFailure("Invalid credentials"));
+			expect(queryByText("Invalid credentials")).toBeInTheDocument();
+		});
+	});
 });

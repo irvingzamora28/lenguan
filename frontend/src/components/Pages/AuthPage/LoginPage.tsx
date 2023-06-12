@@ -22,8 +22,9 @@ const LoginPage: React.FC = () => {
 	const [errorMessage, setErrorMessage] = useState<string[]>();
 
 	const handleLoginGuest = () => {
-        const guestUser = generateGuestUser(); // Generate a random guest user
-        dispatch(loginGuest({user: guestUser}));
+		const guestUser = generateGuestUser(); // Generate a random guest user
+		dispatch(loginRequest()); // Dispatch login request
+		dispatch(loginGuest({ user: guestUser }));
 		navigate("/");
 	};
 
