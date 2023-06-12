@@ -10,7 +10,7 @@ interface TextToSpeechPlayerProps {
 }
 
 const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayText = false, miniPlayer = false, mp3File = "" }) => {
-	const { isPlaying, currentTime, duration, playbackRate, setPlaybackRate, isRepeating, handlePlayPause, handleRepeat, handleAudioPlayerProgressBarClick } = useAudioPlayer({ text, mp3File });
+	const { isPlaying, isPaused, isRepeating, isRestarting, currentTime, duration, playbackRate, handleAudioPlayerProgressBarClick, handlePlayPause, handleRepeat, handleRestart, setPlaybackRate } = useAudioPlayer({ text, mp3File });
 
 	return (
 		<>
@@ -27,6 +27,7 @@ const TextToSpeechPlayer: React.FC<TextToSpeechPlayerProps> = ({ text, displayTe
 					isRepeating={isRepeating}
 					handlePlayPause={handlePlayPause}
 					handleRepeat={handleRepeat}
+					handleRestart={handleRestart}
 					handleAudioPlayerProgressBarClick={handleAudioPlayerProgressBarClick}
 				/>
 			)}
