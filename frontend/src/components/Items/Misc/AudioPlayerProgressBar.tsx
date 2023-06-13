@@ -1,10 +1,5 @@
 import { ChangeEvent } from "react";
-
-interface AudioPlayerProgressBarProps {
-	currentTime: number;
-	duration: number;
-	handleAudioPlayerProgressBarClick: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+import { AudioPlayerProgressBarProps } from "../../../types/props";
 
 const AudioPlayerProgressBar: React.FC<AudioPlayerProgressBarProps> = ({ currentTime, duration, handleAudioPlayerProgressBarClick }) => (
 	<div className="w-full md:w-auto">
