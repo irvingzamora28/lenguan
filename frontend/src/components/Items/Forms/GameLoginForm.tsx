@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 
 interface GameLoginFormProps {
 	handleLogin: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleEnterAsGuest: () => void;
 }
 
