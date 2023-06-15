@@ -67,6 +67,8 @@ const GenderDuelPage: React.FC = () => {
 	const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 	const usernameInput = useRef<HTMLInputElement>(null);
 	const passwordInput = useRef<HTMLInputElement>(null);
+	const [connectionError, setConnectionError] = useState(false);
+
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
 		password: "",
@@ -81,7 +83,7 @@ const GenderDuelPage: React.FC = () => {
 	useEffect(() => {
 		// Check if user is logged in
 		if (user !== null) {
-            setUsername(user.username ?? "guest")
+			setUsername(user.username ?? "guest");
 		}
 		return () => {};
 	}, []);
@@ -99,6 +101,29 @@ const GenderDuelPage: React.FC = () => {
 		}
 		setSoundEffect(null);
 	}, [soundEffect]);
+
+	useEffect(() => {
+		socket.on("connect_error", (err) => {
+			console.log("Connection Failed", err);
+			setConnectionError(true);
+		});
+
+		socket.on("connect_timeout", () => {
+			console.log("Connection Timeout");
+			setConnectionError(true);
+		});
+
+		socket.on("connect", () => {
+			console.log("Connected");
+			setConnectionError(false);
+		});
+
+		return () => {
+			socket.off("connect_error");
+			socket.off("connect_timeout");
+			socket.off("connect");
+		};
+	}, [socket]);
 
 	useEffect(() => {
 		socket.on("player-assignment", (assignedData: { playerNumber: number; connectedPlayers: number; maxPlayers: number }) => {
@@ -210,6 +235,7 @@ const GenderDuelPage: React.FC = () => {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
 			<ToastContainer />
+			{connectionError && <div className="alert">Sorry, we are having trouble connecting to the game server. Please try again later.</div>}
 			{gameStatus !== "playing" && <h1 className="gender_duel__title text-center">Gender Duel</h1>}
 			{playerNumber === 0 ? (
 				<p>Game is full. Please wait for an available slot.</p>
