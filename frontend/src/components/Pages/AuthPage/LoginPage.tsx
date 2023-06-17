@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
 	const dispatch = useAppDispatch(); // initialize dispatch
 	const navigate = useNavigate();
 	const location = useLocation();
+    const from = location.state?.from || "/";
 	let pageTitle = location.state?.pageTitle || ""; // Default title '' if 'pageTitle' is not defined.
 
 	const [loginData, setLoginData] = useState<LoginData>({
@@ -28,7 +29,7 @@ const LoginPage: React.FC = () => {
 		const guestUser = generateGuestUser(); // Generate a random guest user
 		dispatch(loginRequest()); // Dispatch login request
 		dispatch(loginGuest({ user: guestUser }));
-		navigate("/");
+        navigate(from);
 	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +48,7 @@ const LoginPage: React.FC = () => {
 		try {
 			const response = await LoginService.login(loginData);
 			const accessToken = response?.data?.token;
-			navigate("/");
+            navigate(from);
 			dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
 		} catch (error: any) {
 			if (error.response && error.response.data && error.response.data.message) {
@@ -76,7 +77,7 @@ const LoginPage: React.FC = () => {
 						<div className="max-w-md mx-auto">
 							<div>
 								<h1 className="text-2xl font-semibold text-gray-600 hidden md:flex">Lenguan</h1>
-								<h1 className="text-2xl font-semibold text-primary-500">{pageTitle}</h1>
+								<h1 className="text-5xl font-semibold text-primary-500">{pageTitle}</h1>
 							</div>
 							<div className="divide-y divide-gray-200">
 								<div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
