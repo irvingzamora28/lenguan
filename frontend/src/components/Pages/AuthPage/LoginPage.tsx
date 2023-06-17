@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import loginImage from "./../../../assets/images/login-image.jpg";
 import { useAppDispatch } from "../../../redux/hooks";
 import { loginRequest, loginSuccess, loginFailure, loginGuest } from "../../../redux/authSlice"; // import actions
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "./../../Items/Forms/LoginForm";
 import { LoginService } from "./../../../services/LoginService";
 import { generateGuestUser } from "../../../utils/userUtils";
@@ -15,6 +15,10 @@ interface LoginData {
 const LoginPage: React.FC = () => {
 	const dispatch = useAppDispatch(); // initialize dispatch
 	const navigate = useNavigate();
+	const location = useLocation();
+    const from = location.state?.from || "/";
+	let pageTitle = location.state?.pageTitle || ""; // Default title '' if 'pageTitle' is not defined.
+
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
 		password: "",
@@ -25,7 +29,7 @@ const LoginPage: React.FC = () => {
 		const guestUser = generateGuestUser(); // Generate a random guest user
 		dispatch(loginRequest()); // Dispatch login request
 		dispatch(loginGuest({ user: guestUser }));
-		navigate("/");
+        navigate(from);
 	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +48,7 @@ const LoginPage: React.FC = () => {
 		try {
 			const response = await LoginService.login(loginData);
 			const accessToken = response?.data?.token;
-			navigate("/");
+            navigate(from);
 			dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
 		} catch (error: any) {
 			if (error.response && error.response.data && error.response.data.message) {
@@ -65,16 +69,26 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<>
-			<div className="min-h-screen flex items-center justify-center bg-primary-100 py-12 px-4 sm:px-6 lg:px-8">
-				<div className="max-w-md w-full space-y-8">
-					<div>
-						<img className="mx-auto h-28 w-auto md:h-80" src={loginImage} alt="Login" />
-						<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+			<div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+				<h1 className="text-5xl md:hidden font-semibold text-gray-600 justify-center self-center mb-12">Lenguan</h1>
+				<div className="relative py-3 sm:max-w-xl sm:mx-auto">
+					<div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+					<div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+						<div className="max-w-md mx-auto">
+							<div>
+								<h1 className="text-2xl font-semibold text-gray-600 hidden md:flex">Lenguan</h1>
+								<h1 className="text-5xl font-semibold text-primary-500">{pageTitle}</h1>
+							</div>
+							<div className="divide-y divide-gray-200">
+								<div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+									<LoginForm onSubmit={handleSubmit} onChange={handleChange} errorMessage={errorMessage} />
+									<button onClick={handleLoginGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
+										Continue as Guest
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
-					<LoginForm onSubmit={handleSubmit} onChange={handleChange} errorMessage={errorMessage} />
-					<button onClick={handleLoginGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
-						Continue as Guest
-					</button>
 				</div>
 			</div>
 		</>
