@@ -1,5 +1,5 @@
 import { render, fireEvent, RenderResult } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import AudioPlayerProgressBar from './../../../../components/Items/Misc/AudioPlayerProgressBar';
 import { AudioPlayerProgressBarProps } from '../../../../types/props';
 

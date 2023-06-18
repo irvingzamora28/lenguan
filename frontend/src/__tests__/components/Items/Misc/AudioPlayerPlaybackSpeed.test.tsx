@@ -1,9 +1,9 @@
 import { render, fireEvent } from "@testing-library/react";
-import { describe, it, vi } from "vitest";
+import { describe, it, vi, Mock } from "vitest";
 import AudioPlayerPlaybackSpeed from "./../../../../components/Items/Misc/AudioPlayerPlaybackSpeed";
 
 describe("AudioPlayerPlaybackSpeed", () => {
-	let setPlaybackRate: vi.Mock;
+	let setPlaybackRate: Mock;
 	beforeEach(() => {
 		setPlaybackRate = vi.fn();
 	});

@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, vi } from "vitest";
+import { describe, it, beforeEach, vi, Mock } from "vitest";
 import { render } from "@testing-library/react";
 import FullAudioPlayer from "./../../../../components/Items/Misc/FullAudioPlayer";
 import AudioPlayerControls from "./../../../../components/Items/Misc/AudioPlayerControls";
@@ -10,11 +10,11 @@ vi.mock("./../../../../components/Items/Misc/AudioPlayerProgressBar");
 vi.mock("./../../../../components/Items/Misc/AudioPlayerPlaybackSpeed");
 
 describe("FullAudioPlayer", () => {
-	let mockHandlePlayPause: vi.Mock;
-	let mockHandleRepeat: vi.Mock;
-	let mockHandleRestart: vi.Mock;
-	let mockHandleAudioPlayerProgressBarClick: vi.Mock;
-	let mockSetPlaybackRate: vi.Mock;
+	let mockHandlePlayPause: Mock;
+	let mockHandleRepeat: Mock;
+	let mockHandleRestart: Mock;
+	let mockHandleAudioPlayerProgressBarClick: Mock;
+	let mockSetPlaybackRate: Mock;
 
 	beforeEach(() => {
 		mockHandlePlayPause = vi.fn();
@@ -22,9 +22,9 @@ describe("FullAudioPlayer", () => {
 		mockHandleRestart = vi.fn();
 		mockHandleAudioPlayerProgressBarClick = vi.fn();
 		mockSetPlaybackRate = vi.fn();
-        (AudioPlayerControls as vi.Mock).mockReturnValue(<div>AudioPlayerControls</div>);
-        (AudioPlayerProgressBar as vi.Mock).mockReturnValue(<div>AudioPlayerProgressBar</div>);
-        (AudioPlayerPlaybackSpeed as vi.Mock).mockReturnValue(<div>AudioPlayerPlaybackSpeed</div>);
+        (AudioPlayerControls as Mock).mockReturnValue(<div>AudioPlayerControls</div>);
+        (AudioPlayerProgressBar as Mock).mockReturnValue(<div>AudioPlayerProgressBar</div>);
+        (AudioPlayerPlaybackSpeed as Mock).mockReturnValue(<div>AudioPlayerPlaybackSpeed</div>);
 	});
 
 	afterEach(() => {
