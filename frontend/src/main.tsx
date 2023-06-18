@@ -15,6 +15,7 @@ import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
 import { PersistGate } from "redux-persist/integration/react";
+import PublicRoute from "./components/Utilities/PublicRoute";
 
 const privateRoutes = [
   { path: "/", element: <DashboardPage /> },
@@ -31,9 +32,10 @@ const publicRoutes = [
 ];
 
 const router = createBrowserRouter([
-  ...privateRoutes.map(route => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
-  ...publicRoutes,
-]);
+    ...privateRoutes.map(route => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
+    ...publicRoutes.map(route => ({ ...route, element: <PublicRoute>{route.element}</PublicRoute> })),
+  ]);
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
