@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import socket from "../../socket-server/socket";
 import correctSound from "./../assets/audio/correct-choice.mp3";
 import incorrectSound from "./../assets/audio/incorrect-choice.mp3";
@@ -6,6 +6,7 @@ import { Word, Players, Player } from "../types";
 
 const useGenderDuelSocket = (username: string | null | undefined) => {
     const [connectionError, setConnectionError] = useState(false);
+	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
     const [playerNumber, setPlayerNumber] = useState<number | null>(null);
     const [gameStatus, setGameStatus] = useState("waiting");
     const [word, setWord] = useState<Word | null>(null);
@@ -112,15 +113,24 @@ const useGenderDuelSocket = (username: string | null | undefined) => {
     }, [soundEffect]);
 
     const handleGenderClick = (gender: string) => {
-        if (word && word.gender === gender) {
-            socket.emit("correct-gender-clicked", gender);
-            setCorrectGender(gender);
-            setSoundEffect(correctSound);
-        } else {
-            setIncorrectGender(gender);
-            setSoundEffect(incorrectSound);
-        }
-    };
+		if (word && word.gender === gender) {
+			socket.emit("correct-gender-clicked", gender);
+			setCorrectGender(gender);
+			setSoundEffect(correctSound);
+
+			if ("speechSynthesis" in window) {
+				const utterance = new SpeechSynthesisUtterance(`${gender} ${word.word}`);
+				speechSynthesisRef.current = utterance;
+				utterance.lang = "de-DE";
+				utterance.rate = 0.8;
+				speechSynthesis.speak(utterance);
+			} else {
+			}
+		} else {
+			setIncorrectGender(gender);
+			setSoundEffect(incorrectSound);
+		}
+	};
 
     const resetAnimation = () => {
         setCorrectGender(null);

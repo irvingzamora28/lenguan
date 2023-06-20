@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import socket from "../../../../socket-server/socket";
 import "../../../assets/scss/components/GenderDuelPage.scss";
 import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GameLoginForm from "../../Items/Forms/GameLoginForm";
 import ButtonStart from "../../Items/Games/ButtonStart";
-import { Player } from "../../../types";
 import GenderDuelScoreBoard from "../../Items/Games/GenderDuel/GenderDuelScoreBoard";
 import GenderDuelGenderButtons from "../../Items/Games/GenderDuel/GenderDuelGenderButtons";
 import { useAppDispatch, useUser } from "../../../redux/hooks";
@@ -41,13 +39,9 @@ const GenderDuelPage: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const user = useUser();
 	const [username, setUsername] = useState<string | null>(null);
-	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
-	const [soundEffect, setSoundEffect] = useState<string | null>(null);
-	const [maxPlayers, setMaxPlayers] = useState<number | null>(null);
-	const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 	const usernameInput = useRef<HTMLInputElement>(null);
 	const passwordInput = useRef<HTMLInputElement>(null);
-	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(user?.username);
+	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username);
 
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
@@ -61,14 +55,6 @@ const GenderDuelPage: React.FC = () => {
 		}
 		return () => {};
 	}, []);
-
-	useEffect(() => {
-		if (soundEffect) {
-			const audio = new Audio(soundEffect);
-			audio.play();
-		}
-		setSoundEffect(null);
-	}, [soundEffect]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
