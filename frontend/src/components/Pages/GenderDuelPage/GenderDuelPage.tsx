@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "../../../assets/scss/components/GenderDuelPage.scss";
 import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,10 +7,9 @@ import GameLoginForm from "../../Items/Forms/GameLoginForm";
 import ButtonStart from "../../Items/Games/ButtonStart";
 import GenderDuelScoreBoard from "../../Items/Games/GenderDuel/GenderDuelScoreBoard";
 import GenderDuelGenderButtons from "../../Items/Games/GenderDuel/GenderDuelGenderButtons";
-import { useAppDispatch, useUser } from "../../../redux/hooks";
-import { loginFailure, loginRequest, loginSuccess } from "../../../redux/authSlice";
-import { LoginService } from "../../../services/LoginService";
 import useGenderDuelSocket from "../../../hooks/useGenderDuelSocket";
+import useUserLogin from "../../../hooks/useUserLogin";
+import useUserUsername from "../../../hooks/useUserUsername";
 
 const genders = [
 	{
@@ -30,66 +29,21 @@ const genders = [
 	},
 ];
 
-interface LoginData {
-	email: string;
-	password: string;
-}
-
 const GenderDuelPage: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const user = useUser();
-	const [username, setUsername] = useState<string | null>(null);
-	const usernameInput = useRef<HTMLInputElement>(null);
-	const passwordInput = useRef<HTMLInputElement>(null);
+	const { user, username, handleEnterAsGuest } = useUserUsername();
+	const { loginData, handleChange, handleLogin } = useUserLogin();
 	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username);
 
-	const [loginData, setLoginData] = useState<LoginData>({
-		email: "",
-		password: "",
-	});
-
-	useEffect(() => {
-		// Check if user is logged in
-		if (user !== null) {
-			setUsername(user.username ?? "guest");
-		}
-		return () => {};
-	}, []);
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		setLoginData((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
-
-	const handleLogin = async (event: React.FormEvent) => {
-		event.preventDefault();
-		const usernameValue = usernameInput.current?.value;
-		const passwordValue = passwordInput.current?.value;
-		if (usernameValue && usernameValue.trim() !== "" && passwordValue && passwordValue.trim() !== "") {
-			dispatch(loginRequest());
-			try {
-				const response = await LoginService.login(loginData);
-				const accessToken = response?.data?.token;
-				dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
-			} catch (error: any) {
-				if (error.response && error.response.data && error.response.data.message) {
-					dispatch(loginFailure(error.response.data.message));
-				} else {
-				}
-				dispatch(loginFailure("An error occurred. Please try again."));
+	const handleLoginWithToast = async (event: React.FormEvent) => {
+		try {
+			await handleLogin(event);
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message, {
+					position: toast.POSITION.TOP_CENTER,
+				});
 			}
-		} else {
-			toast.error("Please enter a valid username or join as a guest.", {
-				position: toast.POSITION.TOP_CENTER,
-			});
 		}
-	};
-
-	const handleEnterAsGuest = () => {
-		setUsername(`Guest_${Math.floor(Math.random() * 1000)}`);
 	};
 
 	return (
@@ -102,11 +56,10 @@ const GenderDuelPage: React.FC = () => {
 			) : (
 				<>
 					{user === null ? (
-						<GameLoginForm handleLogin={handleLogin} onChange={handleChange} handleEnterAsGuest={handleEnterAsGuest} />
+						<GameLoginForm handleLogin={handleLoginWithToast} onChange={handleChange} handleEnterAsGuest={handleEnterAsGuest} />
 					) : (
 						<ButtonStart playerNumber={playerNumber} username={user.username ?? ""} gameStatus={gameStatus} handleStartGame={handleStartGame} />
 					)}
-
 					{gameStatus === "playing" && word && (
 						<GenderDuelGenderButtons
 							appearing={appearing}
