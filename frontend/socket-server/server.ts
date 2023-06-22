@@ -66,17 +66,12 @@ const getRandomWord = () => {
     return words[randomIndex];
 };
 
-// GenderDuelWordService.fetchWords()
-//   .then(() => console.log('Words fetched successfully'))
-//   .catch((err: any) => console.log('Error fetching words:', err));
+GenderDuelWordService.fetchWords()
+  .then(() => console.log('Words fetched successfully'))
+  .catch((err: any) => console.log('Error fetching words:', err));
 
 const emitNewWord = async () => {
-	const newWord = getRandomWord();
-
-	const hello = GenderDuelWordService.hello();
-	console.log(hello);
-
-	// const newWord = GenderDuelWordService.getRandomWord();
+	const newWord = GenderDuelWordService.getRandomWord();
 	if (newWord) {
 		io.emit("new-word", newWord);
 		console.log(`New word emitted: ${newWord.word}`);
