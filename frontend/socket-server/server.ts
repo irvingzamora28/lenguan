@@ -1,6 +1,7 @@
 import express from 'express';
 import {Server as HttpServer} from 'http';
 import {Server as SocketIOServer, Socket as BaseSocket} from 'socket.io';
+import { GenderDuelWordService } from '../src/services/GenderDuelWordService.ts';
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
@@ -65,19 +66,30 @@ const getRandomWord = () => {
     return words[randomIndex];
 };
 
-const emitNewWord = () => {
-    const newWord = getRandomWord();
-    io.emit("new-word", newWord);
-    console.log(`New word emitted: ${
-        newWord.word
-    }`);
+// GenderDuelWordService.fetchWords()
+//   .then(() => console.log('Words fetched successfully'))
+//   .catch((err: any) => console.log('Error fetching words:', err));
 
-    clearInterval(intervalId);
-    intervalId = setInterval(() => {
-        if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-            emitNewWord();
-        }
-    }, 10000);
+const emitNewWord = async () => {
+	const newWord = getRandomWord();
+
+	const hello = GenderDuelWordService.hello();
+	console.log(hello);
+
+	// const newWord = GenderDuelWordService.getRandomWord();
+	if (newWord) {
+		io.emit("new-word", newWord);
+		console.log(`New word emitted: ${newWord.word}`);
+
+		clearInterval(intervalId);
+		intervalId = setInterval(() => {
+			if (Object.keys(gameState.players).length === MAX_PLAYERS) {
+				emitNewWord();
+			}
+		}, 10000);
+	} else {
+		console.log("No words available");
+	}
 };
 
 server.listen(3001, () => {
