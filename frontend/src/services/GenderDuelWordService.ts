@@ -11,9 +11,9 @@ interface Word {
 export class GenderDuelWordService {
 	private static words: Word[] = [];
 
-	public static async fetchWords(): Promise<void> {
+	public static async fetchWords(quantity: number): Promise<void> {
 		try {
-			const response = await api.get("/api/nouns");
+			const response = await api.get(`/api/nouns/gender-duel/${quantity}`);
 			const data: Word[] = await response.data;
 			GenderDuelWordService.words = data;
 		} catch (error) {

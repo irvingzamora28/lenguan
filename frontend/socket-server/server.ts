@@ -28,6 +28,7 @@ const io = new SocketIOServer(server, {
 });
 
 const MAX_PLAYERS = 2;
+const MAX_WORDS = 20;
 
 const gameState: GameState = {
     players: {}
@@ -61,12 +62,7 @@ const words = [
     },
 ];
 
-const getRandomWord = () => {
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
-};
-
-GenderDuelWordService.fetchWords()
+GenderDuelWordService.fetchWords(MAX_WORDS)
   .then(() => console.log('Words fetched successfully'))
   .catch((err: any) => console.log('Error fetching words:', err));
 
