@@ -16,9 +16,9 @@ class Noun extends Model
         return $this->belongsTo(Language::class);
     }
 
-    public function translation()
+    public function nounTranslations()
     {
-        return $this->belongsTo(Translation::class);
+        return $this->hasMany(NounTranslation::class);
     }
 
     public function gameRounds()

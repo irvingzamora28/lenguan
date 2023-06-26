@@ -32,9 +32,9 @@ class Language extends Model
         return $this->hasMany(Course::class, 'language_id', '_id');
     }
 
-    public function translations()
+    public function nounTranslations()
     {
-        return $this->hasMany(Translation::class);
+        return $this->hasMany(NounTranslation::class);
     }
 
     public function gameSessions()
