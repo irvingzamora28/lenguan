@@ -1,6 +1,7 @@
 import express from 'express';
 import {Server as HttpServer} from 'http';
 import {Server as SocketIOServer, Socket as BaseSocket} from 'socket.io';
+import { GenderDuelWordService } from '../src/services/GenderDuelWordService.ts';
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
@@ -27,6 +28,7 @@ const io = new SocketIOServer(server, {
 });
 
 const MAX_PLAYERS = 2;
+const MAX_WORDS = 20;
 
 const gameState: GameState = {
     players: {}
@@ -60,24 +62,21 @@ const words = [
     },
 ];
 
-const getRandomWord = () => {
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
-};
+const emitNewWord = async () => {
+	const newWord = GenderDuelWordService.getNextWord();
+	if (newWord) {
+		io.emit("new-word", newWord);
+		console.log(`New word emitted: ${newWord.word}`);
 
-const emitNewWord = () => {
-    const newWord = getRandomWord();
-    io.emit("new-word", newWord);
-    console.log(`New word emitted: ${
-        newWord.word
-    }`);
-
-    clearInterval(intervalId);
-    intervalId = setInterval(() => {
-        if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-            emitNewWord();
-        }
-    }, 10000);
+		clearInterval(intervalId);
+		intervalId = setInterval(() => {
+			if (Object.keys(gameState.players).length === MAX_PLAYERS) {
+				emitNewWord();
+			}
+		}, 10000);
+	} else {
+		console.log("No words available");
+	}
 };
 
 server.listen(3001, () => {
@@ -91,8 +90,14 @@ io.on('connection', (socket : GenderDuelSocket) => {
 
     socket.on("start-game", () => {
         if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-            io.emit("start-game");
-            emitNewWord();
+            GenderDuelWordService.fetchWords(MAX_WORDS)
+            .then(() => {
+                console.log('Words fetched successfully')
+                io.emit("start-game");
+                emitNewWord();
+            })
+            .catch((err: any) => console.log('Error fetching words:', err));
+
         }
     });
 

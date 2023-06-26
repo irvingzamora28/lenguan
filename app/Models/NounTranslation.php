@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Translation extends Model
+class NounTranslation extends Model
 {
     use HasFactory;
+    protected $connection = 'mongodb';
 
-    protected $fillable = ['language_id', 'translation', 'translation_noun_id'];
+    protected $collection = 'noun_translations';
+
+    protected $fillable = ['language_id', 'translation', 'noun_id'];
 
     public function language()
     {
@@ -18,6 +21,6 @@ class Translation extends Model
 
     public function noun()
     {
-        return $this->hasOne(Noun::class, 'translation_id');
+        return $this->belongsTo(Noun::class);
     }
 }
