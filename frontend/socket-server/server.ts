@@ -62,10 +62,6 @@ const words = [
     },
 ];
 
-GenderDuelWordService.fetchWords(MAX_WORDS)
-  .then(() => console.log('Words fetched successfully'))
-  .catch((err: any) => console.log('Error fetching words:', err));
-
 const emitNewWord = async () => {
 	const newWord = GenderDuelWordService.getNextWord();
 	if (newWord) {
@@ -94,8 +90,14 @@ io.on('connection', (socket : GenderDuelSocket) => {
 
     socket.on("start-game", () => {
         if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-            io.emit("start-game");
-            emitNewWord();
+            GenderDuelWordService.fetchWords(MAX_WORDS)
+            .then(() => {
+                console.log('Words fetched successfully')
+                io.emit("start-game");
+                emitNewWord();
+            })
+            .catch((err: any) => console.log('Error fetching words:', err));
+
         }
     });
 
