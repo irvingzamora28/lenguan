@@ -6,8 +6,6 @@ use App\Models\Category;
 use App\Models\Language;
 use App\Models\Noun;
 use App\Models\NounTranslation;
-use App\Models\Translation;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class NounSeeder extends Seeder
