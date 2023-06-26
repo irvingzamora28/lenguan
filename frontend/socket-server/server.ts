@@ -67,7 +67,7 @@ GenderDuelWordService.fetchWords(MAX_WORDS)
   .catch((err: any) => console.log('Error fetching words:', err));
 
 const emitNewWord = async () => {
-	const newWord = GenderDuelWordService.getRandomWord();
+	const newWord = GenderDuelWordService.getNextWord();
 	if (newWord) {
 		io.emit("new-word", newWord);
 		console.log(`New word emitted: ${newWord.word}`);
