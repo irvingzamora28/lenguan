@@ -2,24 +2,41 @@
 
 namespace App\Services;
 
+use App\Models\Language;
 use App\Models\Noun;
-use Illuminate\Support\Collection;
+use App\Models\NounTranslation;
+use Illuminate\Database\Eloquent\Collection;
+use Jenssegers\Mongodb\Collection as MongoDBCollection;
 
 class NounService implements NounServiceInterface
 {
-    public function getAllNouns() : Collection
+    public function getAllNouns(): Collection
     {
         return Noun::all();
     }
 
-    public function getGenderDuelWords(int $quantity) : Collection
+
+    public function getGenderDuelWords(int $quantity): Collection
     {
-        return Noun::raw(function ($collection) use ($quantity) {
+        // TODO: Get the user's language
+        $languageTranslation = Language::where('name', 'English')->firstOrFail();
+
+        $nouns = Noun::raw(function (MongoDBCollection $collection) use ($quantity) {
             return $collection->aggregate([
                 ['$match' => ['difficulty_level' => 1]],
                 ['$sample' => ['size' => $quantity]],
             ]);
         });
+
+        $nouns->each(function ($noun) use ($languageTranslation) {
+            $translation = NounTranslation::where('noun_id', $noun->_id)
+                ->where('language_id', $languageTranslation->id)
+                ->first();
+
+            $noun->translation = $translation ? $translation->translation : null;
+        });
+
+        return $nouns;
     }
 
     public function getNounById(string $id)
