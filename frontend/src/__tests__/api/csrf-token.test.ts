@@ -2,10 +2,10 @@
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import { getCsrfToken, refreshCsrfToken } from '../../utils/csrf-token';
-import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
+import { describe, it, beforeEach, afterEach, expect, vi, Mocked } from "vitest";
 
 vi.mock('axios');
-const mockedAxios = axios
+const mockedAxios = axios as Mocked<typeof axios>;
 
 describe('getCsrfToken', () => {
   afterEach(() => {

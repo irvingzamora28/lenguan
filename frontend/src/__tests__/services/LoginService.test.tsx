@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { LoginService } from './../../services/LoginService';
 import api from './../../utils/api';
 import { refreshCsrfToken } from './../../utils/csrf-token';
@@ -24,7 +24,7 @@ describe('LoginService', () => {
     });
 
     it('should call the API with the correct data when login is called', async () => {
-        (api.post as vi.Mock).mockResolvedValue(mockApiResponse);
+        (api.post as Mock).mockResolvedValue(mockApiResponse);
 
         await LoginService.login(mockLoginData);
 
@@ -32,7 +32,7 @@ describe('LoginService', () => {
     });
 
     it('should throw an error when the API request fails', async () => {
-        (api.post as vi.Mock).mockRejectedValue(new Error('API request failed'));
+        (api.post as Mock).mockRejectedValue(new Error('API request failed'));
 
         await expect(LoginService.login(mockLoginData)).rejects.toThrow('API request failed');
     });
@@ -44,7 +44,7 @@ describe('LoginService', () => {
     });
 
     it('should throw an error when refreshing the CSRF token fails', async () => {
-        (refreshCsrfToken as vi.Mock).mockRejectedValue(new Error('Refreshing CSRF token failed'));
+        (refreshCsrfToken as Mock).mockRejectedValue(new Error('Refreshing CSRF token failed'));
 
         await expect(LoginService.refreshToken()).rejects.toThrow('Refreshing CSRF token failed');
     });

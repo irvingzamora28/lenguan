@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { describe, it, beforeEach, vi } from "vitest";
+import { describe, it, beforeEach, vi, Mock } from "vitest";
 import TextToSpeechPlayer from "./../../../../components/Items/Misc/TextToSpeechPlayer";
 import useAudioPlayer from "../../../../hooks/useAudioPlayer";
 import MiniAudioPlayer from "./../../../../components/Items/Misc/MiniAudioPlayer";
@@ -11,7 +11,7 @@ vi.mock("./../../../../components/Items/Misc/FullAudioPlayer");
 
 describe("TextToSpeechPlayer", () => {
 	beforeEach(() => {
-		(useAudioPlayer as vi.Mock).mockReturnValue({
+		(useAudioPlayer as Mock).mockReturnValue({
 			isPlaying: true,
 			isPaused: false,
 			isRepeating: false,
@@ -37,13 +37,13 @@ describe("TextToSpeechPlayer", () => {
 	});
 
 	it("renders MiniAudioPlayer when miniPlayer prop is true", () => {
-		(MiniAudioPlayer as vi.Mock).mockReturnValue(<div>MiniAudioPlayer</div>);
+		(MiniAudioPlayer as Mock).mockReturnValue(<div>MiniAudioPlayer</div>);
 		render(<TextToSpeechPlayer text="Test text" miniPlayer={true} />);
 		expect(MiniAudioPlayer).toHaveBeenCalled();
 	});
 
 	it("renders FullAudioPlayer when miniPlayer prop is false", () => {
-		(FullAudioPlayer as vi.Mock).mockReturnValue(<div>FullAudioPlayer</div>);
+		(FullAudioPlayer as Mock).mockReturnValue(<div>FullAudioPlayer</div>);
 		render(<TextToSpeechPlayer text="Test text" miniPlayer={false} />);
 		expect(FullAudioPlayer).toHaveBeenCalled();
 	});

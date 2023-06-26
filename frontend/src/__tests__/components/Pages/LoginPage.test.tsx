@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "./../../../components/Pages/AuthPage/LoginPage";
 import { LoginService } from "./../../../services/LoginService";
 import { loginSuccess, loginRequest, loginFailure, loginGuest } from "./../../../redux/authSlice";
-import { describe, it, beforeEach, vi } from "vitest";
+import { describe, it, beforeEach, vi, Mock } from "vitest";
 import { Provider } from "react-redux";
 import store from "./../../../redux/store";
 import { BrowserRouter, useNavigate } from "react-router-dom";
@@ -96,7 +96,7 @@ describe("LoginPage", () => {
 			</Provider>
 		);
 		const submitButton = getByText("Continue as Guest");
-		(generateGuestUser as vi.Mock).mockReturnValue(mockUser);
+		(generateGuestUser as Mock).mockReturnValue(mockUser);
 
 		fireEvent.click(submitButton);
 

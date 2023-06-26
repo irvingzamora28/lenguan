@@ -8,7 +8,9 @@ export default defineConfig({
     manifest: true,
     outDir: 'public/assets',
     rollupOptions: {
-      input: 'resources/js/app.tsx',
+      input: {
+        main: resolve(__dirname, 'index.html'),
+      },
     },
   },
   plugins: [react()],

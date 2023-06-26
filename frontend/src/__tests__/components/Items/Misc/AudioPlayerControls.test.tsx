@@ -1,11 +1,11 @@
-import { describe, it, beforeEach, vi } from "vitest";
+import { describe, it, beforeEach, vi, Mock } from "vitest";
 import { render, fireEvent, screen } from "@testing-library/react";
 import AudioPlayerControls from "./../../../../components/Items/Misc/AudioPlayerControls";
 
 describe("AudioPlayerControls", () => {
-	let mockHandlePlayPause: vi.Mock;
-	let mockHandleRepeat: vi.Mock;
-	let mockHandleRestart: vi.Mock;
+	let mockHandlePlayPause: Mock;
+	let mockHandleRepeat: Mock;
+	let mockHandleRestart: Mock;
 
 	beforeEach(() => {
 		mockHandlePlayPause = vi.fn();
