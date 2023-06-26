@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { GenderDuelWordService } from "./../../services/GenderDuelWordService";
 import api from './../../utils/api';
 import { Word } from "../../types";
@@ -31,7 +31,7 @@ describe("GenderDuelWordService", () => {
   });
 
   it("fetches words from API", async () => {
-    (api.get as vi.Mock).mockResolvedValue(mockApiResponse);
+    (api.get as Mock).mockResolvedValue(mockApiResponse);
 
     await GenderDuelWordService.fetchWords(2);
 
@@ -41,7 +41,7 @@ describe("GenderDuelWordService", () => {
 
   it("gets next word in order", async () => {
     // Mock the fetchWords method to set words and reset currentIndex
-    (api.get as vi.Mock).mockResolvedValue(mockApiResponse);
+    (api.get as Mock).mockResolvedValue(mockApiResponse);
 
     await GenderDuelWordService.fetchWords(2);
 
@@ -55,7 +55,7 @@ describe("GenderDuelWordService", () => {
 
   it("gets random word", async () => {
     // Mock the fetchWords method to set words and reset currentIndex
-    (api.get as vi.Mock).mockResolvedValue(mockApiResponse);
+    (api.get as Mock).mockResolvedValue(mockApiResponse);
 
     await GenderDuelWordService.fetchWords(2);
 
