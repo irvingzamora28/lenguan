@@ -1,12 +1,5 @@
+import { Word } from "../types/player.ts";
 import api from "../utils/api.ts";
-
-interface Word {
-	word: string;
-	gender: string;
-	translation: string;
-	difficulty_level: number;
-	category: string;
-}
 
 export class GenderDuelWordService {
 	private static words: Word[] = [];
