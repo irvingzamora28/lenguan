@@ -18,10 +18,11 @@ class NounSeeder extends Seeder
 {
     $nouns = json_decode(file_get_contents(database_path('seeds/nouns_seed.json')), true);
     $language = Language::where('name', 'German')->firstOrFail();
+    $languageTranslation = Language::where('name', 'English')->firstOrFail();
 
     foreach ($nouns as $noun) {
         $translation = new Translation([
-            'language_id' => $language->id,
+            'language_id' => $languageTranslation->id,
             'translation' => $noun['translation']
         ]);
         $translation->save();
