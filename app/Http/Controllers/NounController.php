@@ -23,9 +23,12 @@ class NounController extends Controller
         return response()->json($nouns);
     }
 
-    public function genderDuelWords($quantity) : JsonResponse
+    public function genderDuelWords(Request $request) : JsonResponse
     {
-        $words = $this->nounService->getGenderDuelWords($quantity);
+        $quantity = $request->query('quantity', 20);
+        $difficultyLevel = $request->query('difficulty_level', 1);
+
+        $words = $this->nounService->getGenderDuelWords($quantity, $difficultyLevel);
         return response()->json($words);
     }
 

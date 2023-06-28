@@ -55,7 +55,7 @@ Route::group(['prefix' => 'goals'], function () {
 
 Route::group(['prefix' => 'nouns'], function () {
     Route::get('/', [NounController::class, 'index']);
-    Route::get('/gender-duel/{quantity}', [NounController::class, 'genderDuelWords']);
+    Route::get('/gender-duel', [NounController::class, 'genderDuelWords']);
     Route::get('/{noun}', [NounController::class, 'show']);
 });
 

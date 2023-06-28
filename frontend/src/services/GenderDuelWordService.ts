@@ -7,7 +7,7 @@ export class GenderDuelWordService {
 
 	public static async fetchWords(quantity: number): Promise<void> {
 		try {
-			const response = await api.get(`/api/nouns/gender-duel/${quantity}`);
+			const response = await api.get(`/api/nouns/gender-duel?quantity=${quantity}`);
 			const data: Word[] = await response.data;
 			GenderDuelWordService.words = data;
 			GenderDuelWordService.currentIndex = 0; // reset index when new words are fetched
