@@ -14,7 +14,7 @@ const SidebarMenu: React.FC = () => {
 				<span>Dashboard</span>
 			</a>
 
-			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
+			<a href="lessons" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
 				<span className="text-2xl">
 					<MdPlayLesson />
 				</span>
