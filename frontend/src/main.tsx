@@ -16,9 +16,11 @@ import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
 import { PersistGate } from "redux-persist/integration/react";
 import PublicRoute from "./components/Utilities/PublicRoute";
+import SelectLanguagePage from "./components/Pages/SelectLanguagePage";
 
 const privateRoutes = [
   { path: "/", element: <DashboardPage /> },
+  { path: "/select-language", element: <SelectLanguagePage /> },
   { path: "/lessons", element: <LessonsPage /> },
   { path: "/lessons/:id", element: <LessonPage /> },
   { path: "/exercises", element: <ExercisesPage /> },
