@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
-import { useUser } from "../../../redux/hooks";
+import { useSelectedLanguage, useUser } from "../../../redux/hooks";
+import { AiOutlineGlobal } from "react-icons/ai";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -15,6 +16,7 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 	const dispatch = useDispatch();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
+	const selectedLanguage = useSelectedLanguage();
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
 		dispatch(logout());
@@ -43,7 +45,13 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 				</button>
 				<div>Logo</div>
 			</div>
-			<div className="z-10">
+			<div className="z-10 flex items-center space-x-4">
+				{selectedLanguage && (
+					<div className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white">
+						<AiOutlineGlobal size={20} />
+						<span>{selectedLanguage.toUpperCase()}</span>
+					</div>
+				)}
 				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button">
 					<img src="https://picsum.photos/45" alt="plchldr.co" />
 				</button>
