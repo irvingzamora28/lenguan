@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FiMenu } from "react-icons/fi";
+import { FiChevronDown, FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
 import { useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { AiOutlineGlobal } from "react-icons/ai";
+import { setLanguage } from "../../../redux/languageSlice";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -12,11 +13,20 @@ interface NavBarProps {
 	setProfileOpen: (open: boolean) => void;
 }
 
+const languages = [
+	{ title: "English", code: "en" },
+	{ title: "German", code: "de" },
+	{ title: "French", code: "fr" },
+	{ title: "Spanish", code: "es" },
+	// Add more languages as needed
+];
+
 const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
 	const selectedLanguage = useSelectedLanguage();
+	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
 		dispatch(logout());
@@ -28,6 +38,14 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 				setProfileOpen(false);
 			}
 		}
+		if (!event.target || !(event.target as HTMLElement).closest(".language-button")) {
+			setLanguageMenuOpen(false);
+		}
+	};
+
+	const handleLanguageChange = (languageCode: string) => {
+		dispatch(setLanguage(languageCode));
+		setLanguageMenuOpen(false);
 	};
 
 	useEffect(() => {
@@ -47,9 +65,21 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 			</div>
 			<div className="z-10 flex items-center space-x-4">
 				{selectedLanguage && (
-					<div className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white">
-						<AiOutlineGlobal size={20} />
-						<span>{selectedLanguage.toUpperCase()}</span>
+					<div className="relative">
+						<div className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)}>
+							<AiOutlineGlobal size={20} />
+							<span>{selectedLanguage.toUpperCase()}</span>
+							<FiChevronDown size={12} />
+						</div>
+						{languageMenuOpen && (
+							<div className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
+								{languages.map((language, index) => (
+									<div key={index} className="flex items-center space-x-2 p-2 cursor-pointer transition hover:bg-gray-200" onClick={() => handleLanguageChange(language.code)}>
+										<span>{language.title}</span>
+									</div>
+								))}
+							</div>
+						)}
 					</div>
 				)}
 				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button">
@@ -75,7 +105,7 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 						<div className="p-2">
 							<button className="flex items-center space-x-2 transition hover:text-primary-600" onClick={handleLogout}>
 								<svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 013-3V7a3 3 0 013-3v1"></path>
 								</svg>
 								<div>Log Out</div>
 							</button>
