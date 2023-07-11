@@ -5,6 +5,7 @@ import { logout } from "../../../redux/authSlice";
 import { useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { setLanguage } from "../../../redux/languageSlice";
+import { languages } from "../../../shared/languages";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -12,14 +13,6 @@ interface NavBarProps {
 	profileOpen: boolean;
 	setProfileOpen: (open: boolean) => void;
 }
-
-const languages = [
-	{ title: "English", code: "en" },
-	{ title: "German", code: "de" },
-	{ title: "French", code: "fr" },
-	{ title: "Spanish", code: "es" },
-	// Add more languages as needed
-];
 
 const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();

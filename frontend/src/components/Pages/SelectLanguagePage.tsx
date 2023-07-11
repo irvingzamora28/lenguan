@@ -8,14 +8,7 @@ import { FaLanguage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "./../../assets/scss/components/SelectLanguagePage.scss";
 import 'react-toastify/dist/ReactToastify.css';
-
-const languages = [
-    { title: "English", code: "en" },
-    { title: "German", code: "de" },
-    { title: "French", code: "fr" },
-    { title: "Spanish", code: "es" },
-    // Add more languages as needed
-];
+import { languages } from "../../shared/languages";
 
 const SelectLanguagePage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
