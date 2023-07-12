@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface LanguageState {
-	selectedLanguage: string | null;
-	courseProgress: {
-		[courseId: string]: number; // Pretending progress is a percentage for now
-	};
-}
+import { LanguageState } from "../types/redux";
 
 const initialState: LanguageState = {
 	selectedLanguage: null,
