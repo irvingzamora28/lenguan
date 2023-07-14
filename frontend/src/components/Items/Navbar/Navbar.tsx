@@ -51,7 +51,7 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 	return (
 		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2">
 			<div className="flex items-center space-x-2">
-				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)}>
+				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
 				</button>
 				<div>Logo</div>
@@ -59,11 +59,11 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 			<div className="z-10 flex items-center space-x-4">
 				{selectedLanguage && (
 					<div className="relative">
-						<div className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)}>
+						<button className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)} aria-label="language">
 							<AiOutlineGlobal size={20} />
 							<span>{selectedLanguage.toUpperCase()}</span>
 							<FiChevronDown size={12} />
-						</div>
+						</button>
 						{languageMenuOpen && (
 							<div className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
 								{languages.map((language, index) => (
@@ -75,7 +75,7 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 						)}
 					</div>
 				)}
-				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button">
+				<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button" aria-label="profile">
 					<img src="https://picsum.photos/45" alt="plchldr.co" />
 				</button>
 				{profileOpen && (
