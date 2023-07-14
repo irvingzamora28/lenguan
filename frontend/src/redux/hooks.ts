@@ -18,3 +18,8 @@ export function useUser() {
 	const user = useAppSelector((state) => state.auth.user);
 	return user;
 }
+
+export function useSelectedLanguage() {
+	const selectedLanguage = useAppSelector((state) => state.language.selectedLanguage);
+	return selectedLanguage;
+}

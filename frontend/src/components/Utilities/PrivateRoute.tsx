@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useIsAuthenticated, useIsGuest } from "../../redux/hooks";
+import { useIsAuthenticated, useIsGuest, useSelectedLanguage } from "../../redux/hooks";
 import { routeTitles } from "./../../utils/routeLoginTitles";
 
 interface PrivateRouteProps {
@@ -10,17 +10,17 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 	const isAuthenticated = useIsAuthenticated();
 	const isGuest = useIsGuest();
+	const selectedLanguage = useSelectedLanguage();
 	const location = useLocation();
 
-    // Check if the user is authenticated or a guest
-	return isAuthenticated || isGuest ? (
-        <>{children}</>
-      ) : (
-        <Navigate
-          to="/login"
-          state={{ from: location, pageTitle: routeTitles[location.pathname] }}
-        />
-      );
+	if (isAuthenticated || isGuest) {
+		if (!selectedLanguage && location.state?.from?.pathname !== "/select-language") {
+			return <Navigate to="/select-language" state={{ from: location }} />;
+		}
+		return <>{children}</>;
+	} else {
+		return <Navigate to="/login" state={{ from: location, pageTitle: routeTitles[location.pathname] }} />;
+	}
 };
 
 export default PrivateRoute;
