@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LanguageState } from "../types/redux";
+import { Language } from "../types/language";
 
 const initialState: LanguageState = {
 	selectedLanguage: null,
+	languages: null,
 	courseProgress: {},
 };
 
@@ -16,9 +18,12 @@ export const languageSlice = createSlice({
 		setCourseProgress: (state, action: PayloadAction<{ courseId: string; progress: number }>) => {
 			state.courseProgress[action.payload.courseId] = action.payload.progress;
 		},
+		setLanguages: (state, action: PayloadAction<Language[]>) => {
+			state.languages = action.payload;
+		},
 	},
 });
 
-export const { setLanguage, setCourseProgress } = languageSlice.actions;
+export const { setLanguage, setCourseProgress, setLanguages } = languageSlice.actions;
 
 export default languageSlice.reducer;
