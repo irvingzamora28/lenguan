@@ -17,10 +17,10 @@ class LanguageSeeder extends Seeder
     public function run()
     {
         $languages = [
-            ['name' => 'English'],
-            ['name' => 'Spanish'],
-            ['name' => 'German'],
-            ['name' => 'French'],
+            ['name' => 'English', 'code' => 'en'],
+            ['name' => 'Spanish', 'code' => 'es'],
+            ['name' => 'German', 'code' => 'de'],
+            ['name' => 'French', 'code' => 'fr'],
         ];
 
         foreach ($languages as $language) {
