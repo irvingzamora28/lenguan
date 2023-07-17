@@ -19,20 +19,14 @@ const SelectLanguagePage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-    const fetchLang = async () => {
-        const lang = await LanguageService.fetchLanguages();
-        dispatch(setLanguages(lang));
-    }
+	const getLanguages = async () => {
+		await LanguageService.fetchLanguages(dispatch);
+	};
 
 	useEffect(() => {
-        console.log(`here`);
-        console.log(`languages`, languages);
-        console.log(languages?.length);
-
-		if (!languages || !Array.isArray(languages) || (Array.isArray(languages) && languages.length == 0)) {
-			console.log("languages are empty");
-            fetchLang();
-        }
+		if (!Array.isArray(languages) || languages.length === 0) {
+			getLanguages();
+		}
 		return () => {};
 	}, []);
 
@@ -55,7 +49,8 @@ const SelectLanguagePage: React.FC = () => {
 					<ToastContainer />
 					<h2 className="text-2xl font-bold mb-6">Select a language</h2>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-						{languages && Array.isArray(languages) &&
+						{languages &&
+							Array.isArray(languages) &&
 							languages.map((language, index) => (
 								<div
 									key={index}
