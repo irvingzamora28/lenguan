@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiChevronDown, FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
-import { useSelectedLanguage, useUser } from "../../../redux/hooks";
+import { useLanguages, useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { setLanguage } from "../../../redux/languageSlice";
-import { languages } from "../../../shared/languages";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -16,6 +15,7 @@ interface NavBarProps {
 
 const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();
+    const languages = useLanguages();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
 	const selectedLanguage = useSelectedLanguage();
@@ -66,9 +66,9 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 						</button>
 						{languageMenuOpen && (
 							<div className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
-								{languages.map((language, index) => (
+								{languages && languages.map((language, index) => (
 									<div key={index} className="flex items-center space-x-2 p-2 cursor-pointer transition hover:bg-gray-200" onClick={() => handleLanguageChange(language.code)}>
-										<span>{language.title}</span>
+										<span>{language.name}</span>
 									</div>
 								))}
 							</div>
