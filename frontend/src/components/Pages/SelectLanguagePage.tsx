@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "./../../assets/scss/components/SelectLanguagePage.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLanguages } from "../../redux/hooks";
-import { LanguageService } from "../../services/LanguageService";
+import { getLanguages } from "../../utils/languages";
 
 const SelectLanguagePage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
@@ -19,14 +19,8 @@ const SelectLanguagePage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!Array.isArray(languages) || languages.length === 0) {
-            (async () => {
-                await LanguageService.fetchLanguages(dispatch);
-            })
-        }
-        return () => {};
-    }, []);
+    // Fetch the languages available to select
+	getLanguages(languages, dispatch);
 
 	const selectLanguage = (languageCode: string) => {
 		setSelectedLanguage(languageCode);
