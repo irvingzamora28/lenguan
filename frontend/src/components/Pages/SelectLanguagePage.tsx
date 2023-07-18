@@ -19,16 +19,14 @@ const SelectLanguagePage: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const getLanguages = async () => {
-		await LanguageService.fetchLanguages(dispatch);
-	};
-
-	useEffect(() => {
-		if (!Array.isArray(languages) || languages.length === 0) {
-			getLanguages();
-		}
-		return () => {};
-	}, []);
+    useEffect(() => {
+        if (!Array.isArray(languages) || languages.length === 0) {
+            (async () => {
+                await LanguageService.fetchLanguages(dispatch);
+            })
+        }
+        return () => {};
+    }, []);
 
 	const selectLanguage = (languageCode: string) => {
 		setSelectedLanguage(languageCode);
