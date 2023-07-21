@@ -10,6 +10,7 @@ import GenderDuelGenderButtons from "../../Items/Games/GenderDuel/GenderDuelGend
 import useGenderDuelSocket from "../../../hooks/useGenderDuelSocket";
 import useUserLogin from "../../../hooks/useUserLogin";
 import useUserUsername from "../../../hooks/useUserUsername";
+import { useSelectedLanguage } from "../../../redux/hooks";
 
 const genders = [
 	{
@@ -32,6 +33,8 @@ const genders = [
 const GenderDuelPage: React.FC = () => {
 	const { user, username, handleEnterAsGuest } = useUserUsername();
 	const { loginData, handleChange, handleLogin } = useUserLogin();
+    const selectedLanguage = useSelectedLanguage();
+    console.log(`selectedLanguage: `, selectedLanguage);
 	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username);
 
 	const handleLoginWithToast = async (event: React.FormEvent) => {
