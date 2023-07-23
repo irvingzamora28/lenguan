@@ -12,8 +12,8 @@ export const languageSlice = createSlice({
 	name: "language",
 	initialState,
 	reducers: {
-		setLanguage: (state, action: PayloadAction<string>) => {
-			state.selectedLanguage = action.payload;
+		setLanguage: (state, action: PayloadAction<Language>) => {
+			state.selectedLanguage = { ...action.payload };
 		},
 		setCourseProgress: (state, action: PayloadAction<{ courseId: string; progress: number }>) => {
 			state.courseProgress[action.payload.courseId] = action.payload.progress;

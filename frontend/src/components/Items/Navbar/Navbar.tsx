@@ -5,6 +5,7 @@ import { logout } from "../../../redux/authSlice";
 import { useLanguages, useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { setLanguage } from "../../../redux/languageSlice";
+import { Language } from "../../../types/language";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -36,8 +37,8 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 		}
 	};
 
-	const handleLanguageChange = (languageCode: string) => {
-		dispatch(setLanguage(languageCode));
+	const handleLanguageChange = (language: Language) => {
+		dispatch(setLanguage(language));
 		setLanguageMenuOpen(false);
 	};
 
@@ -61,13 +62,13 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 					<div className="relative">
 						<button className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)} aria-label="language">
 							<AiOutlineGlobal size={20} />
-							<span>{selectedLanguage.toUpperCase()}</span>
+							<span>{selectedLanguage.code?.toUpperCase()}</span>
 							<FiChevronDown size={12} />
 						</button>
 						{languageMenuOpen && (
 							<div className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
 								{languages && languages.map((language, index) => (
-									<div key={index} className="flex items-center space-x-2 p-2 cursor-pointer transition hover:bg-gray-200" onClick={() => handleLanguageChange(language.code)}>
+									<div key={index} className="flex items-center space-x-2 p-2 cursor-pointer transition hover:bg-gray-200" onClick={() => handleLanguageChange(language)}>
 										<span>{language.name}</span>
 									</div>
 								))}

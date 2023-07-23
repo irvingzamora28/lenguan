@@ -10,6 +10,7 @@ import "./../../assets/scss/components/SelectLanguagePage.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useLanguages } from "../../redux/hooks";
 import { getLanguages } from "../../utils/languages";
+import { Language } from "../../types/language";
 
 const SelectLanguagePage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
@@ -22,9 +23,9 @@ const SelectLanguagePage: React.FC = () => {
     // Fetch the languages available to select
 	getLanguages(languages, dispatch);
 
-	const selectLanguage = (languageCode: string) => {
-		setSelectedLanguage(languageCode);
-		dispatch(setLanguage(languageCode));
+	const selectLanguage = (language: Language) => {
+		setSelectedLanguage(language.code);
+		dispatch(setLanguage(language));
 		toast.success("Language selected successfully!", {
 			position: toast.POSITION.TOP_CENTER,
 			autoClose: 3000,
@@ -49,7 +50,7 @@ const SelectLanguagePage: React.FC = () => {
 									className={`language-box bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer transition-colors duration-500 ease-in-out delay-300 hover:bg-primary-200 ${
 										selectedLanguage === language.code ? "bg-highlight" : ""
 									}`}
-									onClick={() => selectLanguage(language.code)}
+									onClick={() => selectLanguage(language)}
 								>
 									<div className="flex justify-center text-3xl">
 										<FaLanguage />
