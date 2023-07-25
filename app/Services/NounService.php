@@ -16,21 +16,18 @@ class NounService implements NounServiceInterface
     }
 
 
-    public function getGenderDuelWords(int $quantity, int $difficultyLevel): Collection
+    public function getGenderDuelWords(int $quantity, string $languageId, int $difficultyLevel = 1): Collection
     {
-        // TODO: Get the user's language
-        $languageTranslation = Language::where('name', 'English')->firstOrFail();
-
-        $nouns = Noun::raw(function (MongoDBCollection $collection) use ($quantity, $difficultyLevel) {
+        $nouns = Noun::raw(function (MongoDBCollection $collection) use ($quantity, $languageId, $difficultyLevel) {
             return $collection->aggregate([
-                ['$match' => ['difficulty_level' => $difficultyLevel]],
+                ['$match' => ['language_id' => $languageId, 'difficulty_level' => $difficultyLevel]],
                 ['$sample' => ['size' => $quantity]],
             ]);
         });
 
-        $nouns->each(function ($noun) use ($languageTranslation) {
+        $nouns->each(function ($noun) use ($languageId) {
             $translation = NounTranslation::where('noun_id', $noun->_id)
-                ->where('language_id', $languageTranslation->id)
+                ->where('language_id', $languageId)
                 ->first();
 
             $noun->translation = $translation ? $translation->translation : null;
@@ -38,6 +35,7 @@ class NounService implements NounServiceInterface
 
         return $nouns;
     }
+
 
     public function getNounById(string $id)
     {
