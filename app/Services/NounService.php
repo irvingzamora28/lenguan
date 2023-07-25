@@ -18,6 +18,9 @@ class NounService implements NounServiceInterface
 
     public function getGenderDuelWords(int $quantity, string $languageId, int $difficultyLevel = 1): Collection
     {
+        // This will throw a ModelNotFoundException if the language does not exist
+        Language::findOrFail($languageId);
+
         $nouns = Noun::raw(function (MongoDBCollection $collection) use ($quantity, $languageId, $difficultyLevel) {
             return $collection->aggregate([
                 ['$match' => ['language_id' => $languageId, 'difficulty_level' => $difficultyLevel]],
@@ -35,6 +38,7 @@ class NounService implements NounServiceInterface
 
         return $nouns;
     }
+
 
 
     public function getNounById(string $id)
