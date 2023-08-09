@@ -28,9 +28,13 @@ class NounService implements NounServiceInterface
             ]);
         });
 
-        $nouns->each(function ($noun) use ($languageId) {
+        // For now get the english translation as default
+        // TODO: Pass the language translation
+        $languageTranslation = Language::where('name', 'English')->firstOrFail();
+
+        $nouns->each(function ($noun) use ($languageTranslation) {
             $translation = NounTranslation::where('noun_id', $noun->_id)
-                ->where('language_id', $languageId)
+                ->where('language_id', $languageTranslation->id)
                 ->first();
 
             $noun->translation = $translation ? $translation->translation : null;
