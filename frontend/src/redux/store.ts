@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import authReducer from './authSlice';
 import languageReducer from './languageSlice';
+import courseReducer from './courseSlice';
 
 const persistConfig = {
   key: 'root',
@@ -11,11 +12,13 @@ const persistConfig = {
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 const persistedLanguageReducer = persistReducer(persistConfig, languageReducer);
+const persistedCourseReducer = persistReducer(persistConfig, courseReducer);
 
 const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
-    language: persistedLanguageReducer
+    language: persistedLanguageReducer,
+    course: persistedCourseReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

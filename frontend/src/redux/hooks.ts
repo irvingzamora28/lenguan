@@ -31,3 +31,16 @@ export function useLanguages() {
     console.log(`useLanguages`, languages);
 	return languages;
 }
+
+export function useSelectedCourse() {
+	const selectedCourse = useAppSelector((state) => state.course.selectedCourse);
+	return selectedCourse;
+}
+
+export function useCourses() {
+    console.log('useCourses');
+
+	const courses = useAppSelector((state) => state.course.courses);
+    console.log(`useCourses`, courses);
+	return courses;
+}

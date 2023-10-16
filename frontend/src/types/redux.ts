@@ -1,3 +1,4 @@
+import { Course } from "./course";
 import { Language } from "./language";
 
 export interface LanguageState {
@@ -6,4 +7,9 @@ export interface LanguageState {
 	courseProgress: {
 		[courseId: string]: number; // Pretending progress is a percentage for now
 	};
+}
+
+export interface CourseState {
+	selectedCourse: Course | null;
+    courses: Course[] | null;
 }
