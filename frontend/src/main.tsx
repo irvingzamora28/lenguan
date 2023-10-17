@@ -20,33 +20,33 @@ import SelectLanguagePage from "./components/Pages/SelectLanguagePage";
 import SelectCoursePage from "./components/Pages/SelectCoursePage";
 
 const privateRoutes = [
-  { path: "/", element: <DashboardPage /> },
-  { path: "/select-language", element: <SelectLanguagePage /> },
-  { path: "/select-course", element: <SelectCoursePage /> },
-  { path: "/lessons", element: <LessonsPage /> },
-  { path: "/lessons/:id", element: <LessonPage /> },
-  { path: "/exercises", element: <ExercisesPage /> },
-  { path: "/listening-exercise/:id", element: <ListeningExercise /> },
-  { path: "/gender-duel", element: <GenderDuelPage /> },
+	{ path: "/select-language", element: <SelectLanguagePage /> },
+	{ path: "/select-course", element: <SelectCoursePage /> },
+	{ path: "/", element: <DashboardPage /> },
+	{ path: "/lessons", element: <LessonsPage /> },
+	{ path: "/lessons/:id", element: <LessonPage /> },
+	{ path: "/exercises", element: <ExercisesPage /> },
+	{ path: "/listening-exercise/:id", element: <ListeningExercise /> },
+	{ path: "/gender-duel", element: <GenderDuelPage /> },
 ];
 
 const publicRoutes = [
-  { path: "/login", element: <LoginPage /> },
-  { path: "/register", element: <RegisterPage /> },
+	{ path: "/login", element: <LoginPage /> },
+	{ path: "/register", element: <RegisterPage /> },
 ];
 
 const router = createBrowserRouter([
-    ...privateRoutes.map(route => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
-    ...publicRoutes.map(route => ({ ...route, element: <PublicRoute>{route.element}</PublicRoute> })),
-  ]);
-
+	...privateRoutes.map((route) => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
+	...publicRoutes.map((route) => ({ ...route, element: <PublicRoute>{route.element}</PublicRoute> })),
+	{ path: "*", element: <NotFoundPage /> },
+]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RouterProvider router={router} />
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={persistor}>
+				<RouterProvider router={router} />
+			</PersistGate>
+		</Provider>
+	</React.StrictMode>
 );
