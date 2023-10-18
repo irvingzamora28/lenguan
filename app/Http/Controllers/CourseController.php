@@ -22,16 +22,30 @@ class CourseController extends Controller
 
     public function lessons($course_id)
     {
-        $course = Course::with('levels.lessons.goals')->findOrFail($course_id);
+        $course = Course::with(['levels.lessons' => function ($query) {
+            $query->with('goals')
+                ->select('_id', 'name', 'description', 'level_id');
+        }])->findOrFail($course_id);
 
-        $lessons = collect([]);
-        foreach ($course->levels as $level) {
-            foreach ($level->lessons as $lesson) {
+        $lessons = $course->levels->flatMap(function ($level) {
+            return $level->lessons->map(function ($lesson) use ($level) {
                 $lesson->level_name = $level->name;
-                $lesson->progress = 0;
-                $lessons->push($lesson);
-            }
-        }
+                return [
+                    '_id' => $lesson->_id,
+                    'name' => $lesson->name,
+                    'description' => $lesson->description,
+                    'level_id' => $lesson->level_id,
+                    'level_name' => $lesson->level_name,
+                    'goal_ids' => $lesson->goal_ids,
+                    'goals' => $lesson->goals->map(function ($goal) {
+                        return [
+                            '_id' => $goal->_id,
+                            'name' => $goal->name
+                        ];
+                    })->toArray()
+                ];
+            });
+        })->values();
 
         return response()->json($lessons);
     }
