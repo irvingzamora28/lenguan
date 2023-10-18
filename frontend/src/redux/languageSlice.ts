@@ -21,9 +21,12 @@ export const languageSlice = createSlice({
 		setLanguages: (state, action: PayloadAction<Language[]>) => {
 			state.languages = action.payload;
 		},
+		resetLanguageState: (state) => {
+			return initialState;
+		},
 	},
 });
 
-export const { setLanguage, setCourseProgress, setLanguages } = languageSlice.actions;
+export const { setLanguage, setCourseProgress, setLanguages, resetLanguageState } = languageSlice.actions;
 
 export default languageSlice.reducer;

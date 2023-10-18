@@ -14,12 +14,15 @@ export const courseSlice = createSlice({
 		setCourse: (state, action: PayloadAction<Course>) => {
 			state.selectedCourse = { ...action.payload };
 		},
-        setCourses: (state, action: PayloadAction<Course[]>) => {
+		setCourses: (state, action: PayloadAction<Course[]>) => {
 			state.courses = action.payload;
+		},
+		resetCourseState: (state) => {
+			return initialState;
 		},
 	},
 });
 
-export const { setCourse, setCourses } = courseSlice.actions;
+export const { setCourse, setCourses, resetCourseState } = courseSlice.actions;
 
 export default courseSlice.reducer;
