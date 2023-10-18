@@ -28,14 +28,14 @@ class LanguageSeeder extends Seeder
         }
 
         $language = Language::where('name', 'German')->first();
-        $course = [
+        $courseData = [
             'name'      => 'German for Beginners',
             'image'     => 'https://images.unsplash.com/photo-1527866959252-deab85ef7d1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
             'language_id' => $language->id,
             'description' => 'Learn German with bite-size lessons based on science.',
         ];
 
-        $course = Course::create($course);
+        $course = Course::create($courseData);
 
         $goals = [
             'Business Communication',
@@ -44,11 +44,10 @@ class LanguageSeeder extends Seeder
             'Cultural Exploration',
             'Other'
         ];
-        foreach ($goals as $goal) {
-            $goal = Goal::create(['name' => $goal]);
-            $goal->language()->associate($language);
-            $language->goals()->save($goal);
-            $language->courses()->save($course);
+
+        foreach ($goals as $goalName) {
+            $goal = new Goal(['name' => $goalName]);
+            $course->goals()->save($goal);
         }
     }
 }

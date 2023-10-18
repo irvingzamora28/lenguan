@@ -18,13 +18,13 @@ class Course extends Model
         'name', 'description', 'image', 'language_id',
     ];
 
-    public function language()
-    {
-        return $this->belongsTo(Language::class);
-    }
-
     public function levels(): BelongsToMany
     {
         return $this->belongsToMany(Level::class, null, 'course_ids', 'level_ids');
+    }
+
+    public function goals(): HasMany
+    {
+        return $this->hasMany(Goal::class);
     }
 }

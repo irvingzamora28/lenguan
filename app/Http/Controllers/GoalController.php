@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Goal;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,16 @@ class GoalController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($language_id)
+    public function index()
     {
-        $goals = Goal::where('language_id', $language_id)->get();
+        $goals = Goal::all();
+        return response()->json($goals);
+    }
+
+    public function goalsByLanguage($language_id)
+    {
+        $courseIdsForLanguage = Course::where('language_id', $language_id)->pluck('_id');
+        $goals = Goal::whereIn('course_id', $courseIdsForLanguage)->get();
 
         return response()->json($goals);
     }

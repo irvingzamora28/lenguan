@@ -10,7 +10,7 @@ interface Lesson {
 	name: string;
 	description: string;
 	progress: number;
-    goals: Goal[];
+	goals: Goal[];
 }
 
 interface Goal {
@@ -23,7 +23,7 @@ const LessonsPage: React.FC = () => {
 	const [filteredLessons, setFilteredLessons] = useState<Lesson[]>([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedFilter, setSelectedFilter] = useState("All");
-    const [goals, setGoals] = useState<string[]>([])
+	const [goals, setGoals] = useState<string[]>([]);
 
 	useEffect(() => {
 		let filtered = lessons;
@@ -50,7 +50,7 @@ const LessonsPage: React.FC = () => {
 	const fetchGoals = async () => {
 		const response = await api.get("/api/goals/645380bc118d5d794c0084fd");
 		console.log(response.data);
-        setGoals(response.data.map((goal: Goal): string => goal.name))
+		setGoals(response.data.map((goal: Goal): string => goal.name));
 	};
 
 	const fetchLessons = async () => {
@@ -74,7 +74,7 @@ const LessonsPage: React.FC = () => {
 						<Filter onFilterChange={handleFilterChange} filterOptions={goals} />
 					</div>
 					<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
-                        {/* TODO: Implement dark text */}
+						{/* TODO: Implement dark text */}
 						<label htmlFor="countries" className="block mb-2 text-sm font-medium text-title dark:text-gray-400">
 							Search:
 						</label>
@@ -87,7 +87,15 @@ const LessonsPage: React.FC = () => {
 					<h2 className="text-2xl font-bold mb-4 text-title">Lessons</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 						{filteredLessons.map((lesson) => (
-							<LessonCard key={lesson._id} _id={lesson._id} image={"https://picsum.photos/300/200"} name={lesson.name} description={lesson.description} progress={lesson.progress} goals={lesson.goals.map((goal: Goal): string => goal.name)} />
+							<LessonCard
+								key={lesson._id}
+								_id={lesson._id}
+								image={"https://picsum.photos/300/200"}
+								name={lesson.name}
+								description={lesson.description}
+								progress={lesson.progress}
+								goals={lesson.goals.map((goal: Goal): string => goal.name)}
+							/>
 						))}
 					</div>
 				</div>

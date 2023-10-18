@@ -31,9 +31,9 @@ Route::put('update-scores', [GameController::class, 'updateScores']);
 Route::group(['middleware' => ['csrf']], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-//     Route::post('/data', function (Request $request) {
-//         return "Hello world";
-//     });
+    //     Route::post('/data', function (Request $request) {
+    //         return "Hello world";
+    //     });
 });
 
 
@@ -50,7 +50,8 @@ Route::group(['prefix' => 'courses'], function () {
 });
 
 Route::group(['prefix' => 'goals'], function () {
-    Route::get('/{language_id}', [GoalController::class, 'index']);
+    Route::get('/', [GoalController::class, 'index']);
+    Route::get('/{language_id}', [GoalController::class, 'goalsByLanguage']);
 });
 
 Route::group(['prefix' => 'nouns'], function () {
