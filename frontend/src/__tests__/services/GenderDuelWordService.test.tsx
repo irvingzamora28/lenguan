@@ -36,7 +36,7 @@ describe("GenderDuelWordService", () => {
     await GenderDuelWordService.fetchWords(2);
 
     // Expect that the mocked API.get method was called with correct URL
-    expect(api.get).toHaveBeenCalledWith("/api/nouns/gender-duel/2");
+    expect(api.get).toHaveBeenCalledWith("/api/nouns/gender-duel?quantity=2");
   });
 
   it("gets next word in order", async () => {
