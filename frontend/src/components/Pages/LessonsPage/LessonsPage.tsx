@@ -1,43 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import LessonCard from "../../Items/Cards/LessonCard";
 import Filter from "../../Items/Forms/Filter";
 import Layout from "../../Layout/Layout";
-import api from "../../../utils/api";
-
-interface Lesson {
-	_id: string;
-	image: string;
-	name: string;
-	description: string;
-	progress: number;
-	goals: Goal[];
-}
-
-interface Goal {
-	_id: string;
-	name: string;
-}
+import { useSelectedCourse, useSelectedLanguage } from "../../../redux/hooks";
+import { Goal } from "../../../types/goal";
+import { useFilteredLessons } from "../../../hooks/filter/useFilteredLessons";
+import { useFetchLessons } from "../../../hooks/fetch/useFetchLessons";
+import { useFetchGoals } from "../../../hooks/fetch/useFetchGoals";
 
 const LessonsPage: React.FC = () => {
-	const [lessons, setLessons] = useState<Lesson[]>([]);
-	const [filteredLessons, setFilteredLessons] = useState<Lesson[]>([]);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedFilter, setSelectedFilter] = useState("All");
-	const [goals, setGoals] = useState<string[]>([]);
+	const selectedLanguage = useSelectedLanguage();
+	const selectedCourse = useSelectedCourse();
 
-	useEffect(() => {
-		let filtered = lessons;
+	const [lessons, lessonsError] = useFetchLessons(selectedCourse?._id);
+	const [goals, goalsError] = useFetchGoals(selectedLanguage?._id);
 
-		if (searchTerm) {
-			filtered = filtered.filter((lesson) => lesson.name.toLowerCase().includes(searchTerm.toLowerCase()));
-		}
-
-		if (selectedFilter !== "All") {
-			filtered = filtered.filter((lesson) => lesson.goals.map((goal: Goal): string => goal.name).includes(selectedFilter));
-		}
-
-		setFilteredLessons(filtered);
-	}, [searchTerm, selectedFilter, lessons]);
+	const [filteredLessons, setSearchTerm, setSelectedFilter, searchTerm] = useFilteredLessons(lessons, "", "All");
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(e.target.value);
@@ -46,25 +24,6 @@ const LessonsPage: React.FC = () => {
 	const handleFilterChange = (filterValue: string) => {
 		setSelectedFilter(filterValue);
 	};
-
-	const fetchGoals = async () => {
-		const response = await api.get("/api/goals/645380bc118d5d794c0084fd");
-		console.log(response.data);
-		setGoals(response.data.map((goal: Goal): string => goal.name));
-	};
-
-	const fetchLessons = async () => {
-		const response = await api.get("/api/courses/645380bc118d5d794c0084ff/lessons");
-		console.log(response.data);
-		console.log(response.data);
-
-		setLessons(response.data);
-	};
-
-	useEffect(() => {
-		fetchLessons();
-		fetchGoals();
-	}, []);
 
 	return (
 		<Layout>
