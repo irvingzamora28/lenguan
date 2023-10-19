@@ -10,9 +10,11 @@ export const useFetchLessons = (courseId?: string): [Lesson[], string | null] =>
 		const fetchData = async () => {
 			try {
 				const fetchedLessons = await CourseService.fetchLessons(courseId);
-				console.log("fetchedLessons", fetchedLessons);
-
-				setLessons(fetchedLessons);
+				if (!fetchedLessons.length) {
+					setError("Error fetching lessons. Please try again later.");
+				} else {
+					setLessons(fetchedLessons);
+				}
 			} catch (err) {
 				console.error("Error fetching lessons:", err);
 				setError("Error fetching lessons. Please try again later.");

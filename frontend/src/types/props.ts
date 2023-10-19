@@ -10,3 +10,7 @@ export interface AudioPlayerProgressBarProps {
 	duration: number;
 	handleAudioPlayerProgressBarClick: (event: ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface ErrorBannerProps {
+	message?: string | null;
+}

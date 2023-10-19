@@ -9,7 +9,11 @@ export const useFetchGoals = (languageId?: string): [string[], string | null] =>
 		const fetchData = async () => {
 			try {
 				const fetchedGoals = await GoalService.fetchGoals(languageId);
-				setGoals(fetchedGoals.map((goal) => goal.name));
+				if (!fetchedGoals.length) {
+					setError("Error fetching goals. Please try again later.");
+				} else {
+					setGoals(fetchedGoals.map((goal) => goal.name));
+				}
 			} catch (err) {
 				console.error("Error fetching goals:", err);
 				setError("Error fetching goals. Please try again later.");

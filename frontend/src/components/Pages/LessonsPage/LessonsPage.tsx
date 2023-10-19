@@ -7,6 +7,7 @@ import { Goal } from "../../../types/goal";
 import { useFilteredLessons } from "../../../hooks/filter/useFilteredLessons";
 import { useFetchLessons } from "../../../hooks/fetch/useFetchLessons";
 import { useFetchGoals } from "../../../hooks/fetch/useFetchGoals";
+import { ErrorBanner } from "../../Utilities/ErrorBanner";
 
 const LessonsPage: React.FC = () => {
 	const selectedLanguage = useSelectedLanguage();
@@ -28,6 +29,10 @@ const LessonsPage: React.FC = () => {
 	return (
 		<Layout>
 			<div className="grid grid-cols-1 gap-4">
+				{/* Display errors if they exist */}
+				{lessonsError && <ErrorBanner message={lessonsError} />}
+				{goalsError && <ErrorBanner message={goalsError} />}
+
 				<div className="flex flex-col md:flex-row justify-between">
 					<div className="p-4 self-end w-full md:w-1/2 lg:w-1/3">
 						<Filter onFilterChange={handleFilterChange} filterOptions={goals} />
