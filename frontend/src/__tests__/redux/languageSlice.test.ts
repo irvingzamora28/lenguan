@@ -1,23 +1,31 @@
+import { Language } from "../../types/language";
 import { LanguageState } from "../../types/redux";
 import { languageSlice } from "./../../redux/languageSlice";
 
-describe('languageSlice', () => {
-  let initialState: LanguageState;
+describe("languageSlice", () => {
+	let initialState: LanguageState;
 
-  beforeEach(() => {
-    initialState = {
-      selectedLanguage: null,
-      courseProgress: {},
-    };
-  });
+	beforeEach(() => {
+		initialState = {
+			languages: null,
+			selectedLanguage: null,
+			courseProgress: {},
+		};
+	});
 
-  it('should handle setLanguage', () => {
-    const actual = languageSlice.reducer(initialState, languageSlice.actions.setLanguage('fr'));
-    expect(actual.selectedLanguage).toEqual('fr');
-  });
+	it("should handle setLanguage", () => {
+		const mockLanguage: Language = {
+			_id: "some_id",
+			name: "French",
+			code: "fr",
+		};
 
-  it('should handle setCourseProgress', () => {
-    const actual = languageSlice.reducer(initialState, languageSlice.actions.setCourseProgress({ courseId: '1', progress: 70 }));
-    expect(actual.courseProgress['1']).toEqual(70);
-  });
+		const actual = languageSlice.reducer(initialState, languageSlice.actions.setLanguage(mockLanguage));
+		expect(actual.selectedLanguage).toEqual(mockLanguage);
+	});
+
+	it("should handle setCourseProgress", () => {
+		const actual = languageSlice.reducer(initialState, languageSlice.actions.setCourseProgress({ courseId: "1", progress: 70 }));
+		expect(actual.courseProgress["1"]).toEqual(70);
+	});
 });
