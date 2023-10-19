@@ -6,7 +6,6 @@ import authReducer from "../../../../redux/authSlice";
 import languageReducer from "../../../../redux/languageSlice";
 import Navbar from "../../../../components/Items/Navbar/Navbar";
 import { vi } from "vitest";
-import { languages } from "../../../../shared/languages";
 
 describe("Navbar", () => {
 	const mockProps = {
@@ -18,6 +17,13 @@ describe("Navbar", () => {
 
 	const mockUser = { id: 123, name: "John Doe", email: "test@example.com" };
 
+	const mockLanguageData = [
+		{ _id: "1", name: "English", code: "en" },
+		{ _id: "2", name: "Spanish", code: "es" },
+		{ _id: "3", name: "French", code: "fr" },
+		{ _id: "4", name: "German", code: "de" },
+	];
+
 	const mockPreloadedState = {
 		auth: {
 			user: mockUser,
@@ -28,7 +34,8 @@ describe("Navbar", () => {
 			error: null,
 		},
 		language: {
-			selectedLanguage: "EN",
+			selectedLanguage: mockLanguageData[3],
+			languages: mockLanguageData,
 			courseProgress: {},
 		},
 	};
@@ -48,7 +55,7 @@ describe("Navbar", () => {
 			</Provider>
 		);
 
-		expect(getByText(/EN/i)).toBeInTheDocument();
+		expect(getByText(new RegExp(mockPreloadedState.language.selectedLanguage.code, "i"))).toBeInTheDocument();
 	});
 
 	it("should toggle language menu", () => {
@@ -58,25 +65,25 @@ describe("Navbar", () => {
 			</Provider>
 		);
 
-		const languageButton = getByText(/EN/i);
+		const languageButton = getByText(new RegExp(mockPreloadedState.language.selectedLanguage.code, "i"));
 
-		languages.forEach(({ title }) => {
-			expect(queryByText(new RegExp(title, "i"))).not.toBeInTheDocument();
+		mockLanguageData.forEach(({ name }) => {
+			expect(queryByText(new RegExp(name, "i"))).not.toBeInTheDocument();
 		});
 
 		fireEvent.click(languageButton);
 
 		// All languages should now be visible
-		languages.forEach(({ title }) => {
-			expect(getByText(new RegExp(title, "i"))).toBeInTheDocument();
+		mockLanguageData.forEach(({ name }) => {
+			expect(getByText(new RegExp(name, "i"))).toBeInTheDocument();
 		});
 
 		// Simulate another click on the language button
 		fireEvent.click(languageButton);
 
 		// No language should be visible again
-		languages.forEach(({ title }) => {
-			expect(queryByText(new RegExp(title, "i"))).not.toBeInTheDocument();
+		mockLanguageData.forEach(({ name }) => {
+			expect(queryByText(new RegExp(name, "i"))).not.toBeInTheDocument();
 		});
 	});
 
@@ -136,11 +143,11 @@ describe("Navbar", () => {
 		const languageButton = getByRole("button", { name: /language/i });
 		fireEvent.click(languageButton);
 
-		const germanOption = getByText(/German/i);
+		const germanOption = getByText(new RegExp(mockPreloadedState.language.selectedLanguage.name, "i"));
 		fireEvent.click(germanOption);
 
 		// we need to get a fresh copy of the state
 		const freshState = mockStore.getState();
-		expect(freshState.language.selectedLanguage).toBe("de");
+		expect(freshState.language.selectedLanguage).toStrictEqual(mockPreloadedState.language.selectedLanguage);
 	});
 });
