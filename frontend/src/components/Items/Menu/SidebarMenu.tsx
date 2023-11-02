@@ -2,50 +2,52 @@ import React, { useState } from "react";
 import { MdPlayLesson, MdInsertChartOutlined, MdDashboard } from "react-icons/md";
 import { GiThorHammer } from "react-icons/gi";
 import { BsFillAwardFill } from "react-icons/bs";
+import "../../../assets/scss/components/SidebarMenu.scss";
 import SubMenu from "./SubMenu";
+import { NavLink } from "react-router-dom";
 
 const SidebarMenu: React.FC = () => {
 	return (
 		<aside className="sidebar absolute md:relative flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-full md:h-auto">
-			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
+			<NavLink to="/" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 				<span className="text-2xl">
 					<MdDashboard />
 				</span>
 				<span>Dashboard</span>
-			</a>
+			</NavLink>
 
-			<a href="lessons" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
+			<NavLink to="/lessons" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 				<span className="text-2xl">
 					<MdPlayLesson />
 				</span>
 				<span>Lessons</span>
-			</a>
+			</NavLink>
 
 			<SubMenu label="Battles and Challenges" icon={<GiThorHammer />}>
-				<a href="#" className="transition hover:text-primary-600 text-sm p-2">
+				<NavLink to="/challenge" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 					Challenge 1
-				</a>
-				<a href="#" className="transition hover:text-primary-600 text-sm p-2">
+				</NavLink>
+				<NavLink to="/challenge" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 					Challenge 2
-				</a>
-				<a href="#" className="transition hover:text-primary-600 text-sm p-2">
+				</NavLink>
+				<NavLink to="/challenge" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 					Challenge 3
-				</a>
+				</NavLink>
 			</SubMenu>
 
-			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
+			<NavLink to="/leaderboard" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 				<span className="text-2xl">
 					<MdInsertChartOutlined />
 				</span>
 				<span>Leaderboard</span>
-			</a>
+			</NavLink>
 
-			<a href="#" className="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-background hover:text-primary-600">
+			<NavLink to="/awards" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 				<span className="text-2xl">
 					<BsFillAwardFill />
 				</span>
 				<span>Awards</span>
-			</a>
+			</NavLink>
 		</aside>
 	);
 };
