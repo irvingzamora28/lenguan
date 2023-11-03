@@ -3,8 +3,9 @@ import socket from "../../socket-server/socket";
 import correctSound from "./../assets/audio/correct-choice.mp3";
 import incorrectSound from "./../assets/audio/incorrect-choice.mp3";
 import { Word, Players, Player } from "../types";
+import { Language } from "../types/language";
 
-const useGenderDuelSocket = (username: string | null | undefined) => {
+const useGenderDuelSocket = (username: string | null | undefined, selectedLanguage: Language | null) => {
     const [connectionError, setConnectionError] = useState(false);
 	const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
     const [playerNumber, setPlayerNumber] = useState<number | null>(null);
@@ -139,7 +140,7 @@ const useGenderDuelSocket = (username: string | null | undefined) => {
     };
 
     const handleStartGame = () => {
-        socket.emit("start-game");
+        socket.emit("start-game", {selectedLanguage: selectedLanguage});
     };
 
     return { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame };

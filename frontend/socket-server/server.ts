@@ -2,6 +2,7 @@ import express from 'express';
 import {Server as HttpServer} from 'http';
 import {Server as SocketIOServer, Socket as BaseSocket} from 'socket.io';
 import { GenderDuelWordService } from '../src/services/GenderDuelWordService.ts';
+import { Language } from '../src/types/language.ts';
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
@@ -17,6 +18,10 @@ interface GameState {
     players: {
         [id : string]: Player
     };
+}
+
+interface StartGamePayload {
+    selectedLanguage: Language;
 }
 
 const app = express();
@@ -88,9 +93,11 @@ io.on('connection', (socket : GenderDuelSocket) => {
         socket.id
     }`);
 
-    socket.on("start-game", () => {
+    socket.on("start-game", (data: StartGamePayload) => {
+        const selectedLanguage = data.selectedLanguage;
+
         if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-            GenderDuelWordService.fetchWords(MAX_WORDS)
+            GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
             .then(() => {
                 console.log('Words fetched successfully')
                 io.emit("start-game");

@@ -35,7 +35,7 @@ const GenderDuelPage: React.FC = () => {
 	const { loginData, handleChange, handleLogin } = useUserLogin();
     const selectedLanguage = useSelectedLanguage();
     console.log(`selectedLanguage: `, selectedLanguage);
-	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username);
+	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username, selectedLanguage);
 
 	const handleLoginWithToast = async (event: React.FormEvent) => {
 		try {
