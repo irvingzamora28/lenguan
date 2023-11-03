@@ -24,8 +24,8 @@ const SidebarMenu: React.FC = () => {
 			</NavLink>
 
 			<SubMenu label="Battles and Challenges" icon={<GiThorHammer />}>
-				<NavLink to="/challenge" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
-					Challenge 1
+				<NavLink to="/gender-duel" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
+					Gender Duel
 				</NavLink>
 				<NavLink to="/challenge" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 					Challenge 2
