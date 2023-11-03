@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 const SidebarMenu: React.FC = () => {
 	return (
-		<aside className="sidebar absolute md:relative flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-full md:h-auto">
+		<aside className="sidebar absolute min-h-screen md:relative flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-full md:h-auto">
 			<NavLink to="/" className={({ isActive }) => `sidebar__navlink ${ isActive ? 'sidebar__navlink--active' : 'sidebar__navlink--inactive' }` } >
 				<span className="text-2xl">
 					<MdDashboard />
