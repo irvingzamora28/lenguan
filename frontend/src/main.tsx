@@ -25,7 +25,13 @@ const privateRoutes = [
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/lessons", element: <LessonsPage /> },
 	{ path: "/lessons/:id", element: <LessonPage /> },
-	{ path: "/exercises", element: <ExercisesPage /> },
+	{
+        path: "/lessons/:id",
+        element: <ExercisesPage />,
+        children: [
+          { path: "exercises", element: <ExercisesPage /> },
+        ]
+      },
 	{ path: "/listening-exercise/:id", element: <ListeningExercise /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
 ];
@@ -36,7 +42,17 @@ const publicRoutes = [
 ];
 
 const router = createBrowserRouter([
-	...privateRoutes.map((route) => ({ ...route, element: <PrivateRoute>{route.element}</PrivateRoute> })),
+	...privateRoutes.map((route) => {
+        const { path, element, children } = route;
+        return {
+          path,
+          element: <PrivateRoute>{element}</PrivateRoute>,
+          children: children?.map((child) => ({
+            path: child.path,
+            element: <PrivateRoute>{child.element}</PrivateRoute>
+          })),
+        };
+      }),
 	...publicRoutes.map((route) => ({ ...route, element: <PublicRoute>{route.element}</PublicRoute> })),
 	{ path: "*", element: <NotFoundPage /> },
 ]);

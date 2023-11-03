@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { parseFrontmatter } from "../../../utils/parseFrontmatter";
 import { parseContent } from "../../../utils/parseContent";
 import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
@@ -43,10 +43,10 @@ const LessonPage: React.FC = () => {
 	}, [id]);
 
 	const activities = [
-		{ title: "Exercises", icon: <TbBarbell /> },
-		{ title: "Quizzes", icon: <MdOutlineQuiz /> },
-		{ title: "Vocabulary", icon: <TbVocabulary /> },
-		{ title: "Tips & Tricks", icon: <MdOutlineTipsAndUpdates /> },
+		{ title: "Exercises", icon: <TbBarbell />, link: `/lessons/${id}/exercises` },
+		{ title: "Quizzes", icon: <MdOutlineQuiz />, link: `/lessons/${id}/quizzes` },
+		{ title: "Vocabulary", icon: <TbVocabulary />, link: `/lessons/${id}/vocabulary` },
+		{ title: "Tips & Tricks", icon: <MdOutlineTipsAndUpdates />, link: `/lessons/${id}/tips-and-tricks` },
 	];
 
 	return (
@@ -59,10 +59,13 @@ const LessonPage: React.FC = () => {
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 						<div className="grid md:grid-flow-col grid-cols-2 md:grid-cols-4 col-span-4 lg:col-span-3 gap-4 mb-8">
 							{activities.map((activity, index) => (
-								<div key={index} className="bg-backgroundalt shadow-md rounded-lg p-4 text-center">
-									<div className="flex justify-center text-3xl">{activity.icon}</div>
-									<h3 className="text-xl font-bold">{activity.title}</h3>
-								</div>
+								// Wrap the container with a Link component
+								<Link key={index} to={activity.link} className="no-underline">
+									<div className="bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer">
+										<div className="flex justify-center text-3xl">{activity.icon}</div>
+										<h3 className="text-xl font-bold">{activity.title}</h3>
+									</div>
+								</Link>
 							))}
 						</div>
 					</div>
