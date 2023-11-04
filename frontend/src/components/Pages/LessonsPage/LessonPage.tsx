@@ -7,6 +7,7 @@ import { TbBarbell, TbVocabulary } from "react-icons/tb";
 import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
 import NotFoundPage from "../NotFoundPage";
+import FlashCardVocabulary from "../../Items/Lesson/FlashCardVocabulary";
 
 const LessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
@@ -76,10 +77,8 @@ const LessonPage: React.FC = () => {
 						</div>
 						<div className="bg-backgroundalt shadow-md rounded-lg p-4">
 							<h3 className="text-xl font-bold mb-4">Vocabulary</h3>
-							<ul>
-								{vocabulary?.map((word, index) => (
-									<li key={index}>{word}</li>
-								))}
+							<ul className="flex flex-wrap justify-center gap-4">
+								<FlashCardVocabulary word="Hallo" translation="Hello" exampleSentence="Hallo, wie geht's?" exampleTranslation="Hello, how are you?" />
 							</ul>
 						</div>
 					</div>
