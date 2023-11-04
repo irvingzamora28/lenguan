@@ -1,6 +1,7 @@
 import React from "react";
 import Markdown from "markdown-to-jsx";
 import TextToSpeechPlayer from "../Misc/TextToSpeechPlayer";
+import TipBox from "./TipBox";
 
 interface LessonProps {
 	content: string;
@@ -32,22 +33,22 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "pl-5 py-3 list-decimal",
 							},
 						},
-                        li: {
+						li: {
 							props: {
 								className: "pl-2 py-3",
 							},
 						},
-                        table: {
+						table: {
 							props: {
 								className: "table-auto w-full text-center",
 							},
 						},
-                        thead: {
+						thead: {
 							props: {
 								className: "border-b font-medium dark:border-neutral-500",
 							},
 						},
-                        tr: {
+						tr: {
 							props: {
 								className: "border-b dark:border-neutral-500",
 							},
@@ -57,9 +58,12 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "py-3",
 							},
 						},
-                        TextToSpeechPlayer: {
-                            component: TextToSpeechPlayer
-                        },
+						TextToSpeechPlayer: {
+							component: TextToSpeechPlayer,
+						},
+						TipBox: {
+							component: TipBox,
+						},
 						blockquote: {
 							props: {
 								className: "text-md italic font-normal text-gray-500 dark:text-white",
