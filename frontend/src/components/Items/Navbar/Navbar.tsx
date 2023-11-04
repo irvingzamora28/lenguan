@@ -53,7 +53,7 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 	}, []);
 
 	return (
-		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2">
+		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed">
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
