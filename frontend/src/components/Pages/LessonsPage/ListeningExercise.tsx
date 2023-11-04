@@ -11,52 +11,52 @@ interface Exercise {
 
 const initialExercises: Exercise[] = [
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Hallo.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Hallo.mp3",
 		correctAnswer: "Hallo",
 		options: ["Hallo", "Büro", "Hütte", "Ich"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Bitte.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Bitte.mp3",
 		correctAnswer: "Bitte",
 		options: ["Bitte", "Tür", "Hütte", "Ich"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Guten_Tag.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Guten_Tag.mp3",
 		correctAnswer: "Guten Tag",
 		options: ["Entschuldigung", "Guten Tag", "Hallo", "Wunderbar"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Wunderbar.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Wunderbar.mp3",
 		correctAnswer: "Wunderbar",
 		options: ["Wunderbar", "Entschuldigung", "Guten Tag", "grün"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Hütte.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Hütte.mp3",
 		correctAnswer: "Hütte",
 		options: ["Hütte", "Büro", "Tür", "Ich"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Büro.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Büro.mp3",
 		correctAnswer: "Büro",
 		options: ["Büro", "Tür", "Hallo", "Ich"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Tür.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Tür.mp3",
 		correctAnswer: "Tür",
 		options: ["Tür", "Büro", "Hütte", "Ich"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Entschuldigung.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Entschuldigung.mp3",
 		correctAnswer: "Entschuldigung",
 		options: ["Entschuldigung", "Wunderbar", "Guten Tag", "grün"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/Ich.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/Ich.mp3",
 		correctAnswer: "Ich",
 		options: ["Ich", "Hallo", "Hütte", "Büro"],
 	},
 	{
-		audio: "/src/assets/audio/exercises/german/lesson1/grün.mp3",
+		audio: "/src/assets/courses/german/_shared/exercises/lesson1/audio/grün.mp3",
 		correctAnswer: "grün",
 		options: ["grün", "Wunderbar", "Guten Tag", "Tür"],
 	},
