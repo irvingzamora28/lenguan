@@ -23,6 +23,11 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "py-3 text-xl md:text-2xl lg:text-3xl",
 							},
 						},
+						h3: {
+							props: {
+								className: "py-3 text-md md:text-md lg:text-2xl",
+							},
+						},
 						ul: {
 							props: {
 								className: "pl-5 py-3 list-disc",
