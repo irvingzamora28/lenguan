@@ -9,10 +9,20 @@ import Lesson from "../../Items/Lesson/Lesson";
 import NotFoundPage from "../NotFoundPage";
 import FlashCardVocabulary from "../../Items/Lesson/FlashCardVocabulary";
 
+type Gender = "fem" | "masc" | "neut";
+
+type VocabularyItem = {
+	word: string;
+	translation: string;
+	exampleSentence: string;
+	exampleTranslation: string;
+	gender?: Gender;
+};
+
 const LessonPage: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const [lessonContent, setLessonContent] = useState("");
-	const [vocabulary, setVocabulary] = useState<string[]>([]);
+	const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -78,7 +88,9 @@ const LessonPage: React.FC = () => {
 						<div className="bg-backgroundalt shadow-md rounded-lg p-4">
 							<h3 className="text-xl font-bold mb-4">Vocabulary</h3>
 							<ul className="flex flex-wrap justify-center gap-4">
-								<FlashCardVocabulary word="Hallo" translation="Hello" exampleSentence="Hallo, wie geht's?" exampleTranslation="Hello, how are you?" />
+								{vocabulary.map((item, index) => (
+									<FlashCardVocabulary key={index} word={item.word} translation={item.translation} exampleSentence={item.exampleSentence} exampleTranslation={item.exampleTranslation} gender={item.gender} />
+								))}
 							</ul>
 						</div>
 					</div>
