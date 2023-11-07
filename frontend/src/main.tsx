@@ -18,6 +18,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import PublicRoute from "./components/Utilities/PublicRoute";
 import SelectLanguagePage from "./components/Pages/SelectLanguagePage";
 import SelectCoursePage from "./components/Pages/SelectCoursePage";
+import TimedFlashcards from "./components/Pages/TimedFlashCardsPage/TimedFlashCardsPage";
 
 const privateRoutes = [
 	{ path: "/select-language", element: <SelectLanguagePage /> },
@@ -33,6 +34,7 @@ const privateRoutes = [
         ]
       },
 	{ path: "/listening-exercise/:id", element: <ListeningExercise /> },
+	{ path: "/timed-flashcards/:id", element: <TimedFlashcards /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
 ];
 
