@@ -43,7 +43,7 @@ const createCardPairs = (flashcards: CardData[]): MemoryCard[] => {
 const flashcardsData: CardData[] = [
 	{
 		word: "House",
-		translation: "Haus",
+		translation: "Das Haus",
 		emoji: "🏠",
 	},
 	{
@@ -138,6 +138,7 @@ const MemoryGame: React.FC = () => {
 	const [flippedCards, setFlippedCards] = useState<MemoryCard[]>([]);
 	const [matchedPairs, setMatchedPairs] = useState<string[]>([]);
 	const [score, setScore] = useState(0);
+	const [isChecking, setIsChecking] = useState(false);
 
 	// Initialize the game with shuffled cards
 	useEffect(() => {
@@ -147,6 +148,8 @@ const MemoryGame: React.FC = () => {
 	}, []);
 
 	const flipCard = (cardId: string) => {
+		if (isChecking) return; // Prevent flipping cards when checking for matches
+
 		// First, flip the card with the given cardId
 		const newCards = cards.map((card) => (card.id === cardId ? { ...card, isFlipped: true } : card));
 		setCards(newCards);
@@ -155,6 +158,8 @@ const MemoryGame: React.FC = () => {
 
 		// If we have already flipped one card, we need to check if we have a match
 		if (flippedCards.length === 1 && selectedCard) {
+			setIsChecking(true);
+
 			const [firstFlippedCard] = flippedCards;
 			// Check if the pairId matches, meaning we have found a pair
 			if (firstFlippedCard.pairId === selectedCard.pairId) {
@@ -162,12 +167,14 @@ const MemoryGame: React.FC = () => {
 				setMatchedPairs((prevMatchedPairs) => [...prevMatchedPairs, selectedCard.pairId]); // Add the pairId to the list of matched pairs
 				setFlippedCards([]); // Reset flipped cards
 				playSound(correctSound);
+				setIsChecking(false);
 			} else {
 				// If there is no match, flip both cards back over after a short delay
 				playSound(incorrectSound);
 				setTimeout(() => {
 					setCards((prevCards) => prevCards.map((card) => (card.pairId === firstFlippedCard.pairId || card.pairId === selectedCard.pairId ? { ...card, isFlipped: false } : card)));
 					setFlippedCards([]); // Reset flipped cards
+					setIsChecking(false);
 				}, 1000);
 			}
 		} else {
