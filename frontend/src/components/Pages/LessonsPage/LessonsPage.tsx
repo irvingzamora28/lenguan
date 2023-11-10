@@ -54,6 +54,7 @@ const LessonsPage: React.FC = () => {
 							<LessonCard
 								key={lesson._id}
 								_id={lesson._id}
+								lesson_number={lesson.lesson_number}
 								image={"https://picsum.photos/300/200"}
 								name={lesson.name}
 								description={lesson.description}

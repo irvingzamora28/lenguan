@@ -5,18 +5,19 @@ interface LessonCardProps {
 	_id: string;
 	image: string;
 	name: string;
+    lesson_number: number;
 	description: string;
 	progress: number;
 	goals: string[];
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, description, progress, goals }) => {
+const LessonCard: React.FC<LessonCardProps> = ({ _id, image, name, lesson_number, description, progress, goals }) => {
 	return (
 		<div className="flex flex-col h-full rounded-lg shadow-xl bg-white">
 			<img src={image} alt={name} className="w-full h-40 rounded-t-lg object-cover" />
 			<div className="flex flex-col justify-between flex-grow p-4">
 				<div>
-					<Link to={`/lessons/${_id}`} className="text-decoration-none">
+					<Link to={`/lessons/${lesson_number}`} className="text-decoration-none">
 						<h3 className="text-xl font-bold mb-2 text-title">{name}</h3>
 					</Link>
 					<p className="text-subtitle mb-4">{description}</p>

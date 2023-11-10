@@ -24,7 +24,7 @@ class CourseController extends Controller
     {
         $course = Course::with(['levels.lessons' => function ($query) {
             $query->with('goals')
-                ->select('_id', 'name', 'description', 'level_id');
+                ->select('_id', 'name', 'description', 'lesson_number', 'level_id');
         }])->findOrFail($course_id);
 
         $lessons = $course->levels->flatMap(function ($level) {
@@ -36,6 +36,7 @@ class CourseController extends Controller
                     'description' => $lesson->description,
                     'level_id' => $lesson->level_id,
                     'level_name' => $lesson->level_name,
+                    'lesson_number' => $lesson->lesson_number,
                     'goal_ids' => $lesson->goal_ids,
                     'goals' => $lesson->goals->map(function ($goal) {
                         return [
