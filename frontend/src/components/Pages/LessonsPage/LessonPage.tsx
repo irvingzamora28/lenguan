@@ -20,15 +20,41 @@ type VocabularyItem = {
 };
 
 const LessonPage: React.FC = () => {
-	const { id } = useParams<{ id: string }>();
-	const [lessonContent, setLessonContent] = useState("");
-	const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
-	const [error, setError] = useState<string | null>(null);
+	const { lesson_number } = useParams<{ lesson_number: string }>();
+    const currentLessonNumber = parseInt(lesson_number ? lesson_number : "0");
+    const [lessonContent, setLessonContent] = useState("");
+    const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [prevLessonExists, setPrevLessonExists] = useState(false);
+    const [nextLessonExists, setNextLessonExists] = useState(false);
+
+    // Function to check if a lesson exists
+    const checkLessonExistence = async (lessonNum: number) => {
+        try {
+            await import(`../../../lessons/german/lesson${lessonNum}.mdx`);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    // Function to check existence of adjacent lessons
+    const checkAdjacentLessons = async (currentLessonNumber: number) => {
+        const prevLesson = currentLessonNumber - 1;
+        const nextLesson = currentLessonNumber + 1;
+
+        const [prevExists, nextExists] = await Promise.all([
+            checkLessonExistence(prevLesson),
+            checkLessonExistence(nextLesson),
+        ]);
+
+        return { prevExists, nextExists };
+    };
 
 	useEffect(() => {
 		const fetchFileContent = async () => {
 			try {
-				const lessonModule = await import(`../../../lessons/german/lesson${id}.mdx`);
+				const lessonModule = await import(`../../../lessons/german/lesson${lesson_number}.mdx`);
 				const response = await fetch(lessonModule.default);
 				if (response.ok) {
 					const text = await response.text();
@@ -41,6 +67,10 @@ const LessonPage: React.FC = () => {
 					setLessonContent(content);
 					setVocabulary(metadata?.vocabulary || []);
 					setError(null);
+					 // Check for adjacent lessons
+                     const { prevExists, nextExists } = await checkAdjacentLessons(currentLessonNumber);
+                     setPrevLessonExists(prevExists);
+                     setNextLessonExists(nextExists);
 				} else {
 					setError(`There was an error getting the lesson content. Please try again later`);
 				}
@@ -51,13 +81,13 @@ const LessonPage: React.FC = () => {
 		};
 
 		fetchFileContent();
-	}, [id]);
+	}, [lesson_number]);
 
 	const activities = [
-		{ title: "Exercises", icon: <TbBarbell />, link: `/lessons/${id}/exercises` },
-		{ title: "Quizzes", icon: <MdOutlineQuiz />, link: `/lessons/${id}/quizzes` },
-		{ title: "Vocabulary", icon: <TbVocabulary />, link: `/lessons/${id}/vocabulary` },
-		{ title: "Tips & Tricks", icon: <MdOutlineTipsAndUpdates />, link: `/lessons/${id}/tips-and-tricks` },
+		{ title: "Exercises", icon: <TbBarbell />, link: `/lessons/${lesson_number}/exercises` },
+		{ title: "Quizzes", icon: <MdOutlineQuiz />, link: `/lessons/${lesson_number}/quizzes` },
+		{ title: "Vocabulary", icon: <TbVocabulary />, link: `/lessons/${lesson_number}/vocabulary` },
+		{ title: "Tips & Tricks", icon: <MdOutlineTipsAndUpdates />, link: `/lessons/${lesson_number}/tips-and-tricks` },
 	];
 
 	return (
@@ -66,7 +96,7 @@ const LessonPage: React.FC = () => {
 				<NotFoundPage />
 			) : (
 				<>
-					<h2 className="text-2xl font-bold mb-6">Lesson {id}</h2>
+					<h2 className="text-2xl font-bold mb-6">Lesson {lesson_number}</h2>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 						<div className="grid md:grid-flow-col grid-cols-2 md:grid-cols-4 col-span-4 lg:col-span-3 gap-4 mb-8">
 							{activities.map((activity, index) => (
@@ -93,6 +123,11 @@ const LessonPage: React.FC = () => {
 								))}
 							</ul>
 						</div>
+					</div>
+
+					<div className="navigation-links">
+						{prevLessonExists && <Link to={`/lessons/${currentLessonNumber - 1}`}>Previous Lesson</Link>}
+						{nextLessonExists && <Link to={`/lessons/${currentLessonNumber + 1}`}>Next Lesson</Link>}
 					</div>
 				</>
 			)}

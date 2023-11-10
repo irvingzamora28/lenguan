@@ -26,16 +26,16 @@ const privateRoutes = [
 	{ path: "/select-course", element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/lessons", element: <LessonsPage /> },
-	{ path: "/lessons/:id", element: <LessonPage /> },
+	{ path: "/lessons/:lesson_number", element: <LessonPage /> },
 	{
-        path: "/lessons/:id",
+        path: "/lessons/:lesson_number",
         element: <ExercisesPage />,
         children: [
           { path: "exercises", element: <ExercisesPage /> },
         ]
       },
-	{ path: "/listening-exercise/:id", element: <ListeningExercise /> },
-	{ path: "/timed-flashcards/:id", element: <TimedFlashcards /> },
+	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
+	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
 	{ path: "/memory-game", element: <MemoryGame /> },
 ];
