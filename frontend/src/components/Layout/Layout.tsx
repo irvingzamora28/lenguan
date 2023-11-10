@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       />
       <div className="flex">
         {asideOpen && <SidebarMenu />}
-        <div className="container mx-auto px-4 py-8 max-h-screen md:max-h-none overflow-y-auto">
+        <div className="container mx-auto px-4 py-16 max-h-screen md:max-h-none overflow-y-auto">
           {children}
         </div>
       </div>
