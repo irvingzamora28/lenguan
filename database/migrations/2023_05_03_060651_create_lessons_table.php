@@ -15,6 +15,7 @@ return new class extends Migration
             $collection->id();
             $collection->string('name');
             $collection->string('description');
+            $collection->smallInteger("lesson_number", false, true);
             $collection->foreignId('course_id')->constrained('courses');
             $collection->string('content');
             $collection->array('exercises');
