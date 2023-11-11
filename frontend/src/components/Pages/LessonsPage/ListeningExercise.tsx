@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
+import TextToSpeechPlayer from "../../Items/Misc/TextToSpeechPlayer";
 
 interface Exercise {
 	audio: string;
@@ -83,9 +84,11 @@ const ListeningExercise: React.FC = () => {
 
 		if (currentExercise[exerciseIndex] && selectedAnswer === currentExercise[exerciseIndex].correctAnswer) {
 			setSoundEffect(correctSound);
-			setExerciseIndex((prevIndex) => prevIndex + 1);
-			setSelectedAnswer("");
-			setProgress((prevProgress) => prevProgress + 1);
+            setTimeout(() => {
+                setExerciseIndex((prevIndex) => prevIndex + 1);
+                setSelectedAnswer("");
+                setProgress((prevProgress) => prevProgress + 1);
+			}, 1000); // wait for 1 second before playing the next audio
 		} else {
 			setSoundEffect(incorrectSound);
 		}
@@ -107,21 +110,11 @@ const ListeningExercise: React.FC = () => {
 		setCurrentExercise(shuffledExercises);
 	}, []);
 
-	useEffect(() => {
-		if (gameStarted && currentExercise[exerciseIndex]) {
-			const audioElement = document.getElementById("exercise-audio") as HTMLAudioElement;
-			setTimeout(() => {
-				audioElement.load();
-				audioElement.play();
-			}, 1000); // wait for 1 second before playing the next audio
-		}
-	}, [exerciseIndex, gameStarted, currentExercise]);
-
 	// TODO: Add ability to set time limit
 	return (
 		<Layout>
 			{!gameStarted ? (
-				<div className="flex">
+				<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 					<button
 						className="items-center mx-auto shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
 						onClick={() => setGameStarted(true)}
@@ -141,9 +134,7 @@ const ListeningExercise: React.FC = () => {
 						<>
 							<div className="w-full max-w-md mx-auto">
 								<h1 className="text-2xl font-bold mb-4">Match the Audio</h1>
-								<audio id="exercise-audio" controls src={currentExercise[exerciseIndex]?.audio}>
-									Your browser does not support the audio element.
-								</audio>
+                                <TextToSpeechPlayer autoplay mp3File={currentExercise[exerciseIndex]?.audio} ></TextToSpeechPlayer>
 								<div className="mt-4">
 									{currentExercise[exerciseIndex].options.map((option, index) => (
 										<button

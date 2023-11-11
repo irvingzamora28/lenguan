@@ -3,9 +3,10 @@ import { useState, useEffect, useRef } from "react";
 interface UseAudioPlayerProps {
 	text: string;
 	mp3File?: string;
+	autoplay: boolean;
 }
 
-const useAudioPlayer = ({ text, mp3File }: UseAudioPlayerProps) => {
+const useAudioPlayer = ({ text, mp3File, autoplay = false }: UseAudioPlayerProps) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [isPaused, setIsPaused] = useState(false);
 	const [isRepeating, setIsRepeating] = useState(false);
@@ -22,8 +23,11 @@ const useAudioPlayer = ({ text, mp3File }: UseAudioPlayerProps) => {
 	useEffect(() => {
 		if (mp3File?.endsWith(".mp3")) {
 			audioRef.current = new Audio(mp3File);
+            if (autoplay) {
+                handlePlay();
+            }
 		}
-	}, [mp3File]);
+	}, [mp3File, autoplay]);
 
 	useEffect(() => {
 		utteranceRef.current.text = text;
