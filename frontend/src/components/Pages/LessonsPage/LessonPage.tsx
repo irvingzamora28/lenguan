@@ -8,6 +8,7 @@ import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
 import NotFoundPage from "../NotFoundPage";
 import FlashCardVocabulary from "../../Items/Lesson/FlashCardVocabulary";
+import useScrollToTop from "../../../hooks/useScrollToTop";
 
 type Gender = "fem" | "masc" | "neut";
 
@@ -27,6 +28,7 @@ const LessonPage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [prevLessonExists, setPrevLessonExists] = useState(false);
 	const [nextLessonExists, setNextLessonExists] = useState(false);
+    useScrollToTop();
 
 	// Function to check if a lesson exists
 	const checkLessonExistence = async (lessonNum: number) => {
