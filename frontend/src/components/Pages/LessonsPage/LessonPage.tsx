@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { parseFrontmatter } from "../../../utils/parseFrontmatter";
 import { parseContent } from "../../../utils/parseContent";
-import { MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
+import { MdArrowBack, MdArrowForward, MdOutlineQuiz, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { TbBarbell, TbVocabulary } from "react-icons/tb";
 import Layout from "../../Layout/Layout";
 import Lesson from "../../Items/Lesson/Lesson";
@@ -21,35 +21,32 @@ type VocabularyItem = {
 
 const LessonPage: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
-    const currentLessonNumber = parseInt(lesson_number ? lesson_number : "0");
-    const [lessonContent, setLessonContent] = useState("");
-    const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [prevLessonExists, setPrevLessonExists] = useState(false);
-    const [nextLessonExists, setNextLessonExists] = useState(false);
+	const currentLessonNumber = parseInt(lesson_number ? lesson_number : "0");
+	const [lessonContent, setLessonContent] = useState("");
+	const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
+	const [error, setError] = useState<string | null>(null);
+	const [prevLessonExists, setPrevLessonExists] = useState(false);
+	const [nextLessonExists, setNextLessonExists] = useState(false);
 
-    // Function to check if a lesson exists
-    const checkLessonExistence = async (lessonNum: number) => {
-        try {
-            await import(`../../../lessons/german/lesson${lessonNum}.mdx`);
-            return true;
-        } catch (error) {
-            return false;
-        }
-    };
+	// Function to check if a lesson exists
+	const checkLessonExistence = async (lessonNum: number) => {
+		try {
+			await import(`../../../lessons/german/lesson${lessonNum}.mdx`);
+			return true;
+		} catch (error) {
+			return false;
+		}
+	};
 
-    // Function to check existence of adjacent lessons
-    const checkAdjacentLessons = async (currentLessonNumber: number) => {
-        const prevLesson = currentLessonNumber - 1;
-        const nextLesson = currentLessonNumber + 1;
+	// Function to check existence of adjacent lessons
+	const checkAdjacentLessons = async (currentLessonNumber: number) => {
+		const prevLesson = currentLessonNumber - 1;
+		const nextLesson = currentLessonNumber + 1;
 
-        const [prevExists, nextExists] = await Promise.all([
-            checkLessonExistence(prevLesson),
-            checkLessonExistence(nextLesson),
-        ]);
+		const [prevExists, nextExists] = await Promise.all([checkLessonExistence(prevLesson), checkLessonExistence(nextLesson)]);
 
-        return { prevExists, nextExists };
-    };
+		return { prevExists, nextExists };
+	};
 
 	useEffect(() => {
 		const fetchFileContent = async () => {
@@ -67,10 +64,10 @@ const LessonPage: React.FC = () => {
 					setLessonContent(content);
 					setVocabulary(metadata?.vocabulary || []);
 					setError(null);
-					 // Check for adjacent lessons
-                     const { prevExists, nextExists } = await checkAdjacentLessons(currentLessonNumber);
-                     setPrevLessonExists(prevExists);
-                     setNextLessonExists(nextExists);
+					// Check for adjacent lessons
+					const { prevExists, nextExists } = await checkAdjacentLessons(currentLessonNumber);
+					setPrevLessonExists(prevExists);
+					setNextLessonExists(nextExists);
 				} else {
 					setError(`There was an error getting the lesson content. Please try again later`);
 				}
@@ -125,9 +122,18 @@ const LessonPage: React.FC = () => {
 						</div>
 					</div>
 
-					<div className="navigation-links">
-						{prevLessonExists && <Link to={`/lessons/${currentLessonNumber - 1}`}>Previous Lesson</Link>}
-						{nextLessonExists && <Link to={`/lessons/${currentLessonNumber + 1}`}>Next Lesson</Link>}
+
+					<div className="flex justify-between items-center my-6">
+						{prevLessonExists && (
+						<Link to={`/lessons/${currentLessonNumber - 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+							<MdArrowBack className="mr-2" /> Previous Lesson
+						</Link>
+                            )}
+						{nextLessonExists && (
+							<Link to={`/lessons/${currentLessonNumber + 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+								Next Lesson <MdArrowForward className="ml-2" />
+							</Link>
+						)}
 					</div>
 				</>
 			)}
