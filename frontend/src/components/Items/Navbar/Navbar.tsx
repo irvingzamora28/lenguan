@@ -15,7 +15,7 @@ interface NavBarProps {
 	setProfileOpen: (open: boolean) => void;
 }
 
-const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
+const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();
 	const languages = useLanguages();
 	const user = useUser();
@@ -115,6 +115,6 @@ const Navbar: React.FC<NavBarProps> = ({ asideOpen, setAsideOpen, profileOpen, s
 			</div>
 		</header>
 	);
-};
+});
 
 export default Navbar;
