@@ -71,8 +71,25 @@ const shuffleArray = (array: any[]) => {
 	return array;
 };
 
-const ListeningExercise: React.FC = () => {
+interface ProgressBarProps {
+	progress: number;
+	total: number;
+}
 
+const ProgressBar: React.FC<ProgressBarProps> = ({ progress, total }) => {
+	const percentage = (progress / total) * 100;
+
+	return (
+		<div className="w-full bg-gray-200 rounded overflow-hidden relative">
+			<div className="bg-green-500 h-4 transition-width duration-500 ease-in-out" style={{ width: `${percentage}%` }}></div>
+			<div className="absolute w-full flex justify-center items-center h-4">
+				<span className="text-xs font-bold text-white">{`${progress}/${total}`}</span>
+			</div>
+		</div>
+	);
+};
+
+const ListeningExercise: React.FC = () => {
 	const [state, setState] = useState({
 		exerciseIndex: 0,
 		currentExercise: [] as Exercise[],
@@ -80,7 +97,7 @@ const ListeningExercise: React.FC = () => {
 		gameStarted: false,
 	});
 
-    const playSound = (soundEffect: string) => {
+	const playSound = (soundEffect: string) => {
 		const audio = new Audio(soundEffect);
 		audio.play();
 	};
@@ -123,8 +140,8 @@ const ListeningExercise: React.FC = () => {
 	// TODO: Add ability to set time limit
 	return (
 		<Layout>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 			{!gameStarted ? (
-				<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 					<button
 						className="items-center mx-auto shadow-box justify-center h-24 w-64 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
 						onClick={() => updateState({ gameStarted: true })}
@@ -132,7 +149,6 @@ const ListeningExercise: React.FC = () => {
 						<span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
 						<span className="relative gender_duel__text-shadow text-4xl font-bold">START</span>
 					</button>
-				</div>
 			) : (
 				<>
 					{!currentExercise[exerciseIndex] ? (
@@ -144,12 +160,14 @@ const ListeningExercise: React.FC = () => {
 						<>
 							<div className="w-full max-w-md mx-auto">
 								<h1 className="text-2xl font-bold mb-4">Match the Audio</h1>
-                                <TextToSpeechPlayer autoplay mp3File={currentExercise[exerciseIndex]?.audio} />
+								<TextToSpeechPlayer autoplay mp3File={currentExercise[exerciseIndex]?.audio} />
 								<div className="mt-4">
 									{currentExercise[exerciseIndex].options.map((option, index) => (
 										<button
 											key={index}
-											className={`block w-full p-2 mb-2 text-left ${option === selectedAnswer ? "bg-primary-200" : "bg-backgroundalt"} border border-gray-200 rounded`}
+											className={`block w-full p-3 mb-4 text-left text-lg font-medium rounded-lg border border-primary-600 shadow-md transition duration-300 ease-in-out ${
+												option === selectedAnswer ? "bg-primary-300 text-primary-800 hover:bg-primary-300" : "bg-primary-100 hover:bg-primary-300 text-slate-600 hover:text-slate-800"
+											} `}
 											onClick={checkAnswer(option)}
 										>
 											{option}
@@ -157,9 +175,7 @@ const ListeningExercise: React.FC = () => {
 									))}
 								</div>
 								<div className="mt-4 py-2">
-									<div className="w-full bg-backgroundalt border border-gray-200 rounded">
-										<div className="h-2 bg-primary-600 rounded" style={{ width: `${(progress / currentExercise.length) * 100}%` }} />
-									</div>
+									<ProgressBar progress={progress} total={currentExercise.length} />
 									<p className="my-2">
 										Progress: {progress} / {currentExercise.length}
 									</p>
@@ -170,6 +186,8 @@ const ListeningExercise: React.FC = () => {
 					{/* your existing code... */}
 				</>
 			)}
+				</div>
+
 		</Layout>
 	);
 };
