@@ -5,6 +5,7 @@ import AudioPlayerProgressBar from "./AudioPlayerProgressBar";
 import AudioPlayerPlaybackSpeed from "./AudioPlayerPlaybackSpeed";
 
 interface FullAudioPlayerProps extends AudioPlayerProps {
+	isPlaying: boolean;
 	currentTime: number;
 	duration: number;
 	playbackRate: number;
