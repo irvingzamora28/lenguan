@@ -31,6 +31,7 @@ const ScrambledWordsExercise: React.FC = () => {
 		availableLetters: [] as string[],
 		selectedLetters: [] as string[],
 		gameStarted: false,
+		showRetryOptions: false,
 		feedback: "",
 	});
 
@@ -78,6 +79,9 @@ const ScrambledWordsExercise: React.FC = () => {
 			} else {
 				// Handle the end of the word list scenario
 			}
+		} else if (selectedLettersRef.current.length === currentWord.original.length) {
+			playSound(incorrectSound);
+			updateState({ feedback: "Try again!", showRetryOptions: true });
 		} else {
 			playSound(incorrectSound);
 			updateState({ feedback: "Try again!" });
@@ -96,6 +100,32 @@ const ScrambledWordsExercise: React.FC = () => {
 			};
 		});
 	}, []);
+
+	const restartWord = useCallback(() => {
+		const currentWord = state.words[state.wordIndex];
+		updateState({
+			availableLetters: shuffleLetters(currentWord.original).split(""),
+			selectedLetters: [],
+			feedback: "",
+			showRetryOptions: false,
+		});
+	}, [state.wordIndex, state.words]);
+
+	const goToNextWord = useCallback(() => {
+		const nextWordIndex = state.wordIndex + 1;
+		const nextWord = state.words[nextWordIndex];
+		if (nextWord) {
+			updateState({
+				wordIndex: nextWordIndex,
+				availableLetters: shuffleLetters(nextWord.original).split(""),
+				selectedLetters: [],
+				feedback: "",
+				showRetryOptions: false,
+			});
+		} else {
+			// Handle the end of the word list scenario
+		}
+	}, [state.wordIndex, state.words]);
 
 	// Function to handle letter selection
 	const selectLetter = useCallback((letter: string, index: number) => {
@@ -174,6 +204,16 @@ const ScrambledWordsExercise: React.FC = () => {
 						</button>
 					))}
 				</div>
+				{state.showRetryOptions && (
+					<div className="flex justify-around w-full max-w-md my-4">
+						<button className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300" onClick={restartWord}>
+							Restart
+						</button>
+						<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300" onClick={goToNextWord}>
+							Next word
+						</button>
+					</div>
+				)}
 			</div>
 		);
 	};
