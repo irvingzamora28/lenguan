@@ -28,10 +28,12 @@ const ScrambledWordsExercise: React.FC = () => {
 	const [state, setState] = useState({
 		wordIndex: 0,
 		words: [] as Word[],
+		availableLetters: [] as string[],
 		selectedLetters: [] as string[],
 		gameStarted: false,
 		feedback: "",
 	});
+
 	const selectedLettersRef = useRef<string[]>([]);
 
 	useEffect(() => {
@@ -59,28 +61,54 @@ const ScrambledWordsExercise: React.FC = () => {
 	const checkWord = useCallback(() => {
 		const currentWord = state.words[state.wordIndex];
 		if (!currentWord) return; // Prevent execution if currentWord is undefined
-		console.log(state.words);
-		console.log(state.wordIndex);
+
 		const isCorrect = currentWord.original === selectedLettersRef.current.join("");
-		console.log(currentWord.original);
-		console.log(state.selectedLetters.join(""));
 
 		if (isCorrect) {
 			playSound(correctSound);
-			updateState({
-				wordIndex: state.wordIndex + 1,
-				selectedLetters: [],
-				feedback: "Good job!",
-			});
+			const nextWordIndex = state.wordIndex + 1;
+			const nextWord = state.words[nextWordIndex];
+			if (nextWord) {
+				updateState({
+					wordIndex: nextWordIndex,
+					availableLetters: shuffleLetters(nextWord.original).split(""),
+					selectedLetters: [],
+					feedback: "Good job!",
+				});
+			} else {
+				// Handle the end of the word list scenario
+			}
 		} else {
 			playSound(incorrectSound);
 			updateState({ feedback: "Try again!" });
 		}
 	}, [state.words, state.wordIndex, playSound]);
 
+	const returnLetter = useCallback((index: number) => {
+		setState((prevState) => {
+			const newSelectedLetters = [...prevState.selectedLetters];
+			const letter = newSelectedLetters.splice(index, 1)[0];
+
+			return {
+				...prevState,
+				selectedLetters: newSelectedLetters,
+				availableLetters: [...prevState.availableLetters, letter],
+			};
+		});
+	}, []);
+
 	// Function to handle letter selection
-	const selectLetter = useCallback((letter: string) => {
-		updateState({ selectedLetters: [...selectedLettersRef.current, letter] });
+	const selectLetter = useCallback((letter: string, index: number) => {
+		setState((prevState) => {
+			const newAvailableLetters = [...prevState.availableLetters];
+			newAvailableLetters.splice(index, 1);
+
+			return {
+				...prevState,
+				availableLetters: newAvailableLetters,
+				selectedLetters: [...prevState.selectedLetters, letter],
+			};
+		});
 	}, []);
 
 	useEffect(() => {
@@ -90,13 +118,15 @@ const ScrambledWordsExercise: React.FC = () => {
 	}, [state.selectedLetters, state.words, state.wordIndex, checkWord]);
 
 	useEffect(() => {
-		// Load words and shuffle them
 		const loadedWords = sampleWords as Word[];
 		const shuffledWords = loadedWords.map((word) => ({
 			...word,
 			scrambled: shuffleLetters(word.original),
 		}));
-		updateState({ words: shuffledWords });
+		updateState({
+			words: shuffledWords,
+			availableLetters: shuffledWords[0]?.scrambled.split("") || [],
+		});
 	}, []);
 
 	const renderWelcomeScreen = () => (
@@ -120,7 +150,7 @@ const ScrambledWordsExercise: React.FC = () => {
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
 		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
-			<div key={index} className="w-10 h-10 border-2 border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl">
+			<div key={index} className="w-10 h-10 border-2 border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl" onClick={() => returnLetter(index)}>
 				{state.selectedLetters[index] || ""}
 			</div>
 		));
@@ -134,8 +164,12 @@ const ScrambledWordsExercise: React.FC = () => {
 				</div>
 				<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
 				<div className="flex justify-center space-x-2 mb-4">
-					{currentWord.scrambled.split("").map((letter, index) => (
-						<button key={index} className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl" onClick={() => selectLetter(letter)}>
+					{state.availableLetters.map((letter, index) => (
+						<button
+							key={index}
+							className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
+							onClick={() => selectLetter(letter, index)}
+						>
 							{letter}
 						</button>
 					))}
