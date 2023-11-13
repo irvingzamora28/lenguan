@@ -11,16 +11,16 @@ interface Word {
 }
 
 const sampleWords = [
-	{ original: "apple", translation: "Apfel" },
-	{ original: "banana", translation: "Banane" },
-	{ original: "orange", translation: "Orange" },
-	{ original: "grape", translation: "Traube" },
-	{ original: "lemon", translation: "Zitrone" },
-	{ original: "pear", translation: "Birne" },
-	{ original: "cherry", translation: "Kirsche" },
-	{ original: "strawberry", translation: "Erdbeere" },
-	{ original: "kiwi", translation: "Kiwi" },
-	{ original: "melon", translation: "Melone" },
+	{ translation: "apple", original: "Apfel" },
+	{ translation: "banana", original: "Banane" },
+	{ translation: "orange", original: "Orange" },
+	{ translation: "grape", original: "Traube" },
+	{ translation: "lemon", original: "Zitrone" },
+	{ translation: "pear", original: "Birne" },
+	{ translation: "cherry", original: "Kirsche" },
+	{ translation: "strawberry", original: "Erdbeere" },
+	{ translation: "kiwi", original: "Kiwi" },
+	{ translation: "melon", original: "Melone" },
 ];
 
 const ScrambledWordsExercise: React.FC = () => {
@@ -119,20 +119,26 @@ const ScrambledWordsExercise: React.FC = () => {
 
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
+		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
+			<div key={index} className="w-10 h-10 border-2 border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl">
+				{state.selectedLetters[index] || ""}
+			</div>
+		));
 
 		return (
 			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
 				<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
-					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
-					<p className="text-gray-700 mb-4">Translation: {currentWord.translation}</p>
-					<div className="flex justify-center space-x-2 mb-4">
-						{currentWord.scrambled.split("").map((letter, index) => (
-							<button key={index} className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700 transition duration-300" onClick={() => selectLetter(letter)}>
-								{letter}
-							</button>
-						))}
-					</div>
-					<div className="text-lg font-medium">Selected Letters: {state.selectedLetters.join("")}</div>
+					<h2 className="font-bold text-xl mb-2">Original Word</h2>
+					<p className="text-gray-700 mb-4 text-2xl sm:text-6xl">{currentWord.translation}</p>
+					<div className="mb-4 flex justify-center">{letterBoxes}</div>
+				</div>
+				<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
+				<div className="flex justify-center space-x-2 mb-4">
+					{currentWord.scrambled.split("").map((letter, index) => (
+						<button key={index} className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl" onClick={() => selectLetter(letter)}>
+							{letter}
+						</button>
+					))}
 				</div>
 			</div>
 		);
@@ -143,10 +149,7 @@ const ScrambledWordsExercise: React.FC = () => {
 			<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
 				<h1 className="font-bold text-2xl mb-2">Congratulations!</h1>
 				<p className="mb-4">You have completed the Scrambled Words Exercise.</p>
-				<button
-					className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-					onClick={() => updateState({gameStarted: false, wordIndex: 0, selectedLetters: [] })}
-				>
+				<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300" onClick={() => updateState({ gameStarted: false, wordIndex: 0, selectedLetters: [] })}>
 					Restart
 				</button>
 			</div>
