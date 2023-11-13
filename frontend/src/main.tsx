@@ -4,6 +4,7 @@ import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router
 import LoginPage from "./components/Pages/AuthPage/LoginPage";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import RegisterPage from "./components/Pages/AuthPage/RegisterPage";
+import './i18n';
 import "./index.css";
 import DashboardPage from "./components/Pages/DashboardPage/DashboardPage";
 import GenderDuelPage from "./components/Pages/GenderDuelPage/GenderDuelPage";
