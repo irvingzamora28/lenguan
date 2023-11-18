@@ -65,3 +65,13 @@
   .animate-flip-to-front {
     animation: flip-to-front 500ms ease forwards;
   }
+
+  @keyframes spin {
+	0% { transform: translateY(0); }
+	100% { transform: translateY(-100%); }
+  }
+  
+  .spinAnimation {
+	animation: spin 3s ease-in-out;
+  }
+  
