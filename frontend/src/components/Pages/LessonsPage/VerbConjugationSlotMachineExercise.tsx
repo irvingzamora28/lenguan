@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import Layout from "../../Layout/Layout";
 
 interface VerbConjugationState {
 	pronoun: string;
@@ -10,6 +11,47 @@ interface VerbConjugationState {
 	attempts: number;
 	successes: number;
 }
+
+type Tense = "Präsens" | "Präteritum";
+type Pronoun = "ich" | "du" | "er" | "sie" | "es" | "wir" | "ihr" | "sie" | "Sie";
+type Conjugation = { pronoun: Pronoun; conjugation: string };
+type VerbConjugation = { verb: string; tense: Tense; conjugations: Conjugation[] };
+
+const pronouns: Pronoun[] = ["ich", "du", "er", "sie", "es", "wir", "ihr", "sie", "Sie"];
+
+// Define createVerbConjugation as a function type that returns VerbConjugation
+const createVerbConjugation = (verb: string, tense: Tense, conjugations: string[]): VerbConjugation => ({
+	verb,
+	tense,
+	conjugations: pronouns.map((pronoun, index) => ({
+		pronoun,
+		conjugation: conjugations[index],
+	})),
+});
+
+const seinPrasens: string[] = ["bin", "bist", "ist", "ist", "ist", "sind", "seid", "sind", "sind"];
+const seinPrateritum: string[] = ["war", "warst", "war", "war", "war", "waren", "wart", "waren", "waren"];
+const habenPrasens: string[] = ["habe", "hast", "hat", "hat", "hat", "haben", "habt", "haben", "haben"];
+const habenPrateritum: string[] = ["hatte", "hattest", "hatte", "hatte", "hatte", "hatten", "hattet", "hatten", "hatten"];
+const machenPrasens = ["mache", "machst", "macht", "macht", "macht", "machen", "macht", "machen", "machen"];
+const machenPrateritum = ["machte", "machtest", "machte", "machte", "machte", "machten", "machtet", "machten", "machten"];
+const gehenPrasens = ["gehe", "gehst", "geht", "geht", "geht", "gehen", "geht", "gehen", "gehen"];
+const gehenPrateritum = ["ging", "gingst", "ging", "ging", "ging", "gingen", "gingt", "gingen", "gingen"];
+const kommenPrasens = ["komme", "kommst", "kommt", "kommt", "kommt", "kommen", "kommt", "kommen", "kommen"];
+const kommenPrateritum = ["kam", "kamst", "kam", "kam", "kam", "kamen", "kamt", "kamen", "kamen"];
+
+const verbConjugations: VerbConjugation[] = [
+	createVerbConjugation("sein", "Präsens", seinPrasens),
+	createVerbConjugation("sein", "Präteritum", seinPrateritum),
+	createVerbConjugation("haben", "Präsens", habenPrasens),
+	createVerbConjugation("haben", "Präteritum", habenPrateritum),
+	createVerbConjugation("gehen", "Präsens", gehenPrasens),
+	createVerbConjugation("gehen", "Präteritum", gehenPrateritum),
+	createVerbConjugation("machen", "Präsens", machenPrasens),
+	createVerbConjugation("machen", "Präteritum", machenPrateritum),
+	createVerbConjugation("kommen", "Präsens", kommenPrasens),
+	createVerbConjugation("kommen", "Präteritum", kommenPrateritum),
+];
 
 const VerbConjugationSlotMachineExercise: React.FC = () => {
 	const { t } = useTranslation();
@@ -36,55 +78,6 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 
 	const verbs = ["sein", "haben", "machen", "gehen", "kommen"];
 	const tenses = ["Präsens", "Präteritum"];
-
-	// const randomizeSelection = useCallback(() => {
-	// 	const randomPronoun = pronouns[Math.floor(Math.random() * pronouns.length)];
-	// 	const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
-	// 	const randomTense = tenses[Math.floor(Math.random() * tenses.length)];
-	// 	setState((prevState) => ({ ...prevState, pronoun: randomPronoun, verb: randomVerb, tense: randomTense }));
-	// }, []);
-
-	type Tense = "Präsens" | "Präteritum";
-	type Pronoun = "ich" | "du" | "er" | "sie" | "es" | "wir" | "ihr" | "sie" | "Sie";
-	type Conjugation = { pronoun: Pronoun; conjugation: string };
-	type VerbConjugation = { verb: string; tense: Tense; conjugations: Conjugation[] };
-
-	const pronouns: Pronoun[] = ["ich", "du", "er", "sie", "es", "wir", "ihr", "sie", "Sie"];
-
-	function createVerbConjugation(verb: string, tense: Tense, conjugations: string[]): VerbConjugation {
-		return {
-			verb,
-			tense,
-			conjugations: pronouns.map((pronoun, index) => ({
-				pronoun,
-				conjugation: conjugations[index],
-			})),
-		};
-	}
-
-	const seinPrasens: string[] = ["bin", "bist", "ist", "ist", "ist", "sind", "seid", "sind", "sind"];
-	const seinPrateritum: string[] = ["war", "warst", "war", "war", "war", "waren", "wart", "waren", "waren"];
-	const habenPrasens: string[] = ["habe", "hast", "hat", "hat", "hat", "haben", "habt", "haben", "haben"];
-	const habenPrateritum: string[] = ["hatte", "hattest", "hatte", "hatte", "hatte", "hatten", "hattet", "hatten", "hatten"];
-	const machenPrasens = ["mache", "machst", "macht", "macht", "macht", "machen", "macht", "machen", "machen"];
-	const machenPrateritum = ["machte", "machtest", "machte", "machte", "machte", "machten", "machtet", "machten", "machten"];
-	const gehenPrasens = ["gehe", "gehst", "geht", "geht", "geht", "gehen", "geht", "gehen", "gehen"];
-	const gehenPrateritum = ["ging", "gingst", "ging", "ging", "ging", "gingen", "gingt", "gingen", "gingen"];
-	const kommenPrasens = ["komme", "kommst", "kommt", "kommt", "kommt", "kommen", "kommt", "kommen", "kommen"];
-	const kommenPrateritum = ["kam", "kamst", "kam", "kam", "kam", "kamen", "kamt", "kamen", "kamen"];
-
-	const verbConjugations: VerbConjugation[] = [
-		createVerbConjugation("sein", "Präsens", seinPrasens),
-		createVerbConjugation("sein", "Präteritum", seinPrateritum),
-		createVerbConjugation("haben", "Präsens", habenPrasens),
-		createVerbConjugation("haben", "Präteritum", habenPrateritum),
-		createVerbConjugation("gehen", "Präsens", gehenPrasens),
-		createVerbConjugation("gehenn", "Präteritum", gehenPrateritum),
-		createVerbConjugation("machen", "Präsens", machenPrasens),
-		createVerbConjugation("machen", "Präteritum", machenPrateritum),
-		createVerbConjugation("kommen", "Präsens", kommenPrasens),
-		createVerbConjugation("kommen", "Präteritum", kommenPrateritum),
-	];
 
 	const checkAnswer = useCallback(() => {
 		// Find the verb conjugation set for the selected verb and tense
@@ -132,49 +125,61 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 	}, []);
 
 	return (
-		<div className="p-4">
-			<div className="text-center">
-				<h1 className="text-2xl font-bold">{t("Verb Conjugation Slot Machine")}</h1>
-			</div>
-			<div className="mt-4">
-				<div className="flex justify-center space-x-2">
-					<div className="overflow-hidden h-6">
-						<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-							{[...pronouns, ...pronouns].map((pronoun, index) => (
-								<div key={index} className="text-center py-1">
-									{isAnimating ? pronoun : state.pronoun}
-								</div>
-							))}
-						</div>
-					</div>
-					<div className="overflow-hidden h-6">
-						<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-							{[...verbs, ...verbs].map((verb, index) => (
-								<div key={index} className="text-center py-1">
-									{isAnimating ? verb : state.verb}
-								</div>
-							))}
-						</div>
-					</div>
-					<div className="overflow-hidden h-6">
-						<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-							{[...tenses, ...tenses].map((tense, index) => (
-								<div key={index} className="text-center py-1">
-									{isAnimating ? tense : state.tense}
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
+		<Layout>
+			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Verb Conjugation Slot Machine")}</h1>
 				<div className="mt-4">
-					<input type="text" className="border-2 p-2 w-full" placeholder="Type the correct sentence here" value={state.userInput} onChange={(e) => setState((prevState) => ({ ...prevState, userInput: e.target.value }))} />
-					<button className="mt-2 p-2 bg-blue-500 text-white w-full" onClick={checkAnswer}>
-						Submit
-					</button>
+					<div className="flex justify-center space-x-2 text-xl md:text-4xl">
+						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
+							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
+								{[...pronouns, ...pronouns].map((pronoun, index) => (
+									<div key={index} className="flex items-center justify-center h-16 md:h-24">
+										{isAnimating ? pronoun : state.pronoun}
+									</div>
+								))}
+							</div>
+						</div>
+						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
+							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
+								{[...verbs, ...verbs].map((verb, index) => (
+									<div key={index} className="flex items-center justify-center h-16 md:h-24">
+										{isAnimating ? verb : state.verb}
+									</div>
+								))}
+							</div>
+						</div>
+						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
+							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
+								{[...tenses, ...tenses].map((tense, index) => (
+									<div key={index} className="flex items-center justify-center h-16 md:h-24">
+										{isAnimating ? tense : state.tense}
+									</div>
+								))}
+							</div>
+						</div>
+					</div>
+					<div className="mt-4">
+						<input
+							type="text"
+                            autoFocus
+							className="border-2 p-2 w-full"
+							placeholder="Type the correct sentence here"
+							value={state.userInput}
+							onChange={(event) => setState((prevState) => ({ ...prevState, userInput: event.target.value }))}
+							onKeyDown={(event) => {
+								if (event.key === "Enter") {
+									checkAnswer();
+								}
+							}}
+						/>
+						<button className="mt-2 p-2 bg-blue-500 text-white w-full rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300 ease-in-out" onClick={checkAnswer}>
+							Check
+						</button>
+					</div>
+					{state.feedback && <div className="mt-4 p-2 border-2">{state.feedback}</div>}
 				</div>
-				{state.feedback && <div className="mt-4 p-2 border-2">{state.feedback}</div>}
 			</div>
-		</div>
+		</Layout>
 	);
 };
 
