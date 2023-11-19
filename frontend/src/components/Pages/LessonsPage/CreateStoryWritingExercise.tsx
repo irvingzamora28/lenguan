@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import { useTranslation } from "react-i18next"; // Assuming i18next is used for translations
@@ -176,6 +176,8 @@ const storyData: StorySection[] = [
 
 const CreateStoryWritingExercise: React.FC = () => {
 	const { t } = useTranslation();
+	const specialCharacters = ["ä", "ö", "ü", "ß"];
+	const inputRef = useRef<HTMLInputElement>(null);
 	const [state, setState] = useState({
 		currentSectionId: "start",
 		userInput: "",
@@ -219,6 +221,11 @@ const CreateStoryWritingExercise: React.FC = () => {
 		}));
 	};
 
+	const handleSpecialCharacterInput = (character: string) => {
+		setState((prevState) => ({ ...prevState, userInput: prevState.userInput + character }));
+		inputRef.current?.focus();
+	};
+
 	const playSound = useCallback((soundEffect: string) => {
 		new Audio(soundEffect).play();
 	}, []);
@@ -232,12 +239,23 @@ const CreateStoryWritingExercise: React.FC = () => {
 		</div>
 	);
 
+	const renderSpecialCharacterButtons = () => (
+		<div className="flex space-x-2 mt-2">
+			{specialCharacters.map((char, index) => (
+				<button key={index} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded" onClick={() => handleSpecialCharacterInput(char)}>
+					{char}
+				</button>
+			))}
+		</div>
+	);
+
 	const renderStorySection = () => (
 		<Layout>
 			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
 				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
 				<p className="text-lg">{currentSection?.germanText}</p>
-				<input type="text" className="border border-gray-300 rounded p-2 w-full" value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
+				<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
+				{renderSpecialCharacterButtons()}
 				<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
 					{t("submit")}
 				</button>
