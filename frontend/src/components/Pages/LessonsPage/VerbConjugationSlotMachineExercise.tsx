@@ -80,7 +80,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 		}, 3000); // Adjust the duration to match your animation
 	}, []);
 
-    const playSound = useCallback((soundEffect: string) => {
+	const playSound = useCallback((soundEffect: string) => {
 		new Audio(soundEffect).play();
 	}, []);
 
@@ -88,6 +88,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 	const tenses = ["Präsens", "Präteritum"];
 
 	const checkAnswer = useCallback(() => {
+        if (state.userInput.trim() === "") return;
 		// Find the verb conjugation set for the selected verb and tense
 		const conjugationSet = verbConjugations.find((vc) => vc.verb === state.verb && vc.tense === state.tense);
 		console.log(verbConjugations);
@@ -116,17 +117,19 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 				feedback: "Correct! Great job.",
 				successes: prevState.successes + 1,
 				isCorrect: true,
+                attempts: prevState.attempts + 1,
 				userInput: "", // Optionally clear the input field
 			}));
 			playSound(correctSound);
 		} else {
-            setState((prevState) => ({
-                ...prevState,
+			setState((prevState) => ({
+				...prevState,
 				feedback: `Incorrect. The correct answer is '${correctSentence}'.`,
 				isCorrect: false,
+                attempts: prevState.attempts + 1,
 				userInput: "", // Optionally clear the input field
 			}));
-            playSound(incorrectSound);
+			playSound(incorrectSound);
 		}
 
 		randomizeSelection(); // Prepare for the next question
@@ -193,6 +196,10 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 							{state.isCorrect ? "✅" : "❌"} {state.feedback}
 						</div>
 					)}
+					<div className="mt-4 p-2 border-2 bg-yellow-100 text-yellow-800">
+						<p>Attempts: {state.attempts}</p>
+						<p>Correct Answers: {state.successes}</p>
+					</div>
 				</div>
 			</div>
 		</Layout>
