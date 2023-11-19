@@ -13,6 +13,7 @@ interface VerbConjugationState {
 	userInput: string;
 	feedback: string;
 	isCorrect: boolean;
+	gameStarted: boolean;
 	attempts: number;
 	successes: number;
 }
@@ -68,10 +69,16 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 		userInput: "",
 		feedback: "",
 		isCorrect: false,
+		gameStarted: false,
 		attempts: 0,
 		successes: 0,
 	});
 	const [isAnimating, setIsAnimating] = useState(false);
+
+	const updateState = useCallback((newState: Partial<typeof state>) => {
+		setState((prevState) => ({ ...prevState, ...newState }));
+	}, []);
+
 	const randomizeSelection = useCallback(() => {
 		setIsAnimating(true); // Start the animation
 		setTimeout(() => {
@@ -142,8 +149,26 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 		randomizeSelection();
 	}, []);
 
-	return (
-		<Layout>
+	const renderWelcomeScreen = () => (
+		<>
+			<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
+				<h1 className="font-bold text-2xl mb-2">{t("Welcome to Verb Conjugation Slot Machine!")}</h1>
+				<p className="mb-4">{t("Test your skills in verb conjugation.")}</p>
+			</div>
+			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-17rem)] bg-gray-100">
+				<button
+					className="items-center mx-auto shadow-box justify-center h-24 w-64 sm:h-20 sm:w-56 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r from-yellow-400 to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
+					onClick={() => updateState({ gameStarted: true })}
+				>
+					<span className="absolute right-0 w-12 h-44 -mt-12 sm:w-8 sm:h-32 sm:-mt-8 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
+					<span className="relative gender_duel__text-shadow text-4xl sm:text-3xl font-bold">{t("start")}</span>
+				</button>
+			</div>
+		</>
+	);
+
+	const renderExerciseScreen = () => (
+		<>
 			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
 				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Verb Conjugation Slot Machine")}</h1>
 				<div className="mt-4">
@@ -208,6 +233,13 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					<MdArrowBack className="ml-2" /> Back to Exercises
 				</Link>
 			</div>
+		</>
+    );
+
+	return (
+		<Layout>
+			{!state.gameStarted && renderWelcomeScreen()}
+			{state.gameStarted && renderExerciseScreen()}
 		</Layout>
 	);
 };
