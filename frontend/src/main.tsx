@@ -23,6 +23,7 @@ import TimedFlashcards from "./components/Pages/TimedFlashCardsPage/TimedFlashCa
 import MemoryGame from "./components/Pages/MemoryGamePage/MemoryGamePage";
 import ScrambledWordsExercise from "./components/Pages/LessonsPage/ScrambledWordsExercise";
 import VerbConjugationSlotMachineExercise from "./components/Pages/LessonsPage/VerbConjugationSlotMachineExercise";
+import CreateStoryWritingExercise from "./components/Pages/LessonsPage/CreateStoryWritingExercise";
 
 const privateRoutes = [
 	{ path: "/select-language", element: <SelectLanguagePage /> },
@@ -40,6 +41,7 @@ const privateRoutes = [
 	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
 	{ path: "/vocabulary-exercise/:lesson_number", element: <ScrambledWordsExercise /> },
 	{ path: "/grammar-exercise/:lesson_number", element: <VerbConjugationSlotMachineExercise /> },
+	{ path: "/writing-exercise/:lesson_number", element: <CreateStoryWritingExercise /> },
 	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
 	{ path: "/memory-game", element: <MemoryGame /> },
