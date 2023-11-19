@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import { useTranslation } from "react-i18next"; // Assuming i18next is used for translations
+import Layout from "../../Layout/Layout";
 
 interface StoryChoice {
 	germanText: string;
@@ -174,88 +175,97 @@ const storyData: StorySection[] = [
 ];
 
 const CreateStoryWritingExercise: React.FC = () => {
-  const { t } = useTranslation();
-  const [state, setState] = useState({
-    currentSectionId: 'start',
-    userInput: '',
-    storyProgress: [] as string[], // Track IDs of completed sections
-    showChoices: false, // To determine when to show choices
-    gameStarted: false,
-  });
+	const { t } = useTranslation();
+	const [state, setState] = useState({
+		currentSectionId: "start",
+		userInput: "",
+		storyProgress: [] as string[], // Track IDs of completed sections
+		showChoices: false, // To determine when to show choices
+		gameStarted: false,
+	});
+	console.log(storyData);
 
-  const currentSection = storyData.find(section => section.id === state.currentSectionId);
+	const currentSection = storyData.find((section) => section.id === state.currentSectionId);
 
-  const checkInput = useCallback(() => {
-    if (state.userInput === currentSection?.germanText) {
-      playSound(correctSound);
+	const checkInput = useCallback(() => {
+		if (state.userInput === currentSection?.germanText) {
+			playSound(correctSound);
 
-      const hasChoices = currentSection?.choices && currentSection.choices.length > 0;
-      setState(prevState => ({
-        ...prevState,
-        userInput: '',
-        storyProgress: [...prevState.storyProgress, prevState.currentSectionId],
-        showChoices: hasChoices ? true : false, // Ensures showChoices is always a boolean
-      }));
-    } else {
-      playSound(incorrectSound);
-      setState(prevState => ({
-        ...prevState,
-        showChoices: false, // Hide choices on incorrect input
-      }));
-    }
-  }, [state.userInput, state.currentSectionId, currentSection]);
+			const hasChoices = currentSection?.choices && currentSection.choices.length > 0;
+			setState((prevState) => ({
+				...prevState,
+				userInput: "",
+				storyProgress: [...prevState.storyProgress, prevState.currentSectionId],
+				showChoices: hasChoices ? true : false, // Ensures showChoices is always a boolean
+			}));
+		} else {
+			playSound(incorrectSound);
+			setState((prevState) => ({
+				...prevState,
+				showChoices: false, // Hide choices on incorrect input
+			}));
+		}
+	}, [state.userInput, state.currentSectionId, currentSection]);
 
+	const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setState((prevState) => ({ ...prevState, userInput: event.target.value }));
+	};
 
-  const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState(prevState => ({ ...prevState, userInput: event.target.value }));
-  };
+	const handleChoice = (nextSectionId: string) => {
+		setState((prevState) => ({
+			...prevState,
+			currentSectionId: nextSectionId,
+			showChoices: false, // Hide choices as we move to the next section
+		}));
+	};
 
-  const handleChoice = (nextSectionId: string) => {
-    setState(prevState => ({
-      ...prevState,
-      currentSectionId: nextSectionId,
-      showChoices: false, // Hide choices as we move to the next section
-    }));
-  };
+	const playSound = useCallback((soundEffect: string) => {
+		new Audio(soundEffect).play();
+	}, []);
 
-  const playSound = useCallback((soundEffect: string) => {
-    new Audio(soundEffect).play();
-  }, []);
+	const renderWelcomeScreen = () => (
+		<div className="text-center p-4 mb-4 bg-slate-200">
+			<p className="font-semibold text-lg">{t("story_writing_welcome_message")}</p>
+			<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setState((prevState) => ({ ...prevState, gameStarted: true }))}>
+				{t("start")}
+			</button>
+		</div>
+	);
 
-  const renderWelcomeScreen = () => (
-    <div className="text-center p-4 mb-4 bg-slate-200">
-        <p className="font-semibold text-lg">{t("story_writing_welcome_message")}</p>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setState((prevState) => ({ ...prevState, gameStarted: true }))}>
-            {t("start")}
-        </button>
-    </div>
-);
+	const renderStorySection = () => (
+		<Layout>
+			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
+				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
+				<p className="text-lg">{currentSection?.germanText}</p>
+				<input type="text" className="border border-gray-300 rounded p-2 w-full" value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
+				<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
+					{t("submit")}
+				</button>
+				{state.showChoices &&
+					currentSection?.choices &&
+					currentSection.choices.map((choice, index) => (
+						<button key={index} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleChoice(choice.nextSectionId)}>
+							{choice.germanText}
+						</button>
+					))}
+				{state.storyProgress.map((sectionId, index) => {
+					const section = storyData.find((s) => s.id === sectionId);
+					return (
+						<p key={index} className="text-sm text-gray-600">
+							{section?.englishTranslation}
+						</p>
+					);
+				})}
+			</div>
+		</Layout>
+	);
 
-  const renderStorySection = () => (
-    <div className="p-4 mb-4 bg-slate-200">
-      <p className="text-lg">{currentSection?.germanText}</p>
-      <input type="text" className="border border-gray-300 rounded p-2 w-full" value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
-      <button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
-        {t("submit")}
-      </button>
-      {state.showChoices && currentSection?.choices && currentSection.choices.map((choice, index) => (
-        <button key={index} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleChoice(choice.nextSectionId)}>
-          {choice.germanText}
-        </button>
-      ))}
-      {state.storyProgress.map((sectionId, index) => {
-        const section = storyData.find(s => s.id === sectionId);
-        return <p key={index} className="text-sm text-gray-600">{section?.englishTranslation}</p>;
-      })}
-    </div>
-  );
-
-  return (
-    <div>
-      {!state.gameStarted && renderWelcomeScreen()}
-      {state.gameStarted && renderStorySection()}
-    </div>
-  );
+	return (
+		<div>
+			{!state.gameStarted && renderWelcomeScreen()}
+			{state.gameStarted && renderStorySection()}
+		</div>
+	);
 };
 
 export default CreateStoryWritingExercise;
