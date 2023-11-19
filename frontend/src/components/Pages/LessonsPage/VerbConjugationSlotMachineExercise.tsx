@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import correctSound from "../../../assets/audio/correct-choice.mp3";
+import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 
 interface VerbConjugationState {
@@ -8,6 +10,7 @@ interface VerbConjugationState {
 	tense: string;
 	userInput: string;
 	feedback: string;
+	isCorrect: boolean;
 	attempts: number;
 	successes: number;
 }
@@ -61,6 +64,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 		tense: "",
 		userInput: "",
 		feedback: "",
+		isCorrect: false,
 		attempts: 0,
 		successes: 0,
 	});
@@ -74,6 +78,10 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 			setState((prevState) => ({ ...prevState, pronoun: randomPronoun, verb: randomVerb, tense: randomTense }));
 			setIsAnimating(false); // Stop the animation
 		}, 3000); // Adjust the duration to match your animation
+	}, []);
+
+    const playSound = useCallback((soundEffect: string) => {
+		new Audio(soundEffect).play();
 	}, []);
 
 	const verbs = ["sein", "haben", "machen", "gehen", "kommen"];
@@ -107,14 +115,18 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 				...prevState,
 				feedback: "Correct! Great job.",
 				successes: prevState.successes + 1,
+				isCorrect: true,
 				userInput: "", // Optionally clear the input field
 			}));
+			playSound(correctSound);
 		} else {
-			setState((prevState) => ({
-				...prevState,
+            setState((prevState) => ({
+                ...prevState,
 				feedback: `Incorrect. The correct answer is '${correctSentence}'.`,
+				isCorrect: false,
 				userInput: "", // Optionally clear the input field
 			}));
+            playSound(incorrectSound);
 		}
 
 		randomizeSelection(); // Prepare for the next question
@@ -161,7 +173,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					<div className="mt-4">
 						<input
 							type="text"
-                            autoFocus
+							autoFocus
 							className="border-2 p-2 w-full"
 							placeholder="Type the correct sentence here"
 							value={state.userInput}
@@ -176,7 +188,11 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 							Check
 						</button>
 					</div>
-					{state.feedback && <div className="mt-4 p-2 border-2">{state.feedback}</div>}
+					{state.feedback && (
+						<div className={`mt-4 p-2 border-2 ${state.isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+							{state.isCorrect ? "✅" : "❌"} {state.feedback}
+						</div>
+					)}
 				</div>
 			</div>
 		</Layout>
