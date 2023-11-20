@@ -174,6 +174,13 @@ const storyData: StorySection[] = [
 	// ... add more sections if needed
 ];
 
+// TODO: Handle the end of the story
+// TODO: Do not update the text that shows the mistake in the feedback section
+// TODO: Allow ENTER to submit
+// TODO: Allow to insert special character where the cursor is
+// TODO: Hide feedback area when the answer submitted is correct
+// TODO: Make both options the same width and height depending on the text of the larger option and improve style
+
 const CreateStoryWritingExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const specialCharacters = ["ä", "ö", "ü", "ß"];
