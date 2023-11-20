@@ -191,7 +191,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 	});
 	console.log(storyData);
 
-    const updateState = useCallback((newState: Partial<typeof state>) => {
+	const updateState = useCallback((newState: Partial<typeof state>) => {
 		setState((prevState) => ({ ...prevState, ...newState }));
 	}, []);
 
@@ -355,18 +355,8 @@ const CreateStoryWritingExercise: React.FC = () => {
 		</div>
 	);
 
-	const renderStorySection = () => (
-		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
-			<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
-			<p className="text-lg">{currentSection?.germanText}</p>
-			<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
-			{renderSpecialCharacterButtons()}
-			<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
-				{t("submit")}
-			</button>
-			{renderFeedback()}
-			{renderIncompleteFeedback()}
-			{renderCorrectSentenceWithHighlight()}
+	const renderStoryChoices = () => (
+		<div className="flex space-x-8 m-2">
 			{state.showChoices &&
 				currentSection?.choices &&
 				currentSection.choices.map((choice, index) => (
@@ -374,14 +364,38 @@ const CreateStoryWritingExercise: React.FC = () => {
 						{choice.germanText}
 					</button>
 				))}
-			{state.storyProgress.map((sectionId, index) => {
-				const section = storyData.find((s) => s.id === sectionId);
-				return (
-					<p key={index} className="text-sm text-gray-600">
-						{section?.englishTranslation}
-					</p>
-				);
-			})}
+		</div>
+	);
+
+	const renderStorySection = () => (
+		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
+			<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
+			{renderStoryChoices()}
+			{!state.showChoices && (
+				<>
+					<p className="text-lg">{currentSection?.germanText}</p>
+					<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
+					{renderSpecialCharacterButtons()}
+					<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
+						{t("submit")}
+					</button>
+					{renderFeedback()}
+					{renderIncompleteFeedback()}
+					{renderCorrectSentenceWithHighlight()}
+				</>
+			)}
+			{state.storyProgress.length > 0 && (
+				<div className="bg-white border rounded-md p-8 w-full my-4">
+					{state.storyProgress.map((sectionId, index) => {
+						const section = storyData.find((s) => s.id === sectionId);
+						return (
+							<p key={index} className="text-sm text-gray-600">
+								{section?.englishTranslation}
+							</p>
+						);
+					})}
+				</div>
+			)}
 		</div>
 	);
 
