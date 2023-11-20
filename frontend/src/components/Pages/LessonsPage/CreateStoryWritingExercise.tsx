@@ -175,7 +175,6 @@ const storyData: StorySection[] = [
 	// ... add more sections if needed
 ];
 
-// TODO: Do not update the text that shows the mistake in the feedback section
 // TODO: Make both options the same width and height depending on the text of the larger option and improve style
 
 const CreateStoryWritingExercise: React.FC = () => {
@@ -186,7 +185,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 	const [isIncomplete, setIsIncomplete] = useState(false);
 	const [errorWordIndices, setErrorWordIndices] = useState<[number, number] | null>(null);
 	const [isStoryComplete, setIsStoryComplete] = useState(false);
-
+	const [feedbackText, setFeedbackText] = useState("");
 	const [state, setState] = useState({
 		currentSectionId: "start",
 		userInput: "",
@@ -236,6 +235,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 			if (!hasChoices && !hasNextSection) {
 				setIsStoryComplete(true);
 			}
+			setFeedbackText(""); // Clear feedback text on correct input
 		} else if (state.userInput.startsWith(correctText.slice(0, state.userInput.length))) {
 			// Partially correct, but incomplete
 			setIsIncomplete(true);
@@ -259,7 +259,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 
 			if (errorIdx !== null) {
 				let [start, end] = findErrorWordIndices(state.userInput, correctText, errorIdx);
-
+				setFeedbackText(state.userInput);
 				setErrorWordIndices([start, end]);
 			} else {
 				setErrorWordIndices(null);
@@ -331,8 +331,8 @@ const CreateStoryWritingExercise: React.FC = () => {
 
 	const renderFeedback = () => {
 		if (errorIndex !== null) {
-			let correctPart = state.userInput.slice(0, errorIndex);
-			let incorrectPart = state.userInput.slice(errorIndex);
+			let correctPart = feedbackText.slice(0, errorIndex);
+			let incorrectPart = feedbackText.slice(errorIndex);
 			return (
 				<div className="mt-4">
 					<span>{correctPart}</span>
