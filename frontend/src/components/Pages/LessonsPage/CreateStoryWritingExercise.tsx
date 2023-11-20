@@ -14,6 +14,7 @@ interface StorySection {
 	germanText: string;
 	englishTranslation: string;
 	choices?: StoryChoice[]; // Optional, only for decision points
+	nextSectionId?: string; // Optional, could be the end of the story or has decision points
 }
 
 const storyData: StorySection[] = [
@@ -174,7 +175,6 @@ const storyData: StorySection[] = [
 	// ... add more sections if needed
 ];
 
-// TODO: Handle the end of the story
 // TODO: Do not update the text that shows the mistake in the feedback section
 // TODO: Hide feedback area when the answer submitted is correct
 // TODO: Make both options the same width and height depending on the text of the larger option and improve style
@@ -186,6 +186,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 	const [errorIndex, setErrorIndex] = useState<number | null>(null);
 	const [isIncomplete, setIsIncomplete] = useState(false);
 	const [errorWordIndices, setErrorWordIndices] = useState<[number, number] | null>(null);
+	const [isStoryComplete, setIsStoryComplete] = useState(false);
 
 	const [state, setState] = useState({
 		currentSectionId: "start",
@@ -224,6 +225,8 @@ const CreateStoryWritingExercise: React.FC = () => {
 			playSound(correctSound);
 
 			const hasChoices = currentSection?.choices && currentSection.choices.length > 0;
+			const hasNextSection = currentSection?.nextSectionId !== undefined;
+
 			setState((prevState) => ({
 				...prevState,
 				userInput: "",
@@ -231,6 +234,9 @@ const CreateStoryWritingExercise: React.FC = () => {
 				showChoices: hasChoices ? true : false, // Ensures showChoices is always a boolean
 			}));
 			setIsIncomplete(false);
+			if (!hasChoices && !hasNextSection) {
+				setIsStoryComplete(true);
+			}
 		} else if (state.userInput.startsWith(correctText.slice(0, state.userInput.length))) {
 			// Partially correct, but incomplete
 			setIsIncomplete(true);
@@ -405,43 +411,62 @@ const CreateStoryWritingExercise: React.FC = () => {
 		);
 	};
 
-	const renderStorySection = () => (
-		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
-			<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
-			{renderStoryChoices()}
-			{!state.showChoices && (
-				<>
-					<p className="text-lg">{currentSection?.germanText}</p>
-					<input
-						type="text"
-						className="border border-gray-300 rounded p-2 w-full"
-						ref={inputRef}
-						value={state.userInput}
-						onChange={handleUserInput}
-						placeholder={t("type_here")}
-						onKeyDown={(event) => {
-							if (event.key === "Enter") {
-								checkInput();
-							}
-						}}
-					/>
-					{renderSpecialCharacterButtons()}
-					<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
-						{t("submit")}
-					</button>
-					{renderFeedback()}
-					{renderIncompleteFeedback()}
-					{renderCorrectSentenceWithHighlight()}
-				</>
-			)}
-			{state.storyProgress.length > 0 && renderStoryProgress()}
-		</div>
-	);
+	const renderStorySection = () => {
+		if (!isStoryComplete) {
+			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
+				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
+				{renderStoryChoices()}
+				{!state.showChoices && (
+					<>
+						<p className="text-lg">{currentSection?.germanText}</p>
+						<input
+							type="text"
+							className="border border-gray-300 rounded p-2 w-full"
+							ref={inputRef}
+							value={state.userInput}
+							onChange={handleUserInput}
+							placeholder={t("type_here")}
+							onKeyDown={(event) => {
+								if (event.key === "Enter") {
+									checkInput();
+								}
+							}}
+						/>
+						{renderSpecialCharacterButtons()}
+						<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
+							{t("submit")}
+						</button>
+						{renderFeedback()}
+						{renderIncompleteFeedback()}
+						{renderCorrectSentenceWithHighlight()}
+					</>
+				)}
+				{state.storyProgress.length > 0 && renderStoryProgress()}
+			</div>;
+		}
+		return null;
+	};
+
+	const renderStoryCompletionScreen = () => {
+		if (isStoryComplete) {
+			return (
+				<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
+					<div className="text-center p-8 mb-4 bg-green-200 text-cyan-950 rounded-md">
+						<p className="font-semibold text-4xl my-4">Congratulations!</p>
+						<p className="font-semibold text-2xl">You've completed the story.</p>
+					</div>
+					{state.storyProgress.length > 0 && renderStoryProgress()}
+				</div>
+			);
+		}
+		return null;
+	};
 
 	return (
 		<Layout>
 			{!state.gameStarted && renderWelcomeScreen()}
 			{state.gameStarted && renderStorySection()}
+			{renderStoryCompletionScreen()}
 		</Layout>
 	);
 };
