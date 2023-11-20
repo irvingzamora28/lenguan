@@ -397,7 +397,11 @@ const CreateStoryWritingExercise: React.FC = () => {
 			{!state.showChoices && (
 				<>
 					<p className="text-lg">{currentSection?.germanText}</p>
-					<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} />
+					<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} onKeyDown={(event) => {
+								if (event.key === "Enter") {
+									checkInput();
+								}
+							}} />
 					{renderSpecialCharacterButtons()}
 					<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
 						{t("submit")}
