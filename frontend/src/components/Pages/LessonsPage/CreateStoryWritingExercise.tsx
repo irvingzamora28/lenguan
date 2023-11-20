@@ -176,8 +176,6 @@ const storyData: StorySection[] = [
 
 // TODO: Handle the end of the story
 // TODO: Do not update the text that shows the mistake in the feedback section
-// TODO: Allow ENTER to submit
-// TODO: Allow to insert special character where the cursor is
 // TODO: Hide feedback area when the answer submitted is correct
 // TODO: Make both options the same width and height depending on the text of the larger option and improve style
 
@@ -284,8 +282,25 @@ const CreateStoryWritingExercise: React.FC = () => {
 	};
 
 	const handleSpecialCharacterInput = (character: string) => {
-		setState((prevState) => ({ ...prevState, userInput: prevState.userInput + character }));
-		inputRef.current?.focus();
+		if (inputRef.current) {
+			const cursorPosition = inputRef.current.selectionStart ?? 0;
+			const textBeforeCursor = state.userInput.slice(0, cursorPosition);
+			const textAfterCursor = state.userInput.slice(cursorPosition);
+
+			setState((prevState) => ({
+				...prevState,
+				userInput: textBeforeCursor + character + textAfterCursor,
+			}));
+
+			// Setting a timeout to ensure the cursor position is updated after state change
+			setTimeout(() => {
+				if (inputRef.current) {
+					inputRef.current.focus();
+					const newCursorPosition = cursorPosition + character.length;
+					inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+				}
+			}, 10);
+		}
 	};
 
 	const playSound = useCallback((soundEffect: string) => {
@@ -397,11 +412,19 @@ const CreateStoryWritingExercise: React.FC = () => {
 			{!state.showChoices && (
 				<>
 					<p className="text-lg">{currentSection?.germanText}</p>
-					<input type="text" className="border border-gray-300 rounded p-2 w-full" ref={inputRef} value={state.userInput} onChange={handleUserInput} placeholder={t("type_here")} onKeyDown={(event) => {
-								if (event.key === "Enter") {
-									checkInput();
-								}
-							}} />
+					<input
+						type="text"
+						className="border border-gray-300 rounded p-2 w-full"
+						ref={inputRef}
+						value={state.userInput}
+						onChange={handleUserInput}
+						placeholder={t("type_here")}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								checkInput();
+							}
+						}}
+					/>
 					{renderSpecialCharacterButtons()}
 					<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
 						{t("submit")}
