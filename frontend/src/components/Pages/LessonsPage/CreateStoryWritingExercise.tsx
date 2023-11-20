@@ -176,7 +176,6 @@ const storyData: StorySection[] = [
 ];
 
 // TODO: Do not update the text that shows the mistake in the feedback section
-// TODO: Hide feedback area when the answer submitted is correct
 // TODO: Make both options the same width and height depending on the text of the larger option and improve style
 
 const CreateStoryWritingExercise: React.FC = () => {
@@ -195,7 +194,6 @@ const CreateStoryWritingExercise: React.FC = () => {
 		showChoices: false, // To determine when to show choices
 		gameStarted: false,
 	});
-	console.log(storyData);
 
 	const updateState = useCallback((newState: Partial<typeof state>) => {
 		setState((prevState) => ({ ...prevState, ...newState }));
@@ -234,6 +232,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 				showChoices: hasChoices ? true : false, // Ensures showChoices is always a boolean
 			}));
 			setIsIncomplete(false);
+			setErrorIndex(null);
 			if (!hasChoices && !hasNextSection) {
 				setIsStoryComplete(true);
 			}
@@ -260,7 +259,6 @@ const CreateStoryWritingExercise: React.FC = () => {
 
 			if (errorIdx !== null) {
 				let [start, end] = findErrorWordIndices(state.userInput, correctText, errorIdx);
-				console.log([start, end]);
 
 				setErrorWordIndices([start, end]);
 			} else {
@@ -353,9 +351,6 @@ const CreateStoryWritingExercise: React.FC = () => {
 	};
 
 	const renderCorrectSentenceWithHighlight = () => {
-		console.log(errorIndex);
-		console.log(errorWordIndices);
-
 		if (errorIndex !== null && errorWordIndices) {
 			const [start, end] = errorWordIndices;
 			const beforeError = currentSection?.germanText.slice(0, start);
@@ -413,36 +408,38 @@ const CreateStoryWritingExercise: React.FC = () => {
 
 	const renderStorySection = () => {
 		if (!isStoryComplete) {
-			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
-				<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
-				{renderStoryChoices()}
-				{!state.showChoices && (
-					<>
-						<p className="text-lg">{currentSection?.germanText}</p>
-						<input
-							type="text"
-							className="border border-gray-300 rounded p-2 w-full"
-							ref={inputRef}
-							value={state.userInput}
-							onChange={handleUserInput}
-							placeholder={t("type_here")}
-							onKeyDown={(event) => {
-								if (event.key === "Enter") {
-									checkInput();
-								}
-							}}
-						/>
-						{renderSpecialCharacterButtons()}
-						<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
-							{t("submit")}
-						</button>
-						{renderFeedback()}
-						{renderIncompleteFeedback()}
-						{renderCorrectSentenceWithHighlight()}
-					</>
-				)}
-				{state.storyProgress.length > 0 && renderStoryProgress()}
-			</div>;
+			return (
+				<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
+					<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
+					{renderStoryChoices()}
+					{!state.showChoices && (
+						<>
+							<p className="text-lg">{currentSection?.germanText}</p>
+							<input
+								type="text"
+								className="border border-gray-300 rounded p-2 w-full"
+								ref={inputRef}
+								value={state.userInput}
+								onChange={handleUserInput}
+								placeholder={t("type_here")}
+								onKeyDown={(event) => {
+									if (event.key === "Enter") {
+										checkInput();
+									}
+								}}
+							/>
+							{renderSpecialCharacterButtons()}
+							<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
+								{t("submit")}
+							</button>
+							{renderFeedback()}
+							{renderIncompleteFeedback()}
+							{renderCorrectSentenceWithHighlight()}
+						</>
+					)}
+					{state.storyProgress.length > 0 && renderStoryProgress()}
+				</div>
+			);
 		}
 		return null;
 	};
