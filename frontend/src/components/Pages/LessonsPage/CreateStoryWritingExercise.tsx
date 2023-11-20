@@ -178,6 +178,10 @@ const CreateStoryWritingExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const specialCharacters = ["ä", "ö", "ü", "ß"];
 	const inputRef = useRef<HTMLInputElement>(null);
+	const [errorIndex, setErrorIndex] = useState<number | null>(null);
+	const [isIncomplete, setIsIncomplete] = useState(false);
+	const [errorWordIndices, setErrorWordIndices] = useState<[number, number] | null>(null);
+
 	const [state, setState] = useState({
 		currentSectionId: "start",
 		userInput: "",
@@ -189,8 +193,25 @@ const CreateStoryWritingExercise: React.FC = () => {
 
 	const currentSection = storyData.find((section) => section.id === state.currentSectionId);
 
+	const findFirstErrorIndex = (input: string, correctText: string): number | null => {
+		for (let i = 0; i < input.length; i++) {
+			if (i >= correctText.length || input[i] !== correctText[i]) {
+				return i;
+			}
+		}
+		return null;
+	};
+
+	const findErrorWordIndices = (input: string, correctText: string, errorIndex: number): [number, number] => {
+		let start = input.slice(0, errorIndex).lastIndexOf(" ") + 1;
+		let end = correctText.indexOf(" ", start);
+		end = end === -1 ? correctText.length : end;
+		return [start, end];
+	};
+
 	const checkInput = useCallback(() => {
-		if (state.userInput === currentSection?.germanText) {
+		const correctText = currentSection?.germanText || "";
+		if (state.userInput === correctText) {
 			playSound(correctSound);
 
 			const hasChoices = currentSection?.choices && currentSection.choices.length > 0;
@@ -200,12 +221,42 @@ const CreateStoryWritingExercise: React.FC = () => {
 				storyProgress: [...prevState.storyProgress, prevState.currentSectionId],
 				showChoices: hasChoices ? true : false, // Ensures showChoices is always a boolean
 			}));
+			setIsIncomplete(false);
+		} else if (state.userInput.startsWith(correctText.slice(0, state.userInput.length))) {
+			// Partially correct, but incomplete
+			setIsIncomplete(true);
+			setErrorIndex(null);
+			// Focus on the end of the current input
+			if (inputRef.current) {
+				inputRef.current.focus();
+				inputRef.current.setSelectionRange(state.userInput.length, state.userInput.length);
+			}
+			setErrorWordIndices(null);
 		} else {
+			// existing incorrect logic
+			setIsIncomplete(false);
 			playSound(incorrectSound);
+			let errorIdx = findFirstErrorIndex(state.userInput, correctText);
+			setErrorIndex(errorIdx);
 			setState((prevState) => ({
 				...prevState,
 				showChoices: false, // Hide choices on incorrect input
 			}));
+
+			if (errorIdx !== null) {
+				let [start, end] = findErrorWordIndices(state.userInput, correctText, errorIdx);
+				console.log([start, end]);
+
+				setErrorWordIndices([start, end]);
+			} else {
+				setErrorWordIndices(null);
+			}
+
+			// Focus the input and set cursor position
+			if (inputRef.current && errorIdx !== null) {
+				inputRef.current.focus();
+				inputRef.current.setSelectionRange(errorIdx, errorIdx);
+			}
 		}
 	}, [state.userInput, state.currentSectionId, currentSection]);
 
@@ -239,6 +290,48 @@ const CreateStoryWritingExercise: React.FC = () => {
 		</div>
 	);
 
+	const renderFeedback = () => {
+		if (errorIndex !== null) {
+			let correctPart = state.userInput.slice(0, errorIndex);
+			let incorrectPart = state.userInput.slice(errorIndex);
+			return (
+				<div className="mt-4">
+					<span>{correctPart}</span>
+					<span className="bg-red-100 border border-red-200 text-red-800">{incorrectPart}</span>
+				</div>
+			);
+		}
+		return null;
+	};
+
+	const renderIncompleteFeedback = () => {
+		if (isIncomplete) {
+			return <div className="mt-4 bg-yellow-100 border border-yellow-200 text-yellow-800 p-2">Keep going, you're on the right track!</div>;
+		}
+		return null;
+	};
+
+	const renderCorrectSentenceWithHighlight = () => {
+		console.log(errorIndex);
+		console.log(errorWordIndices);
+
+		if (errorIndex !== null && errorWordIndices) {
+			const [start, end] = errorWordIndices;
+			const beforeError = currentSection?.germanText.slice(0, start);
+			const errorWord = currentSection?.germanText.slice(start, end);
+			const afterError = currentSection?.germanText.slice(end);
+
+			return (
+				<div className="mt-4">
+					{beforeError}
+					<span className="bg-green-100 border border-green-200">{errorWord}</span>
+					{afterError}
+				</div>
+			);
+		}
+		return null;
+	};
+
 	const renderSpecialCharacterButtons = () => (
 		<div className="flex space-x-2 mt-2">
 			{specialCharacters.map((char, index) => (
@@ -259,6 +352,9 @@ const CreateStoryWritingExercise: React.FC = () => {
 				<button className="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={checkInput}>
 					{t("submit")}
 				</button>
+				{renderFeedback()}
+				{renderIncompleteFeedback()}
+				{renderCorrectSentenceWithHighlight()}
 				{state.showChoices &&
 					currentSection?.choices &&
 					currentSection.choices.map((choice, index) => (
