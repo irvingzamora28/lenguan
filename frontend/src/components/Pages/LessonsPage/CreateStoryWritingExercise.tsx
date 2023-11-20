@@ -367,6 +367,22 @@ const CreateStoryWritingExercise: React.FC = () => {
 		</div>
 	);
 
+	const renderStoryProgress = () => {
+		return (
+			<div className="bg-white border rounded-md p-8 w-full my-4">
+				{state.storyProgress.map((sectionId, index) => {
+					const section = storyData.find((s) => s.id === sectionId);
+					return (
+						<div key={index} className="mb-6">
+							<p className="text-sm text-gray-800 font-semibold">{section?.germanText}</p>
+							<p className="text-sm text-gray-600 italic">{section?.englishTranslation}</p>
+						</div>
+					);
+				})}
+			</div>
+		);
+	};
+
 	const renderStorySection = () => (
 		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-15rem)] bg-gray-100">
 			<h1 className="text-2xl text-gray-700 font-bold py-8">{t("Create a Story Writing Exercise")}</h1>
@@ -384,18 +400,7 @@ const CreateStoryWritingExercise: React.FC = () => {
 					{renderCorrectSentenceWithHighlight()}
 				</>
 			)}
-			{state.storyProgress.length > 0 && (
-				<div className="bg-white border rounded-md p-8 w-full my-4">
-					{state.storyProgress.map((sectionId, index) => {
-						const section = storyData.find((s) => s.id === sectionId);
-						return (
-							<p key={index} className="text-sm text-gray-600">
-								{section?.englishTranslation}
-							</p>
-						);
-					})}
-				</div>
-			)}
+			{state.storyProgress.length > 0 && renderStoryProgress()}
 		</div>
 	);
 
