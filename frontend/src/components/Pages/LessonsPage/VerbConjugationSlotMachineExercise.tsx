@@ -18,7 +18,7 @@ interface VerbConjugationState {
 	successes: number;
 }
 
-type Tense = "Präsens" | "Präteritum";
+type Tense = "Präsens" | "Präteritum" | "Perfekt";
 type Pronoun = "ich" | "du" | "er" | "sie" | "es" | "wir" | "ihr" | "sie" | "Sie";
 type Conjugation = { pronoun: Pronoun; conjugation: string };
 type VerbConjugation = { verb: string; tense: Tense; conjugations: Conjugation[] };
@@ -37,26 +37,36 @@ const createVerbConjugation = (verb: string, tense: Tense, conjugations: string[
 
 const seinPrasens: string[] = ["bin", "bist", "ist", "ist", "ist", "sind", "seid", "sind", "sind"];
 const seinPrateritum: string[] = ["war", "warst", "war", "war", "war", "waren", "wart", "waren", "waren"];
+const seinPerfekt: string[] = ["bin gewesen", "bist gewesen", "ist gewesen", "ist gewesen", "ist gewesen", "sind gewesen", "seid gewesen", "sind gewesen", "sind gewesen"];
 const habenPrasens: string[] = ["habe", "hast", "hat", "hat", "hat", "haben", "habt", "haben", "haben"];
 const habenPrateritum: string[] = ["hatte", "hattest", "hatte", "hatte", "hatte", "hatten", "hattet", "hatten", "hatten"];
+const habenPerfekt: string[] = ["habe gehabt", "hast gehabt", "hat gehabt", "hat gehabt", "hat gehabt", "haben gehabt", "habt gehabt", "haben gehabt", "haben gehabt"];
 const machenPrasens = ["mache", "machst", "macht", "macht", "macht", "machen", "macht", "machen", "machen"];
 const machenPrateritum = ["machte", "machtest", "machte", "machte", "machte", "machten", "machtet", "machten", "machten"];
+const machenPerfekt = ["habe gemacht", "hast gemacht", "hat gemacht", "hat gemacht", "hat gemacht", "haben gemacht", "habt gemacht", "haben gemacht", "haben gemacht"];
 const gehenPrasens = ["gehe", "gehst", "geht", "geht", "geht", "gehen", "geht", "gehen", "gehen"];
 const gehenPrateritum = ["ging", "gingst", "ging", "ging", "ging", "gingen", "gingt", "gingen", "gingen"];
+const gehenPerfekt = ["bin gegangen", "bist gegangen", "ist gegangen", "ist gegangen", "ist gegangen", "sind gegangen", "seid gegangen", "sind gegangen", "sind gegangen"];
 const kommenPrasens = ["komme", "kommst", "kommt", "kommt", "kommt", "kommen", "kommt", "kommen", "kommen"];
 const kommenPrateritum = ["kam", "kamst", "kam", "kam", "kam", "kamen", "kamt", "kamen", "kamen"];
+const kommenPerfekt = ["bin gekommen", "bist gekommen", "ist gekommen", "ist gekommen", "ist gekommen", "sind gekommen", "seid gekommen", "sind gekommen", "sind gekommen"];
 
 const verbConjugations: VerbConjugation[] = [
 	createVerbConjugation("sein", "Präsens", seinPrasens),
 	createVerbConjugation("sein", "Präteritum", seinPrateritum),
+	createVerbConjugation("sein", "Perfekt", seinPerfekt),
 	createVerbConjugation("haben", "Präsens", habenPrasens),
 	createVerbConjugation("haben", "Präteritum", habenPrateritum),
+	createVerbConjugation("haben", "Perfekt", habenPerfekt),
 	createVerbConjugation("gehen", "Präsens", gehenPrasens),
 	createVerbConjugation("gehen", "Präteritum", gehenPrateritum),
+	createVerbConjugation("gehen", "Perfekt", gehenPerfekt),
 	createVerbConjugation("machen", "Präsens", machenPrasens),
 	createVerbConjugation("machen", "Präteritum", machenPrateritum),
+	createVerbConjugation("machen", "Perfekt", machenPerfekt),
 	createVerbConjugation("kommen", "Präsens", kommenPrasens),
 	createVerbConjugation("kommen", "Präteritum", kommenPrateritum),
+	createVerbConjugation("kommen", "Perfekt", kommenPerfekt),
 ];
 
 const VerbConjugationSlotMachineExercise: React.FC = () => {
@@ -95,7 +105,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 	}, []);
 
 	const verbs = ["sein", "haben", "machen", "gehen", "kommen"];
-	const tenses = ["Präsens", "Präteritum"];
+	const tenses = ["Präsens", "Präteritum", "Perfekt"];
 
 	const checkAnswer = useCallback(() => {
 		if (state.userInput.trim() === "") return;
@@ -234,7 +244,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 				</Link>
 			</div>
 		</>
-    );
+	);
 
 	return (
 		<Layout>
