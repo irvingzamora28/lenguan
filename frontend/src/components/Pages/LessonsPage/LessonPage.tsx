@@ -28,7 +28,7 @@ const LessonPage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [prevLessonExists, setPrevLessonExists] = useState(false);
 	const [nextLessonExists, setNextLessonExists] = useState(false);
-    useScrollToTop();
+	useScrollToTop();
 
 	// Function to check if a lesson exists
 	const checkLessonExistence = async (lessonNum: number) => {
@@ -95,7 +95,12 @@ const LessonPage: React.FC = () => {
 				<NotFoundPage />
 			) : (
 				<>
-					<h2 className="text-2xl font-bold mb-6">Lesson {lesson_number}</h2>
+					<div className="flex justify-between items-center mb-6">
+						<h2 className="text-2xl font-bold">Lesson {lesson_number}</h2>
+						<Link to="/lessons" className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow">
+							<MdArrowBack className="mr-2" /> All Lessons
+						</Link>
+					</div>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 						<div className="grid md:grid-flow-col grid-cols-2 md:grid-cols-4 col-span-4 lg:col-span-3 gap-4 mb-8">
 							{activities.map((activity, index) => (
@@ -124,13 +129,12 @@ const LessonPage: React.FC = () => {
 						</div>
 					</div>
 
-
 					<div className="flex justify-between items-center my-6">
 						{prevLessonExists && (
-						<Link to={`/lessons/${currentLessonNumber - 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
-							<MdArrowBack className="mr-2" /> Previous Lesson
-						</Link>
-                            )}
+							<Link to={`/lessons/${currentLessonNumber - 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+								<MdArrowBack className="mr-2" /> Previous Lesson
+							</Link>
+						)}
 						{nextLessonExists && (
 							<Link to={`/lessons/${currentLessonNumber + 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
 								Next Lesson <MdArrowForward className="ml-2" />
