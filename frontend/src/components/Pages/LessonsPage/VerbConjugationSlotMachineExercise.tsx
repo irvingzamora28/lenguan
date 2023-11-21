@@ -19,11 +19,11 @@ interface VerbConjugationState {
 }
 
 type Tense = "Präsens" | "Präteritum" | "Perfekt";
-type Pronoun = "ich" | "du" | "er" | "sie" | "es" | "wir" | "ihr" | "sie" | "Sie";
+type Pronoun = "ich" | "du" | "er" | "sie (she)" | "es" | "wir" | "ihr" | "sie (they)" | "Sie";
 type Conjugation = { pronoun: Pronoun; conjugation: string };
 type VerbConjugation = { verb: string; tense: Tense; conjugations: Conjugation[] };
 
-const pronouns: Pronoun[] = ["ich", "du", "er", "sie", "es", "wir", "ihr", "sie", "Sie"];
+const pronouns: Pronoun[] = ["ich", "du", "er", "sie (she)", "es", "wir", "ihr", "sie (they)", "Sie"];
 
 // Define createVerbConjugation as a function type that returns VerbConjugation
 const createVerbConjugation = (verb: string, tense: Tense, conjugations: string[]): VerbConjugation => ({
@@ -97,7 +97,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 			const randomTense = tenses[Math.floor(Math.random() * tenses.length)];
 			setState((prevState) => ({ ...prevState, pronoun: randomPronoun, verb: randomVerb, tense: randomTense }));
 			setIsAnimating(false); // Stop the animation
-		}, 3000); // Adjust the duration to match your animation
+		}, 3000);
 	}, []);
 
 	const playSound = useCallback((soundEffect: string) => {
@@ -109,28 +109,29 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 
 	const checkAnswer = useCallback(() => {
 		if (state.userInput.trim() === "") return;
+
 		// Find the verb conjugation set for the selected verb and tense
 		const conjugationSet = verbConjugations.find((vc) => vc.verb === state.verb && vc.tense === state.tense);
-		console.log(verbConjugations);
-		console.log(conjugationSet);
 
 		if (!conjugationSet) {
 			console.error("Conjugation set not found");
 			return;
 		}
 
-		// Find the correct conjugation for the selected pronoun
+		// Find the correct conjugation
 		const correctConjugation = conjugationSet.conjugations.find((c) => c.pronoun === state.pronoun)?.conjugation;
-
 		if (!correctConjugation) {
 			console.error("Correct conjugation not found");
 			return;
 		}
 
-		// Construct the correct sentence
-		const correctSentence = `${state.pronoun} ${correctConjugation}`;
+		// Remove text inside parentheses and trim for cases where there are explanations inside parentheses
+		let selectedPronoun = state.pronoun.replace(/\s*\(.*?\)\s*/g, "").trim();
 
-		// Compare the correct sentence with the user's input
+		// Construct the correct sentence
+		const correctSentence = `${selectedPronoun} ${correctConjugation}`;
+
+		// Compare the adjusted correct sentence with the user's input
 		if (state.userInput.trim() === correctSentence) {
 			setState((prevState) => ({
 				...prevState,
