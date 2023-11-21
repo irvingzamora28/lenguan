@@ -175,8 +175,6 @@ const storyData: StorySection[] = [
 	// ... add more sections if needed
 ];
 
-// TODO: Make both options the same width and height depending on the text of the larger option and improve style
-
 const CreateStoryWritingExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const specialCharacters = ["ä", "ö", "ü", "ß"];
@@ -379,11 +377,11 @@ const CreateStoryWritingExercise: React.FC = () => {
 	);
 
 	const renderStoryChoices = () => (
-		<div className="flex space-x-8 m-2">
+		<div className="flex w-full space-x-8 justify-between m-2">
 			{state.showChoices &&
 				currentSection?.choices &&
 				currentSection.choices.map((choice, index) => (
-					<button key={index} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleChoice(choice.nextSectionId)}>
+					<button key={index} className="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleChoice(choice.nextSectionId)}>
 						{choice.germanText}
 					</button>
 				))}
