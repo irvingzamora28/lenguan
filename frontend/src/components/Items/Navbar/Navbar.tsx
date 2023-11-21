@@ -7,6 +7,8 @@ import { AiOutlineGlobal } from "react-icons/ai";
 import { resetLanguageState, setLanguage } from "../../../redux/languageSlice";
 import { Language } from "../../../types/language";
 import { resetCourseState } from "../../../redux/courseSlice";
+import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -91,12 +93,9 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 								<div className="font-medium">{user?.name}</div>
 							</div>
 							<div className="flex flex-col space-y-3 p-2">
-								<a href="#" className="transition hover:text-primary-600">
-									My Profile
-								</a>
-								<a href="#" className="transition hover:text-primary-600">
-									Edit Profile
-								</a>
+								<Link to="/profile" className="flex items-center hover:text-primary-600">
+									<FaUserCircle className="mr-2" /> My Profile
+								</Link>
 								<a href="#" className="transition hover:text-primary-600">
 									Settings
 								</a>
