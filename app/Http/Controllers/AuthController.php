@@ -54,7 +54,7 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = User::where('email', $request->email)->first(['name', 'username', 'password']);
+        $user = User::where('email', $request->email)->first(['name', 'username', 'email', 'password']);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
@@ -62,6 +62,15 @@ class AuthController extends Controller
 
         $token = $user->createToken($request->email)->plainTextToken;
         $request->session()->regenerate();
-        return response()->json(['token' => $token, 'user' => $user]);
+
+        // Selectively return user data
+        $userData = [
+            '_id' => $user->_id,
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email
+        ];
+
+        return response()->json(['token' => $token, 'user' => $userData]);
     }
 }

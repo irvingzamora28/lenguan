@@ -14,6 +14,11 @@ export function useIsGuest() {
 	return Boolean(isGuest);
 }
 
+export function useAuthToken() {
+	const token = useAppSelector((state) => state.auth.token);
+	return token;
+}
+
 export function useUser() {
 	const user = useAppSelector((state) => state.auth.user);
 	return user;

@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation to edit page
-import { User } from "../../../types";
 import { useUser } from "../../../redux/hooks";
+import { useApi } from "../../../hooks/api/useApi";
 
 const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
 	const user = useUser();
 	console.log(user);
 
-	// This is a placeholder for user data loading logic
+    const { getRequest } = useApi();
+
 	useEffect(() => {
-		// Load user data here if needed
+		fetchUserData();
 	}, []);
+
+	const fetchUserData = async () => {
+		try {
+			const response = await getRequest("/api/user");
+			// handle response
+            console.log(response.data);
+
+		} catch (error) {
+			// handle error
+		}
+	};
 
 	const handleEditClick = () => {
 		navigate("/edit-profile"); // Replace with your actual route to edit profile
