@@ -25,12 +25,14 @@ import ScrambledWordsExercise from "./components/Pages/LessonsPage/ScrambledWord
 import VerbConjugationSlotMachineExercise from "./components/Pages/LessonsPage/VerbConjugationSlotMachineExercise";
 import CreateStoryWritingExercise from "./components/Pages/LessonsPage/CreateStoryWritingExercise";
 import ProfilePage from "./components/Pages/ProfilePage/ProfilePage";
+import EditProfilePage from "./components/Pages/ProfilePage/EditProfilePage";
 
 const privateRoutes = [
 	{ path: "/select-language", element: <SelectLanguagePage /> },
 	{ path: "/select-course", element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },
+    { path:"/edit-profile", element:<EditProfilePage />},
 	{ path: "/lessons", element: <LessonsPage /> },
 	{ path: "/lessons/:lesson_number", element: <LessonPage /> },
 	{

@@ -10,8 +10,12 @@ export const useApi = () => {
     };
 
     const postRequest = async (url: string, data = {}, config: AxiosRequestConfig = {}) => {
-      return api.post(url, data, { ...config, headers: { ...config.headers, Authorization: `Bearer ${token}` } });
-    };
+        return api.post(url, data, { ...config, headers: { ...config.headers, Authorization: `Bearer ${token}` } });
+      };
 
-    return { getRequest, postRequest };
+      const putRequest = async (url: string, data = {}, config: AxiosRequestConfig = {}) => {
+        return api.put(url, data, { ...config, headers: { ...config.headers, Authorization: `Bearer ${token}` } });
+      };
+
+    return { getRequest, postRequest, putRequest };
   };
