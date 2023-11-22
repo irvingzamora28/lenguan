@@ -1,27 +1,20 @@
-// EditProfilePage.tsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../../redux/hooks"; // Assuming you have a hook to fetch user data
+import { useUser } from "../../../redux/hooks";
 import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
+import InputField from "../../Items/Forms/InputField";
 
 const EditProfilePage: React.FC = () => {
 	const navigate = useNavigate();
 	const { putRequest } = useApi();
 	const user = useUser();
-	const [formData, setFormData] = useState({
-		name: "",
-		username: "",
-		email: "",
-	});
+	const [formData, setFormData] = useState({ name: "", username: "", email: "" });
+	const [error, setError] = useState("");
 
 	useEffect(() => {
 		if (user) {
-			setFormData({
-				name: user.name || "",
-				username: user.username || "",
-				email: user.email || "",
-			});
+			setFormData({ name: user.name || "", username: user.username || "", email: user.email || "" });
 		}
 	}, [user]);
 
@@ -34,11 +27,9 @@ const EditProfilePage: React.FC = () => {
 		try {
 			const response = await putRequest("/api/user", formData);
 			console.log(response);
-			// Redirect or show success message
 			navigate("/profile");
 		} catch (error) {
-			console.error("Error updating profile:", error);
-			// Handle error (e.g., show error message)
+			setError("Error updating profile. Please try again.");
 		}
 	};
 
@@ -49,47 +40,14 @@ const EditProfilePage: React.FC = () => {
 					<div className="p-4 md:p-6">
 						<h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
 						<form onSubmit={handleSubmit}>
-							<div className="mb-4">
-								<label htmlFor="name" className="block text-sm font-medium text-gray-700">
-									Name
-								</label>
-								<input
-									type="text"
-									name="name"
-									id="name"
-									value={formData.name}
-									onChange={handleInputChange}
-									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								/>
-							</div>
-							<div className="mb-4">
-								<label htmlFor="username" className="block text-sm font-medium text-gray-700">
-									Username
-								</label>
-								<input
-									type="text"
-									name="username"
-									id="username"
-									value={formData.username}
-									onChange={handleInputChange}
-									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								/>
-							</div>
-							<div className="mb-4">
-								<label htmlFor="email" className="block text-sm font-medium text-gray-700">
-									Email
-								</label>
-								<input
-									type="email"
-									name="email"
-									id="email"
-									value={formData.email}
-									onChange={handleInputChange}
-									className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-								/>
-							</div>
-							<div className="flex justify-end">
-								<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded">
+							{error && <div className="mb-4 text-red-600">{error}</div>}
+							<InputField label="Name" name="name" value={formData.name} onChange={handleInputChange} />
+							<InputField label="Username" name="username" value={formData.username} onChange={handleInputChange} />
+							<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} />
+
+							{/* Save button */}
+							<div className="flex justify-end mt-6">
+								<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">
 									Save Changes
 								</button>
 							</div>
