@@ -18,6 +18,7 @@ return new class extends Migration
             $collection->string('username')->unique();
             $collection->timestamp('email_verified_at')->nullable();
             $collection->string('password');
+            $collection->string('profile_image_path', 128);
             $collection->rememberToken();
             $collection->array('languages');
             $collection->array('progress');

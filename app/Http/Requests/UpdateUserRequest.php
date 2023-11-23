@@ -21,11 +21,12 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        $userId = $this->user()->getKey(); // This should return the _id of the user
+        $userId = $this->user()->getKey();
         return [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $userId . ',_id',
             'email' => 'required|string|email|max:255|unique:users,email,' . $userId . ',_id',
+            'image' => 'sometimes|file|image|max:5000', // Accepting image files up to 5MB
         ];
     }
 }
