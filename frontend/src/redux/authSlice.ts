@@ -49,9 +49,12 @@ export const authSlice = createSlice({
 			state.isGuest = true;
 			state.user = action.payload.user;
 		},
+        updateAuthUser: (state, action: PayloadAction<{user: User}>) => {
+            state.user = action.payload.user;
+        }
 	},
 });
 
-export const { loginSuccess, loginRequest, loginFailure, loginGuest, logout } = authSlice.actions;
+export const { loginSuccess, loginRequest, loginFailure, loginGuest, logout, updateAuthUser } = authSlice.actions;
 
 export default authSlice.reducer;

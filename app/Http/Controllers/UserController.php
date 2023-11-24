@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Contracts\UserServiceInterface;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -17,7 +18,9 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $user = $this->userService->updateUser($request->user(), $request->validated());
-
-        return response()->json(['user' => $user, 'message' => 'User updated successfully.']);
+        return response()->json([
+            'user' => new UserResource($user),
+            'message' => 'User updated successfully.'
+        ]);
     }
 }

@@ -6,6 +6,9 @@ import Layout from "../../Layout/Layout";
 import InputField from "../../Items/Forms/InputField";
 import axios from "axios";
 import { FaCamera } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { updateAuthUser } from "../../../redux/authSlice";
+import { User } from "../../../types";
 
 interface ValidationErrors {
 	name?: string;
@@ -15,7 +18,8 @@ interface ValidationErrors {
 
 const EditProfilePage: React.FC = () => {
 	const navigate = useNavigate();
-	const { putRequest, postRequest } = useApi();
+	const dispatch = useDispatch();
+	const { postRequest } = useApi();
 	const user = useUser();
 	const [formData, setFormData] = useState({ name: "", username: "", email: "" });
 	const [error, setError] = useState("");
@@ -49,7 +53,7 @@ const EditProfilePage: React.FC = () => {
 		formDataToSend.append("email", formData.email);
 		formDataToSend.append("_method", "PUT");
 		if (profilePicture) {
-            console.log("append profilePicture", profilePicture);
+			console.log("append profilePicture", profilePicture);
 
 			formDataToSend.append("image", profilePicture);
 		}
@@ -60,7 +64,8 @@ const EditProfilePage: React.FC = () => {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-			console.log(response);
+			const updatedUser: User = response.data.user;
+			dispatch(updateAuthUser({ user: updatedUser }));
 			navigate("/profile");
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
@@ -98,7 +103,7 @@ const EditProfilePage: React.FC = () => {
 								<input type="file" name="profilePicture" id="profilePictureInput" className="hidden" onChange={handleImageChange} />
 								<img src={profilePicturePreview || "https://picsum.photos/300/200"} alt="Profile Preview" className="rounded-full h-32 w-32 object-cover" />
 								<label htmlFor="profilePictureInput" className="absolute bottom-0 right-0 bg-primary-500 hover:bg-primary-600 text-white rounded-full p-2 cursor-pointer">
-										<FaCamera />
+									<FaCamera />
 								</label>
 							</div>
 							<InputField label="Name" name="name" value={formData.name} onChange={handleInputChange} error={validationErrors.name} />
