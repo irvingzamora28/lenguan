@@ -21,8 +21,8 @@ return new class extends Migration
             $collection->string('profile_image_path', 128);
             $collection->rememberToken();
             $collection->array('languages');
-            $collection->foreignId('language_id')->comment('Target language currently learning')->constrained('languages');
-            $collection->string('native_language_code')->comment('Native language code (es, en, de, fr, etc.');
+            $collection->foreignId('language_id')->nullable()->comment('Target language currently learning')->constrained('languages');
+            $collection->string('native_language_code', 3)->comment('Native language code (es, en, de, fr, etc.');
             $collection->array('progress');
             $collection->array('goals');
             $collection->string('learningStyle');
