@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom"; // For navigation to edit 
 import { useUser } from "../../../redux/hooks";
 import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
-import { FaCamera } from "react-icons/fa";
+import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 
 const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
 	const user = useUser();
 	console.log(user);
-
+    const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const { getRequest } = useApi();
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ const ProfilePage: React.FC = () => {
 				<div className="bg-white shadow-lg rounded-lg overflow-hidden">
 					<div className="text-center p-4 md:p-6">
 						<div className="relative inline-block">
-							<img src={user?.image || "https://picsum.photos/300/200"} alt={`${user?.name}'s Profile`} className="rounded-full h-32 w-32 object-cover mx-auto" />
+							<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-32 w-32 object-cover mx-auto" />
 						</div>
 						<h2 className="text-3xl font-bold my-2 md:my-6">Profile Details</h2>
 					</div>
@@ -45,7 +45,7 @@ const ProfilePage: React.FC = () => {
 							<strong className="block text-lg">Email:</strong>
 							<p>{user?.email}</p>
 						</div>
-                        <div className="mb-4">
+						<div className="mb-4">
 							<strong className="block text-lg">My language:</strong>
 							<p>English</p>
 						</div>

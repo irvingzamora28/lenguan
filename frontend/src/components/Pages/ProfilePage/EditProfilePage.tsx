@@ -9,6 +9,7 @@ import { FaCamera } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { updateAuthUser } from "../../../redux/authSlice";
 import { User } from "../../../types";
+import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 
 interface ValidationErrors {
 	name?: string;
@@ -26,6 +27,8 @@ const EditProfilePage: React.FC = () => {
 	const [profilePicture, setProfilePicture] = useState<File | null>(null);
 	const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+    const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
+    const profilePreviewUrl = profilePicturePreview || profileImageUrl;
 
 	useEffect(() => {
 		if (user) {
@@ -101,7 +104,7 @@ const EditProfilePage: React.FC = () => {
 							{/* Image upload and preview */}
 							<div className="relative inline-block mb-4">
 								<input type="file" name="profilePicture" id="profilePictureInput" className="hidden" onChange={handleImageChange} />
-								<img src={profilePicturePreview || "https://picsum.photos/300/200"} alt="Profile Preview" className="rounded-full h-32 w-32 object-cover" />
+								<img src={profilePreviewUrl} alt="Profile Preview" className="rounded-full h-32 w-32 object-cover" />
 								<label htmlFor="profilePictureInput" className="absolute bottom-0 right-0 bg-primary-500 hover:bg-primary-600 text-white rounded-full p-2 cursor-pointer">
 									<FaCamera />
 								</label>
