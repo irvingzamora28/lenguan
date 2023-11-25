@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../types";
 
-// TODO: Define user interface
 interface AuthState {
 	isAuthenticated: boolean;
-	isGuest: boolean; // add this
+	isGuest: boolean;
 	token: string | null;
 	user: User | null;
 	isLoading: boolean;
