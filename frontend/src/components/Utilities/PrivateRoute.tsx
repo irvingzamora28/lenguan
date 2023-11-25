@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 // Hooks
-import { useIsAuthenticated, useIsGuest, useSelectedLanguage, useSelectedCourse } from "../../redux/hooks";
+import { useIsAuthenticated, useIsGuest, useSelectedLanguage, useSelectedCourse, useUser } from "../../redux/hooks";
 
 // Utils and constants
 import { routeTitles } from "./../../utils/routeLoginTitles";
@@ -24,11 +24,12 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 	const isAuthenticated = useIsAuthenticated();
 	const isGuest = useIsGuest();
 	const selectedLanguage = useSelectedLanguage();
+    const user = useUser();
 	const selectedCourse = useSelectedCourse();
 	const location = useLocation();
 
 	const routesToCheck: RouteCondition[] = [
-		{ condition: () => !selectedLanguage, path: Routes.SELECT_LANGUAGE_PATH },
+		{ condition: () => !user?.language, path: Routes.SELECT_LANGUAGE_PATH },
 		{ condition: () => !selectedCourse, path: Routes.SELECT_COURSE_PATH },
 	];
 
