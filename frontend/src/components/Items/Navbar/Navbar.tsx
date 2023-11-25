@@ -9,6 +9,7 @@ import { Language } from "../../../types/language";
 import { resetCourseState } from "../../../redux/courseSlice";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -23,6 +24,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
 	const selectedLanguage = useSelectedLanguage();
+	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
@@ -84,12 +86,12 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 				)}
 				<div className="relative">
 					<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button" aria-label="profile">
-						<img src="https://picsum.photos/45" alt="plchldr.co" />
+						<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 					</button>
 					{profileOpen && (
 						<div ref={profileMenuRef} className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
 							<div className="flex items-center space-x-2 p-2">
-								<img src="https://picsum.photos/45" alt="plchldr.co" className="h-9 w-9 rounded-full" />
+								<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 								<div className="font-medium">{user?.name}</div>
 							</div>
 							<div className="flex flex-col space-y-3 p-2">
