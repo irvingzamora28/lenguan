@@ -48,4 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class, 'language_id', '_id');
+    }
 }

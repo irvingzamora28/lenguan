@@ -54,7 +54,11 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = User::where('email', $request->email)->first(['name', 'username', 'email', 'password']);
+        $user = User::where('email', $request->email)
+            ->with(['language' => function ($query) {
+                $query->select('_id', 'name', 'code');
+            }])
+            ->first(['name', 'username', 'email', 'password', 'language_id']);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
@@ -68,6 +72,7 @@ class AuthController extends Controller
             '_id' => $user->_id,
             'name' => $user->name,
             'username' => $user->username,
+            'language' => $user->language,
             'email' => $user->email
         ];
 
