@@ -13,8 +13,8 @@ class UserService implements UserServiceInterface
         // Check if a new profile picture is provided
         if (isset($data['image'])) {
             // Delete the old image if it exists
-            if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
-                Storage::disk('public')->delete($user->image_path);
+            if ($user->profile_image_path && Storage::disk('public')->exists($user->profile_image_path)) {
+                Storage::disk('public')->delete($user->profile_image_path);
             }
 
             // Upload new image and update the path
