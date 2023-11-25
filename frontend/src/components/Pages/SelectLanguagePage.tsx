@@ -8,29 +8,61 @@ import { FaLanguage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "./../../assets/scss/components/SelectLanguagePage.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useLanguages } from "../../redux/hooks";
+import { useLanguages, useUser } from "../../redux/hooks";
 import { getLanguages } from "../../utils/languages";
 import { Language } from "../../types/language";
+import { updateAuthUser } from "../../redux/authSlice";
+import { useApi } from "../../hooks/api/useApi";
+import { User } from "../../types";
 
 const SelectLanguagePage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
+	const user = useUser();
 	const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 	const languages = useLanguages();
+
+    const { postRequest } = useApi();
+
+    const updateLanguageInBackend = async (updatedUser: User) => {
+        try {
+            const response = await postRequest("/api/user/language", { language_id: updatedUser.language?._id, _method: "PUT" }, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            toast.success("Language selected successfully!", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+            setTimeout(() => navigate("/"), 5000);
+        } catch (error) {
+            // handle errors as needed
+            console.error('Error updating language:', error);
+            toast.error("Error updating language. Please try again.");
+        }
+    };
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-    // Fetch the languages available to select
+	// Fetch the languages available to select
 	getLanguages(languages, dispatch);
 
 	const selectLanguage = (language: Language) => {
 		setSelectedLanguage(language.code);
 		dispatch(setLanguage(language));
-		toast.success("Language selected successfully!", {
-			position: toast.POSITION.TOP_CENTER,
-			autoClose: 3000,
-		});
-		setTimeout(() => navigate("/"), 5000);
+		// Ensure user is not null before updating
+		if (user) {
+			const updatedUser = {
+				...user,
+				language: language,
+			};
+			dispatch(updateAuthUser({ user: updatedUser }));
+            updateLanguageInBackend(updatedUser);
+		} else {
+			console.error("User is null, cannot update language");
+		}
+
 	};
 
 	return (

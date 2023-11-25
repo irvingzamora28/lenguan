@@ -46,4 +46,11 @@ class UserService implements UserServiceInterface
 
         return $filePath;
     }
+
+    public function updateUserLanguage(User $user, array $data): User
+    {
+        $user->language_id = $data['language_id'];
+        $user->save();
+        return $user;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Contracts\UserServiceInterface;
+use App\Http\Requests\UpdateUserTargetLanguageRequest;
 use App\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -21,6 +22,16 @@ class UserController extends Controller
         return response()->json([
             'user' => new UserResource($user),
             'message' => 'User updated successfully.'
+        ]);
+    }
+
+    public function updateTargetLanguage(UpdateUserTargetLanguageRequest $request)
+    {
+        $user = $this->userService->updateUserLanguage($request->user(), $request->validated());
+
+        return response()->json([
+            'user' => new UserResource($user),
+            'message' => 'User language updated successfully.'
         ]);
     }
 }
