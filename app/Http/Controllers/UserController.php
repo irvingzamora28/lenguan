@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Contracts\UserServiceInterface;
+use App\Http\Requests\UpdateUserTargetCourseRequest;
 use App\Http\Requests\UpdateUserTargetLanguageRequest;
 use App\Http\Resources\UserResource;
 
@@ -32,6 +33,16 @@ class UserController extends Controller
         return response()->json([
             'user' => new UserResource($user),
             'message' => 'User language updated successfully.'
+        ]);
+    }
+
+    public function updateTargetCourse(UpdateUserTargetCourseRequest $request)
+    {
+        $user = $this->userService->updateUserCourse($request->user(), $request->validated());
+
+        return response()->json([
+            'user' => new UserResource($user),
+            'message' => 'User Course updated successfully.'
         ]);
     }
 }

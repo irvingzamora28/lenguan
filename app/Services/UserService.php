@@ -53,4 +53,11 @@ class UserService implements UserServiceInterface
         $user->save();
         return $user;
     }
+
+    public function updateUserCourse(User $user, array $data): User
+    {
+        $user->course_id = $data['course_id'];
+        $user->save();
+        return $user;
+    }
 }

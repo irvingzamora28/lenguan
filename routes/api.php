@@ -87,6 +87,7 @@ Route::group(['prefix' => 'languages'], function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user', [UserController::class, 'update']);
     Route::put('/user/language', [UserController::class, 'updateTargetLanguage']);
+    Route::put('/user/course', [UserController::class, 'updateTargetCourse']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -23,6 +23,7 @@ return new class extends Migration
             $collection->array('languages');
             $collection->foreignId('language_id')->nullable()->comment('Target language currently learning')->constrained('languages');
             $collection->string('native_language_code', 3)->comment('Native language code (es, en, de, fr, etc.');
+            $collection->foreignId('course_id')->nullable()->comment('Current course')->constrained('courses');
             $collection->array('progress');
             $collection->array('goals');
             $collection->string('learningStyle');

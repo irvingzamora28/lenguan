@@ -2,7 +2,7 @@ import React from "react";
 import LessonCard from "../../Items/Cards/LessonCard";
 import Filter from "../../Items/Forms/Filter";
 import Layout from "../../Layout/Layout";
-import { useSelectedCourse, useSelectedLanguage } from "../../../redux/hooks";
+import { useSelectedCourse, useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { Goal } from "../../../types/goal";
 import { useFilteredLessons } from "../../../hooks/filter/useFilteredLessons";
 import { useFetchLessons } from "../../../hooks/fetch/useFetchLessons";
@@ -12,9 +12,10 @@ import { ErrorBanner } from "../../Utilities/ErrorBanner";
 const LessonsPage: React.FC = () => {
 	const selectedLanguage = useSelectedLanguage();
 	const selectedCourse = useSelectedCourse();
+    const user = useUser();
 
 	const [lessons, lessonsError] = useFetchLessons(selectedCourse?._id);
-	const [goals, goalsError] = useFetchGoals(selectedLanguage?._id);
+	const [goals, goalsError] = useFetchGoals(user?.language?._id);
 
 	const [filteredLessons, setSearchTerm, setSelectedFilter, searchTerm] = useFilteredLessons(lessons, "", "All");
 
