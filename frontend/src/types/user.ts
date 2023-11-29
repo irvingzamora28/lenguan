@@ -6,6 +6,7 @@ export interface User {
 	name: string;
 	username?: string;
 	language?: Language;
+    native_language_code: string;
 	course?: Course;
 	email: string;
     image: string;

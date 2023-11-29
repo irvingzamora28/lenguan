@@ -10,11 +10,13 @@ import { useDispatch } from "react-redux";
 import { updateAuthUser } from "../../../redux/authSlice";
 import { User } from "../../../types";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
+import DropdownField from "../../Items/Forms/DropdownField";
 
 interface ValidationErrors {
 	name?: string;
 	username?: string;
 	email?: string;
+	native_language_code?: string;
 }
 
 const EditProfilePage: React.FC = () => {
@@ -22,21 +24,26 @@ const EditProfilePage: React.FC = () => {
 	const dispatch = useDispatch();
 	const { postRequest } = useApi();
 	const user = useUser();
-	const [formData, setFormData] = useState({ name: "", username: "", email: "" });
+	const [formData, setFormData] = useState({ name: "", username: "", email: "", native_language_code: "" });
 	const [error, setError] = useState("");
 	const [profilePicture, setProfilePicture] = useState<File | null>(null);
 	const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
-    const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
-    const profilePreviewUrl = profilePicturePreview || profileImageUrl;
+	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
+	const profilePreviewUrl = profilePicturePreview || profileImageUrl;
 
 	useEffect(() => {
 		if (user) {
-			setFormData({ name: user.name || "", username: user.username || "", email: user.email || "" });
+			setFormData({
+				name: user.name || "",
+				username: user.username || "",
+				email: user.email || "",
+				native_language_code: user.native_language_code || "",
+			});
 		}
 	}, [user]);
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFormFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
@@ -54,6 +61,7 @@ const EditProfilePage: React.FC = () => {
 		formDataToSend.append("name", formData.name);
 		formDataToSend.append("username", formData.username);
 		formDataToSend.append("email", formData.email);
+		formDataToSend.append("native_language_code", formData.native_language_code);
 		formDataToSend.append("_method", "PUT");
 		if (profilePicture) {
 			console.log("append profilePicture", profilePicture);
@@ -109,9 +117,20 @@ const EditProfilePage: React.FC = () => {
 									<FaCamera />
 								</label>
 							</div>
-							<InputField label="Name" name="name" value={formData.name} onChange={handleInputChange} error={validationErrors.name} />
-							<InputField label="Username" name="username" value={formData.username} onChange={handleInputChange} error={validationErrors.username} />
-							<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} error={validationErrors.email} />
+							<InputField label="Name" name="name" value={formData.name} onChange={handleFormFieldChange} error={validationErrors.name} />
+							<InputField label="Username" name="username" value={formData.username} onChange={handleFormFieldChange} error={validationErrors.username} />
+							<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleFormFieldChange} error={validationErrors.email} />
+							<DropdownField
+								label="Speaking Language"
+								name="native_language_code"
+								value={formData.native_language_code}
+								onChange={handleFormFieldChange}
+								options={[
+									{ value: "en", label: "English" },
+									{ value: "es", label: "Spanish" },
+								]}
+								error={validationErrors.native_language_code}
+							/>
 
 							<div className="flex justify-end mt-6">
 								<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">
