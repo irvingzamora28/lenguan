@@ -1,32 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // For navigation to edit page
+import React from "react";
+import { Link } from "react-router-dom";
 import { useUser } from "../../../redux/hooks";
-import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 import { LANGUAGE_MAPPING } from "../../../constants/languages";
 
 const ProfilePage: React.FC = () => {
-	const navigate = useNavigate();
 	const user = useUser();
-	console.log(user);
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
-	const { getRequest } = useApi();
-
-	useEffect(() => {
-		fetchUserData();
-	}, []);
-
-	const fetchUserData = async () => {
-		try {
-			const response = await getRequest("/api/user");
-			// handle response
-			console.log(response.data);
-		} catch (error) {
-			// handle error
-		}
-	};
-
 	const getUserLanguage = (code: string) => LANGUAGE_MAPPING[code] || "Unknown";
 
 	return (
