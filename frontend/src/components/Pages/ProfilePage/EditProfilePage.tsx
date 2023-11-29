@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../../redux/hooks";
 import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
@@ -11,6 +11,7 @@ import { updateAuthUser } from "../../../redux/authSlice";
 import { User } from "../../../types";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 import DropdownField from "../../Items/Forms/DropdownField";
+import { MdArrowBack } from "react-icons/md";
 
 interface ValidationErrors {
 	name?: string;
@@ -105,7 +106,13 @@ const EditProfilePage: React.FC = () => {
 			<div className="p-4 md:p-8 max-w-screen-md mx-auto">
 				<div className="bg-white shadow-lg rounded-lg overflow-hidden">
 					<div className="p-4 md:p-6">
-						<h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
+						<div className="flex justify-between items-center mb-4">
+							<h2 className="text-2xl font-semibold">Edit Profile</h2>
+							<Link to="/profile" className="flex items-center border border-blue-500 py-2 px-4 rounded-lg shadow text-primary-500 hover:text-primary-600 transition-colors duration-200">
+								<MdArrowBack className="mr-2" />
+								Back to Profile
+							</Link>
+						</div>
 						<form onSubmit={handleSubmit}>
 							{error && <div className="mb-4 text-red-600">{error}</div>}
 
