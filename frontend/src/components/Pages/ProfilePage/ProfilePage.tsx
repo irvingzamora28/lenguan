@@ -4,12 +4,13 @@ import { useUser } from "../../../redux/hooks";
 import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
+import { LANGUAGE_MAPPING } from "../../../constants/languages";
 
 const ProfilePage: React.FC = () => {
 	const navigate = useNavigate();
 	const user = useUser();
 	console.log(user);
-    const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
+	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const { getRequest } = useApi();
 
 	useEffect(() => {
@@ -25,6 +26,8 @@ const ProfilePage: React.FC = () => {
 			// handle error
 		}
 	};
+
+	const getUserLanguage = (code: string) => LANGUAGE_MAPPING[code] || "Unknown";
 
 	return (
 		<Layout>
@@ -47,7 +50,7 @@ const ProfilePage: React.FC = () => {
 						</div>
 						<div className="mb-4">
 							<strong className="block text-lg">My language:</strong>
-							<p>English</p>
+							<p>{getUserLanguage(user?.native_language_code ?? "")}</p>
 						</div>
 					</div>
 					<div className="bg-gray-100 p-4 md:p-6 text-center">
