@@ -76,7 +76,7 @@ const EditProfilePage: React.FC = () => {
 				},
 			});
 			const updatedUser: User = response.data.user;
-			dispatch(updateAuthUser({ user: updatedUser }));
+			dispatch(updateAuthUser({ user: { ...user, ...updatedUser } }));
 			navigate("/profile");
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
