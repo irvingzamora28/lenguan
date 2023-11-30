@@ -10,11 +10,12 @@ import { useFetchGoals } from "../../../hooks/fetch/useFetchGoals";
 import { ErrorBanner } from "../../Utilities/ErrorBanner";
 
 const LessonsPage: React.FC = () => {
+    // TODO: Remove useSelectedLanguage and useSelectedCourse, they are not needed anymore
 	const selectedLanguage = useSelectedLanguage();
 	const selectedCourse = useSelectedCourse();
     const user = useUser();
 
-	const [lessons, lessonsError] = useFetchLessons(selectedCourse?._id);
+	const [lessons, lessonsError] = useFetchLessons(user?.course?._id);
 	const [goals, goalsError] = useFetchGoals(user?.language?._id);
 
 	const [filteredLessons, setSearchTerm, setSelectedFilter, searchTerm] = useFilteredLessons(lessons, "", "All");
