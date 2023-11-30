@@ -26,6 +26,7 @@ import VerbConjugationSlotMachineExercise from "./components/Pages/LessonsPage/V
 import CreateStoryWritingExercise from "./components/Pages/LessonsPage/CreateStoryWritingExercise";
 import ProfilePage from "./components/Pages/ProfilePage/ProfilePage";
 import EditProfilePage from "./components/Pages/ProfilePage/EditProfilePage";
+import VocabularyPage from "./components/Pages/LessonsPage/VocabularyPage";
 
 const privateRoutes = [
 	{ path: "/select-language", element: <SelectLanguagePage /> },
@@ -40,6 +41,13 @@ const privateRoutes = [
         element: <ExercisesPage />,
         children: [
           { path: "exercises", element: <ExercisesPage /> },
+        ]
+      },
+      {
+        path: "/lessons/:lesson_number",
+        element: <VocabularyPage />,
+        children: [
+          { path: "vocabulary", element: <VocabularyPage /> },
         ]
       },
 	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
