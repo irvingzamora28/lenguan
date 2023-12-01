@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import NotFoundPage from "../NotFoundPage";
 import FlashCard from "../../Items/Misc/FlashCard";
 import { TbVocabulary } from "react-icons/tb";
+import { MdArrowBack } from "react-icons/md";
 
 const VocabularyPage: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
@@ -76,7 +77,12 @@ const VocabularyPage: React.FC = () => {
 				<NotFoundPage />
 			) : (
 				<>
-					<h2 className="text-2xl font-bold mb-6">Vocabulary for Lesson {lesson_number}</h2>
+					<div className="flex justify-between items-center mb-6">
+						<h2 className="text-2xl font-bold">Vocabulary for Lesson {lesson_number}</h2>
+						<Link to={`/lessons/${lesson_number}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow">
+							<MdArrowBack className="mr-2" /> Back to lesson
+						</Link>
+					</div>
 					<div className="flex justify-center text-3xl mb-6">
 						<TbVocabulary />
 					</div>
