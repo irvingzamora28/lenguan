@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./components/Pages/AuthPage/LoginPage";
 import NotFoundPage from "./components/Pages/NotFoundPage";
 import RegisterPage from "./components/Pages/AuthPage/RegisterPage";
-import './i18n';
+import "./i18n";
 import "./index.css";
 import DashboardPage from "./components/Pages/DashboardPage/DashboardPage";
 import GenderDuelPage from "./components/Pages/GenderDuelPage/GenderDuelPage";
@@ -27,29 +27,27 @@ import CreateStoryWritingExercise from "./components/Pages/LessonsPage/CreateSto
 import ProfilePage from "./components/Pages/ProfilePage/ProfilePage";
 import EditProfilePage from "./components/Pages/ProfilePage/EditProfilePage";
 import VocabularyPage from "./components/Pages/LessonsPage/VocabularyPage";
+import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
+import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
+
+interface RouteType {
+	path: string;
+	element: React.ReactNode;
+	children?: RouteType[];
+}
 
 const privateRoutes = [
 	{ path: "/select-language", element: <SelectLanguagePage /> },
 	{ path: "/select-course", element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },
-    { path:"/edit-profile", element:<EditProfilePage />},
+	{ path: "/edit-profile", element: <EditProfilePage /> },
 	{ path: "/lessons", element: <LessonsPage /> },
 	{ path: "/lessons/:lesson_number", element: <LessonPage /> },
-	{
-        path: "/lessons/:lesson_number",
-        element: <ExercisesPage />,
-        children: [
-          { path: "exercises", element: <ExercisesPage /> },
-        ]
-      },
-      {
-        path: "/lessons/:lesson_number",
-        element: <VocabularyPage />,
-        children: [
-          { path: "vocabulary", element: <VocabularyPage /> },
-        ]
-      },
+	{ path: "/lessons/:lesson_number/exercises", element: <ExercisesPage /> },
+	{ path: "/lessons/:lesson_number/vocabulary", element: <VocabularyPage /> },
+	{ path: "/lessons/:lesson_number/quizzes", element: <QuizzesPage /> },
+	{ path: "/lessons/:lesson_number/quizzes/multiple-choice", element: <MultipleChoiceQuiz /> },
 	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
 	{ path: "/vocabulary-exercise/:lesson_number", element: <ScrambledWordsExercise /> },
 	{ path: "/grammar-exercise/:lesson_number", element: <VerbConjugationSlotMachineExercise /> },
@@ -65,18 +63,14 @@ const publicRoutes = [
 ];
 
 const router = createBrowserRouter([
-	...privateRoutes.map((route) => {
-        const { path, element, children } = route;
-        return {
-          path,
-          element: <PrivateRoute>{element}</PrivateRoute>,
-          children: children?.map((child) => ({
-            path: child.path,
-            element: <PrivateRoute>{child.element}</PrivateRoute>
-          })),
-        };
-      }),
-	...publicRoutes.map((route) => ({ ...route, element: <PublicRoute>{route.element}</PublicRoute> })),
+	...privateRoutes.map((route: RouteType) => ({
+		...route,
+		element: <PrivateRoute>{route.element}</PrivateRoute>,
+	})),
+	...publicRoutes.map((route) => ({
+		...route,
+		element: <PublicRoute>{route.element}</PublicRoute>,
+	})),
 	{ path: "*", element: <NotFoundPage /> },
 ]);
 
