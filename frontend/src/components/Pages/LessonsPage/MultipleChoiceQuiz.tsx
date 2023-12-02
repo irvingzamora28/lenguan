@@ -67,13 +67,16 @@ const MultipleChoiceQuiz: React.FC = () => {
 			if (allAnswersCorrect) {
 				setShowModal(true);
 			}
-			setIsSubmitted(false);
 		}
 	}, [isSubmitted, selectedAnswers]);
 
 	const handleSubmit = () => {
 		if (selectedAnswers.length === questions.length) {
 			setIsSubmitted(true);
+			const allAnswersCorrect = selectedAnswers.every((answer, index) => isCorrectAnswer(index));
+			if (allAnswersCorrect) {
+				setShowModal(true);
+			}
 		} else {
 			alert("Please answer all questions before submitting.");
 		}

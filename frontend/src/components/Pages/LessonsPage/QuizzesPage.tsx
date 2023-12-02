@@ -11,7 +11,7 @@ const QuizzesPage: React.FC = () => {
 
 	const quizzesCategories = [
 		{ title: "Multiple Choice Quiz", icon: <FaQuestionCircle />, link: `/lessons/${lesson_number}/quizzes/multiple-choice` },
-		{ title: "Sentence Formation Quiz", icon: <FaSortAlphaDown />, link: `/lessons/${lesson_number}/quizzes` },
+		{ title: "Sentence Formation Quiz", icon: <FaSortAlphaDown />, link: `/lessons/${lesson_number}/quizzes/sentence-formation` },
 	];
 
 	return (

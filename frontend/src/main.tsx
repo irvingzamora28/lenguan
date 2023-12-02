@@ -29,6 +29,7 @@ import EditProfilePage from "./components/Pages/ProfilePage/EditProfilePage";
 import VocabularyPage from "./components/Pages/LessonsPage/VocabularyPage";
 import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
 import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
+import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 
 interface RouteType {
 	path: string;
@@ -48,6 +49,7 @@ const privateRoutes = [
 	{ path: "/lessons/:lesson_number/vocabulary", element: <VocabularyPage /> },
 	{ path: "/lessons/:lesson_number/quizzes", element: <QuizzesPage /> },
 	{ path: "/lessons/:lesson_number/quizzes/multiple-choice", element: <MultipleChoiceQuiz /> },
+	{ path: "/lessons/:lesson_number/quizzes/sentence-formation", element: <SentenceFormationQuiz /> },
 	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
 	{ path: "/vocabulary-exercise/:lesson_number", element: <ScrambledWordsExercise /> },
 	{ path: "/grammar-exercise/:lesson_number", element: <VerbConjugationSlotMachineExercise /> },
