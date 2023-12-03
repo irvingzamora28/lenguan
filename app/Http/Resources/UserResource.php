@@ -21,6 +21,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'profile_image_path' => $this->profile_image_path,
             'native_language_code' => $this->native_language_code,
+            'language' => $this->language,
+            'course' => $this->course,
         ];
     }
 }

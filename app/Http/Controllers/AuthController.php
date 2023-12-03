@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,7 @@ class AuthController extends Controller
             }, 'course' => function ($query) {
                 $query->select('_id', 'name', 'description', 'image', 'language_id', 'levels');
             }])
-            ->first(['name', 'username', 'email', 'password', 'language_id', 'course_id']);
+            ->first(['name', 'username', 'email', 'password', 'language_id', 'course_id', 'native_language_code', 'profile_image_path']);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
@@ -70,16 +71,9 @@ class AuthController extends Controller
         $token = $user->createToken($request->email)->plainTextToken;
         $request->session()->regenerate();
 
-        // Selectively return user data
-        $userData = [
-            '_id' => $user->_id,
-            'name' => $user->name,
-            'username' => $user->username,
-            'language' => $user->language,
-            'course' => $user->course,
-            'email' => $user->email
-        ];
-
-        return response()->json(['token' => $token, 'user' => $userData]);
+        return response()->json([
+            'user' => new UserResource($user),
+            'token' => $token
+        ]);
     }
 }
