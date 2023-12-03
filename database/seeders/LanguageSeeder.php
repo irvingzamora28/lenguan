@@ -23,10 +23,19 @@ class LanguageSeeder extends Seeder
             ['name' => 'French', 'code' => 'fr'],
         ];
 
+        $goals = [
+            'Business Communication',
+            'Travel',
+            'Academic Study',
+            'Cultural Exploration',
+            'Other'
+        ];
+
         foreach ($languages as $language) {
             Language::create($language);
         }
 
+        // German course
         $language = Language::where('name', 'German')->first();
         $courseData = [
             'name'      => 'German for Beginners',
@@ -36,15 +45,22 @@ class LanguageSeeder extends Seeder
         ];
 
         $course = Course::create($courseData);
+        foreach ($goals as $goalName) {
+            $goal = new Goal(['name' => $goalName]);
+            $course->goals()->save($goal);
+        }
 
-        $goals = [
-            'Business Communication',
-            'Travel',
-            'Academic Study',
-            'Cultural Exploration',
-            'Other'
+        // Spanish course
+        $language = Language::where('name', 'Spanish')->first();
+
+        $courseData = [
+            'name'      => 'Spanish for Everyone',
+            'image'     => 'https://images.unsplash.com/photo-1566232392379-afd9298e6a46?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            'language_id' => $language->id,
+            'description' => 'Explore Spanish language and culture, from basics to advanced fluency.',
         ];
 
+        $course = Course::create($courseData);
         foreach ($goals as $goalName) {
             $goal = new Goal(['name' => $goalName]);
             $course->goals()->save($goal);

@@ -8,6 +8,7 @@ use App\Models\Level;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Goal;
+use App\Models\Language;
 
 class LessonSeeder extends Seeder
 {
@@ -298,8 +299,8 @@ class LessonSeeder extends Seeder
                     $lesson = new Lesson([
                         'name' => $lessonData['name'],
                         'lesson_number' => $lessonData['lesson_number'],
-                        'description' => $lessonData['description'], // Add description if needed
-                        'content' => '', // Add content if needed
+                        'description' => $lessonData['description'],
+                        'content' => '',
                     ]);
 
                     $lesson->level()->associate($level);
@@ -313,6 +314,229 @@ class LessonSeeder extends Seeder
                 }
                 $course->levels()->attach($level);
             }
+        }
+
+        // Spanish course
+        $spanishLessonsData = [
+            [
+                'level' => 'Level 1', // Beginner
+                'lessons' => [
+                    [
+                        'name' => 'Alphabet and Pronunciation',
+                        'lesson_number' => 1,
+                        'description' => 'Learn the Spanish alphabet and practice pronunciation.',
+                        'goals' => ['Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Basic Greetings and Introductions',
+                        'lesson_number' => 2,
+                        'description' => 'Learn essential greetings and how to introduce yourself in Spanish.',
+                        'goals' => ['Business Communication', 'Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Numbers and Basic Counting',
+                        'lesson_number' => 3,
+                        'description' => 'Learn to count in Spanish and use numbers in everyday contexts.',
+                        'goals' => ['Travel', 'Other'],
+                    ],
+                    [
+                        'name' => 'Basic Grammar - Nouns, Articles, and Pronouns',
+                        'lesson_number' => 4,
+                        'description' => 'Understand the basics of Spanish nouns, articles, and pronouns.',
+                        'goals' => ['Academic Study', 'Other'],
+                    ],
+                    [
+                        'name' => 'Basic Verbs and Present Tense',
+                        'lesson_number' => 5,
+                        'description' => 'Learn basic verb conjugations and sentence structures in the present tense.',
+                        'goals' => ['Academic Study', 'Other'],
+                    ],
+                    [
+                        'name' => 'Family and Relationships Vocabulary',
+                        'lesson_number' => 6,
+                        'description' => 'Learn vocabulary related to family members and relationships in Spanish.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Food and Drink in Spanish Culture',
+                        'lesson_number' => 7,
+                        'description' => 'Explore Spanish cuisine and learn vocabulary related to food and drinks.',
+                        'goals' => ['Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Asking for Directions',
+                        'lesson_number' => 8,
+                        'description' => 'Learn to ask for and understand directions in Spanish.',
+                        'goals' => ['Travel'],
+                    ],
+                    [
+                        'name' => 'Describing Clothing and Appearance',
+                        'lesson_number' => 9,
+                        'description' => 'Acquire vocabulary for clothing and describing appearance.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Celebrations and Festivals',
+                        'lesson_number' => 10,
+                        'description' => 'Learn about Spanish holidays and festivals, along with related vocabulary.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                ],
+            ],
+            [
+                'level' => 'Level 2', // Intermediate
+                'lessons' => [
+                    [
+                        'name' => 'Intermediate Grammar - Adjectives and Adverbs',
+                        'lesson_number' => 11,
+                        'description' => 'Deepen your understanding of adjectives and adverbs in Spanish.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Intermediate Grammar - Prepositions and Conjunctions',
+                        'lesson_number' => 12,
+                        'description' => 'Learn the use of prepositions and conjunctions in Spanish.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Daily Life and Routine',
+                        'lesson_number' => 13,
+                        'description' => 'Discuss daily life and routine in Spanish.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Shopping in Spanish',
+                        'lesson_number' => 14,
+                        'description' => 'Gain vocabulary for shopping and consumer activities in Spanish-speaking countries.',
+                        'goals' => ['Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Healthcare and Medical Vocabulary',
+                        'lesson_number' => 15,
+                        'description' => 'Learn essential healthcare and medical terms in Spanish.',
+                        'goals' => ['Other'],
+                    ],
+                    [
+                        'name' => 'Education System in Spanish-Speaking Countries',
+                        'lesson_number' => 16,
+                        'description' => 'Discuss the education system and academic life in Spanish-speaking countries.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Media and Entertainment in Spanish',
+                        'lesson_number' => 17,
+                        'description' => 'Learn about media and entertainment in the Spanish-speaking world.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Environmental Issues',
+                        'lesson_number' => 18,
+                        'description' => 'Discuss environmental issues using Spanish vocabulary.',
+                        'goals' => ['Other'],
+                    ],
+                    [
+                        'name' => 'Business Spanish',
+                        'lesson_number' => 19,
+                        'description' => 'Acquire vocabulary for business and professional settings in Spanish.',
+                        'goals' => ['Business Communication'],
+                    ],
+                    [
+                        'name' => 'Spanish Culture and History',
+                        'lesson_number' => 20,
+                        'description' => 'Explore the rich history and culture of Spanish-speaking countries.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                ],
+            ],
+            [
+                'level' => 'Level 3', // Advanced
+                'lessons' => [
+                    [
+                        'name' => 'Advanced Grammar - Complex Tenses and Moods',
+                        'lesson_number' => 21,
+                        'description' => 'Master complex tenses and moods in Spanish grammar.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Advanced Grammar - Subjunctive and Conditional',
+                        'lesson_number' => 22,
+                        'description' => 'Learn about the subjunctive and conditional moods in Spanish.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Politics and Current Events in the Spanish-Speaking World',
+                        'lesson_number' => 23,
+                        'description' => 'Discuss politics and current events in Spanish.',
+                        'goals' => ['Cultural Exploration', 'Other'],
+                    ],
+                    [
+                        'name' => 'Science and Technology in Spanish',
+                        'lesson_number' => 24,
+                        'description' => 'Explore scientific and technological topics in Spanish.',
+                        'goals' => ['Academic Study', 'Other'],
+                    ],
+                    [
+                        'name' => 'Spanish Literature and Arts',
+                        'lesson_number' => 25,
+                        'description' => 'Dive into Spanish literature and arts and expand your vocabulary.',
+                        'goals' => ['Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Idioms and Colloquial Spanish',
+                        'lesson_number' => 26,
+                        'description' => 'Learn common idioms and colloquial expressions in Spanish.',
+                        'goals' => ['Cultural Exploration', 'Other'],
+                    ],
+                    [
+                        'name' => 'Spanish for Academic Purposes',
+                        'lesson_number' => 27,
+                        'description' => 'Develop language skills for academic studies and research in Spanish.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Debate and Discussion in Spanish',
+                        'lesson_number' => 28,
+                        'description' => 'Enhance communication skills through debates and discussions.',
+                        'goals' => ['Business Communication', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Cultural Immersion and Travel Experiences',
+                        'lesson_number' => 29,
+                        'description' => 'Enhance understanding of Spanish culture through travel-related experiences.',
+                        'goals' => ['Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Advanced Conversation and Discussion',
+                        'lesson_number' => 30,
+                        'description' => 'Develop advanced conversational skills in Spanish, discussing various topics.',
+                        'goals' => ['Business Communication', 'Cultural Exploration'],
+                    ],
+                ],
+            ],
+        ];
+
+        $spanishCourse = Course::where('name', 'Spanish for Everyone')->first();
+        foreach ($spanishLessonsData as $levelData) {
+            $level = Level::where('name', $levelData['level'])->firstOrCreate(['name' => $levelData['level']]);
+
+            foreach ($levelData['lessons'] as $lessonData) {
+                $lesson = new Lesson([
+                    'name' => $lessonData['name'],
+                    'lesson_number' => $lessonData['lesson_number'],
+                    'description' => $lessonData['description'],
+                    'content' => '',
+                ]);
+
+                $lesson->level()->associate($level);
+                $lesson->save();
+
+                foreach ($lessonData['goals'] as $goalName) {
+                    if (isset($goals[$goalName])) {
+                        $lesson->goals()->attach($goals[$goalName]);
+                    }
+                }
+            }
+            $spanishCourse->levels()->attach($level);
         }
     }
 }
