@@ -9,6 +9,7 @@ import Lesson from "../../Items/Lesson/Lesson";
 import NotFoundPage from "../NotFoundPage";
 import FlashCardVocabulary from "../../Items/Lesson/FlashCardVocabulary";
 import useScrollToTop from "../../../hooks/useScrollToTop";
+import { useUser } from "../../../redux/hooks";
 
 type Gender = "fem" | "masc" | "neut";
 
@@ -28,12 +29,13 @@ const LessonPage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [prevLessonExists, setPrevLessonExists] = useState(false);
 	const [nextLessonExists, setNextLessonExists] = useState(false);
+	const user = useUser();
 	useScrollToTop();
 
 	// Function to check if a lesson exists
 	const checkLessonExistence = async (lessonNum: number) => {
 		try {
-			await import(`../../../lessons/german/lesson${lessonNum}.mdx`);
+			await import(`../../../lessons/${user?.language?.name.toLowerCase()}/lesson${lessonNum}.mdx`);
 			return true;
 		} catch (error) {
 			return false;
@@ -53,7 +55,7 @@ const LessonPage: React.FC = () => {
 	useEffect(() => {
 		const fetchFileContent = async () => {
 			try {
-				const lessonModule = await import(`../../../lessons/german/lesson${lesson_number}.mdx`);
+				const lessonModule = await import(`../../../lessons/${user?.language?.name.toLowerCase()}/lesson${lesson_number}.mdx`);
 				const response = await fetch(lessonModule.default);
 				if (response.ok) {
 					const text = await response.text();
