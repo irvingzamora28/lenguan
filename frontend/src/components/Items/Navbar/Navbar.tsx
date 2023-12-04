@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiChevronDown, FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../redux/authSlice";
+import { logout, updateAuthUser } from "../../../redux/authSlice";
 import { useLanguages, useSelectedLanguage, useUser } from "../../../redux/hooks";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { resetLanguageState, setLanguage } from "../../../redux/languageSlice";
@@ -10,6 +10,9 @@ import { resetCourseState } from "../../../redux/courseSlice";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
+import { LanguageService } from "../../../services/LanguageService";
+import { useApi } from "../../../hooks/api/useApi";
+import { toast } from "react-toastify";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -18,12 +21,14 @@ interface NavBarProps {
 	setProfileOpen: (open: boolean) => void;
 }
 
+// TODO: Remove all references of old selectedLanguage state
 const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();
 	const languages = useLanguages();
+	const { postRequest } = useApi();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
-	const selectedLanguage = useSelectedLanguage();
+	const selectedLanguage = user?.language;
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 
@@ -44,8 +49,20 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 		}
 	};
 
-	const handleLanguageChange = (language: Language) => {
+	const handleLanguageChange = async (language: Language) => {
 		dispatch(setLanguage(language));
+		if (user) {
+			const updatedUser = { ...user, language: language };
+			dispatch(updateAuthUser({ user: updatedUser }));
+			try {
+				await LanguageService.updateLanguage(language._id, postRequest);
+			} catch (error) {
+				// Handle errors
+				toast.error("Error updating language. Please try again.");
+			}
+		} else {
+			console.error("User is null, cannot update language");
+		}
 		setLanguageMenuOpen(false);
 	};
 

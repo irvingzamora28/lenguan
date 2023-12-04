@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLanguage, setLanguages } from "../../redux/languageSlice";
@@ -13,34 +13,16 @@ import { getLanguages } from "../../utils/languages";
 import { Language } from "../../types/language";
 import { updateAuthUser } from "../../redux/authSlice";
 import { useApi } from "../../hooks/api/useApi";
-import { User } from "../../types";
+import { LanguageService } from "../../services/LanguageService";
 
+// TODO: Remove all references of old selectedLanguage state
 const SelectLanguagePage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const user = useUser();
 	const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 	const languages = useLanguages();
 
-    const { postRequest } = useApi();
-
-    const updateLanguageInBackend = async (updatedUser: User) => {
-        try {
-            const response = await postRequest("/api/user/language", { language_id: updatedUser.language?._id, _method: "PUT" }, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            toast.success("Language selected successfully!", {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 3000,
-            });
-            setTimeout(() => navigate("/"), 5000);
-        } catch (error) {
-            // handle errors as needed
-            console.error('Error updating language:', error);
-            toast.error("Error updating language. Please try again.");
-        }
-    };
+	const { postRequest } = useApi();
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -48,21 +30,30 @@ const SelectLanguagePage: React.FC = () => {
 	// Fetch the languages available to select
 	getLanguages(languages, dispatch);
 
-	const selectLanguage = (language: Language) => {
+	const selectLanguage = async (language: Language) => {
 		setSelectedLanguage(language.code);
 		dispatch(setLanguage(language));
-		// Ensure user is not null before updating
 		if (user) {
-			const updatedUser = {
-				...user,
-				language: language,
-			};
+			const updatedUser = { ...user, language: language };
 			dispatch(updateAuthUser({ user: updatedUser }));
-            updateLanguageInBackend(updatedUser);
+			try {
+				await LanguageService.updateLanguage(language._id, postRequest);
+
+				// Display success notification
+				toast.success("Language selected successfully!", {
+					position: toast.POSITION.TOP_CENTER,
+					autoClose: 3000,
+				});
+
+				// Redirect after a short delay to allow the user to see the notification
+				setTimeout(() => navigate("/"), 3000);
+			} catch (error) {
+				// Handle errors
+				toast.error("Error updating language. Please try again.");
+			}
 		} else {
 			console.error("User is null, cannot update language");
 		}
-
 	};
 
 	return (
