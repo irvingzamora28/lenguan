@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "start:socket": "node --loader ts-node/esm socket-server/server.ts",
+    "start:socket": "node --loader ts-node/esm --experimental-specifier-resolution=node socket-server/server.ts",
     "test": "vitest",
     "preview": "vite preview"
   },
