@@ -10,7 +10,7 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     const [asideOpen, setAsideOpen] = useState(() => {
       const storedAsideOpen = localStorage.getItem("asideOpen");
-      return storedAsideOpen ? JSON.parse(storedAsideOpen) : true;
+      return storedAsideOpen !== null ? JSON.parse(storedAsideOpen) : true;
     });
 
     useEffect(() => {
@@ -21,7 +21,8 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
       setProfileOpen(open);    }, []);
 
     const memoizedSetAsideOpen = useCallback((open: boolean) => {
-      setAsideOpen(open);
+        setAsideOpen(open);
+    		localStorage.setItem("asideOpen", JSON.stringify(open));
     }, []);
 
     return (
@@ -33,7 +34,7 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
           setProfileOpen={memoizedSetProfileOpen}
         />
         <div className="flex">
-          {asideOpen && <SidebarMenu />}
+          {asideOpen && <SidebarMenu closeSidebar={() => memoizedSetAsideOpen(false)} />}
           <div className="container mx-auto px-4 py-16 max-h-screen md:max-h-none overflow-y-auto">
             {children}
           </div>
