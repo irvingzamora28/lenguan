@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { useParams, Link } from "react-router-dom";
 import Modal from "../../Utilities/Modal";
+import Layout from "../../Layout/Layout";
 
 type Question = {
 	question: string;
@@ -83,39 +84,40 @@ const MultipleChoiceQuiz: React.FC = () => {
 	};
 
 	return (
-		<div className="container mx-auto p-4">
-			<div className="flex justify-between items-center mb-6">
-				<h2 className="text-2xl font-bold">Multiple choice quiz for Lesson {lesson_number}</h2>
-				<Link to={`/lessons/${lesson_number}/quizzes`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow">
-					<MdArrowBack className="mr-2" /> Back to quizzes
-				</Link>
-			</div>
-
-			<div className="p-4 bg-backgroundalt shadow-md rounded-lg">
-				{questions.map((question, index) => (
-					<div key={index} className="mb-4">
-						<h3 className="text-xl font-bold mb-2">{question.question}</h3>
-						<div className="grid grid-cols-1 gap-2">
-							{question.options.map((option, optionIndex) => (
-								<button key={optionIndex} className={`p-2 rounded-lg text-left ${selectedAnswers[index] === option ? "bg-blue-200" : "bg-gray-200"}`} onClick={() => handleOptionClick(index, option)}>
-									{option}
-								</button>
-							))}
+		<Layout>
+			<div className="container mx-auto p-4">
+				<div className="flex justify-between items-center mb-6">
+					<h2 className="text-2xl font-bold">Multiple choice quiz for Lesson {lesson_number}</h2>
+					<Link to={`/lessons/${lesson_number}/quizzes`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow">
+						<MdArrowBack className="mr-2" /> Back to quizzes
+					</Link>
+				</div>
+				<div className="p-4 bg-backgroundalt shadow-md rounded-lg">
+					{questions.map((question, index) => (
+						<div key={index} className="mb-4">
+							<h3 className="text-xl font-bold mb-2">{question.question}</h3>
+							<div className="grid grid-cols-1 gap-2">
+								{question.options.map((option, optionIndex) => (
+									<button key={optionIndex} className={`p-2 rounded-lg text-left ${selectedAnswers[index] === option ? "bg-blue-200" : "bg-gray-200"}`} onClick={() => handleOptionClick(index, option)}>
+										{option}
+									</button>
+								))}
+							</div>
+							{isSubmitted && (
+								<div className={`mt-2 text-sm font-semibold ${isCorrectAnswer(index) ? "text-green-600" : "text-red-600"}`}>{isCorrectAnswer(index) ? "Correct!" : `Incorrect. Answer: ${question.correctAnswer}`}</div>
+							)}
 						</div>
-						{isSubmitted && (
-							<div className={`mt-2 text-sm font-semibold ${isCorrectAnswer(index) ? "text-green-600" : "text-red-600"}`}>{isCorrectAnswer(index) ? "Correct!" : `Incorrect. Answer: ${question.correctAnswer}`}</div>
-						)}
-					</div>
-				))}
+					))}
 
-				<button onClick={handleSubmit} disabled={selectedAnswers.length !== questions.length} className="w-full mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-blue-700 disabled:opacity-50">
-					Submit Answers
-				</button>
-				<Modal show={showModal} onClose={() => setShowModal(false)} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
-					<p className="text-xl font-bold text-green-600">You answered all questions correctly!</p>
-				</Modal>
+					<button onClick={handleSubmit} disabled={selectedAnswers.length !== questions.length} className="w-full mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-blue-700 disabled:opacity-50">
+						Submit Answers
+					</button>
+					<Modal show={showModal} onClose={() => setShowModal(false)} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
+						<p className="text-xl font-bold text-green-600">You answered all questions correctly!</p>
+					</Modal>
+				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 };
 
