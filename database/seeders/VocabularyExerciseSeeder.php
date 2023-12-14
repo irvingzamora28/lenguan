@@ -35,9 +35,13 @@ class VocabularyExerciseSeeder extends Seeder
                 $parsedMdx = YamlFrontMatter::parse($mdxContent);
 
                 foreach ($parsedMdx->matter('vocabulary') as $vocabulary) {
+                    // Remove content inside parentheses, special characters, and ellipsis
+                    $cleanWord = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['word']);
+                    $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['translation']);
+
                     VocabularyExercise::create([
-                        'prompt' => $vocabulary['word'],
-                        'answer' => $vocabulary['translation'],
+                        'prompt' => $cleanWord,
+                        'answer' => $cleanTranslation,
                         'lesson_id' => $lesson->id,
                     ]);
                 }
