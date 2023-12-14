@@ -24,6 +24,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VocabularyExerciseController;
 
 Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
 Route::post('submit-answer', [GameController::class, 'submitAnswer']);
@@ -82,6 +83,10 @@ Route::group(['prefix' => 'leaderboards'], function () {
 Route::group(['prefix' => 'languages'], function () {
     Route::get('/', [LanguageController::class, 'index']);
     Route::get('/{language}', [LanguageController::class, 'show']);
+});
+
+Route::group(['prefix' => 'vocabulary-exercises'], function () {
+    Route::get('/{lessonNumber}', [VocabularyExerciseController::class, 'getByLessonNumber']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
