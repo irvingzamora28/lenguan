@@ -47,4 +47,9 @@ class Lesson extends Model
     {
         return $this->hasMany(Quiz::class);
     }
+
+    public function vocabularyExercises()
+    {
+        return $this->hasMany(VocabularyExercise::class);
+    }
 }
