@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
+import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
+import { useParams } from "react-router-dom";
 
 interface Word {
 	original: string;
@@ -24,6 +26,7 @@ const sampleWords = [
 ];
 
 const ScrambledWordsExercise: React.FC = () => {
+	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const [state, setState] = useState({
 		wordIndex: 0,
@@ -36,6 +39,9 @@ const ScrambledWordsExercise: React.FC = () => {
 	});
 
 	const selectedLettersRef = useRef<string[]>([]);
+
+	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(lesson_number);
+	console.log(vocabularyExerciseWords);
 
 	useEffect(() => {
 		selectedLettersRef.current = state.selectedLetters;
@@ -148,7 +154,11 @@ const ScrambledWordsExercise: React.FC = () => {
 	}, [state.selectedLetters, state.words, state.wordIndex, checkWord]);
 
 	useEffect(() => {
-		const loadedWords = sampleWords as Word[];
+		const transformedVocabularyExerciseWords = vocabularyExerciseWords.map((word) => ({
+			original: word.prompt,
+			translation: word.answer,
+		}));
+		const loadedWords = transformedVocabularyExerciseWords as unknown as Word[];
 		const shuffledWords = loadedWords.map((word) => ({
 			...word,
 			scrambled: shuffleLetters(word.original),
@@ -157,7 +167,13 @@ const ScrambledWordsExercise: React.FC = () => {
 			words: shuffledWords,
 			availableLetters: shuffledWords[0]?.scrambled.split("") || [],
 		});
-	}, []);
+	}, [vocabularyExerciseWords]);
+
+	useEffect(() => {
+		if (vocabularyExerciseWordsError) {
+			console.error(vocabularyExerciseWordsError);
+		}
+	}, [vocabularyExerciseWordsError]);
 
 	const renderWelcomeScreen = () => (
 		<>
