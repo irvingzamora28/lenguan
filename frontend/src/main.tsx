@@ -31,6 +31,7 @@ import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
 import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
 import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 import TipsTricksPage from "./components/Pages/LessonsPage/TipsTricksPage";
+import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, SELECT_LANGUAGE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
 
 interface RouteType {
 	path: string;
@@ -39,8 +40,8 @@ interface RouteType {
 }
 
 const privateRoutes = [
-	{ path: "/select-language", element: <SelectLanguagePage /> },
-	{ path: "/select-course", element: <SelectCoursePage /> },
+	{ path: SELECT_LANGUAGE_PATH, element: <SelectLanguagePage /> },
+	{ path: SELECT_COURSE_PATH, element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },
 	{ path: "/edit-profile", element: <EditProfilePage /> },
@@ -52,10 +53,10 @@ const privateRoutes = [
 	{ path: "/lessons/:lesson_number/quizzes/multiple-choice", element: <MultipleChoiceQuiz /> },
 	{ path: "/lessons/:lesson_number/quizzes/sentence-formation", element: <SentenceFormationQuiz /> },
 	{ path: "/lessons/:lesson_number/tips-and-tricks", element: <TipsTricksPage /> },
-	{ path: "/listening-exercise/:lesson_number", element: <ListeningExercise /> },
-	{ path: "/vocabulary-exercise/:lesson_number", element: <ScrambledWordsExercise /> },
-	{ path: "/grammar-exercise/:lesson_number", element: <VerbConjugationSlotMachineExercise /> },
-	{ path: "/writing-exercise/:lesson_number", element: <CreateStoryWritingExercise /> },
+	{ path: LISTENING_EXERCISE_PATH, element: <ListeningExercise /> },
+	{ path: VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, element: <ScrambledWordsExercise /> },
+	{ path: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, element: <VerbConjugationSlotMachineExercise /> },
+	{ path: WRITING_EXERCISE_CREATE_STORYPATH, element: <CreateStoryWritingExercise /> },
 	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
 	{ path: "/memory-game", element: <MemoryGame /> },
