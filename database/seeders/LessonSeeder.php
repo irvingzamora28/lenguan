@@ -300,6 +300,7 @@ class LessonSeeder extends Seeder
                         'name' => $lessonData['name'],
                         'lesson_number' => $lessonData['lesson_number'],
                         'description' => $lessonData['description'],
+                        'course_id' => $course->id,
                         'content' => '',
                     ]);
 
@@ -524,6 +525,7 @@ class LessonSeeder extends Seeder
                     'name' => $lessonData['name'],
                     'lesson_number' => $lessonData['lesson_number'],
                     'description' => $lessonData['description'],
+                    'course_id' => $course->id,
                     'content' => '',
                 ]);
 

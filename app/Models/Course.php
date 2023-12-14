@@ -23,6 +23,11 @@ class Course extends Model
         return $this->belongsToMany(Level::class, null, 'course_ids', 'level_ids');
     }
 
+    public function lessons(): HasMany
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
     public function goals(): HasMany
     {
         return $this->hasMany(Goal::class);
