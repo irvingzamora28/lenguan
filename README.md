@@ -21,6 +21,51 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Testing
+
+### Setting Up the Testing Environment
+
+To run tests in this Laravel project, you need to set up a separate testing environment. This is done by creating a `.env.testing` file with the necessary configurations specific to testing.
+
+#### Creating the `.env.testing` File
+
+1. **Duplicate your existing `.env` file**:
+   - This will serve as a starting point for your testing environment.
+   - Rename the duplicated file to `.env.testing`.
+
+2. **Customize the `.env.testing` File**:
+   - Modify the `.env.testing` file to meet the needs of your testing environment. This typically involves setting up a database that is separate from your main development or production database.
+   - For MongoDB, your `.env.testing` file might look something like this:
+     ```
+     APP_NAME=Lenguan
+     APP_ENV=testing
+     APP_DEBUG=true
+
+     DB_CONNECTION=mongodb
+     DB_HOST=127.0.0.1
+     DB_PORT=27017
+     DB_DATABASE=testing_lenguan
+     DB_USERNAME=
+     DB_PASSWORD=
+     ```
+   - Ensure that any other necessary environment variables are appropriately configured for the testing environment.
+
+### Running Tests
+
+Once your testing environment is set up, run the tests using the following command:
+
+```sh
+php artisan test --env=testing
+```
+
+This command directs Laravel to use the settings from the .env.testing file when running tests, ensuring that the testing environment is isolated from your development or production environments.
+
+### Note:
+
+Ensure that any sensitive or environment-specific settings in the .env.testing file are correctly configured to prevent unintended consequences.
+
+Using a separate database for testing, such as testing_lenguan for MongoDB, ensures that your tests do not interfere with your production or development databases.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             NounSeeder::class,
             LevelSeeder::class,
             LessonSeeder::class,
+            VocabularyExerciseSeeder::class,
         ]);
     }
 }
