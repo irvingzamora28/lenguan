@@ -4,7 +4,8 @@ import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
 
 interface Word {
 	original: string;
@@ -202,34 +203,43 @@ const ScrambledWordsExercise: React.FC = () => {
 		));
 
 		return (
-			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-				<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
-					<h2 className="font-bold text-xl mb-2">Original Word</h2>
-					<p className="text-gray-700 mb-4 text-2xl sm:text-6xl">{currentWord.translation}</p>
-					<div className="mb-4 flex justify-center">{letterBoxes}</div>
-				</div>
-				<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
-				<div className="flex justify-center space-x-2 mb-4">
-					{state.availableLetters.map((letter, index) => (
-						<button
-							key={index}
-							className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
-							onClick={() => selectLetter(letter, index)}
-						>
-							{letter}
-						</button>
-					))}
-				</div>
-				{state.showRetryOptions && (
-					<div className="flex justify-around w-full max-w-md my-4">
-						<button className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300" onClick={restartWord}>
-							Restart
-						</button>
-						<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300" onClick={goToNextWord}>
-							Next word
-						</button>
+			<div className="grid grid-cols-1 my-8 items-center">
+				<h2 className="text-2xl font-bold sm:col-start-1 sm:col-end-3 text-center sm:text-left">Exercises for Lesson {lesson_number}</h2>
+				<Link
+					to={`/lessons/${lesson_number}/exercises`}
+					className="flex items-center w-fit justify-self-center sm:justify-self-end border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow sm:col-start-3 sm:col-end-4 order-last sm:order-none"
+				>
+					<MdArrowBack className="mr-2" /> Back to exercises
+				</Link>
+				<div className="flex flex-col items-center justify-center h-fit my-10 sm:my-28 bg-gray-100 col-span-3">
+					<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
+						<h2 className="font-bold text-xl mb-2">Original Word</h2>
+						<p className="text-gray-700 mb-4 text-2xl sm:text-6xl">{currentWord.translation}</p>
+						<div className="mb-4 flex justify-center">{letterBoxes}</div>
 					</div>
-				)}
+					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
+					<div className="flex justify-center space-x-2 mb-4">
+						{state.availableLetters.map((letter, index) => (
+							<button
+								key={index}
+								className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
+								onClick={() => selectLetter(letter, index)}
+							>
+								{letter}
+							</button>
+						))}
+					</div>
+					{state.showRetryOptions && (
+						<div className="flex justify-around w-full max-w-md my-4">
+							<button className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300" onClick={restartWord}>
+								Restart
+							</button>
+							<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300" onClick={goToNextWord}>
+								Next word
+							</button>
+						</div>
+					)}
+				</div>
 			</div>
 		);
 	};
