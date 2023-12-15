@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 // Hooks
@@ -10,6 +10,7 @@ import * as Routes from "./../../constants/routes";
 
 interface PrivateRouteProps {
 	children: ReactNode;
+	fallback?: ReactNode;
 }
 
 interface RouteCondition {
@@ -20,11 +21,11 @@ interface RouteCondition {
 /**
  * PrivateRoute component ensures user access based on authentication status and selected language/course.
  */
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, fallback }) => {
 	const isAuthenticated = useIsAuthenticated();
 	const isGuest = useIsGuest();
 	const selectedLanguage = useSelectedLanguage();
-    const user = useUser();
+	const user = useUser();
 	const selectedCourse = useSelectedCourse();
 	const location = useLocation();
 
@@ -41,7 +42,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
 		return <>{children}</>;
 	} else {
-		return <Navigate to="/login" state={{ from: location, pageTitle: routeTitles[location.pathname] }} />;
+		return fallback ? <>{fallback}</> : <Navigate to="/login" state={{ from: location, pageTitle: routeTitles[location.pathname] }} />;
 	}
 };
 
