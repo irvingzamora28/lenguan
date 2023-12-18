@@ -5,25 +5,34 @@ import TestimonialCarousel from "../Items/Misc/TestimonialCarousel";
 import { testimonials } from "../../constants/testimonials";
 
 const LandingPage: React.FC = () => {
+	const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+		event.preventDefault();
+		const href = event.currentTarget.getAttribute("href");
+		const section = document.querySelector(href!);
+		if (section) {
+			section.scrollIntoView({ behavior: "smooth" });
+		}
+	};
+
 	return (
-		<div className="">
+		<div>
 			<header className="flex flex-wrap justify-between items-center p-6 md:flex-row flex-col">
 				<h1 className="text-2xl font-bold mb-2 md:mb-0 text-primary-800">Lenguan</h1>
-				<nav className="">
+				<nav>
 					<ul className="flex space-x-4 mt-2 md:mt-0">
 						<li>
-							<a href="#features" className="hover:text-primary-500">
+							<a href="#features" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
 								Features
 							</a>
 						</li>
 						<li>
-							<a href="#testimonials" className="hover:text-primary-500">
-								Testimonials
+							<a href="#languages" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+								Languages
 							</a>
 						</li>
 						<li>
-							<a href="#contact" className="hover:text-primary-500">
-								Contact
+							<a href="#testimonials" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+								Testimonials
 							</a>
 						</li>
 					</ul>
@@ -90,7 +99,7 @@ const LandingPage: React.FC = () => {
 			</section>
 
 			{/* Language Offerings Section */}
-			<section id="language-offerings" className="p-10 md:p-20">
+			<section id="languages" className="p-10 md:p-20">
 				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Languages We Offer</h3>
 				<div className="flex flex-wrap justify-around mt-10">
 					<div className="w-full md:w-1/3 p-4 pt-8">
