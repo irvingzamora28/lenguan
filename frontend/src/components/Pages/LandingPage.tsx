@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/scss/pages/LandingPage.scss";
 import { TestimonialCardProps } from "../../types/props";
 import TestimonialCard from "../Items/Cards/TestimonialCard";
+import TestimonialCarousel from "../Items/Misc/TestimonialCarousel";
 
 const LandingPage: React.FC = () => {
 	const testimonials: TestimonialCardProps[] = [
@@ -152,9 +153,12 @@ const LandingPage: React.FC = () => {
 			</section>
 
 			{/* Testimonials Section */}
-			<section id="testimonials" className="bg-gray-100 p-10 md:p-20 mt-10">
+			<section id="testimonials" className="bg-gray-100 p-10 md:p-20 mt-20">
 				<h3 className="text-2xl md:text-3xl font-bold text-center">What Our Users Say</h3>
-				<div className="flex flex-wrap justify-center items-center">
+				<div className="block md:hidden">
+					<TestimonialCarousel testimonials={testimonials} />
+				</div>
+				<div className="table-column md:flex flex-wrap justify-center items-center">
 					{testimonials.map((testimonial, index) => (
 						<TestimonialCard key={index} {...testimonial} />
 					))}
