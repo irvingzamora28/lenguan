@@ -3,6 +3,7 @@ import "../../assets/scss/pages/LandingPage.scss";
 import TestimonialCard from "../Items/Cards/TestimonialCard";
 import TestimonialCarousel from "../Items/Misc/TestimonialCarousel";
 import { testimonials } from "../../constants/testimonials";
+import "../../assets/scss/globals.scss";
 
 const LandingPage: React.FC = () => {
 	const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -37,7 +38,9 @@ const LandingPage: React.FC = () => {
 						</li>
 					</ul>
 				</nav>
-				<button className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded mt-6 md:mt-0">Sign Up</button>
+				<div className="mt-6 md:mt-0 flex space-x-4">
+					<button className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded">Sign Up</button>
+				</div>
 			</header>
 
 			<section className="bg-cover bg-center h-screen relative title_image">
@@ -45,6 +48,9 @@ const LandingPage: React.FC = () => {
 					<div className="text-center text-white">
 						<h2 className="text-6xl md:text-7xl font-bold title_text-outline">Welcome to Lenguan</h2>
 						<p className="mt-4 text-2xl md:text-3xl title_text-outline">Your journey to language mastery starts here!</p>
+						<button className="mt-8 bg-accent-500 hover:bg-accent-600 text-white text-shadow font-bold py-6 px-8 rounded-full text-3xl sm:text-4xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
+							Try as Guest
+						</button>
 					</div>
 				</div>
 			</section>
