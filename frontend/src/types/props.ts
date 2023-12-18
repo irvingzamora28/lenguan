@@ -14,3 +14,10 @@ export interface AudioPlayerProgressBarProps {
 export interface ErrorBannerProps {
 	message?: string | null;
 }
+
+export interface TestimonialCardProps {
+	image: string;
+	name: string;
+	designation: string;
+	testimonial: string;
+}
