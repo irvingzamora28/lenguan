@@ -89,8 +89,30 @@ const LandingPage: React.FC = () => {
 				</div>
 			</section>
 
+			{/* Language Offerings Section */}
+			<section id="language-offerings" className="p-10 md:p-20">
+				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Languages We Offer</h3>
+				<div className="flex flex-wrap justify-around mt-10">
+					<div className="w-full md:w-1/3 p-4 pt-8">
+						<img src="src/assets/images/language-english.png" alt="English Language" className="w-36 h-auto mb-3 -ml-1 sm:ml-0" />
+						<h4 className="text-lg md:text-xl font-bold text-slate-700">English</h4>
+						<p className="text-slate-500">Explore comprehensive courses in English, perfect for all levels from beginner to advanced learners.</p>
+					</div>
+					<div className="w-full md:w-1/3 p-4">
+						<img src="src/assets/images/language-spanish.png" alt="Spanish Language" className="w-44 h-auto -mb-3 scale-105 -ml-5" />
+						<h4 className="text-lg md:text-xl font-bold text-slate-700">Spanish</h4>
+						<p className="text-slate-500">Dive into the rich and diverse world of Spanish, suitable for enthusiastic learners and cultural explorers.</p>
+					</div>
+					<div className="w-full md:w-1/3 p-4">
+						<img src="src/assets/images/language-german.png" alt="German Language" className="w-36 h-auto mb-3 pt-3" />
+						<h4 className="text-lg md:text-xl font-bold text-slate-700">German</h4>
+						<p className="text-slate-500">Master the German language, from its intricate grammar to its unique expressions, tailored for all proficiency levels.</p>
+					</div>
+				</div>
+			</section>
+
 			{/* Testimonials Section */}
-			<section id="testimonials" className="bg-gray-100 p-10 md:p-20 mt-20">
+			<section id="testimonials" className="bg-gray-100 p-10 md:p-20">
 				<h3 className="text-2xl md:text-3xl font-bold text-center">What Our Users Say</h3>
 				<div className="block md:hidden">
 					<TestimonialCarousel testimonials={testimonials} />
