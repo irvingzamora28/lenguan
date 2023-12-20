@@ -5,7 +5,6 @@ import TestimonialCarousel from "../Items/Misc/TestimonialCarousel";
 import { testimonials } from "../../constants/testimonials";
 import "../../assets/scss/globals.scss";
 import { Link } from "react-router-dom";
-import { useUser } from "../../redux/hooks";
 import { useUserGuestLogin } from "../../hooks/useUserGuestLogin";
 
 const LandingPage: React.FC = () => {
@@ -67,7 +66,7 @@ const LandingPage: React.FC = () => {
 
 			{/* Current Features Section */}
 			<section id="features" className="p-10 md:p-20">
-				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Features</h3>
+				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Our Features</h3>
 				<div className="flex flex-wrap justify-around mt-10">
 					<div className="w-full md:w-1/3 p-4">
 						<img src="src/assets/images/feature-lessons.png" alt="Language Lessons" className="w-full h-auto mb-3" />
