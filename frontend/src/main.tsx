@@ -32,6 +32,7 @@ import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQui
 import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 import TipsTricksPage from "./components/Pages/LessonsPage/TipsTricksPage";
 import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, SELECT_LANGUAGE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
+import LandingPage from "./components/Pages/LandingPage";
 
 interface RouteType {
 	path: string;
@@ -70,7 +71,7 @@ const publicRoutes = [
 const router = createBrowserRouter([
 	...privateRoutes.map((route: RouteType) => ({
 		...route,
-		element: <PrivateRoute>{route.element}</PrivateRoute>,
+		element: <PrivateRoute fallback={<LandingPage />}>{route.element}</PrivateRoute>,
 	})),
 	...publicRoutes.map((route) => ({
 		...route,

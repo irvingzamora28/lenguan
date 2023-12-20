@@ -1,0 +1,14 @@
+.title_text-outline {
+    @apply text-white;
+    // make the text shadow to be outlined the text
+    text-shadow: -2px -2px 10px #0e35a1,
+        2px -2px 10px #0e35a1,
+        -2px 2px 10px #0e35a1,
+        2px 2px 10px #0e35a1;
+}
+
+// Generate a class to have a background image
+.title_image {
+    @apply bg-cover bg-center;
+    background-image: url('src/assets/images/hero-image.png')
+}

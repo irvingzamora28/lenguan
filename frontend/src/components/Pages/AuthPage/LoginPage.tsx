@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "./../../Items/Forms/LoginForm";
 import { LoginService } from "./../../../services/LoginService";
 import { generateGuestUser } from "../../../utils/userUtils";
+import { useUserGuestLogin } from "../../../hooks/useUserGuestLogin";
 
 interface LoginData {
 	email: string;
@@ -16,21 +17,15 @@ const LoginPage: React.FC = () => {
 	const dispatch = useAppDispatch(); // initialize dispatch
 	const navigate = useNavigate();
 	const location = useLocation();
-    const from = location.state?.from || "/";
+	const from = location.state?.from || "/";
 	let pageTitle = location.state?.pageTitle || ""; // Default title '' if 'pageTitle' is not defined.
+	const loginAsGuest = useUserGuestLogin(from);
 
 	const [loginData, setLoginData] = useState<LoginData>({
 		email: "",
 		password: "",
 	});
 	const [errorMessage, setErrorMessage] = useState<string[]>();
-
-	const handleLoginGuest = () => {
-		const guestUser = generateGuestUser(); // Generate a random guest user
-		dispatch(loginRequest()); // Dispatch login request
-		dispatch(loginGuest({ user: guestUser }));
-        navigate(from);
-	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
@@ -48,7 +43,7 @@ const LoginPage: React.FC = () => {
 		try {
 			const response = await LoginService.login(loginData);
 			const accessToken = response?.data?.token;
-            navigate(from);
+			navigate(from);
 			dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
 		} catch (error: any) {
 			if (error.response && error.response.data && error.response.data.message) {
@@ -82,7 +77,7 @@ const LoginPage: React.FC = () => {
 							<div className="divide-y divide-gray-200">
 								<div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
 									<LoginForm onSubmit={handleSubmit} onChange={handleChange} errorMessage={errorMessage} />
-									<button onClick={handleLoginGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
+									<button onClick={loginAsGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
 										Continue as Guest
 									</button>
 								</div>
