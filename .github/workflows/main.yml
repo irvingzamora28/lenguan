@@ -1,31 +1,14 @@
-name: Add Issue to Project
-
+name: Issue Automation
 on:
   issues:
-    types: [opened, labeled]
-  pull_request:
-    types: [opened, labeled]
-  issue_comment:
-    types: [created]
-env:
-  MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-
+    types: [ opened, edited, reopened ]
 jobs:
-  assign_one_project:
+  add-to-project-board:
+    name: Add issue to project board
     runs-on: ubuntu-latest
-    name: Assign to One Project
     steps:
-    - name: Assign NEW issues and NEW pull requests to your project
-      uses: srggrs/assign-one-project-github-action@1.2.1
-      if: github.event.action == 'opened'
-      with:
-        project: 'https://github.com/users/irvingzamora28/projects/1'
-
-    - name: Assign issues and pull requests with a specific label to your project
-      uses: srggrs/assign-one-project-github-action@1.2.1
-      if: |
-        contains(github.event.issue.labels.*.name, 'your-label') ||
-        contains(github.event.pull_request.labels.*.name, 'your-label')
-      with:
-        project: 'https://github.com/users/irvingzamora28/projects/1'
-        column_name: 'To do'
+      - name: Add new issues to project board
+        uses: matmar10/add-issues-to-project@master
+        with:
+          gitub_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          github_project_title: Lenguan
