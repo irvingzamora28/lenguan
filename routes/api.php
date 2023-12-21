@@ -23,6 +23,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\TextToSpeechController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VocabularyExerciseController;
 
@@ -87,6 +88,11 @@ Route::group(['prefix' => 'languages'], function () {
 
 Route::group(['prefix' => 'vocabulary-exercises'], function () {
     Route::get('/{lessonNumber}', [VocabularyExerciseController::class, 'getByLessonNumber']);
+});
+
+Route::group(['prefix' => 'text-to-speech'], function () {
+    Route::post('/', [TextToSpeechController::class, 'convertTextToSpeech']);
+    Route::get('/voices', [TextToSpeechController::class, 'retrieveVoices']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
