@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import LandingPage from "./../../../components/Pages/LandingPage";
-import { describe, it, beforeEach, vi } from "vitest";
+import { describe, it, beforeEach, vi, Mock } from "vitest";
 import { Provider } from "react-redux";
 import store from "./../../../redux/store";
 import { BrowserRouter, MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -35,7 +35,8 @@ describe("LandingPage", () => {
 		expect(getByText("Features")).toBeInTheDocument();
 		expect(getByText("Languages")).toBeInTheDocument();
 		expect(getByText("Testimonials")).toBeInTheDocument();
-		expect(getByText("Sign Up")).toBeInTheDocument();
+		expect(getByText("Register")).toBeInTheDocument();
+		expect(getByText("Log in")).toBeInTheDocument();
 	});
 
 	it("should scroll to the features section when the Features link is clicked", () => {
@@ -80,7 +81,21 @@ describe("LandingPage", () => {
 		expect(testimonialsSection).toBeInTheDocument();
 	});
 
-	it("should navigate to the register page when the Sign Up link is clicked", () => {
+	it("should have a link to the register page in the Register button", () => {
+		const { getByText } = render(
+			<Provider store={store}>
+				<BrowserRouter>
+					<LandingPage />
+				</BrowserRouter>
+			</Provider>
+		);
+
+		const registerButton = getByText("Register");
+		// Assuming that the `Link` component is used directly within the button
+		expect(registerButton.closest("a")).toHaveAttribute("href", "/register");
+	});
+
+	it("should navigate to the register page when the Register link is clicked", () => {
 		// Helper component to capture the current location
 		const LocationDisplay = () => {
 			const location = useLocation();
@@ -98,14 +113,14 @@ describe("LandingPage", () => {
 			</Provider>
 		);
 
-		const signUpLink = screen.getByText("Sign Up");
-		fireEvent.click(signUpLink);
+		const registerLink = screen.getByText("Register");
+		fireEvent.click(registerLink);
 
 		// Check if the URL changed to '/register'
 		expect(screen.getByTestId("location-display").textContent).toBe("/register");
 	});
 
-	it("should have a link to the register page in the Sign Up button", () => {
+	it("should have a link to the login page in the Log In button", () => {
 		const { getByText } = render(
 			<Provider store={store}>
 				<BrowserRouter>
@@ -114,9 +129,34 @@ describe("LandingPage", () => {
 			</Provider>
 		);
 
-		const signUpButton = getByText("Sign Up");
+		const loginButton = getByText("Log in");
 		// Assuming that the `Link` component is used directly within the button
-		expect(signUpButton.closest("a")).toHaveAttribute("href", "/register");
+		expect(loginButton.closest("a")).toHaveAttribute("href", "/login");
+	});
+
+	it("should navigate to the login page when the Log In link is clicked", () => {
+		// Helper component to capture the current location
+		const LocationDisplay = () => {
+			const location = useLocation();
+			return <div data-testid="location-display">{location.pathname}</div>;
+		};
+		render(
+			<Provider store={store}>
+				<MemoryRouter initialEntries={["/"]}>
+					<Routes>
+						<Route path="/" element={<LandingPage />} />
+						<Route path="/login" element={<div>Login Page</div>} />
+					</Routes>
+					<LocationDisplay />
+				</MemoryRouter>
+			</Provider>
+		);
+
+		const loginLink = screen.getByText("Log in");
+		fireEvent.click(loginLink);
+
+		// Check if the URL changed to '/login'
+		expect(screen.getByTestId("location-display").textContent).toBe("/login");
 	});
 
 	it("should call the guest login function when 'Try as Guest' is clicked", async () => {

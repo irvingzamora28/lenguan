@@ -47,7 +47,7 @@ const LandingPage: React.FC = () => {
 						Register
 					</Link>
 					<Link to="/login" className="bg-secondary-500 hover:bg-secondary-700 text-white font-bold py-2 px-4 rounded">
-						Log In
+						Log in
 					</Link>
 				</div>
 			</header>
