@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\TextToSpeechInterface;
 use App\Contracts\UserServiceInterface;
-use App\Services\TextToSpeechPlayHTService;
+use App\Services\TextToSpeechGennyLovoService;
 use App\Services\UserService;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserServiceInterface::class, UserService::class);
-        $this->app->bind(TextToSpeechInterface::class, TextToSpeechPlayHTService::class);
+        $this->app->bind(TextToSpeechInterface::class, TextToSpeechGennyLovoService::class);
     }
 
     /**

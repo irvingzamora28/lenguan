@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Contracts\TextToSpeechInterface;
 use App\Contracts\UserServiceInterface;
+use App\Enums\Language;
 use App\Models\User;
+use App\Utilities\LanguageCodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -33,15 +35,23 @@ class TextToSpeechController extends Controller
         $languageCode = $request->input('language_code');
         $lessonNumber = $request->input('lesson_number');
         $voice = $this->getVoice($languageCode, 'intermediate');
-        $response = $this->textToSpeechService->convertTextToSpeech($text, $voice);
-        $audioUrl = $response['audio_url'];
-        $destination = 'frontend/src/assets/courses/' . strtolower($this->getLanguageName($languageCode)) . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $response['audio_filename'];
+        $audioUrl = $this->textToSpeechService->convertTextToSpeech($text, $voice);
+
+        $audioFilename = 'lesson' . $lessonNumber . '.mp3';
+        $languageName = strtolower($this->getLanguageName($languageCode));
+        $destination = public_path() . '/../frontend/src/assets/courses/' . $languageName . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $audioFilename;
+
         $this->textToSpeechService->downloadAudioFile($audioUrl, $destination);
+
         return response()->json([
             'message' => 'Audio file created successfully',
-            'data' => $response
+            'data' => [
+                'audio_url' => $audioUrl,
+                'audio_filename' => $audioFilename,
+            ]
         ], 201);
     }
+
 
     private function getVoice($language, $course): string
     {
@@ -66,7 +76,7 @@ class TextToSpeechController extends Controller
             if ($course == 'beginner') {
                 $voice = 'VickiNeural';
             } else if ($course == 'intermediate') {
-                $voice = 'VickiNeural';
+                $voice = '64e2f74636fe21ca612f15ca';
             } else if ($course == 'advanced') {
                 $voice = 'Hans';
             }
@@ -132,8 +142,6 @@ class TextToSpeechController extends Controller
 
     private function getLanguageName(string $languageCode): ?string
     {
-        $languageCode = strtoupper($languageCode);
-        $languageEnum = Language::tryFrom($languageCode);
-        return $languageEnum?->name();
+        return LanguageCodes::getName($languageCode);
     }
 }

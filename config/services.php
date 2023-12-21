@@ -34,5 +34,8 @@ return [
         'api_key' => env('PLAY_HT_API_KEY'),
         'user_id' => env('PLAY_HT_USER_ID'),
     ],
+    'gennylovo' => [
+        'api_key' => env('GENNY_LOVO_API_KEY'),
+    ],
 
 ];
