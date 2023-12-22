@@ -10,6 +10,7 @@ use App\Utilities\LanguageCodes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class TextToSpeechController extends Controller
 {
@@ -28,12 +29,29 @@ class TextToSpeechController extends Controller
         // {
         //     "text": "Guten Tag, dies ist ein Test für die Text-zu-Sprache-Umwandlung.",
         //     "language_code": "de",
-        //     "lesson_number": 1
+        //     "lesson_number": 1,
+        //     "audio_file_name": "travel-plans.mp3"
         //   }
+
+
+        $validator = Validator::make($request->all(), [
+            'text' => 'required|string',
+            'language_code' => 'required|string',
+            'lesson_number' => 'required|integer',
+            'audio_file_name' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 400);
+        }
 
         $text = $request->input('text');
         $languageCode = $request->input('language_code');
         $lessonNumber = $request->input('lesson_number');
+        $audioFilename = $request->input('audio_file_name');
         $voice = $this->getVoice($languageCode, 'intermediate');
         $audioUrl = $this->textToSpeechService->convertTextToSpeech($text, $voice);
 
