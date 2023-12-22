@@ -3,61 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\TextToSpeechInterface;
-use App\Contracts\UserServiceInterface;
-use App\Utilities\LanguageCodes;
+use App\Http\Requests\TextToSpeechConvertRequest;
+use App\Services\LanguageCodeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class TextToSpeechController extends Controller
 {
     protected $textToSpeechService;
-    protected $userService;
 
-    public function __construct(TextToSpeechInterface $textToSpeechService, UserServiceInterface $userService)
+    protected $languageCodeService;
+
+    public function __construct(TextToSpeechInterface $textToSpeechService, LanguageCodeService $languageCodeService)
     {
         $this->textToSpeechService = $textToSpeechService;
-        $this->userService = $userService;
+        $this->languageCodeService = $languageCodeService;
     }
 
-    public function convertTextToSpeech(Request $request)
+    /**
+     * Convert text to speech.
+     *
+     * @param TextToSpeechConvertRequest $request The request object containing the voice ID, data, language code, and country code.
+     * @return \Illuminate\Http\JsonResponse The JSON response indicating the status of the audio file creation.
+     */
+    public function convertTextToSpeech(TextToSpeechConvertRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'data' => 'required|array',
-            'data.*.text' => 'required|string',
-            'data.*.lesson_number' => 'required|integer',
-            'data.*.audio_file_name' => 'required|string',
-            'language_code' => 'nullable|string',
-            'country_code' => 'nullable|string',
-            'voice_id' => 'nullable|string',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation error',
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
-        $voiceId = $request->input('voice_id');
-        $data = $request->input('data');
-        $languageCode = $request->input('language_code');
-        $countryCode = $request->input('country_code');
+        $voiceId = $request->validated('voice_id');
+        $data = $request->validated('data');
+        $languageCode = $request->validated('language_code');
+        $countryCode = $request->validated('country_code');
 
         foreach ($data as $item) {
             $text = $item['text'];
             $lessonNumber = $item['lesson_number'];
             $audioFilename = $item['audio_file_name'];
-            if (!LanguageCodes::countryCodeIsValid($countryCode) || !LanguageCodes::languageCodeIsValid($languageCode)) {
+            if (!$this->languageCodeService->isValidCountryCode($countryCode) || !$this->languageCodeService->isValidLanguageCode($languageCode)) {
                 return response()->json([
                     'message' => 'Invalid country code or language code',
                 ], 400);
             }
 
-            $languageName = strtolower($this->getLanguageName($languageCode));
-            $languageCodeCountryCode = LanguageCodes::getLanguageCodeCountryCode($languageCode, $countryCode);
+            $languageName = strtolower($this->languageCodeService->getLanguageName($languageCode));
+            $languageCodeCountryCode = $this->languageCodeService->getLanguageCodeCountryCode($languageCode, $countryCode);
             try {
                 $audioUrl = $this->textToSpeechService->convertTextToSpeech($text, $languageCodeCountryCode, $voiceId);
-                $destination = public_path() . '/../frontend/src/assets/courses/' . $languageName . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $audioFilename;
+                $destination = $this->getAudioFileDestination($languageName, $lessonNumber, $audioFilename);
                 $this->textToSpeechService->downloadAudioFile($audioUrl, $destination);
             } catch (\Throwable $th) {
                 return response()->json([
@@ -72,6 +62,12 @@ class TextToSpeechController extends Controller
         ], 201);
     }
 
+    /**
+     * Retrieve the available voices for text-to-speech conversion.
+     *
+     * @param Request $request The HTTP request object.
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the retrieved voices.
+     */
     public function retrieveVoices(Request $request)
     {
         $response = $this->textToSpeechService->retrieveVoices();
@@ -81,8 +77,16 @@ class TextToSpeechController extends Controller
         ], 200);
     }
 
-    private function getLanguageName(string $languageCode): ?string
+    /**
+     * Get the destination path for the audio file.
+     *
+     * @param string $languageName The name of the language.
+     * @param int $lessonNumber The lesson number.
+     * @param string $audioFilename The name of the audio file.
+     * @return string The destination path for the audio file.
+     */
+    private function getAudioFileDestination(string $languageName, int $lessonNumber, string $audioFilename): string
     {
-        return LanguageCodes::getName($languageCode);
+        return public_path() . '/../frontend/src/assets/courses/' . $languageName . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $audioFilename;
     }
 }

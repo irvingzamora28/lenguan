@@ -27,7 +27,7 @@ class TextToSpeechPlayHTService implements TextToSpeechInterface
         $this->userId = config('services.playht.user_id');
     }
 
-    public function convertTextToSpeech($text, $voiceKeySearch, $voiceId)
+    public function convertTextToSpeech($text, $voiceKeySearch, $voiceId = null)
     {
         try {
             if (!$voiceId) {

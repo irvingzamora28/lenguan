@@ -24,7 +24,7 @@ class TextToSpeechGennyLovoService implements TextToSpeechInterface
         $this->apiKey = config('services.gennylovo.api_key');
     }
 
-    public function convertTextToSpeech($text, $voiceKeySearch, $voiceId)
+    public function convertTextToSpeech($text, $voiceKeySearch, $voiceId = null)
     {
         try {
             if (!$voiceId) {
