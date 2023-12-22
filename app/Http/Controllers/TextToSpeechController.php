@@ -25,20 +25,34 @@ class TextToSpeechController extends Controller
 
     public function convertTextToSpeech(Request $request)
     {
-        // Test data request
-        // {
-        //     "text": "Guten Tag, dies ist ein Test für die Text-zu-Sprache-Umwandlung.",
-        //     "language_code": "de",
-        //     "lesson_number": 1,
-        //     "audio_file_name": "travel-plans.mp3"
-        //   }
-
+        // Sample data request
+        // [
+        //     {
+        //         "text": "Wo ist...? . Wie komme ich zu...? . Biegen Sie links/rechts ab. . Gehen Sie geradeaus.",
+        //         "language_code": "de",
+        //         "lesson_number": 8,
+        //         "audio_file_name": "asking-directions.mp3"
+        //     },
+        //     {
+        //         "text": "Ich reise nach... . Ich nehme den Zug/Bus/Flug. . Ich habe eine Fahrkarte für...",
+        //         "language_code": "de",
+        //         "lesson_number": 8,
+        //         "audio_file_name": "travel-plans.mp3"
+        //     },
+        //      {
+        //         "text": "Entschuldigung, wo ist der Bahnhof? .  Gehen Sie geradeaus und dann biegen Sie links ab. Der Bahnhof ist neben dem Postamt. . Kann ich bitte eine Fahrkarte nach Berlin haben? . Natürlich, ein Hin-und Rückfahrticket, oder, nur Hinfahrt?",
+        //         "language_code": "de",
+        //         "lesson_number": 8,
+        //         "audio_file_name": "practice-dialogues.mp3"
+        //     }
+        // ]
 
         $validator = Validator::make($request->all(), [
-            'text' => 'required|string',
-            'language_code' => 'required|string',
-            'lesson_number' => 'required|integer',
-            'audio_file_name' => 'required|string',
+            'data' => 'required|array',
+            'data.*.text' => 'required|string',
+            'data.*.language_code' => 'required|string',
+            'data.*.lesson_number' => 'required|integer',
+            'data.*.audio_file_name' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -48,25 +62,23 @@ class TextToSpeechController extends Controller
             ], 400);
         }
 
-        $text = $request->input('text');
-        $languageCode = $request->input('language_code');
-        $lessonNumber = $request->input('lesson_number');
-        $audioFilename = $request->input('audio_file_name');
-        $voice = $this->getVoice($languageCode, 'intermediate');
-        $audioUrl = $this->textToSpeechService->convertTextToSpeech($text, $voice);
+        $data = $request->input('data');
 
-        $audioFilename = 'lesson' . $lessonNumber . '.mp3';
-        $languageName = strtolower($this->getLanguageName($languageCode));
-        $destination = public_path() . '/../frontend/src/assets/courses/' . $languageName . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $audioFilename;
+        foreach ($data as $item) {
+            $text = $item['text'];
+            $languageCode = $item['language_code'];
+            $lessonNumber = $item['lesson_number'];
+            $audioFilename = $item['audio_file_name'];
+            $voice = $this->getVoice($languageCode, 'intermediate');
+            $audioUrl = $this->textToSpeechService->convertTextToSpeech($text, $voice);
+            $languageName = strtolower($this->getLanguageName($languageCode));
+            $destination = public_path() . '/../frontend/src/assets/courses/' . $languageName . '/_shared/lessons/lesson' . $lessonNumber . '/audio/' . $audioFilename;
 
-        $this->textToSpeechService->downloadAudioFile($audioUrl, $destination);
+            $this->textToSpeechService->downloadAudioFile($audioUrl, $destination);
+        }
 
         return response()->json([
-            'message' => 'Audio file created successfully',
-            'data' => [
-                'audio_url' => $audioUrl,
-                'audio_filename' => $audioFilename,
-            ]
+            'message' => 'Audio files created successfully',
         ], 201);
     }
 
