@@ -24,8 +24,8 @@ class TextToSpeechConvertRequest extends FormRequest
         return [
             'data' => 'required|array',
             'data.*.text' => 'required|string',
-            'data.*.lesson_number' => 'required|integer',
             'data.*.audio_file_name' => 'required|string',
+            'lesson_number' => 'required|integer',
             'language_code' => 'nullable|string',
             'country_code' => 'nullable|string',
             'voice_id' => 'nullable|string',

@@ -32,10 +32,10 @@ class TextToSpeechController extends Controller
         $data = $request->validated('data');
         $languageCode = $request->validated('language_code');
         $countryCode = $request->validated('country_code');
+        $lessonNumber = $request->validated('lesson_number');
 
         foreach ($data as $item) {
             $text = $item['text'];
-            $lessonNumber = $item['lesson_number'];
             $audioFilename = $item['audio_file_name'];
             if (!$this->languageCodeService->isValidCountryCode($countryCode) || !$this->languageCodeService->isValidLanguageCode($languageCode)) {
                 return response()->json([
