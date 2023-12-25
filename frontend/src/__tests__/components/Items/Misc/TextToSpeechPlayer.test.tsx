@@ -49,8 +49,8 @@ describe("TextToSpeechPlayer", () => {
 	});
 
 	it("calls useAudioPlayer with correct parameters", () => {
-		render(<TextToSpeechPlayer text="Test text" mp3File="testFile.mp3" />);
-		expect(useAudioPlayer).toHaveBeenCalledWith({ text: "Test text", mp3File: "testFile.mp3" });
+		render(<TextToSpeechPlayer text="Test text" mp3File="testFile.mp3" autoplay={true} />);
+		expect(useAudioPlayer).toHaveBeenCalledWith({ text: "Test text", mp3File: "testFile.mp3", autoplay: true });
 	});
 
 	it("passes correct props to MiniAudioPlayer when miniPlayer is true", () => {
