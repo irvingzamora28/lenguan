@@ -23,7 +23,7 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("LoginPage", () => {
-	const mockUser = { id: 123, name: "John Doe", email: "test@example.com" };
+	const mockUser = createMockUser();
 	beforeEach(() => {
 		// Clear all mocks before each test
 		vi.clearAllMocks();
@@ -47,7 +47,7 @@ describe("LoginPage", () => {
 		);
 		expect(getByLabelText("Email address")).toBeInTheDocument();
 		expect(getByLabelText("Password")).toBeInTheDocument();
-		expect(getByText("Sign in")).toBeInTheDocument();
+		expect(getByText("Log in")).toBeInTheDocument();
 	});
 
 	it("should submit the login form with valid data", async () => {
@@ -62,7 +62,7 @@ describe("LoginPage", () => {
 		);
 		const emailInput = getByLabelText("Email address");
 		const passwordInput = getByLabelText("Password");
-		const submitButton = getByText("Sign in");
+		const submitButton = getByText("Log in");
 
 		fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 		fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -128,7 +128,7 @@ describe("LoginPage", () => {
 		);
 		const emailInput = getByLabelText("Email address");
 		const passwordInput = getByLabelText("Password");
-		const submitButton = getByText("Sign in");
+		const submitButton = getByText("Log in");
 
 		fireEvent.change(emailInput, { target: { value: "test@example.com" } });
 		fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
@@ -145,3 +145,14 @@ describe("LoginPage", () => {
 		});
 	});
 });
+
+function createMockUser() {
+	return {
+		id: 123,
+		name: "John Doe",
+		email: "test@example.com",
+		native_language_code: "en",
+		image: "test.jpg",
+		profile_image_path: "test/path",
+	};
+}
