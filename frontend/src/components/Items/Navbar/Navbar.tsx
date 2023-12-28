@@ -13,6 +13,7 @@ import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 import { LanguageService } from "../../../services/LanguageService";
 import { useApi } from "../../../hooks/api/useApi";
 import { toast } from "react-toastify";
+import GuestLabel from "../../Utilities/GuestLabel";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -74,16 +75,17 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	}, []);
 
 	return (
-		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-50">
+		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-10">
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
 				</button>
 				<div>Logo</div>
 			</div>
-			<div className="z-10 flex items-center space-x-4">
+			<div className="z-10 flex items-center">
+				<GuestLabel />
 				{selectedLanguage && (
-					<div className="relative">
+					<div className="relative mx-2">
 						<button className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)} aria-label="language">
 							<AiOutlineGlobal size={20} />
 							<span>{selectedLanguage.code?.toUpperCase()}</span>
@@ -101,7 +103,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 						)}
 					</div>
 				)}
-				<div className="relative">
+				<div className="relative mx-2">
 					<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button" aria-label="profile">
 						<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 					</button>

@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, title, icon, color = "bg-g
 	}
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center px-4 py-6">
+		<div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center px-4 py-6 z-50">
 			<div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-lg w-full">
 				<div className={`${color} p-6 flex flex-col items-center`}>
 					{icon}
@@ -21,7 +21,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, title, icon, color = "bg-g
 				</div>
 				<div className="p-6 text-center">{children}</div>
 				<div className="bg-gray-100 px-6 py-3 flex justify-center">
-					<button onClick={onClose} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300 ease-in-out">
+					<button onClick={onClose} className="bg-rose-500 text-white font-bold py-2 px-4 rounded hover:bg-rose-600 transition duration-300 ease-in-out">
 						Close
 					</button>
 				</div>
