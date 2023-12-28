@@ -1,5 +1,5 @@
-// Create here the component for the guest label
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { AiOutlineUser } from "react-icons/ai";
 import { useIsGuest } from "../../redux/hooks";
 import Modal from "./Modal";
@@ -8,31 +8,9 @@ import "../../assets/scss/globals.scss";
 
 interface GuestLabelProps {}
 
-interface RegisterData {
-	name: string;
-	email: string;
-	password: string;
-	password_confirmation: string;
-}
-
 const GuestLabel: React.FC<GuestLabelProps> = ({}) => {
 	const isGuest = useIsGuest();
 	const [showModal, setShowModal] = useState(false);
-
-	const [registerData, setRegisterData] = useState<RegisterData>({
-		name: "",
-		email: "",
-		password: "",
-		password_confirmation: "",
-	});
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		setRegisterData((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
 
 	if (isGuest) {
 		return (
@@ -44,9 +22,12 @@ const GuestLabel: React.FC<GuestLabelProps> = ({}) => {
 						<span className="md:hidden">Guest</span>
 					</div>
 				</div>
-				<Modal show={showModal} onClose={() => setShowModal(false)} title="Register and save your progress" icon={<span className="text-6xl">📖</span>} color="bg-primary-500">
-					<RegisterForm />
-				</Modal>
+				{createPortal(
+					<Modal show={showModal} onClose={() => setShowModal(false)} title="Register and save your progress" icon={<span className="text-6xl">📖</span>} color="bg-primary-500">
+						<RegisterForm />
+					</Modal>,
+					document.body
+				)}
 			</>
 		);
 	} else {
