@@ -43,13 +43,15 @@ const useUserLogin = (path?: string) => {
 					navigate(path);
 				}
 			} catch (error: any) {
-				let errorMessage = "An error occurred. Please try again.";
-				setErrorMessages([errorMessage]);
 				if (error.response && error.response.data && error.response.data.message) {
 					setErrorMessages([error.response.data.message]);
+					dispatch(loginFailure(error.response.data.message));
+				} else {
+					let errorMessage = "An error occurred. Please try again.";
+					setErrorMessages([errorMessage]);
+					dispatch(loginFailure(errorMessage));
+					throw new Error(errorMessage);
 				}
-				dispatch(loginFailure(errorMessage));
-				throw new Error(errorMessage);
 			}
 		} else {
 			throw new Error("Invalid input");
