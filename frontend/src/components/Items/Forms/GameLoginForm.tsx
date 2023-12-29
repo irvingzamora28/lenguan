@@ -1,31 +1,28 @@
-import React, { useRef } from "react";
+import React from "react";
 
 interface GameLoginFormProps {
 	handleLogin: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleEnterAsGuest: () => void;
 }
 
-const GameLoginForm: React.FC<GameLoginFormProps> = ({ handleLogin, handleEnterAsGuest }) => {
-	const usernameInput = useRef<HTMLInputElement>(null);
-	const passwordInput = useRef<HTMLInputElement>(null);
-
+const GameLoginForm: React.FC<GameLoginFormProps> = ({ handleLogin, onChange, handleEnterAsGuest }) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 	};
 
 	return (
 		<div className="flex flex-col items-center">
-			<h2 className="text-2xl font-bold mb-4 text-white">Enter your username and password or join as a guest</h2>
+			<h2 className="text-2xl font-bold mb-4 text-white">Enter your email and password or join as a guest</h2>
 			<form className="flex flex-col items-center mb-4" onSubmit={handleSubmit}>
-				<label className="text-white mb-2" htmlFor="usernameInput">
-					Username
+				<label className="text-white mb-2" htmlFor="emailInput">
+					Email
 				</label>
-				<input id="usernameInput" type="text" ref={usernameInput} placeholder="Username" className="w-full p-2 mb-2 text-black border-2 border-white rounded-md focus:outline-none focus:border-yellow-400" />
+				<input id="emailInput" type="text" onChange={onChange} name="email" placeholder="Email" className="w-full p-2 mb-2 text-black border-2 border-white rounded-md focus:outline-none focus:border-yellow-400" />
 				<label className="text-white mb-2" htmlFor="passwordInput">
 					Password
 				</label>
-				<input id="passwordInput" type="password" ref={passwordInput} placeholder="Password" className="w-full p-2 mb-2 text-black border-2 border-white rounded-md focus:outline-none focus:border-yellow-400" />
+				<input id="passwordInput" type="password" onChange={onChange} name="password" placeholder="Password" className="w-full p-2 mb-2 text-black border-2 border-white rounded-md focus:outline-none focus:border-yellow-400" />
 				<button
 					type="submit"
 					className="bg-red-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-400 transition-all ease-out duration-300"
