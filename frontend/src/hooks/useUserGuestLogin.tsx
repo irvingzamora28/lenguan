@@ -3,7 +3,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { generateGuestUser } from "../utils/userUtils";
 import { loginGuest, loginRequest } from "../redux/authSlice";
 
-export const useUserGuestLogin = (path: string = "/") => {
+const useUserGuestLogin = (path: string = "/") => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -14,5 +14,7 @@ export const useUserGuestLogin = (path: string = "/") => {
 		navigate(path);
 	};
 
-	return handleLoginAsGuest;
+	return { handleLoginAsGuest };
 };
+
+export default useUserGuestLogin;
