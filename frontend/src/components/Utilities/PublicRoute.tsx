@@ -11,15 +11,12 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
 	const isGuest = useIsGuest();
 	const location = useLocation();
 
-    // Check if the user is authenticated
-	return isAuthenticated || isGuest ? (
-        <Navigate
-          to="/"
-          state={{ from: location }}
-        />
-      ) : (
-        <>{children}</>
-      );
+	const publicAndPrivateRoutes = ["/gender-duel"];
+
+	// If the user is authenticated or is a guest, allow them to access the public routes.
+	// If the user is not authenticated or is a guest, redirect them to the login page.
+	// If the route is a public and private route, allow them to access the route.
+	return isAuthenticated || isGuest ? publicAndPrivateRoutes.includes(location.pathname) ? <>{children}</> : <Navigate to="/" state={{ from: location }} /> : <>{children}</>;
 };
 
 export default PublicRoute;

@@ -59,13 +59,13 @@ const privateRoutes = [
 	{ path: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, element: <VerbConjugationSlotMachineExercise /> },
 	{ path: WRITING_EXERCISE_CREATE_STORYPATH, element: <CreateStoryWritingExercise /> },
 	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
-	{ path: "/gender-duel", element: <GenderDuelPage /> },
 	{ path: "/memory-game", element: <MemoryGame /> },
 ];
 
 const publicRoutes = [
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/register", element: <RegisterPage /> },
+	{ path: "/gender-duel", element: <GenderDuelPage /> },
 ];
 
 const router = createBrowserRouter([
