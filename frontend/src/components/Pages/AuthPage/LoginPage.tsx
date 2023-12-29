@@ -10,8 +10,8 @@ const LoginPage: React.FC = () => {
 	const location = useLocation();
 	const from = location.state?.from || "/";
 	let pageTitle = location.state?.pageTitle || ""; // Default title '' if 'pageTitle' is not defined.
-	const loginAsGuest = useUserGuestLogin(from);
-	const { errorMessage, loginData, handleChange, handleLogin } = useUserLogin(from);
+	const handleLoginAsGuest = useUserGuestLogin(from);
+	const { errorMessages, loginData, handleChange, handleLogin } = useUserLogin(from);
 
 	useEffect(() => {
 		// Call the refreshCsrfToken function to start refreshing the token
@@ -33,10 +33,7 @@ const LoginPage: React.FC = () => {
 							</div>
 							<div className="divide-y divide-gray-200">
 								<div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-									<LoginForm onSubmit={handleLogin} onChange={handleChange} errorMessage={errorMessage} />
-									<button onClick={loginAsGuest} className="mt-6 w-full bg-accent-400 hover:bg-accent-500 text-white font-bold py-2 px-4 rounded-full">
-										Continue as Guest
-									</button>
+									<LoginForm onLogin={handleLogin} onChange={handleChange} errorMessages={errorMessages} onLoginAsGuest={handleLoginAsGuest} />
 								</div>
 							</div>
 						</div>

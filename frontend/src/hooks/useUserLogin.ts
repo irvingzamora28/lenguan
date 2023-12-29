@@ -16,7 +16,7 @@ const useUserLogin = (path?: string) => {
 		email: "",
 		password: "",
 	});
-	const [errorMessage, setErrorMessage] = useState<string[]>();
+	const [errorMessages, setErrorMessages] = useState<string[]>();
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
@@ -27,9 +27,9 @@ const useUserLogin = (path?: string) => {
 		}));
 	};
 
-	const handleLogin = async (event: React.FormEvent) => {
+	const handleLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		event.preventDefault();
-		setErrorMessage([]); // Clear previous error message
+		setErrorMessages([]); // Clear previous error message
 		const { email, password } = loginData;
 
 		if (email.trim() !== "" && password.trim() !== "") {
@@ -44,9 +44,9 @@ const useUserLogin = (path?: string) => {
 				}
 			} catch (error: any) {
 				let errorMessage = "An error occurred. Please try again.";
-				setErrorMessage([errorMessage]);
+				setErrorMessages([errorMessage]);
 				if (error.response && error.response.data && error.response.data.message) {
-					setErrorMessage([error.response.data.message]);
+					setErrorMessages([error.response.data.message]);
 				}
 				dispatch(loginFailure(errorMessage));
 				throw new Error(errorMessage);
@@ -56,7 +56,7 @@ const useUserLogin = (path?: string) => {
 		}
 	};
 
-	return { errorMessage, loginData, handleChange, handleLogin };
+	return { errorMessages, loginData, handleChange, handleLogin };
 };
 
 export default useUserLogin;

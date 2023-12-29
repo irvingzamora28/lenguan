@@ -7,12 +7,12 @@ export const useUserGuestLogin = (path: string = "/") => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const loginAsGuest = () => {
+	const handleLoginAsGuest = () => {
 		const guestUser = generateGuestUser();
 		dispatch(loginRequest());
 		dispatch(loginGuest({ user: guestUser }));
 		navigate(path);
 	};
 
-	return loginAsGuest;
+	return handleLoginAsGuest;
 };
