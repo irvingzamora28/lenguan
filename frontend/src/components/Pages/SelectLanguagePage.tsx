@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLanguage, setLanguages } from "../../redux/languageSlice";
+import { setLanguage } from "../../redux/languageSlice";
 import Layout from "../Layout/Layout";
 import { FaLanguage } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +12,7 @@ import { getLanguages } from "../../utils/languages";
 import { Language } from "../../types/language";
 import { updateAuthUser } from "../../redux/authSlice";
 import { useApi } from "../../hooks/api/useApi";
-import { LanguageService } from "../../services/LanguageService";
+import { useAuthProtectionService } from "../../hooks/useAuthProtectionService";
 
 // TODO: Remove all references of old selectedLanguage state
 const SelectLanguagePage: React.FC = () => {
@@ -20,6 +20,7 @@ const SelectLanguagePage: React.FC = () => {
 	const user = useUser();
 	const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 	const languages = useLanguages();
+	const { updateLanguage } = useAuthProtectionService();
 
 	const { postRequest } = useApi();
 
@@ -36,7 +37,7 @@ const SelectLanguagePage: React.FC = () => {
 			const updatedUser = { ...user, language: language };
 			dispatch(updateAuthUser({ user: updatedUser }));
 			try {
-				await LanguageService.updateLanguage(language._id, postRequest);
+				await updateLanguage(language._id, postRequest);
 
 				// Display success notification
 				toast.success("Language selected successfully!", {

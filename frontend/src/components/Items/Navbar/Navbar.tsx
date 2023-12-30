@@ -10,10 +10,10 @@ import { resetCourseState } from "../../../redux/courseSlice";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
-import { LanguageService } from "../../../services/LanguageService";
 import { useApi } from "../../../hooks/api/useApi";
 import { toast } from "react-toastify";
 import GuestLabel from "../../Utilities/GuestLabel";
+import { useAuthProtectionService } from "../../../hooks/useAuthProtectionService";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -32,6 +32,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	const selectedLanguage = user?.language;
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+	const { updateLanguage } = useAuthProtectionService();
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
 		dispatch(logout());
@@ -56,7 +57,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 			const updatedUser = { ...user, language: language };
 			dispatch(updateAuthUser({ user: updatedUser }));
 			try {
-				await LanguageService.updateLanguage(language._id, postRequest);
+				await updateLanguage(language._id, postRequest);
 			} catch (error) {
 				// Handle errors
 				toast.error("Error updating language. Please try again.");
