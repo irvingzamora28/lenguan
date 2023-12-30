@@ -16,11 +16,10 @@ const SelectCoursePage: React.FC = () => {
 	const user = useUser();
 	const navigate = useNavigate();
 	const courses = useCourses();
-	const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
-    const { postRequest } = useApi();
+	const { postRequest } = useApi();
 
 	// Fetch the courses available to select
-	getCourses(courses, dispatch);
+	getCourses(courses, user?.language ?? null, dispatch);
 
 	const updateLanguageInBackend = async (updatedUser: User) => {
 		try {
@@ -48,14 +47,14 @@ const SelectCoursePage: React.FC = () => {
 	const selectCourse = (course: Course) => {
 		dispatch(setCourse(course));
 		navigate("/lessons");
-        // Ensure user is not null before updating
+		// Ensure user is not null before updating
 		if (user) {
 			const updatedUser = {
 				...user,
 				course: course,
 			};
 			dispatch(updateAuthUser({ user: updatedUser }));
-            updateLanguageInBackend(updatedUser);
+			updateLanguageInBackend(updatedUser);
 		} else {
 			console.error("User is null, cannot update course");
 		}
