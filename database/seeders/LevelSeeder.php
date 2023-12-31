@@ -14,10 +14,16 @@ class LevelSeeder extends Seeder
     public function run()
     {
         $levels = [
-            'Level 1',
-            'Level 2',
-            'Level 3',
-            'Level 4',
+            'German Level 1',
+            'German Level 2',
+            'German Level 3',
+            'German Level 4',
+            'Spanish Level 1',
+            'Spanish Level 2',
+            'Spanish Level 3',
+            'Inglés nivel 1',
+            'Inglés nivel 2',
+            'Inglés nivel 3',
         ];
 
         foreach ($levels as $level) {

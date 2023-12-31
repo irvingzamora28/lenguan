@@ -14,6 +14,7 @@ class Level extends Model
 
     protected $fillable = [
         'name',
+        'course_id',
     ];
 
     public function course()
@@ -25,5 +26,4 @@ class Level extends Model
     {
         return $this->hasMany(Lesson::class);
     }
-
 }

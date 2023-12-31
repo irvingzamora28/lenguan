@@ -28,6 +28,9 @@ class LanguageSeeder extends Seeder
             'Travel',
             'Academic Study',
             'Cultural Exploration',
+            'Fundamentals',
+            'Vocabulary',
+            'Grammar',
             'Other'
         ];
 
@@ -70,8 +73,8 @@ class LanguageSeeder extends Seeder
         $language = Language::where('name', 'English')->first();
 
         $courseData = [
-            'name'      => 'Inglés para todos.',
-            'image'     => 'https://images.unsplash.com/photo-1559517143-596',
+            'name'      => 'Inglés para todos',
+            'image'     => 'https://images.unsplash.com/photo-1692303365480-e9592c2611d3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             'language_id' => $language->id,
             'description' => 'Aprende inglés con lecciones pequeñas y prácticas para que puedas comenzar.',
             'native_language_code' => 'es',
