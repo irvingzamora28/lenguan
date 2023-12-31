@@ -570,5 +570,277 @@ class LessonSeeder extends Seeder
             }
             $spanishCourse->levels()->attach($level);
         }
+
+        // English course for spanish learners
+        $englishCourseData = [
+            [
+                'level' => 'Level 1', // Beginner
+                'lessons' => [
+                    [
+                        'name' => 'Introducción al Alfabeto y Sonidos',
+                        'lesson_number' => 1,
+                        'description' => 'Familiarízate con el alfabeto inglés y sus sonidos únicos.',
+                        'goals' => ['Pronunciation', 'Fundamentals'],
+                    ],
+                    [
+                        'name' => 'Saludos y Expresiones de Cortesía',
+                        'lesson_number' => 2,
+                        'description' => 'Aprende cómo saludar y las expresiones de cortesía básicas.',
+                        'goals' => ['Daily Communication', 'Travel'],
+                    ],
+                    [
+                        'name' => 'Números, Colores y Formas',
+                        'lesson_number' => 3,
+                        'description' => 'Domina los números, colores básicos y formas geométricas.',
+                        'goals' => ['Basics', 'Vocabulary Expansion'],
+                    ],
+                    [
+                        'name' => 'Gramática Básica - Sustantivos, Artículos y Pronombres',
+                        'lesson_number' => 4,
+                        'description' => 'Entiende los fundamentos de sustantivos, artículos y pronombres en inglés.',
+                        'goals' => ['Academic Study', 'Other'],
+                    ],
+                    [
+                        'name' => 'Vocabulario de Familia y Amigos',
+                        'lesson_number' => 5,
+                        'description' => 'Introduce palabras y frases para describir familia y amigos.',
+                        'goals' => ['Vocabulary Building', 'Social Interaction'],
+                    ],
+                    [
+                        'name' => 'Verbos Comunes y el Presente Simple',
+                        'lesson_number' => 6,
+                        'description' => 'Aprende los verbos más comunes y el uso del presente simple.',
+                        'goals' => ['Grammar', 'Communication'],
+                    ],
+                    [
+                        'name' => 'Objetos Cotidianos y Preposiciones de Lugar',
+                        'lesson_number' => 7,
+                        'description' => 'Identifica objetos cotidianos y aprende a usar preposiciones de lugar.',
+                        'goals' => ['Vocabulary', 'Grammar'],
+                    ],
+                    [
+                        'name' => 'Comida y Bebidas',
+                        'lesson_number' => 8,
+                        'description' => 'Aprende vocabulario para ordenar y hablar sobre comida y bebidas.',
+                        'goals' => ['Dining', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Ropa y Descripciones Físicas',
+                        'lesson_number' => 9,
+                        'description' => 'Describe ropa y características físicas de las personas.',
+                        'goals' => ['Vocabulary', 'Social Interaction'],
+                    ],
+                    [
+                        'name' => 'Hobbies y Pasatiempos',
+                        'lesson_number' => 10,
+                        'description' => 'Conversa sobre hobbies y pasatiempos usando el presente simple.',
+                        'goals' => ['Recreation', 'Self Expression'],
+                    ],
+                    [
+                        'name' => 'Introducción a la Hora y el Calendario',
+                        'lesson_number' => 11,
+                        'description' => 'Aprende a decir la hora, días de la semana y meses del año.',
+                        'goals' => ['Daily Life', 'Planning'],
+                    ],
+                ],
+            ],
+            [
+                'level' => 'Level 2', // Intermediate
+                'lessons' => [
+                    [
+                        'name' => 'Gramática Intermedia - Adjetivos y Adverbios',
+                        'lesson_number' => 12,
+                        'description' => 'Profundiza tu entendimiento de adjetivos y adverbios en inglés.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Gramática Intermedia - Preposiciones y Conjunciones',
+                        'lesson_number' => 13,
+                        'description' => 'Aprende el uso de preposiciones y conjunciones en inglés.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Tiempo Pasado Simple y Continuo',
+                        'lesson_number' => 14,
+                        'description' => 'Aprende a narrar eventos en pasado usando el pasado simple y continuo.',
+                        'goals' => ['Grammar', 'Narration'],
+                    ],
+                    [
+                        'name' => 'Futuro con Will y Going to',
+                        'lesson_number' => 15,
+                        'description' => 'Planea y predice el futuro utilizando "will" y "going to".',
+                        'goals' => ['Grammar', 'Planning'],
+                    ],
+                    [
+                        'name' => 'Condiciones y Comparativos',
+                        'lesson_number' => 16,
+                        'description' => 'Comprende y usa estructuras condicionales y comparativos.',
+                        'goals' => ['Grammar', 'Communication'],
+                    ],
+                    [
+                        'name' => 'Alimentación y Cocina',
+                        'lesson_number' => 17,
+                        'description' => 'Expande tu vocabulario relacionado con alimentos y cocina.',
+                        'goals' => ['Cultural Exploration', 'Dining'],
+                    ],
+                    [
+                        'name' => 'Salud y Cuerpo Humano',
+                        'lesson_number' => 18,
+                        'description' => 'Aprende vocabulario relacionado con la salud y el cuerpo humano.',
+                        'goals' => ['Health', 'Daily Life'],
+                    ],
+                    [
+                        'name' => 'Fiestas y Celebraciones',
+                        'lesson_number' => 19,
+                        'description' => 'Conoce las principales festividades y cómo celebrarlas en inglés.',
+                        'goals' => ['Cultural Exploration', 'Social Interaction'],
+                    ],
+                    [
+                        'name' => 'La Ciudad y el Transporte',
+                        'lesson_number' => 20,
+                        'description' => 'Navega por la ciudad y aprende sobre diferentes modos de transporte.',
+                        'goals' => ['Travel', 'Orientation'],
+                    ],
+                    [
+                        'name' => 'Naturaleza y Medio Ambiente',
+                        'lesson_number' => 21,
+                        'description' => 'Discute sobre la naturaleza y cuestiones medioambientales.',
+                        'goals' => ['Awareness', 'Conversation'],
+                    ],
+                    [
+                        'name' => 'Arte y Cultura',
+                        'lesson_number' => 22,
+                        'description' => 'Explora el vocabulario relacionado con el arte y la cultura.',
+                        'goals' => ['Cultural Appreciation', 'Art'],
+                    ],
+                    [
+                        'name' => 'Expresiones Idiomáticas y Lenguaje Coloquial',
+                        'lesson_number' => 23,
+                        'description' => 'Introdúcete al uso de expresiones idiomáticas y lenguaje coloquial en inglés.',
+                        'goals' => ['Fluency', 'Cultural Insight'],
+                    ],
+                ],
+            ],
+            [
+                'level' => 'Level 3', // Advanced
+                'lessons' => [
+                    [
+                        'name' => 'Gramática Avanzada - Tiempos y Modos Complejos',
+                        'lesson_number' => 24,
+                        'description' => 'Domina tiempos y modos complejos en la gramática inglesa.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Gramática Avanzada - Subjuntivo y Condicional',
+                        'lesson_number' => 25,
+                        'description' => 'Aprende sobre los modos subjuntivo y condicional en inglés.',
+                        'goals' => ['Academic Study'],
+                    ],
+                    [
+                        'name' => 'Narrativa Avanzada y Estilos Literarios',
+                        'lesson_number' => 26,
+                        'description' => 'Aprende a analizar y crear narrativas usando estilos literarios variados.',
+                        'goals' => ['Literary Skills', 'Creative Expression'],
+                    ],
+                    [
+                        'name' => 'Inglés Académico y Técnico',
+                        'lesson_number' => 27,
+                        'description' => 'Desarrolla habilidades para entender y utilizar inglés en contextos académicos y técnicos.',
+                        'goals' => ['Academic Proficiency', 'Technical Language'],
+                    ],
+                    [
+                        'name' => 'Debates y Persuasión',
+                        'lesson_number' => 28,
+                        'description' => 'Perfecciona tus habilidades para debatir y persuadir en inglés.',
+                        'goals' => ['Debate', 'Persuasive Communication'],
+                    ],
+                    [
+                        'name' => 'Modismos y Español Coloquial',
+                        'lesson_number' => 29,
+                        'description' => 'Aprende modismos y expresiones coloquiales comunes en inglés.',
+                        'goals' => ['Cultural Exploration', 'Other'],
+                    ],
+                    [
+                        'name' => 'Innovación y Cambio',
+                        'lesson_number' => 30,
+                        'description' => 'Explora temas de innovación, cambio y el futuro en inglés.',
+                        'goals' => ['Innovation', 'Future Trends'],
+                    ],
+                    [
+                        'name' => 'Cultura Empresarial y Liderazgo',
+                        'lesson_number' => 31,
+                        'description' => 'Aprende sobre cultura empresarial, liderazgo y gestión en inglés.',
+                        'goals' => ['Business Skills', 'Leadership'],
+                    ],
+                    [
+                        'name' => 'Artes Visuales y Performance',
+                        'lesson_number' => 32,
+                        'description' => 'Discute sobre artes visuales y performances, interpretando y describiendo obras artísticas.',
+                        'goals' => ['Art Criticism', 'Cultural Appreciation'],
+                    ],
+                    [
+                        'name' => 'Ciencia Avanzada y Tecnología',
+                        'lesson_number' => 33,
+                        'description' => 'Explora desarrollos avanzados en ciencia y tecnología y su vocabulario asociado.',
+                        'goals' => ['Scientific Literacy', 'Tech Proficiency'],
+                    ],
+                    [
+                        'name' => 'Psicología y Filosofía',
+                        'lesson_number' => 34,
+                        'description' => 'Introdúcete a términos y debates en psicología y filosofía en inglés.',
+                        'goals' => ['Philosophical Thinking', 'Psychological Insight'],
+                    ],
+                    [
+                        'name' => 'Debate y Discusión en Inglés',
+                        'lesson_number' => 35,
+                        'description' => 'Mejora habilidades de comunicación a través de debates y discusiones en inglés.',
+                        'goals' => ['Business Communication', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Inmersión Cultural y Experiencias de Viaje',
+                        'lesson_number' => 36,
+                        'description' => 'Mejora la comprensión de la cultura inglesa a través de experiencias relacionadas con viajes.',
+                        'goals' => ['Travel', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Conversación Avanzada y Discusión',
+                        'lesson_number' => 37,
+                        'description' => 'Desarrolla habilidades conversacionales avanzadas en inglés, discutiendo diversos temas.',
+                        'goals' => ['Business Communication', 'Cultural Exploration'],
+                    ],
+                    [
+                        'name' => 'Tendencias Globales y Cambio Social',
+                        'lesson_number' => 38,
+                        'description' => 'Analiza y debate sobre tendencias globales y cambio social.',
+                        'goals' => ['Social Analysis', 'Trend Understanding'],
+                    ],
+                ],
+            ],
+        ];
+
+        $englishCourse = Course::where('name', 'Spanish for Everyone')->first();
+        foreach ($englishCourseData as $levelData) {
+            $level = Level::where('name', $levelData['level'])->firstOrCreate(['name' => $levelData['level']]);
+
+            foreach ($levelData['lessons'] as $lessonData) {
+                $lesson = new Lesson([
+                    'name' => $lessonData['name'],
+                    'lesson_number' => $lessonData['lesson_number'],
+                    'description' => $lessonData['description'],
+                    'course_id' => $course->id,
+                    'content' => '',
+                ]);
+
+                $lesson->level()->associate($level);
+                $lesson->save();
+
+                foreach ($lessonData['goals'] as $goalName) {
+                    if (isset($goals[$goalName])) {
+                        $lesson->goals()->attach($goals[$goalName]);
+                    }
+                }
+            }
+            $englishCourse->levels()->attach($level);
+        }
     }
 }
