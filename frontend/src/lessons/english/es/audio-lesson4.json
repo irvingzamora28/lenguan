@@ -1,0 +1,20 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 4,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Dog ... Happiness ... Book ... Freedom",
+			"audio_file_name": "nouns.mp3"
+		},
+		{
+			"text": "(The) ... (A) ... (An)",
+			"audio_file_name": "articles.mp3"
+		},
+		{
+			"text": "I ... You ... He ... She ... It ... We ... They",
+			"audio_file_name": "pronouns.mp3"
+		}
+	]
+}
