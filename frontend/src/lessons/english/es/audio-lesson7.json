@@ -1,0 +1,20 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 7,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Table ... Chair ... Bed ... Computer ... Window",
+			"audio_file_name": "daily-objects.mp3"
+		},
+		{
+			"text": "On ... Under ... Next to ... In front of ... Behind ... Over ... Above ... Below ... Across from ... Beside ... Between ... Inside ... Outside ... Near ... Far from",
+			"audio_file_name": "place-prepositions.mp3"
+		},
+		{
+			"text": "The painting hangs above the fireplace ... Please place the books inside the box ... The cat is sleeping beside the dog ... The school is located near the park ... My house is far from the city center ... The children are playing outside the house",
+			"audio_file_name": "place-prepositions-2.mp3"
+		}
+	]
+}
