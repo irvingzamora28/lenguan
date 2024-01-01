@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 12,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "This book is mine ... Is this pen yours? ... That car is his ... Our house is ours ... The choice is yours ... The dogs are theirs.",
+			"audio_file_name": "possessive-pronouns.mp3"
+		},
+		{
+			"text": "My phone is new .. Your coat is here .. Her dress is beautiful .. Our team won the game .. Your seats are reserved .. Their garden is lovely.",
+			"audio_file_name": "possessive-adjectives.mp3"
+		}
+	]
+}
