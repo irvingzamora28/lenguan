@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 9,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Shirt ... Pants ... Dress ... Shoes ... Hat ... Skirt ... Coat ... Scarf ... Gloves ... Suit ... Blouse ... Sweatshirt ... Jeans ... Socks ... Sandals",
+			"audio_file_name": "clothing.mp3"
+		},
+		{
+			"text": "Tall ... Short ... Slim ... Brunette ... Blonde ... Strong ... Delicate ... Athletic ... Young ... Elderly ... Fat ... Skinny ... Long-haired ... Short-haired",
+			"audio_file_name": "physical-descriptions.mp3"
+		}
+	]
+}
