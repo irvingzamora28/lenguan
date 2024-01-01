@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 5,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Mother ... Father ... Brother ... Sister ... Grandfather ... Grandmother ... Uncle ... Aunt ... Cousin ... Nephew ... Niece ... Stepfather ... Stepmother ... Half-brother ... Half-sister ... Father-in-law ... Mother-in-law ... Son-in-law ... Daughter-in-law",
+			"audio_file_name": "family-members.mp3"
+		},
+		{
+			"text": "Friend ... Best friend ... Partner ... Colleague ... Neighbor",
+			"audio_file_name": "relationships-friends.mp3"
+		}
+	]
+}
