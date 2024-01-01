@@ -1,0 +1,20 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 2,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Hi ... Hello ... Good morning ... Good afternoon ... Good evening ... Hey",
+			"audio_file_name": "common-greetings.mp3"
+		},
+		{
+			"text": "Goodbye ... Bye ... See you later ... Take care ... Have a good day",
+			"audio_file_name": "common-farewells.mp3"
+		},
+		{
+			"text": "Please ... Thank you ... You're welcome ... Excuse me ... I'm sorry ... May I...?",
+			"audio_file_name": "politeness-expressions.mp3"
+		}
+	]
+}

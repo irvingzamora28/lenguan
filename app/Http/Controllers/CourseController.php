@@ -27,11 +27,13 @@ class CourseController extends Controller
                 ->select('_id', 'name', 'description', 'lesson_number', 'level_id');
         }])->findOrFail($course_id);
 
-        $lessons = $course->levels->flatMap(function ($level) {
-            return $level->lessons->map(function ($lesson) use ($level) {
+        $lessons = $course->levels->flatMap(function ($level) use ($course) {
+            return $level->lessons->map(function ($lesson) use ($level, $course) {
                 $lesson->level_name = $level->name;
                 return [
-                    '_id' => $lesson->_id,
+                    // Output course data, id, name and description
+                    '_id' => $course->_id,
+                    'lesson_id' => $lesson->_id,
                     'name' => $lesson->name,
                     'description' => $lesson->description,
                     'level_id' => $lesson->level_id,

@@ -1,0 +1,20 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 3,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "One ... Two ... Three ... Four ... Five ... Six ... Seven ... Eight ... Nine ... Ten ... Eleven ... Twelve ... Thirteen ... Fourteen ... Fifteen ... Sixteen ... Seventeen ... Eighteen ... Nineteen ...Twenty ... Thirty ... Forty ... Fifty ... Sixty ... Seventy ... Eighty ... Ninety ... One hundred",
+			"audio_file_name": "numbers.mp3"
+		},
+		{
+			"text": "Red ... Blue ... Green ... Yellow ... Black ... White ... Purple ... Orange ... Pink ... Grey/Gray ... Brown",
+			"audio_file_name": "colors.mp3"
+		},
+		{
+			"text": "Circle ... Square ... Triangle ... Rectangle ... Oval",
+			"audio_file_name": "shapes.mp3"
+		}
+	]
+}

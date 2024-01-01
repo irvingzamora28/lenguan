@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 13,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "I like coffee and tea ... She is small but strong ... Do you prefer chocolate or vanilla? ... I was tired, so I went to bed early ... I study hard because I want to pass.",
+			"audio_file_name": "common-connectors.mp3"
+		},
+		{
+			"text": "I want to go; however, I have to work ... He was late; therefore, he missed the bus ... I don't want to go; moreover, I'm busy ... I like the city; on the other hand, I love the countryside too ... In conclusion, we need to act now.",
+			"audio_file_name": "transition-phrases.mp3"
+		}
+	]
+}
