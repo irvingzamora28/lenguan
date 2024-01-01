@@ -34,7 +34,7 @@ const LessonPage: React.FC = () => {
 	// Function to check if a lesson exists
 	const checkLessonExistence = async (lessonNum: number) => {
 		try {
-			await import(`../../../lessons/${user?.language?.name.toLowerCase()}/lesson${lessonNum}.mdx`);
+			await import(`../../../lessons/${user?.language?.name.toLowerCase()}/${user?.native_language_code}/lesson${lessonNum}.mdx`);
 			return true;
 		} catch (error) {
 			return false;
@@ -54,7 +54,7 @@ const LessonPage: React.FC = () => {
 	useEffect(() => {
 		const fetchFileContent = async () => {
 			try {
-				const lessonModule = await import(`../../../lessons/${user?.language?.name.toLowerCase()}/lesson${lesson_number}.mdx`);
+				const lessonModule = await import(`../../../lessons/${user?.language?.name.toLowerCase()}/${user?.native_language_code}/lesson${lesson_number}.mdx`);
 				const response = await fetch(lessonModule.default);
 				if (response.ok) {
 					const text = await response.text();

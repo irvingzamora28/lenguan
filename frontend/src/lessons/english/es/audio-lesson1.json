@@ -1,0 +1,36 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 1,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "(A) for April, (B) for Banana, (C) for City, (D) for Dog, (E) for Elephant, (F) for Fish, (G) for Game, (H) for House, (I) for Ice, (J) for Jump, (K) for Kite, (L) for Lion, (M) for Monkey, (N) for Night, (O) for Orange, (P) for Paper, (Q) for Question, (R) for Rabbit, (S) for Sun, (T) for Tree, (U) for Unicorn, (V) for Violin, (W) for Window, (X) for Xylophone, (Y) for Yellow, (Z) for Zebra.",
+			"audio_file_name": "alphabet-introduction.mp3"
+		},
+		{
+			"text": "Cat ... Cake ... Bed ... Bee ... Sit ... Ice ... Hot ... No ... Sun ... Use",
+			"audio_file_name": "vowels-and-consonants.mp3"
+		},
+		{
+			"text": "Knife ... Write ... Comb ... Gnaw ... Psychology ... Castle ... Honest ... Would",
+			"audio_file_name": "silent-consonants.mp3"
+		},
+		{
+			"text": "Pain ... Bread ... Coin ... Out ... Moon ... Tie ... Blue ... They",
+			"audio_file_name": "diphthongs.mp3"
+		},
+		{
+			"text": "This ... That ... The ... Breathe ... Mother ... Think ... Thought ... Path ... Bath ... Thing",
+			"audio_file_name": "th-sounds.mp3"
+		},
+		{
+			"text": "Red ... River ... Rain ... Right ... Roar ... Car ... Far ... Water ... Near ... Four",
+			"audio_file_name": "r-sounds.mp3"
+		},
+		{
+			"text": "Cat ... Ball ... Dog ... Fish ... Hat ... Lion ... Monkey ... Rabbit ... Snake ... Turtle ... Whale ... Zebra",
+			"audio_file_name": "combining-sounds.mp3"
+		}
+	]
+}
