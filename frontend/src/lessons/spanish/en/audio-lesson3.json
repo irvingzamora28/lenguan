@@ -1,0 +1,16 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 3,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Hola ... Buenos días ... Buenas tardes ... Buenas noches",
+			"audio_file_name": "greetings.mp3"
+		},
+		{
+			"text": "¿Cómo te llamas? ... Me llamo... ... Mucho gusto ... ¿De dónde eres?",
+			"audio_file_name": "introductions.mp3"
+		}
+	]
+}

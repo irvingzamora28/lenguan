@@ -1,0 +1,28 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 2,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Jirafa ... Jugo ... Trabajo ... Ojo ... Juego ... Jaula",
+			"audio_file_name": "tricky-j.mp3"
+		},
+		{
+			"text": "Hola ... Huevo ... Hermano ... Hacer",
+			"audio_file_name": "silent-h.mp3"
+		},
+		{
+			"text": "Guerra ... Gente ... Girar ... Gimnasio",
+			"audio_file_name": "g-before-e-i.mp3"
+		},
+		{
+			"text": "Cielo ... Cena ... Cine ... Circo",
+			"audio_file_name": "c-before-e-i.mp3"
+		},
+		{
+			"text": "Año ... Baño ... Señor ... Niño",
+			"audio_file_name": "unique-ñ.mp3"
+		}
+	]
+}
