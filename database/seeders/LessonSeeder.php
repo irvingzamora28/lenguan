@@ -378,6 +378,7 @@ class LessonSeeder extends Seeder
                     [
                         'name' => 'Specific Pronunciation Challenges',
                         'lesson_number' => 2,
+                        'is_active' => true,
                         'description' => 'Tackle specific pronunciation challenges unique to Spanish, such as rolling Rs and the soft "c".',
                         'goals' => ['Academic Study', 'Fundamentals'],
                     ],
@@ -447,6 +448,7 @@ class LessonSeeder extends Seeder
                     [
                         'name' => 'Comparatives and Superlatives',
                         'lesson_number' => 12,
+                        'is_active' => true,
                         'description' => 'Learn how to make comparisons and express extremes in Spanish.',
                         'goals' => ['Academic Study', 'Other'],
                     ],
