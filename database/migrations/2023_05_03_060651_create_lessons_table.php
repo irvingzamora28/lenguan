@@ -20,6 +20,7 @@ return new class extends Migration
             $collection->string('content');
             $collection->array('exercises');
             $collection->array('quizzes');
+            $collection->boolean('is_active');
             $collection->timestamps();
         });
     }

@@ -24,11 +24,14 @@ class CourseController extends Controller
     {
         $course = Course::with(['levels.lessons' => function ($query) {
             $query->with('goals')
-                ->select('_id', 'name', 'description', 'lesson_number', 'level_id');
+                ->where('is_active', true)
+                ->select('_id', 'name', 'description', 'lesson_number', 'level_id', 'is_active');
         }])->findOrFail($course_id);
 
         $lessons = $course->levels->flatMap(function ($level) use ($course) {
-            return $level->lessons->map(function ($lesson) use ($level, $course) {
+            return $level->lessons->filter(function ($lesson) {
+                return $lesson->is_active;
+            })->map(function ($lesson) use ($level, $course) {
                 $lesson->level_name = $level->name;
                 return [
                     // Output course data, id, name and description
