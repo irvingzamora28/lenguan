@@ -32,8 +32,8 @@ class CourseController extends Controller
                 $lesson->level_name = $level->name;
                 return [
                     // Output course data, id, name and description
-                    '_id' => $course->_id,
-                    'lesson_id' => $lesson->_id,
+                    '_id' => $lesson->_id,
+                    'course_id' => $course->_id,
                     'name' => $lesson->name,
                     'description' => $lesson->description,
                     'level_id' => $lesson->level_id,
