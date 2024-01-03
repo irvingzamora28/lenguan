@@ -1,0 +1,20 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Amigo ... mi amigo es alto ... Libro ... el libro está en la mesa ... Amiga ... mi amiga es inteligente ... Casa ... la casa es grande.",
+			"audio_file_name": "nouns.mp3"
+		},
+		{
+			"text": "El libro ... Los libros ... La casa ... Las casas ... Un libro ... Unos libros ... Una casa ... Unas casas.",
+			"audio_file_name": "articles.mp3"
+		},
+		{
+			"text": "Yo soy estudiante ... ¿Tú eres el profesor? ... Él es mi hermano. Ella es mi hermana ... ¿Cómo está usted? ... Ustedes son amables ... Nosotros estudiamos español ... Ellos hablan español. Ellas también ... Eso es interesante. Esa casa es bonita",
+			"audio_file_name": "subject-pronouns.mp3"
+		}
+	]
+}
