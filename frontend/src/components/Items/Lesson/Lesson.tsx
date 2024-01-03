@@ -2,6 +2,7 @@ import React from "react";
 import Markdown from "markdown-to-jsx";
 import TextToSpeechPlayer from "../Misc/TextToSpeechPlayer";
 import TipBox from "./TipBox";
+import Mnemonic from "./Mnemonic";
 
 interface LessonProps {
 	content: string;
@@ -68,6 +69,9 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 						},
 						TipBox: {
 							component: TipBox,
+						},
+						Mnemonic: {
+							component: Mnemonic,
 						},
 						blockquote: {
 							props: {
