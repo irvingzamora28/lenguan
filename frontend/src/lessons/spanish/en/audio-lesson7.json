@@ -1,0 +1,28 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "(Yo) hablo, (Tú) hablas, (Él) habla ... (Nosotros) comemos, (Ustedes) comen, (Ellos) comen ... (Yo) vivo, (Nosotros) vivimos, (Ellos) viven",
+			"audio_file_name": "conjugation.mp3"
+		},
+		{
+			"text": "Soy ... Eres ... Es ... Somos ... Son ... Son ... Estoy ... Estás ... Está ... Estamos ... Están ... Están ... Tengo ... Tienes ... Tiene ... Tenemos ... Tienen ... Tienen ... Voy ... Vas ... Va ... Vamos ... Van ... Van",
+			"audio_file_name": "irregular_verbs.mp3"
+		},
+		{
+			"text": "Yo empiezo, tú empiezas, él/ella empieza, nosotros empezamos, ustedes empiezan, ellos/ellas empiezan ... Vuelvo a casa temprano ... Prefiero el café sin azúcar ... Pido una pizza para cenar",
+			"audio_file_name": "stem-changing-verbs.mp3"
+		},
+		{
+			"text": "Me levanto ... Te duchas ... Se despierta ... Nos vestimos ... Se sietan ... Se acuestan",
+			"audio_file_name": "reflexive_verbs.mp3"
+		},
+		{
+			"text": "Yo hablo español ... Tú estudias mucho ... Ella vive en Madrid ... Nosotros trabajamos juntos ... Ustedes escriben cartas ... Ellos corren rápido",
+			"audio_file_name": "relative_path_to_audio_file"
+		}
+	]
+}
