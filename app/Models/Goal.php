@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-use Jenssegers\Mongodb\Relations\BelongsTo;
-use Jenssegers\Mongodb\Relations\BelongsToMany;
+use MongoDB\Laravel\Eloquent\Model;
+use MongoDB\Laravel\Relations\BelongsTo;
+use MongoDB\Laravel\Relations\BelongsToMany;
 
 class Goal extends Model
 {

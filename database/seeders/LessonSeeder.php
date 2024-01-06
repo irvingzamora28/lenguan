@@ -436,14 +436,14 @@ class LessonSeeder extends Seeder
                         'lesson_number' => 8,
                         'is_active' => true,
                         'description' => 'Learn vocabulary related to family members and relationships in Spanish.',
-                        'goals' => ['Cultural Exploration', 'Vocabulary'],,
+                        'goals' => ['Cultural Exploration', 'Vocabulary'],
                     ],
                     [
                         'name' => 'Food and Drink in Spanish Culture',
                         'lesson_number' => 9,
                         'is_active' => true,
                         'description' => 'Explore Spanish cuisine and learn vocabulary related to food and drinks.',
-                        'goals' => ['Travel', 'Cultural Exploration', 'Vocabulary'],,
+                        'goals' => ['Travel', 'Cultural Exploration', 'Vocabulary'],
                     ],
                     [
                         'name' => 'Asking for Directions',
@@ -581,7 +581,7 @@ class LessonSeeder extends Seeder
                         'name' => 'Reflexive Verbs and Daily Routines',
                         'lesson_number' => 30,
                         'description' => 'Learn about reflexive verbs and how they are used to describe daily routines.',
-                        'goals' => ['Academic Study', 'Vocabulary', 'Grammar'],,
+                        'goals' => ['Academic Study', 'Vocabulary', 'Grammar'],
                     ],
                     [
                         'name' => 'Formal vs. Informal Communication',
