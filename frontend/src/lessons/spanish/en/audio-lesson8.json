@@ -1,0 +1,28 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Mi madre es cariñosa ... Mi padre es trabajador ... Mi hijo es inteligente ... Mi hija es talentosa ... Mi hermano es divertido ... Mi hermana es amable",
+			"audio_file_name": "family_and_relationships.mp3"
+		},
+		{
+			"text": "Abuelo ... Abuela ... Abuelos ... Nieto ... Nieta ... Nietos ... Tío ... Tía ... Primos, Primas ... Mi abuelo es muy cariñoso. Tengo dos primos y una prima. La nieta de mi tío es muy inteligente",
+			"audio_file_name": "extended_family.mp3"
+		},
+		{
+			"text": "Novio ... Novia ... Prometido ... Prometida ... Esposo ... Esposa ... Mi novio es muy cariños ... Juana es la novia de Carlos  ... Mi esposo y yo vamos de vacaciones ... El prometido de María le dio un anillo.",
+			"audio_file_name": "marital_status.mp3"
+		},
+		{
+			"text": "Mi amor ... Cariño ... Tesoro ... Mi vida ... Corazón ... Querido, Querida ... Príncipe, Princesa ... Amado, Amada",
+			"audio_file_name": "endearment_terms.mp3"
+		},
+		{
+			"text": "Mi padre es muy simpático ... Mi hija es inteligente ... Tengo una hermana muy cariñosa ... Mis abuelos viven en el campo ... Mi nieto es muy travieso ... Mi tío siempre cuenta chistes ... Mi sobrina es muy talentosa ... Mi primo es mi mejor amigo",
+			"audio_file_name": "relationships.mp3"
+		}
+	]
+}

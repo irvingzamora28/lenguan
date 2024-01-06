@@ -1,0 +1,32 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "¡Habla! ... ¡Come! ... ¡Escribe!",
+			"audio_file_name": "affirmative_tu_commands.mp3"
+		},
+		{
+			"text": "¡Hable! ... ¡Coma! ... ¡Escriba!",
+			"audio_file_name": "affirmative_usted_commands.mp3"
+		},
+		{
+			"text": "¡No hables! ... ¡No comas! ... ¡No escribas!",
+			"audio_file_name": "negative_commands.mp3"
+		},
+		{
+			"text": "Come la hamburguesa ... Habla con ella ... No vayas allí ... No hagas eso ... Baile en la fiesta, No baile en la fiesta. ... Escriba su nombre aquí, No escriba su nombre aquí.",
+			"audio_file_name": "imperatives.mp3"
+		},
+		{
+			"text": "¡Sé puntual! ... ¡Ve a la tienda! ... ¡Di la verdad! ... ¡Haz ejercicio! ... ¡Ten cuidado! ... ¡Pon la mesa!",
+			"audio_file_name": "irregular_commands.mp3"
+		},
+		{
+			"text": "Por favor ... ¿Podrías cerrar la puerta, por favor? ... Podrías hacer tu tarea, por favor? ... Vamos a limpiar la habitación.",
+			"audio_file_name": "softening_commands.mp3"
+		}
+	]
+}

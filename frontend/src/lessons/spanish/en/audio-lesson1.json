@@ -1,0 +1,40 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 1,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "(A) ... amor ... (B) ... bien ... (C) ... cielo ... (D) ... día ... (E) ... elefante ... (F) ... feliz ... (G) ... gato ... (H) ... hola ... (I) ... isla ... (J) ... juego ... (K) ... kilo ... (L) ... luna ... (M) ... mundo ... (N) ... noche ... (Ñ) ... Ñu ... (O) ... oso ... (P) ... pan ... (Q) ... queso ... (R) ... rosa ... (S) ... sol ... (T) ... tiempo ... (U) ... universo ... (V) ... vino ... (W) ... wifi ... (X) ... xilófono ... (i griega) ... yema ... (Z) ... zapato",
+			"audio_file_name": "alphabet-introduction.mp3"
+		},
+		{
+			"text": "(A) ... agua ... (E) ... estrella ... (I) ... iglesia ... (O) ... ojo ... (U) ... uva.",
+			"audio_file_name": "vowels.mp3"
+		},
+		{
+			"text": "Papá ... Café ... Sí ... Móvil ... Menú.",
+			"audio_file_name": "accents.mp3"
+		},
+		{
+			"text": "Papá ... Papa ... Él ... el ... sí ... si ... Solo ... sólo ... Tú ... tu",
+			"audio_file_name": "accents-comparison.mp3"
+		},
+		{
+			"text": "hola ... hacer ... huevo ... hielo ... hallar ... hambre ... prohibir",
+			"audio_file_name": "letter-h.mp3"
+		},
+		{
+			"text": "cielo ... ciudad ... cebolla ... cena ... casa ... comer ... corto ... corazón",
+			"audio_file_name": "letter-c.mp3"
+		},
+		{
+			"text": "gente ... gemelo ... giros ... girasol ... gato ... golpe ... grupo ... guitarra",
+			"audio_file_name": "letter-g.mp3"
+		},
+		{
+			"text": "lluvia ... llamar ... llanta ... carro ... correo ... perro ... jarra ... español ... año ... señor ... chaqueta ... charco ... muchacho ... leche",
+			"audio_file_name": "double-consonants-special-characters.mp3"
+		}
+	]
+}
