@@ -6,7 +6,7 @@ use App\Models\Language;
 use App\Models\Noun;
 use App\Models\NounTranslation;
 use Illuminate\Database\Eloquent\Collection;
-use Jenssegers\Mongodb\Collection as MongoDBCollection;
+use MongoDB\Laravel\Collection as MongoDBCollection;
 
 class NounService implements NounServiceInterface
 {
