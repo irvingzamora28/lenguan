@@ -27,6 +27,20 @@ class LessonSeeder extends Seeder
 
         $goals = Goal::whereIn('name', $goalsData)->get()->keyBy('name');
 
+        // TODO: Incorporate the following lessons into the german course
+        //         Negation in German 
+        // Gender of Nouns 
+        // Plural 
+        // Modal verbs 
+        // How to tell time 
+        // Separable verbs 
+        // Partizip perfekt 
+        // The order in sentences 
+        // Comparatives and Superlatives 
+        // Basic Commands and Imperatives
+        // Weil and Denn
+        // Konjuktion dass
+
         $lessonsData = [
             [
                 'level' => 'German Level 1',
