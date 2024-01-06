@@ -1,0 +1,24 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Juan es tan alto como Pedro ... María es más alta que Luis ... El gato es tan rápido como el perro ... Mi hermana es tan inteligente como mi hermano ... Esta película es tan interesante como la otra ... Estudiar es más difícil que trabajar ... El invierno es menos caluroso que el verano ... Mi coche es más grande que el tuyo",
+			"audio_file_name": "comparatives.mp3"
+		},
+		{
+			"text": "Mejor ... Peor ... Mayor ... Menor ... Mayor ... Menor",
+			"audio_file_name": "irregular_comparatives.mp3"
+		},
+		{
+			"text": "Mi hermano es el más alto de la familia ... Esa montaña es la más baja de la región ... Mi hermana es la más joven de la clase ... El abuelo es el más viejo de la familia ... María es la más inteligente de la clase ... El jardín es el más bonito del vecindario",
+			"audio_file_name": "superlatives.mp3"
+		},
+		{
+			"text": "El mejor restaurante de la ciudad ... Este es el peor momento para hablar ... Mi abuelo es el mayor de la familia ... Ella es la menor de los hermanos ... Él es el mejor jugador del equipo ... El peor día de mi vida",
+			"audio_file_name": "irregular-superlatives.mp3"
+		}
+	]
+}
