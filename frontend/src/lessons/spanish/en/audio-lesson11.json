@@ -1,0 +1,24 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Me gusta esa camiseta ... Los pantalones son azules ... El vestido es elegante ... Ella lleva una falda bonita ... Mis zapatos son cómodos ... La chaqueta es de cuero ... Mi suéter es de lana ... Necesito comprar calcetines nuevos ... El sombrero le queda bien ... Lleva guantes negros en invierno",
+			"audio_file_name": "clothing_items.mp3"
+		},
+		{
+			"text": "Negro ... Blanco ... Azul ... Rojo ... Verde ... Amarillo ... Rayado ... De lunares ... Cuadros ... Floral ... Liso ... Casual ... Formal ... Vintage ... Deportivo ... Elegante",
+			"audio_file_name": "clothing_description.mp3"
+		},
+		{
+			"text": "La altura ... Delgado, Delgadaa ... Con sobrepeso ... Musculoso/a ... Pelo rizado ... Pelo liso ... Pecas ... Barba ... Bigote ... Gafas",
+			"audio_file_name": "describing_physical_appearance.mp3"
+		},
+		{
+			"text": "¿Qué talla usa? ... Yo uso una talla pequeña ... Él necesita una talla mediana ... ¿Tiene esto en talla grande? ... El probador está allí ... Me gusta esta camisa ... Estos vaqueros están demasiado apretados ... El vestido está demasiado suelto ... ¿Puedo probármelo, por favor?",
+			"audio_file_name": "shopping_clothes_vocabulary.mp3"
+		}
+	]
+}
