@@ -5,7 +5,7 @@ export interface User {
 	id: number;
 	name: string;
 	username?: string;
-	language?: Language;
+	learning_language?: Language;
 	native_language_code: string;
 	course?: Course;
 	email: string;

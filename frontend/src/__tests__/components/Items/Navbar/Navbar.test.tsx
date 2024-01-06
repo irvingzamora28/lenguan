@@ -15,7 +15,7 @@ describe("Navbar", () => {
 		setProfileOpen: vi.fn(),
 	};
 
-	const mockUser = { id: 123, name: "John Doe", email: "test@example.com", language: { _id: "4", name: "German", code: "de" } };
+	const mockUser = { id: 123, name: "John Doe", email: "test@example.com", native_language_code: "en", learning_language: { _id: "4", name: "German", code: "de" } };
 
 	const mockLanguageData = [
 		{ _id: "1", name: "English", code: "en" },

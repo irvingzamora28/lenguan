@@ -19,7 +19,7 @@ const SelectCoursePage: React.FC = () => {
 	const { postRequest } = useApi();
 
 	// Fetch the courses available to select
-	getCourses(courses, user?.language ?? null, dispatch);
+	getCourses(courses, user?.learning_language ?? null, dispatch);
 
 	const updateLanguageInBackend = async (updatedUser: User) => {
 		try {

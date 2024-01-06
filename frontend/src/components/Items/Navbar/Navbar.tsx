@@ -29,7 +29,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	const { postRequest } = useApi();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
-	const selectedLanguage = user?.language;
+	const selectedLanguage = user?.learning_language;
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
 	const { updateLanguage } = useAuthProtectionService();
@@ -54,7 +54,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	const handleLanguageChange = async (language: Language) => {
 		dispatch(setLanguage(language));
 		if (user) {
-			const updatedUser = { ...user, language: language };
+			const updatedUser = { ...user, learning_language: language };
 			dispatch(updateAuthUser({ user: updatedUser }));
 			try {
 				await updateLanguage(language._id, postRequest);
