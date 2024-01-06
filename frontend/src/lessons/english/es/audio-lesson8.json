@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 8,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Apple ... Bread ... Cheese ... Meat ... Vegetables ... Pasta ... Fish ... Rice ... Eggs ... Chocolate",
+			"audio_file_name": "food.mp3"
+		},
+		{
+			"text": "Water ... Coffee ... Tea ... Juice ... Milk ... Soda ... Wine ... Beer ... Cocktail ... Smoothie",
+			"audio_file_name": "drinks.mp3"
+		}
+	]
+}

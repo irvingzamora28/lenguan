@@ -1,0 +1,32 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Mi amigo es alto ... El libro está en la mesa ... Mi amiga es inteligente ... La casa es grande ... Hay una mesa en la cocina ... Hay una silla en la sala ... El escritorio está en la oficina",
+			"audio_file_name": "noun_gender.mp3"
+		},
+		{
+			"text": "El libro es interesante ... El doctor trabaja en el hospital",
+			"audio_file_name": "masculine_nouns.mp3"
+		},
+		{
+			"text": "La estudiante es inteligente ... La universidad está en el centro ... La profesora enseña matemáticas ... Mi madre cocina delicioso ... Mi hermana es muy cariñosa ... La ciudad es hermosa ... La conversación fue interesante ... La oportunidad llegó en el momento justo",
+			"audio_file_name": "feminine_nouns.mp3"
+		},
+		{
+			"text": "El chico alto ... La chica alta ... El estudiante inteligente ... La estudiante inteligente ... El cuadro hermoso ... La pintura hermosa ... El hombre feliz ... La mujer feliz ... El payaso gracioso ... La comediante graciosa ... El jefe trabajador ... La directora trabajadora ... El artista creativo ... La escritora creativa",
+			"audio_file_name": "adjective_agreement.mp3"
+		},
+		{
+			"text": "El día está soleado ... El problema es difícil ... Tengo la mano izquierda lastimada ... La voz de la cantante es hermosa",
+			"audio_file_name": "gender_exceptions.mp3"
+		},
+		{
+			"text": "Mi tío es alto ... Su hermano es simpático ... El perro es marrón ... Mi tía es amable ... Su hermana es inteligente ... La gata es juguetona ... el chico, el carro, el vaso ... la chica, la mesa, la casa",
+			"audio_file_name": "gender_agreement.mp3"
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 6,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "To be ... To have ... To go ... To do ... To say ... To make ... To come ... To see ... To take ... To eat",
+			"audio_file_name": "common-verbs.mp3"
+		},
+		{
+			"text": "I am happy ... You have a new car ... She goes to the gym ... I do my homework ... He says 'good morning'",
+			"audio_file_name": "present-simple.mp3"
+		}
+	]
+}

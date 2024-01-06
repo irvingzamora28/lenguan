@@ -1,0 +1,16 @@
+{
+	"language_code": "en",
+	"country_code": "US",
+	"lesson_number": 10,
+	"voice_id": "63b407b3241a82001d51b995",
+	"data": [
+		{
+			"text": "Reading ... Swimming ... Painting ... Traveling ... Cooking ... Gardening ... Dancing ... Listening to music ... Exercising ... Photography",
+			"audio_file_name": "hobbies.mp3"
+		},
+		{
+			"text": "I enjoy swimming in the ocean ... I prefer reading over watching TV ... I'm interested in learning to dance ...I dislike waking up early for jogging ... I love cooking for my family",
+			"audio_file_name": "discussing-preferences.mp3"
+		}
+	]
+}

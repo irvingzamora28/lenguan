@@ -1,0 +1,28 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 4,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Cero ... Uno ... Dos ... Tres ... Cuatro ... Cinco ... Seis ... Siete ... Ocho ... Nueve ... Diez",
+			"audio_file_name": "numbers-0-10.mp3"
+		},
+		{
+			"text": "Once ... Doce ... Trece ... Catorce ... Quince ... Dieciséis ... Diecisiete ... Dieciocho ... Diecinueve ... Veinte ... Treinta ... Cuarenta ... Cincuenta ... Sesenta ... Setenta ... Ochenta ... Noventa ... Cien",
+			"audio_file_name": "numbers-11-100.mp3"
+		},
+		{
+			"text": "Veintiuno ... Veintidós ... Veintitrés ... Veinticuatro ... Veinticinco ... Veintiséis ... Veintisiete ... Veintiocho ... Veintinueve",
+			"audio_file_name": "numbers-21-29.mp3"
+		},
+		{
+			"text": "Treinta y uno ... Cuarenta y dos ... Cincuenta y tres ... Cien",
+			"audio_file_name": "numbers-31-and-above.mp3"
+		},
+		{
+			"text": "¿Cuántos años tienes? ... Tengo veintiún años. ... ¿Cuánto cuesta esto? ... Son treinta euros.",
+			"audio_file_name": "using-numbers-in-context.mp3"
+		}
+	]
+}

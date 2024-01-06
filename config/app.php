@@ -182,7 +182,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Sanctum\SanctumServiceProvider::class,
-        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        MongoDB\Laravel\MongoDBServiceProvider::class,
         /*
          * Package Service Providers...
          */

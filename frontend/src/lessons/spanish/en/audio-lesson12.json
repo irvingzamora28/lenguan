@@ -1,0 +1,20 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "La Tomatina ... Dia de los Muertos ... Carnaval ... La Feria de Abril",
+			"audio_file_name": "holidays.mp3"
+		},
+		{
+			"text": "La Tomatina ... Semana Santa ... Oktoberfest ... Carnaval de Barranquilla ... Diwali ... Rio Carnaval",
+			"audio_file_name": "regional_festivals.mp3"
+		},
+		{
+			"text": "¡Feliz cumpleaños! ... ¡Felicidades! ... ¡Salud! ... ¡Viva el, viva la...! ... ¡Celebremos! ... ¡Mis mejores deseos!",
+			"audio_file_name": "celebratory_phrases.mp3"
+		}
+	]
+}
