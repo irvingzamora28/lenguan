@@ -1,0 +1,20 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Mi amigo es alto ... Su hermano es bajo ... Ella es delgada ... El hombre es musculoso ... Su hija tiene pelo rizado ... El niño tiene pelo liso",
+			"audio_file_name": "describing_people.mp3"
+		},
+		{
+			"text": "Feliz ... Divertido ... Amigable ... Extrovertido ... Paciente ... Responsable ... Generoso ... Honesto",
+			"audio_file_name": "personality_traits.mp3"
+		},
+		{
+			"text": "Él es amable y considerado ... Ellas son inteligentes y trabajadoras ... Eres talentosa en la música ... Ella es perezosa y desorganizada ... Ellos son irresponsables en el trabajo ... Eres terco y a veces inflexible",
+			"audio_file_name": "opinions.mp3"
+		}
+	]
+}
