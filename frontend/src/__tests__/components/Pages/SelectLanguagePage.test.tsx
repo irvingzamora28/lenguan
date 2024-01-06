@@ -91,7 +91,7 @@ describe("SelectLanguagePage", () => {
 	});
 	it("should update the selected language and user language", async () => {
 		const mockLanguage = mockLanguageData[0];
-		const mockUpdatedUser = { ...mockUser, language: mockLanguage };
+		const mockUpdatedUser = { ...mockUser, learning_language: mockLanguage };
 		const mockDispatch = vi.spyOn(mockStore, "dispatch");
 		(LanguageService.updateLanguage as Mock).mockResolvedValue({ data: mockUpdatedUser });
 

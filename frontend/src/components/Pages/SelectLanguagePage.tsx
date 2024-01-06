@@ -34,7 +34,7 @@ const SelectLanguagePage: React.FC = () => {
 		setSelectedLanguage(language.code);
 		dispatch(setLanguage(language));
 		if (user) {
-			const updatedUser = { ...user, language: language };
+			const updatedUser = { ...user, learning_language: language };
 			dispatch(updateAuthUser({ user: updatedUser }));
 			try {
 				await updateLanguage(language._id, postRequest);

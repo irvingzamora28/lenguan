@@ -16,14 +16,7 @@ const useUserGuestLogin = (path?: string) => {
 	const handleLoginAsGuest = async () => {
 		dispatch(loginRequest());
 		const guestUser = generateGuestUser();
-		// Assign english as default language for guest users
-		const englishLanguage = languages?.find((language) => language.name === "English");
-
-		const userPayload = {
-			user: { ...guestUser, language: englishLanguage || undefined },
-		};
-
-		dispatch(loginGuest(userPayload));
+		dispatch(loginGuest({ user: guestUser }));
 		if (path) {
 			navigate(path);
 		}
