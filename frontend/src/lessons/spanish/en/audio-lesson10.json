@@ -1,0 +1,24 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "¿Dónde está la biblioteca? ... ¿Cómo llego al museo? ... ¿Puede indicarme el camino a la estación de tren? ... ¿Cómo llego al centro comercial? ... ¿Dónde está la plaza principal? ... ¿Puede indicarme el camino al parque?",
+			"audio_file_name": "direction_phrases.mp3"
+		},
+		{
+			"text": "Gire a la derecha ... Gire a la izquierda ... Siga recto ... Está a la vuelta de la esquina ... Está al final de la calle ... Está frente a",
+			"audio_file_name": "directions_responses.mp3"
+		},
+		{
+			"text": "Yo conduzco un coche ... Toma el autobús al centro ... El tren llega a las 8 p.m. ... Ella va en bicicleta al trabajo ... Hicimos señas a un taxi ... La estación de metro está llena",
+			"audio_file_name": "spanish_transportation_vocabulary.mp3"
+		},
+		{
+			"text": "¿Dónde está la estación de tren? ... ¿Podría decirme cómo llegar al museo? ... ¿Cómo llego al centro comercial más cercano? ... ¿Puede indicarme dónde está la parada de autobús? ... ¿Dónde puedo encontrar un cajero automático? ... ¿Cómo se va a la plaza principal desde aquí? ... ",
+			"audio_file_name": "practice_phrases.mp3"
+		}
+	]
+}
