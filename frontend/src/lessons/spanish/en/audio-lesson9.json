@@ -1,0 +1,28 @@
+{
+	"language_code": "es",
+	"country_code": "MX",
+	"lesson_number": 5,
+	"voice_id": "63b4083d241a82001d51c30a",
+	"data": [
+		{
+			"text": "Paella ... Gazpacho ... Tortilla Española ... Jamón ... Churros ... Patatas Bravas",
+			"audio_file_name": "common-spanish-foods.mp3"
+		},
+		{
+			"text": "Me gusta comer manzanas ... Me encanta comer plátanos ... Prefiero el jugo de naranja ... Las fresas están deliciosas ... La sandía es perfecta en verano ... La piña combina bien con pollo ... ¿Quieres comer uvas conmigo? ... Me gusta el aguacate en ensaladas ... Los tomates frescos son deliciosos ... Me encanta la tortilla de patata ... Las cebollas dan sabor a la comida ... Los pimientos rojos son muy sabrosos ... El ajo es indispensable en la cocina",
+			"audio_file_name": "fruit-vegetable-descriptions.mp3"
+		},
+		{
+			"text": "Jamón serrano, a popular cured ham ... Chorizo a la sidra, a flavorful sausage dish ... Ternera en salsa, a classic beef stew ... Cochinita pibil, a savory pork dish ... Camarones al ajillo, garlic shrimp ... Calamares a la romana, fried squid rings ... Bacalao a la Vizcaína, Basque-style cod ... Pulpo a la gallega, Galician-style octopus",
+			"audio_file_name": "meats_and_seafood.mp3"
+		},
+		{
+			"text": "Me gusta beber horchata en verano ... Pedí una jarra de sangría en el restaurante ... En Valencia, es común tomar agua de Valencia en celebraciones ... Prefiero pedir un tinto de verano en la terraza ... ¿Tienen licuados de frutas en el menú? ... En España, la cerveza es parte de la cultura",
+			"audio_file_name": "beverages.mp3"
+		},
+		{
+			"text": "¿Nos trae la cuenta, por favor? ... Quisiera hacer una reserva, por favor. ... ¿Cuál es el especial del día? ... La propina está incluida en la cuenta. ... ¿Hay algún plato vegetariano en el menú? ... El servicio fue excelente, gracias",
+			"audio_file_name": "restaurant-etiquette.mp3"
+		}
+	]
+}
