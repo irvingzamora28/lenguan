@@ -4,11 +4,11 @@ import { CourseService } from "../services/CourseService";
 import { AppDispatch } from "../redux/store";
 import { Language } from "../types/language";
 
-export const getCourses = (courses: Course[] | null, language: Language | null, dispatch: AppDispatch) => {
+export const getCourses = (courses: Course[] | null, dispatch: AppDispatch) => {
 	useEffect(() => {
 		const fetchCourses = async () => {
-			if ((!Array.isArray(courses) || courses.length === 0) && language) {
-				await CourseService.fetchCourses(language._id, dispatch);
+			if (!Array.isArray(courses) || courses.length === 0) {
+				await CourseService.fetchCourses(dispatch);
 			}
 		};
 

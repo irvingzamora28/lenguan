@@ -31,7 +31,7 @@ import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
 import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
 import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 import TipsTricksPage from "./components/Pages/LessonsPage/TipsTricksPage";
-import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, SELECT_LANGUAGE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
+import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
 import LandingPage from "./components/Pages/LandingPage";
 
 interface RouteType {
@@ -41,7 +41,7 @@ interface RouteType {
 }
 
 const privateRoutes = [
-	{ path: SELECT_LANGUAGE_PATH, element: <SelectLanguagePage /> },
+	{ path: "/select-language", element: <SelectLanguagePage /> },
 	{ path: SELECT_COURSE_PATH, element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },

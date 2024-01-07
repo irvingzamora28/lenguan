@@ -1,4 +1,3 @@
-export const SELECT_LANGUAGE_PATH = "/select-language";
 export const SELECT_COURSE_PATH = "/select-course";
 export const LISTENING_EXERCISE_PATH = "/lessons/:lesson_number/exercises/listening-exercise";
 export const VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH = "/lessons/:lesson_number/exercises/vocabulary-exercise";

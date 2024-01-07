@@ -5,9 +5,9 @@ import { AppDispatch, RootState } from "../redux/store.ts";
 import { Lesson } from "../types/lesson.ts";
 
 export class CourseService {
-	public static async fetchCourses(languageId: string, dispatch: AppDispatch): Promise<Course[]> {
+	public static async fetchCourses(dispatch: AppDispatch): Promise<Course[]> {
 		try {
-			const response = await api.get(`/api/languages/${languageId}/courses`);
+			const response = await api.get(`/api/courses`);
 			const data: Course[] = await response.data;
 			dispatch(setCourses(data));
 			return data;
