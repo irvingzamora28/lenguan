@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import api from "../../../utils/api";
 import "../../../assets/scss/components/RegisterForm.scss";
 import { refreshCsrfToken } from "../../../utils/csrf-token";
+import { AxiosResponse } from "axios";
 
 interface RegisterData {
 	name: string;
@@ -12,59 +12,42 @@ interface RegisterData {
 	password_confirmation: string;
 }
 
-interface RegisterFormProps {}
+interface RegisterFormProps {
+	onRegister: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	registerResponse: AxiosResponse<any, any> | undefined;
+	registerData: RegisterData;
+	errorMessages: { [key: string]: string[] };
+}
 
-const RegisterForm: React.FC<RegisterFormProps> = () => {
-	const [registerData, setRegisterData] = useState<RegisterData>({
-		name: "",
-		email: "",
-		password: "",
-		password_confirmation: "",
-	});
-	const [errorMessage, setErrorMessage] = useState<string[]>();
-	const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		setRegisterData((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-	};
-
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		setErrors({});
-		try {
-			const response = await api.post("/api/register", registerData);
-			if (response.data.message) {
-				toast.success(response.data.message, {
-					position: "top-right",
-				});
-			}
-		} catch (error: any) {
-			if (error.response && error.response.data.errors) {
-				setErrors(error.response.data.errors);
-			} else {
-				setErrorMessage(["An error occurred. Please try again."]);
-			}
-		}
+const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, registerResponse, registerData, errorMessages }) => {
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
 	};
 
 	useEffect(() => {
 		// Call the refreshCsrfToken function to start refreshing the token
 		refreshCsrfToken();
-
 		return () => {};
 	}, []);
+
+	useEffect(() => {
+		if (registerResponse?.data.message) {
+			toast.success(registerResponse.data.message, {
+				position: "top-right",
+			});
+		}
+	}, [registerResponse]);
 
 	return (
 		<>
 			<ToastContainer />
 			<div className="register__general_error">
-				{errorMessage && (
+				{errorMessages.error && (
 					<div className="register__form-error">
-						<li>{errorMessage}</li>
+						{errorMessages.error.map((error: string) => (
+							<p>{error}</p>
+						))}
 					</div>
 				)}
 			</div>
@@ -75,10 +58,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 						<label htmlFor="name" className="sr-only">
 							Name
 						</label>
-						<input id="name" name="name" type="text" autoComplete="name" required className={`register__input ${errors.name ? "is-invalid" : ""}`} onChange={handleChange} value={registerData.name} placeholder="Name" />
-						{errors.name && (
+						<input id="name" name="name" type="text" autoComplete="name" required className={`register__input ${errorMessages.name ? "is-invalid" : ""}`} onChange={onChange} value={registerData.name} placeholder="Name" />
+						{errorMessages.name && (
 							<div className="invalid-feedback">
-								{errors.name.map((error) => (
+								{errorMessages.name.map((error: string) => (
 									<p key={error}>{error}</p>
 								))}
 							</div>
@@ -94,14 +77,14 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 							type="email"
 							autoComplete="email"
 							required
-							className={`register__input ${errors.email ? "is-invalid" : ""}`}
-							onChange={handleChange}
+							className={`register__input ${errorMessages.email ? "is-invalid" : ""}`}
+							onChange={onChange}
 							value={registerData.email}
 							placeholder="Email address"
 						/>
-						{errors.email && (
+						{errorMessages.email && (
 							<div className="invalid-feedback">
-								{errors.email.map((error) => (
+								{errorMessages.email.map((error: string) => (
 									<p key={error}>{error}</p>
 								))}
 							</div>
@@ -111,10 +94,10 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 						<label htmlFor="password" className="sr-only">
 							Password
 						</label>
-						<input id="password" name="password" type="password" required className={`register__input ${errors.password ? "is-invalid" : ""}`} onChange={handleChange} value={registerData.password} placeholder="Password" />
-						{errors.password && (
+						<input id="password" name="password" type="password" required className={`register__input ${errorMessages.password ? "is-invalid" : ""}`} onChange={onChange} value={registerData.password} placeholder="Password" />
+						{errorMessages.password && (
 							<div className="invalid-feedback">
-								{errors.password.map((error) => (
+								{errorMessages.password.map((error: string) => (
 									<p key={error}>{error}</p>
 								))}
 							</div>
@@ -129,15 +112,15 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
 							name="password_confirmation"
 							type="password"
 							required
-							className={`register__input ${errors.password ? "is-invalid" : ""}`}
+							className={`register__input ${errorMessages.password ? "is-invalid" : ""}`}
 							placeholder="Confirm password"
-							onChange={handleChange}
+							onChange={onChange}
 							value={registerData.password_confirmation}
 						/>
 					</div>
 				</div>
 				<div>
-					<button type="submit" className="register__submit">
+					<button type="submit" onClick={onRegister} className="register__submit">
 						Register
 					</button>
 				</div>
