@@ -30,4 +30,22 @@ export class CourseService {
 			throw error;
 		}
 	}
+
+	public static async updateCourse(courseId: string, postRequest: Function): Promise<any> {
+		try {
+			const response = await postRequest(
+				"/api/user/course",
+				{ course_id: courseId, _method: "PUT" },
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			return response.data;
+		} catch (error) {
+			console.error("Error updating course:", error);
+			throw error;
+		}
+	}
 }
