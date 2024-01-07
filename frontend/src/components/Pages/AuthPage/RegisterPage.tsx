@@ -1,5 +1,5 @@
 import React from "react";
-import registerImage from "../../../assets/images/register-image.jpg";
+import registerImage from "../../../assets/images/register-image.png";
 import "../../../assets/scss/components/RegisterPage.scss";
 import RegisterForm from "../../Items/Forms/RegisterForm";
 import useUserRegister from "../../../hooks/useUserRegister";
@@ -13,7 +13,7 @@ const RegisterPage: React.FC = () => {
 				<div className="md:flex">
 					<div className="flex md:w-1/2 md:pr-8 justify-center items-center">
 						<div className="flex justify-center md:block">
-							<img className="register__image rounded-lg shadow-lg max-w-xs lg:max-w-md" src={registerImage} alt="Register" />
+							<img className="register__image rounded-full md:rounded-lg shadow-lg max-w-xs lg:max-w-md" src={registerImage} alt="Register" />
 						</div>
 					</div>
 
