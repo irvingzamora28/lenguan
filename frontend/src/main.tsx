@@ -17,7 +17,6 @@ import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
 import { PersistGate } from "redux-persist/integration/react";
 import PublicRoute from "./components/Utilities/PublicRoute";
-import SelectLanguagePage from "./components/Pages/SelectLanguagePage";
 import SelectCoursePage from "./components/Pages/SelectCoursePage";
 import TimedFlashcards from "./components/Pages/TimedFlashCardsPage/TimedFlashCardsPage";
 import MemoryGame from "./components/Pages/MemoryGamePage/MemoryGamePage";
@@ -41,7 +40,6 @@ interface RouteType {
 }
 
 const privateRoutes = [
-	{ path: "/select-language", element: <SelectLanguagePage /> },
 	{ path: SELECT_COURSE_PATH, element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },
