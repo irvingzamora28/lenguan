@@ -1,19 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { FiChevronDown, FiMenu } from "react-icons/fi";
+import React, { useEffect, useRef } from "react";
+import { FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { logout, updateAuthUser } from "../../../redux/authSlice";
-import { useLanguages, useSelectedLanguage, useUser } from "../../../redux/hooks";
-import { AiOutlineGlobal } from "react-icons/ai";
-import { resetLanguageState, setLanguage } from "../../../redux/languageSlice";
-import { Language } from "../../../types/language";
+import { logout } from "../../../redux/authSlice";
+import { useUser } from "../../../redux/hooks";
+import { resetLanguageState } from "../../../redux/languageSlice";
 import { resetCourseState } from "../../../redux/courseSlice";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
-import { useApi } from "../../../hooks/api/useApi";
-import { toast } from "react-toastify";
 import GuestLabel from "../../Utilities/GuestLabel";
-import { useAuthProtectionService } from "../../../hooks/useAuthProtectionService";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -25,14 +20,9 @@ interface NavBarProps {
 // TODO: Remove all references of old selectedLanguage state
 const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
 	const dispatch = useDispatch();
-	const languages = useLanguages();
-	const { postRequest } = useApi();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
-	const selectedLanguage = user?.learning_language;
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
-	const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-	const { updateLanguage } = useAuthProtectionService();
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
 		dispatch(logout());
@@ -46,26 +36,6 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 				setProfileOpen(false);
 			}
 		}
-		if (!event.target || !(event.target as HTMLElement).closest(".language-button")) {
-			setLanguageMenuOpen(false);
-		}
-	};
-
-	const handleLanguageChange = async (language: Language) => {
-		dispatch(setLanguage(language));
-		if (user) {
-			const updatedUser = { ...user, learning_language: language };
-			dispatch(updateAuthUser({ user: updatedUser }));
-			try {
-				await updateLanguage(language._id, postRequest);
-			} catch (error) {
-				// Handle errors
-				toast.error("Error updating language. Please try again.");
-			}
-		} else {
-			console.error("User is null, cannot update language");
-		}
-		setLanguageMenuOpen(false);
 	};
 
 	useEffect(() => {
@@ -85,25 +55,6 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 			</div>
 			<div className="z-10 flex items-center">
 				<GuestLabel />
-				{selectedLanguage && (
-					<div className="relative mx-2">
-						<button className="flex items-center space-x-2 bg-primary-500 rounded-full p-2 text-white cursor-pointer language-button" onClick={() => setLanguageMenuOpen(!languageMenuOpen)} aria-label="language">
-							<AiOutlineGlobal size={20} />
-							<span>{selectedLanguage.code?.toUpperCase()}</span>
-							<FiChevronDown size={12} />
-						</button>
-						{languageMenuOpen && (
-							<div className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
-								{languages &&
-									languages.map((language, index) => (
-										<div key={index} className="flex items-center space-x-2 p-2 cursor-pointer transition hover:bg-gray-200" onClick={() => handleLanguageChange(language)}>
-											<span>{language.name}</span>
-										</div>
-									))}
-							</div>
-						)}
-					</div>
-				)}
 				<div className="relative mx-2">
 					<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button" aria-label="profile">
 						<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />

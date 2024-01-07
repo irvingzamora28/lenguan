@@ -54,37 +54,7 @@ describe("Navbar", () => {
 				<Navbar {...mockProps} />
 			</Provider>
 		);
-
-		expect(getByText(new RegExp(mockPreloadedState.language.selectedLanguage.code, "i"))).toBeInTheDocument();
-	});
-
-	it("should toggle language menu", () => {
-		const { getByText, queryByText } = render(
-			<Provider store={mockStore}>
-				<Navbar {...mockProps} />
-			</Provider>
-		);
-
-		const languageButton = getByText(new RegExp(mockPreloadedState.language.selectedLanguage.code, "i"));
-
-		mockLanguageData.forEach(({ name }) => {
-			expect(queryByText(new RegExp(name, "i"))).not.toBeInTheDocument();
-		});
-
-		fireEvent.click(languageButton);
-
-		// All languages should now be visible
-		mockLanguageData.forEach(({ name }) => {
-			expect(getByText(new RegExp(name, "i"))).toBeInTheDocument();
-		});
-
-		// Simulate another click on the language button
-		fireEvent.click(languageButton);
-
-		// No language should be visible again
-		mockLanguageData.forEach(({ name }) => {
-			expect(queryByText(new RegExp(name, "i"))).not.toBeInTheDocument();
-		});
+		expect(getByText("Logo")).toBeInTheDocument();
 	});
 
 	it("should toggle aside menu", () => {
@@ -124,30 +94,5 @@ describe("Navbar", () => {
 
 		fireEvent.click(profileButton);
 		expect(mockProps.setProfileOpen).toHaveBeenCalledTimes(2);
-	});
-
-	it("should change selected language", async () => {
-		const mockProps = {
-			asideOpen: false,
-			setAsideOpen: vi.fn(),
-			profileOpen: false,
-			setProfileOpen: vi.fn(),
-		};
-
-		const { getByText, getByRole } = render(
-			<Provider store={mockStore}>
-				<Navbar {...mockProps} />
-			</Provider>
-		);
-
-		const languageButton = getByRole("button", { name: /language/i });
-		fireEvent.click(languageButton);
-
-		const germanOption = getByText(new RegExp(mockPreloadedState.language.selectedLanguage.name, "i"));
-		fireEvent.click(germanOption);
-
-		// we need to get a fresh copy of the state
-		const freshState = mockStore.getState();
-		expect(freshState.language.selectedLanguage).toStrictEqual(mockPreloadedState.language.selectedLanguage);
 	});
 });
