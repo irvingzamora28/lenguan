@@ -18,9 +18,10 @@ interface RegisterFormProps {
 	registerResponse: AxiosResponse<any, any> | undefined;
 	registerData: RegisterData;
 	errorMessages: { [key: string]: string[] };
+	simple: boolean;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, registerResponse, registerData, errorMessages }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, registerResponse, registerData, errorMessages, simple = false }) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 	};
@@ -42,7 +43,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 	return (
 		<>
 			<div className="relative py-3 mx-auto max-w-xs sm:max-w-xl md:max-w-2xl">
-				<div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-light-blue-500 shadow-lg transform -rotate-6 rounded-3xl sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+				<div className={`absolute inset-0 bg-gradient-to-r from-primary-600 to-light-blue-500 shadow-lg transform -rotate-6 rounded-3xl sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl ${simple ? "hidden" : ""}`}></div>
 				<div className="relative px-4 py-10 bg-white shadow-lg rounded-3xl sm:p-20">
 					<div className="mx-auto">
 						<div>

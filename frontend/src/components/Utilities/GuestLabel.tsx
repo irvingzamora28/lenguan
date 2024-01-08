@@ -5,10 +5,12 @@ import { useIsGuest } from "../../redux/hooks";
 import Modal from "./Modal";
 import RegisterForm from "../Items/Forms/RegisterForm";
 import "../../assets/scss/globals.scss";
+import useUserRegister from "../../hooks/useUserRegister";
 
 interface GuestLabelProps {}
 
 const GuestLabel: React.FC<GuestLabelProps> = ({}) => {
+	const { errorMessages, registerData, handleChange, registerResponse, handleRegister } = useUserRegister("/login");
 	const isGuest = useIsGuest();
 	const [showModal, setShowModal] = useState(false);
 
@@ -24,7 +26,7 @@ const GuestLabel: React.FC<GuestLabelProps> = ({}) => {
 				</div>
 				{createPortal(
 					<Modal show={showModal} onClose={() => setShowModal(false)} title="Register and save your progress" icon={<span className="text-6xl">📖</span>} color="bg-primary-500">
-						<RegisterForm />
+						<RegisterForm onRegister={handleRegister} onChange={handleChange} registerResponse={registerResponse} registerData={registerData} errorMessages={errorMessages} simple={true} />
 					</Modal>,
 					document.body
 				)}
