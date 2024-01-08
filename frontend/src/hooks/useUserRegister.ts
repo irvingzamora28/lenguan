@@ -33,9 +33,23 @@ const useUserRegister = (path?: string) => {
 	const handleRegister = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		event.preventDefault();
 		setErrorMessages({}); // Clear previous error message
-		const { name, email, password, password_confirmation } = registerData;
 
-		if (email.trim() !== "" && password.trim() !== "" && name.trim() !== "" && password === password_confirmation) {
+		const { name, email, password, password_confirmation } = registerData;
+		let errors: string[] = [];
+		if (email.trim() === "") {
+			errors.push("Email is required");
+		}
+		if (password.trim() === "") {
+			errors.push("Password is required");
+		}
+		if (name.trim() === "") {
+			errors.push("Name is required");
+		}
+		if (password !== password_confirmation) {
+			errors.push("Passwords do not match");
+		}
+
+		if (errors.length === 0) {
 			try {
 				const response = await RegisterService.register(registerData);
 				if (path) {
@@ -46,16 +60,20 @@ const useUserRegister = (path?: string) => {
 			} catch (error: any) {
 				if (error.response && error.response.data.errors) {
 					setErrorMessages(error.response.data.errors);
+				} else if (error.response.status == 419) {
+					let errorMessage = "Session error. Please try againg shortly.";
+					setErrorMessages({ errors: [errorMessage] });
+				} else if (error.response && error.response.data.message) {
+					let errorMessage = error.response.data.message;
+					setErrorMessages({ errors: [errorMessage] });
 				} else {
 					let errorMessage = "An error occurred. Please try again.";
-					setErrorMessages({ error: [errorMessage] });
+					setErrorMessages({ ...errorMessages, error: [...errorMessages.error, errorMessage] });
 					throw new Error(errorMessage);
 				}
 			}
 		} else {
-			console.log(registerData);
-			setErrorMessages({ error: ["Invalid input"] });
-			throw new Error("Invalid input");
+			setErrorMessages({ errors: errors });
 		}
 	};
 

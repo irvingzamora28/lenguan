@@ -1,9 +1,10 @@
 import React from "react";
+import "../../../assets/scss/components/Form.scss";
 
 interface LoginFormProps {
 	onLogin: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	errorMessages?: string[];
+	errorMessages: { [key: string]: string[] };
 	onLoginAsGuest: () => void;
 }
 
@@ -35,10 +36,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onChange, errorMessages,
 											type="email"
 											autoComplete="email"
 											required
-											className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+											className={`register__input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 ${
+												errorMessages.email ? "is-invalid" : ""
+											}`}
 											placeholder="Email address"
 											onChange={onChange}
 										/>
+										{errorMessages?.email && (
+											<div className="invalid-feedback">
+												{errorMessages.email.map((error: string) => (
+													<p key={error}>{error}</p>
+												))}
+											</div>
+										)}
 									</div>
 									<div>
 										<label htmlFor="password" className="sr-only">
@@ -50,16 +60,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onChange, errorMessages,
 											type="password"
 											autoComplete="current-password"
 											required
-											className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+											className={`appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 ${
+												errorMessages.password ? "is-invalid" : ""
+											}`}
 											placeholder="Password"
 											onChange={onChange}
 										/>
+										{errorMessages?.password && (
+											<div className="invalid-feedback">
+												{errorMessages.password.map((error: string) => (
+													<p key={error}>{error}</p>
+												))}
+											</div>
+										)}
 									</div>
 								</div>
-								{errorMessages && (
-									<div className="text-sm text-red-600">
-										{errorMessages.map((line, index) => (
-											<p key={index}>{line}</p>
+								{errorMessages?.errors && (
+									<div className="invalid-feedback">
+										{errorMessages.errors.map((error, index) => (
+											<p key={index}>{error}</p>
 										))}
 									</div>
 								)}

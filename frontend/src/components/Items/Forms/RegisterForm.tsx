@@ -50,10 +50,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 							<h1 className="text-xl font-semibold text-gray-600 sm:text-2xl">Register</h1>
 						</div>
 						<div className="divide-y divide-gray-200">
-							<form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+							<form className="register__form mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
 								<input type="hidden" name="remember" value="true" />
 								<div className="space-y-3">
-									<div>
+									<div className="register__form-control-field">
 										<label htmlFor="name" className="sr-only">
 											Name
 										</label>
@@ -67,8 +67,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 											onChange={onChange}
 											value={registerData.name}
 										/>
+										{errorMessages.name && (
+											<div className="invalid-feedback">
+												{errorMessages.name.map((error: string) => (
+													<p key={error}>{error}</p>
+												))}
+											</div>
+										)}
 									</div>
-									<div>
+									<div className="register__form-control-field">
 										<label htmlFor="email-address" className="sr-only">
 											Email address
 										</label>
@@ -83,8 +90,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 											onChange={onChange}
 											value={registerData.email}
 										/>
+										{errorMessages.email && (
+											<div className="invalid-feedback">
+												{errorMessages.email.map((error: string) => (
+													<p key={error}>{error}</p>
+												))}
+											</div>
+										)}
 									</div>
-									<div>
+									<div className="register__form-control-field">
 										<label htmlFor="password" className="sr-only">
 											Password
 										</label>
@@ -98,8 +112,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 											onChange={onChange}
 											value={registerData.password}
 										/>
+										{errorMessages.password && (
+											<div className="invalid-feedback">
+												{errorMessages.password.map((error: string) => (
+													<p key={error}>{error}</p>
+												))}
+											</div>
+										)}
 									</div>
-									<div>
+									<div className="register__form-control-field">
 										<label htmlFor="password_confirmation" className="sr-only">
 											Confirm Password
 										</label>
@@ -115,9 +136,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 										/>
 									</div>
 								</div>
-								{errorMessages.error && (
-									<div className="text-sm text-red-600">
-										{errorMessages.error.map((error, index) => (
+								{errorMessages.errors && (
+									<div className="invalid-feedback">
+										{errorMessages.errors.map((error, index) => (
 											<p key={index}>{error}</p>
 										))}
 									</div>
