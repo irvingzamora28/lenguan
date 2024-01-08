@@ -7,6 +7,15 @@ import languageReducer from "../../../../redux/languageSlice";
 import Navbar from "../../../../components/Items/Navbar/Navbar";
 import { vi } from "vitest";
 
+const mockNavigate = vi.fn();
+vi.mock("react-router-dom", async () => {
+	const mod = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
+	return {
+		...mod,
+		useNavigate: () => mockNavigate,
+	};
+});
+
 describe("Navbar", () => {
 	const mockProps = {
 		asideOpen: false,
