@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onChange, errorMessages,
 											type="email"
 											autoComplete="email"
 											required
-											className={`register__input appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 ${
+											className={`appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 ${
 												errorMessages.email ? "is-invalid" : ""
 											}`}
 											placeholder="Email address"
