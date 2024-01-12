@@ -20,8 +20,8 @@ const GuestLabel: React.FC<GuestLabelProps> = ({}) => {
 				<div className="relative mx-2 self-center cursor-pointer">
 					<div onClick={() => setShowModal(true)} className="flex items-center font-medium justify-start p-2 px-4 bg-accent-500 text-white rounded-full" title="You are currently browsing as a guest.">
 						<AiOutlineUser className="mr-2" />
-						<span className="hidden md:block">Guest Session</span>
-						<span className="md:hidden">Guest</span>
+						<span className="hidden md:block">Guest Register</span>
+						<span className="md:hidden">Register</span>
 					</div>
 				</div>
 				{createPortal(
