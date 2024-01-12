@@ -32,7 +32,7 @@ const RegisterPage: React.FC = () => {
 
 						<div className="md:w-1/2">
 							<h2 className="register__heading">Create your account</h2>
-							<RegisterForm onRegister={handleRegister} onChange={handleChange} registerResponse={registerResponse} registerData={registerData} errorMessages={errorMessages} />
+							<RegisterForm onRegister={handleRegister} onChange={handleChange} registerResponse={registerResponse} registerData={registerData} errorMessages={errorMessages} simple={false} />
 						</div>
 					</div>
 				</div>
