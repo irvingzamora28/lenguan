@@ -57,20 +57,37 @@ const SelectCoursePage: React.FC = () => {
 	return (
 		<Layout>
 			<ToastContainer />
-			<h2 className="text-2xl font-bold mb-6">Select a Course</h2>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			<h2 className="text-3xl font-bold mb-8 text-gray-800">Select a Course</h2>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{courses &&
 					Array.isArray(courses) &&
 					courses.map((course, index) => (
-						<div key={course._id} onClick={() => selectCourse(course)} className="course-box">
-							<img src={course.image} alt={course.name} />
-							<h3>{course.name}</h3>
-							<p>{course.description}</p>
+						<div key={course._id} onClick={() => selectCourse(course)} className="course-box transform transition duration-500 hover:scale-105 cursor-pointer bg-white shadow-lg rounded-lg overflow-hidden">
+							<div className="flex justify-between p-4">
+								<h3 className="text-xl font-semibold mb-2">{course.name}</h3>
+								<div className="flex items-center">
+									<img src={`src/assets/images/flags/${course.native_language_code}.png`} alt={course.native_language_code} className="w-6 h-6 mr-2" />
+									<span className="text-sm font-medium">{getLanguageFullName(course.native_language_code)}</span>
+								</div>
+							</div>
+							<img src={course.image} alt={course.name} className="w-full h-64 object-cover object-center" />
+							<div className="p-4">
+								<p className="text-gray-600">{course.description}</p>
+							</div>
 						</div>
 					))}
 			</div>
 		</Layout>
 	);
 };
+
+function getLanguageFullName(languageCode: string): string {
+	const languageMap: { [key: string]: string } = {
+		en: "English",
+		es: "Spanish",
+	};
+
+	return languageMap[languageCode] || "Unknown";
+}
 
 export default SelectCoursePage;
