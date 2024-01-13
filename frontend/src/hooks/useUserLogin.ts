@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { LoginService } from "../services/LoginService";
 import { loginFailure, loginRequest, loginSuccess } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
+import { User } from "../types";
 
 interface LoginData {
 	email: string;
@@ -45,8 +46,7 @@ const useUserLogin = (path?: string) => {
 			try {
 				const response = await LoginService.login(loginData);
 				const accessToken = response?.data?.token;
-				dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
-
+				handleLoginSuccess(accessToken, response.data.user);
 				if (path) {
 					navigate(path);
 				}
@@ -74,7 +74,11 @@ const useUserLogin = (path?: string) => {
 		}
 	};
 
-	return { errorMessages, loginData, handleChange, handleLogin };
+	const handleLoginSuccess = (token: string, user: User) => {
+		dispatch(loginSuccess({ token, user }));
+	};
+
+	return { errorMessages, loginData, handleChange, handleLogin, handleLoginSuccess };
 };
 
 export default useUserLogin;

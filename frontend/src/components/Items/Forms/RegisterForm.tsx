@@ -36,6 +36,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister, onChange, regis
 		if (registerResponse?.data.message) {
 			toast.success(registerResponse.data.message, {
 				position: "top-right",
+				autoClose: 7000,
 			});
 		}
 	}, [registerResponse]);

@@ -2,6 +2,10 @@ import { AxiosResponse } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterService } from "../services/RegisterService";
+import useUserLogout from "./useUserLogout";
+import { LoginService } from "../services/LoginService";
+import useUserLogin from "./useUserLogin";
+import { refreshCsrfToken } from "../utils/csrf-token";
 
 interface RegisterData {
 	name: string;
@@ -12,6 +16,9 @@ interface RegisterData {
 
 const useUserRegister = (path?: string) => {
 	const navigate = useNavigate();
+	const { handleLoginSuccess } = useUserLogin();
+	const { handleLogout } = useUserLogout();
+
 	const [registerData, setRegisterData] = useState<RegisterData>({
 		name: "",
 		email: "",
@@ -51,13 +58,22 @@ const useUserRegister = (path?: string) => {
 
 		if (errors.length === 0) {
 			try {
-				const response = await RegisterService.register(registerData);
+				const responseRegister = await RegisterService.register(registerData);
+				const responseLogin = await LoginService.login(registerData);
 				if (path) {
 					// Redirect after a short delay to allow the user to see the notification
-					setTimeout(() => navigate(path), 5000);
+					setTimeout(() => {
+						handleLogout();
+						const accessToken = responseLogin?.data?.token;
+						handleLoginSuccess(accessToken, responseLogin.data.user);
+						refreshCsrfToken();
+						navigate(path);
+					}, 7000);
 				}
-				setRegisterResponse(response);
+				setRegisterResponse(responseRegister);
 			} catch (error: any) {
+				console.log(error);
+
 				if (error.response && error.response.data.errors) {
 					setErrorMessages(error.response.data.errors);
 				} else if (error.response.status == 419) {

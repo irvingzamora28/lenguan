@@ -41,7 +41,7 @@ class AuthController extends Controller
         ]);
 
 
-        return response()->json(['message' => 'User registered successfully. Please check your email to verify your account.']);
+        return response()->json(['message' => 'Welcome! Please check your email to verify your account. Meantime you can have access, enjoy!'], 201);
     }
 
 
