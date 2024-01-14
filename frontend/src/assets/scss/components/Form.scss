@@ -1,0 +1,14 @@
+form input.is-invalid {
+    @apply border-red-500 text-red-500;
+
+    &:focus {
+        @apply ring-2;
+        @apply ring-red-500;
+        @apply ring-opacity-60;
+    }
+}
+
+// Implement the invalid-feedback class using tailwindcss
+form .invalid-feedback {
+    @apply text-red-500 mt-2 text-sm mb-2 text-center;
+}

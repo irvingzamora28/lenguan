@@ -17,7 +17,6 @@ import store, { persistor } from "./redux/store";
 import PrivateRoute from "./components/Utilities/PrivateRoute";
 import { PersistGate } from "redux-persist/integration/react";
 import PublicRoute from "./components/Utilities/PublicRoute";
-import SelectLanguagePage from "./components/Pages/SelectLanguagePage";
 import SelectCoursePage from "./components/Pages/SelectCoursePage";
 import TimedFlashcards from "./components/Pages/TimedFlashCardsPage/TimedFlashCardsPage";
 import MemoryGame from "./components/Pages/MemoryGamePage/MemoryGamePage";
@@ -31,7 +30,7 @@ import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
 import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
 import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 import TipsTricksPage from "./components/Pages/LessonsPage/TipsTricksPage";
-import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, SELECT_LANGUAGE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
+import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
 import LandingPage from "./components/Pages/LandingPage";
 
 interface RouteType {
@@ -41,7 +40,6 @@ interface RouteType {
 }
 
 const privateRoutes = [
-	{ path: SELECT_LANGUAGE_PATH, element: <SelectLanguagePage /> },
 	{ path: SELECT_COURSE_PATH, element: <SelectCoursePage /> },
 	{ path: "/", element: <DashboardPage /> },
 	{ path: "/profile", element: <ProfilePage /> },
@@ -59,13 +57,13 @@ const privateRoutes = [
 	{ path: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, element: <VerbConjugationSlotMachineExercise /> },
 	{ path: WRITING_EXERCISE_CREATE_STORYPATH, element: <CreateStoryWritingExercise /> },
 	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
-	{ path: "/gender-duel", element: <GenderDuelPage /> },
 	{ path: "/memory-game", element: <MemoryGame /> },
 ];
 
 const publicRoutes = [
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/register", element: <RegisterPage /> },
+	{ path: "/gender-duel", element: <GenderDuelPage /> },
 ];
 
 const router = createBrowserRouter([

@@ -18,13 +18,16 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Password::defaults()],
+            'guest_data' => 'nullable|json',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $username = strstr($request->email, '@', true); // extract username from email
+        $validated = $validator->validated();
+
+        $username = strstr($validated["email"], '@', true); // extract username from email
         $base_username = $username; // store the base username for reference
         $counter = 1; // initialize counter for adding digits to the username
         while (User::where('username', $username)->exists()) { // check if username already exists
@@ -32,16 +35,21 @@ class AuthController extends Controller
             $counter++;
         }
 
+        $guestData = $validated["guest_data"] ? json_decode($validated["guest_data"]) : null;
+        $course = $guestData ? $guestData->course : null;
+        $learningLanguage = $guestData ? $guestData->learning_language : null;
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name' => $validated["name"],
+            'email' => $validated["email"],
             'username' => $username, // store the unique username
-            'native_language_code' => "en", // Default to english for now
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($validated["password"]),
+            'native_language_code' => $course->native_language_code ?? "en", // Default to english for now
+            'course_id' => $course->_id ?? null,
+            'language_id' => $learningLanguage->_id ?? null,
         ]);
 
 
-        return response()->json(['message' => 'User registered successfully. Please check your email to verify your account.']);
+        return response()->json(['message' => 'Welcome! Please check your email to verify your account. Meantime you can have access, enjoy!'], 201);
     }
 
 

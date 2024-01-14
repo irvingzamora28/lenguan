@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\UserServiceInterface;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,6 +58,8 @@ class UserService implements UserServiceInterface
     public function updateUserCourse(User $user, array $data): User
     {
         $user->course_id = $data['course_id'];
+        $course = Course::select('native_language_code')->find($data['course_id']);
+        $user->native_language_code = $course->native_language_code;
         $user->save();
         return $user;
     }

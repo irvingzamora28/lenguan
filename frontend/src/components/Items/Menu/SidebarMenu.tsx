@@ -5,6 +5,7 @@ import { BsFillAwardFill } from "react-icons/bs";
 import "../../../assets/scss/components/SidebarMenu.scss";
 import SubMenu from "./SubMenu";
 import { NavLink } from "react-router-dom";
+import GuestLabel from "../../Utilities/GuestLabel";
 
 interface SidebarMenuProps {
 	closeSidebar: () => void;
@@ -16,7 +17,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 	};
 
 	return (
-		<aside className="sidebar fixed flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-screen top-[60px]">
+		<aside className="sidebar fixed flex w-72 flex-col border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-screen top-[60px]">
 			<NavLink to="/" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
 				<span className="text-2xl">
 					<MdDashboard />
@@ -56,6 +57,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 				</span>
 				<span>Awards</span>
 			</NavLink>
+			<GuestLabel />
 		</aside>
 	);
 };

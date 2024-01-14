@@ -17,4 +17,10 @@ class LanguageController extends Controller
     {
         return response()->json($language);
     }
+
+    public function courses(Language $language)
+    {
+        $courses = $language->courses;
+        return response()->json($courses);
+    }
 }

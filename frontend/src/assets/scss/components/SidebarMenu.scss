@@ -1,11 +1,11 @@
 .sidebar__navlink {
-    @apply flex items-center space-x-1 rounded-md px-2 py-3;
+  @apply flex items-center space-x-1 rounded-md px-2 py-3 my-1 text-sm font-medium transition-colors duration-200 ease-in-out cursor-pointer;
 }
 
 .sidebar__navlink--active {
-    @apply text-primary-600 bg-background;
-  }
+  @apply text-primary-600 bg-background;
+}
 
 .sidebar__navlink--inactive {
-    @apply hover:bg-background hover:text-primary-600;
-  }
+  @apply hover:bg-background hover:text-primary-600;
+}

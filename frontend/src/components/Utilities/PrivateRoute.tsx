@@ -30,7 +30,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, fallback }) => {
 	const location = useLocation();
 
 	const routesToCheck: RouteCondition[] = [
-		{ condition: () => !user?.language, path: Routes.SELECT_LANGUAGE_PATH },
+		{ condition: () => !user?.learning_language, path: Routes.SELECT_COURSE_PATH },
 		{ condition: () => !user?.course, path: Routes.SELECT_COURSE_PATH },
 	];
 

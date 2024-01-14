@@ -2,51 +2,88 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { LoginService } from "../services/LoginService";
 import { loginFailure, loginRequest, loginSuccess } from "../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import { User } from "../types";
 
 interface LoginData {
-    email: string;
-    password: string;
+	email: string;
+	password: string;
 }
 
-const useUserLogin = () => {
-    const dispatch = useDispatch();
-    const [loginData, setLoginData] = useState<LoginData>({
-        email: "",
-        password: "",
-    });
+const useUserLogin = (path?: string) => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [loginData, setLoginData] = useState<LoginData>({
+		email: "",
+		password: "",
+	});
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setLoginData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+	const [errorMessages, setErrorMessages] = useState<{ [key: string]: string[] }>({});
 
-    const handleLogin = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const { email, password } = loginData;
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
 
-        if (email.trim() !== "" && password.trim() !== "") {
-            dispatch(loginRequest());
-            try {
-                const response = await LoginService.login(loginData);
-                const accessToken = response?.data?.token;
-                dispatch(loginSuccess({ token: accessToken, user: response.data.user }));
-            } catch (error: any) {
-                let errorMessage = "An error occurred. Please try again.";
-                if (error.response && error.response.data && error.response.data.message) {
-                    errorMessage = error.response.data.message;
-                }
-                dispatch(loginFailure(errorMessage));
-                throw new Error(errorMessage);
-            }
-        } else {
-            throw new Error("Invalid input");
-        }
-    };
+		setLoginData((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
 
-    return { loginData, handleChange, handleLogin };
+	const handleLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		event.preventDefault();
+		setErrorMessages({}); // Clear previous error message
+		const { email, password } = loginData;
+
+		let errors: string[] = [];
+		if (email.trim() === "") {
+			errors.push("Email is required");
+		}
+		if (password.trim() === "") {
+			errors.push("Password is required");
+		}
+
+		if (errors.length === 0) {
+			dispatch(loginRequest());
+			try {
+				const response = await LoginService.login(loginData);
+				const accessToken = response?.data?.token;
+				// We need to await the refresh csrf token call before redirecting, this allows redux actions to dispatch
+				await handleLoginSuccess(accessToken, response.data.user);
+				if (path) {
+					// Redirect to path passed in
+					// After logggin in we need to refresh the page and redirect to "index" to get a new fresh csrf token
+					navigate(path);
+					window.location.reload();
+				}
+			} catch (error: any) {
+				if (error.response && error.response.data.errors) {
+					setErrorMessages(error.response.data.errors);
+					dispatch(loginFailure(error.response.data.errors));
+				} else if (error.response.status == 419) {
+					let errorMessage = "Session error. Please try againg shortly.";
+					setErrorMessages({ errors: [errorMessage] });
+					dispatch(loginFailure(error.response.data.message));
+				} else if (error.response && error.response.data.message) {
+					let errorMessage = error.response.data.message;
+					setErrorMessages({ errors: [errorMessage] });
+					dispatch(loginFailure(error.response.data.message));
+				} else {
+					let errorMessage = "An error occurred. Please try again.";
+					setErrorMessages({ ...errorMessages, error: [...errorMessages.error, errorMessage] });
+					dispatch(loginFailure(errorMessage));
+					throw new Error(errorMessage);
+				}
+			}
+		} else {
+			setErrorMessages({ errors: errors });
+		}
+	};
+
+	const handleLoginSuccess = (token: string, user: User) => {
+		dispatch(loginSuccess({ token, user }));
+	};
+
+	return { errorMessages, loginData, handleChange, handleLogin, handleLoginSuccess };
 };
 
 export default useUserLogin;

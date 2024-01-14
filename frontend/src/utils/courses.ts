@@ -2,6 +2,7 @@ import { Course } from "../types/course";
 import { useEffect } from "react";
 import { CourseService } from "../services/CourseService";
 import { AppDispatch } from "../redux/store";
+import { Language } from "../types/language";
 
 export const getCourses = (courses: Course[] | null, dispatch: AppDispatch) => {
 	useEffect(() => {
@@ -11,7 +12,7 @@ export const getCourses = (courses: Course[] | null, dispatch: AppDispatch) => {
 			}
 		};
 
-        fetchCourses();
-        return () => {};
+		fetchCourses();
+		return () => {};
 	}, []);
 };

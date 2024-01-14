@@ -9,7 +9,8 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
+        // Bring all courses but include language model
+        $courses = Course::with('language')->get();
         return response()->json($courses);
     }
 

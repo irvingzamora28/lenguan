@@ -5,10 +5,10 @@ import TestimonialCarousel from "../Items/Misc/TestimonialCarousel";
 import { testimonials } from "../../constants/testimonials";
 import "../../assets/scss/globals.scss";
 import { Link } from "react-router-dom";
-import { useUserGuestLogin } from "../../hooks/useUserGuestLogin";
+import useUserGuestLogin from "../../hooks/useUserGuestLogin";
 
 const LandingPage: React.FC = () => {
-	const loginAsGuest = useUserGuestLogin();
+	const { handleLoginAsGuest } = useUserGuestLogin();
 
 	const handleNavLinkClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
 		event.preventDefault();
@@ -58,7 +58,7 @@ const LandingPage: React.FC = () => {
 						<h2 className="text-6xl md:text-7xl font-bold title_text-outline">Welcome to Lenguan</h2>
 						<p className="mt-4 text-2xl md:text-3xl title_text-outline">Your journey to language mastery starts here!</p>
 						<button
-							onClick={loginAsGuest}
+							onClick={handleLoginAsGuest}
 							className="mt-8 bg-accent-500 hover:bg-accent-600 text-white text-shadow font-bold py-6 px-8 rounded-full text-3xl sm:text-4xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"
 						>
 							Try as Guest

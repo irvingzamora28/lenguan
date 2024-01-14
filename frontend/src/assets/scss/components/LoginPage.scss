@@ -1,0 +1,15 @@
+section.login__section {
+    @apply h-fit flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8;
+}
+
+.login__section-content {
+    @apply w-full space-y-8;
+}
+
+.login__image {
+    @apply mx-auto h-28 w-auto md:h-80;
+}
+
+.login__heading {
+    @apply my-8 text-center text-3xl md:mb-16 md:text-5xl font-extrabold text-gray-600;
+}

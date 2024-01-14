@@ -11,6 +11,8 @@ import useGenderDuelSocket from "../../../hooks/useGenderDuelSocket";
 import useUserLogin from "../../../hooks/useUserLogin";
 import useUserUsername from "../../../hooks/useUserUsername";
 import { useSelectedLanguage } from "../../../redux/hooks";
+import LoginForm from "../../Items/Forms/LoginForm";
+import useUserGuestLogin from "../../../hooks/useUserGuestLogin";
 
 const genders = [
 	{
@@ -32,22 +34,10 @@ const genders = [
 
 const GenderDuelPage: React.FC = () => {
 	const { user, username, handleEnterAsGuest } = useUserUsername();
-	const { loginData, handleChange, handleLogin } = useUserLogin();
-    const selectedLanguage = useSelectedLanguage();
-    console.log(`selectedLanguage: `, selectedLanguage);
+	const { handleLoginAsGuest } = useUserGuestLogin();
+	const { errorMessages, loginData, handleChange, handleLogin } = useUserLogin();
+	const selectedLanguage = useSelectedLanguage();
 	const { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(username, selectedLanguage);
-
-	const handleLoginWithToast = async (event: React.FormEvent) => {
-		try {
-			await handleLogin(event);
-		} catch (error) {
-			if (error instanceof Error) {
-				toast.error(error.message, {
-					position: toast.POSITION.TOP_CENTER,
-				});
-			}
-		}
-	};
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
@@ -59,8 +49,9 @@ const GenderDuelPage: React.FC = () => {
 			) : (
 				<>
 					{user === null ? (
-						<GameLoginForm handleLogin={handleLoginWithToast} onChange={handleChange} handleEnterAsGuest={handleEnterAsGuest} />
+						<LoginForm onLogin={handleLogin} onChange={handleChange} errorMessages={errorMessages} onLoginAsGuest={handleLoginAsGuest} />
 					) : (
+						// <GameLoginForm handleLogin={handleLoginWithToast} onChange={handleChange} handleEnterAsGuest={handleEnterAsGuest} />
 						<ButtonStart playerNumber={playerNumber} username={user.username ?? ""} gameStatus={gameStatus} handleStartGame={handleStartGame} />
 					)}
 					{gameStatus === "playing" && word && (

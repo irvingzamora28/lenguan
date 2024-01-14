@@ -4,16 +4,19 @@ import { describe, it, beforeEach, vi, Mock } from "vitest";
 import { Provider } from "react-redux";
 import store from "./../../../redux/store";
 import { BrowserRouter, MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { useUserGuestLogin } from "../../../hooks/useUserGuestLogin";
+import useUserGuestLogin from "../../../hooks/useUserGuestLogin";
 
 window.HTMLElement.prototype.scrollIntoView = function () {};
 
 const mockNavigate = vi.fn();
 
-// Mock useUserGuestLogin and navigation
-vi.mock("../../../hooks/useUserGuestLogin", () => ({
-	useUserGuestLogin: vi.fn(),
-}));
+vi.mock("../../../hooks/useUserGuestLogin", async () => {
+	return {
+		default: vi.fn().mockReturnValue({
+			handleLoginAsGuest: vi.fn(),
+		}),
+	};
+});
 
 vi.mock("react-router-dom", async () => {
 	const mod = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
@@ -160,8 +163,10 @@ describe("LandingPage", () => {
 	});
 
 	it("should call the guest login function when 'Try as Guest' is clicked", async () => {
-		const mockLoginAsGuest = vi.fn();
-		(useUserGuestLogin as Mock).mockReturnValue(mockLoginAsGuest);
+		const mockHandleLoginAsGuest = vi.fn();
+		(useUserGuestLogin as Mock).mockReturnValue({
+			handleLoginAsGuest: mockHandleLoginAsGuest,
+		});
 
 		const { getByText } = render(
 			<Provider store={store}>
@@ -175,17 +180,18 @@ describe("LandingPage", () => {
 		fireEvent.click(guestButton);
 
 		await waitFor(() => {
-			expect(mockLoginAsGuest).toHaveBeenCalled();
+			expect(mockHandleLoginAsGuest).toHaveBeenCalled();
 		});
 	});
 
 	it("should navigate to '/' after guest login", async () => {
-		const mockLoginAsGuest = vi.fn(() => {
+		const mockHandleLoginAsGuest = vi.fn(() => {
 			// Simulate the side effect of navigating to '/' in the mock
 			mockNavigate("/");
 		});
-		(useUserGuestLogin as Mock).mockReturnValue(mockLoginAsGuest);
-
+		(useUserGuestLogin as Mock).mockReturnValue({
+			handleLoginAsGuest: mockHandleLoginAsGuest,
+		});
 		const { getByText } = render(
 			<Provider store={store}>
 				<BrowserRouter>

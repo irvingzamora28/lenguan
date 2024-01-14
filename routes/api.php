@@ -83,6 +83,7 @@ Route::group(['prefix' => 'leaderboards'], function () {
 
 Route::group(['prefix' => 'languages'], function () {
     Route::get('/', [LanguageController::class, 'index']);
+    Route::get('/{language}/courses', [LanguageController::class, 'courses']);
     Route::get('/{language}', [LanguageController::class, 'show']);
 });
 
