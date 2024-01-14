@@ -27,7 +27,7 @@ const useUserRegister = (path?: string) => {
 		email: "",
 		password: "",
 		password_confirmation: "",
-		guest_data: JSON.stringify(user),
+		guest_data: user ? JSON.stringify(user) : null,
 	});
 	const [errorMessages, setErrorMessages] = useState<{ [key: string]: string[] }>({});
 	const [registerResponse, setRegisterResponse] = useState<AxiosResponse<any, any>>();
