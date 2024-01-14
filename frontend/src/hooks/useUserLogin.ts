@@ -17,6 +17,10 @@ const useUserLogin = (path?: string) => {
 		email: "",
 		password: "",
 	});
+	const goToLoginPage = (path: string) => {
+		window.location.href = path;
+	};
+
 	const [errorMessages, setErrorMessages] = useState<{ [key: string]: string[] }>({});
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +52,9 @@ const useUserLogin = (path?: string) => {
 				const accessToken = response?.data?.token;
 				handleLoginSuccess(accessToken, response.data.user);
 				if (path) {
-					navigate(path);
+					// Redirect to path passed in
+					// After logggin in we need to refresh the page and redirect to "index" to get a new fresh csrf token
+					goToLoginPage(path);
 				}
 			} catch (error: any) {
 				if (error.response && error.response.data.errors) {
