@@ -17,9 +17,6 @@ const useUserLogin = (path?: string) => {
 		email: "",
 		password: "",
 	});
-	const goToLoginPage = (path: string) => {
-		window.location.href = path;
-	};
 
 	const [errorMessages, setErrorMessages] = useState<{ [key: string]: string[] }>({});
 
@@ -50,11 +47,13 @@ const useUserLogin = (path?: string) => {
 			try {
 				const response = await LoginService.login(loginData);
 				const accessToken = response?.data?.token;
-				handleLoginSuccess(accessToken, response.data.user);
+				// We need to await the refresh csrf token call before redirecting, this allows redux actions to dispatch
+				await handleLoginSuccess(accessToken, response.data.user);
 				if (path) {
 					// Redirect to path passed in
 					// After logggin in we need to refresh the page and redirect to "index" to get a new fresh csrf token
-					goToLoginPage(path);
+					navigate(path);
+					window.location.reload();
 				}
 			} catch (error: any) {
 				if (error.response && error.response.data.errors) {
