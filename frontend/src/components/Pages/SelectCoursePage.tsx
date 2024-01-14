@@ -85,7 +85,7 @@ const SelectCoursePage: React.FC = () => {
 function getLanguageFullName(languageCode: string): string {
 	const languageMap: { [key: string]: string } = {
 		en: "English",
-		es: "Spanish",
+		es: "Español",
 	};
 
 	return languageMap[languageCode] || "Unknown";
