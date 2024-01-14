@@ -18,7 +18,7 @@ const SelectCoursePage: React.FC = () => {
 	const navigate = useNavigate();
 	const courses = useCourses();
 	const { postRequest } = useApi();
-	const { updateCourse } = useAuthProtectionService();
+	const { updateCourse, updateLanguage } = useAuthProtectionService();
 
 	// Fetch the courses available to select
 	getCourses(courses, dispatch);
@@ -36,6 +36,7 @@ const SelectCoursePage: React.FC = () => {
 			dispatch(updateAuthUser({ user: updatedUser }));
 			try {
 				await updateCourse(course._id, postRequest);
+				await updateLanguage(course.language._id, postRequest);
 
 				// Display success notification
 				toast.success("Course selected successfully!", {
