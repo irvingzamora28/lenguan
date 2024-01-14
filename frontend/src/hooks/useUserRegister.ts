@@ -6,24 +6,28 @@ import useUserLogout from "./useUserLogout";
 import { LoginService } from "../services/LoginService";
 import useUserLogin from "./useUserLogin";
 import { refreshCsrfToken } from "../utils/csrf-token";
+import { useUser } from "../redux/hooks";
 
 interface RegisterData {
 	name: string;
 	email: string;
 	password: string;
 	password_confirmation: string;
+	guest_data: string | null;
 }
 
 const useUserRegister = (path?: string) => {
 	const navigate = useNavigate();
 	const { handleLoginSuccess } = useUserLogin();
 	const { handleLogout } = useUserLogout();
+	const user = useUser();
 
 	const [registerData, setRegisterData] = useState<RegisterData>({
 		name: "",
 		email: "",
 		password: "",
 		password_confirmation: "",
+		guest_data: JSON.stringify(user),
 	});
 	const [errorMessages, setErrorMessages] = useState<{ [key: string]: string[] }>({});
 	const [registerResponse, setRegisterResponse] = useState<AxiosResponse<any, any>>();
@@ -58,6 +62,7 @@ const useUserRegister = (path?: string) => {
 
 		if (errors.length === 0) {
 			try {
+				// In case the user was a guest and had progress, we will also send that data as guest_data in the registerData object
 				const responseRegister = await RegisterService.register(registerData);
 				const responseLogin = await LoginService.login(registerData);
 				if (path) {

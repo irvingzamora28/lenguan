@@ -1,3 +1,4 @@
+import { User } from "../types";
 import api from "./../utils/api";
 import { refreshCsrfToken } from "./../utils/csrf-token";
 
@@ -7,6 +8,7 @@ interface RegisterData {
 	email: string;
 	password: string;
 	password_confirmation: string;
+	guest_data: string | null;
 }
 
 export class RegisterService {
