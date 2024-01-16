@@ -217,29 +217,50 @@ const LandingPage: React.FC = () => {
 			{/* Contact Form Section */}
 			<section id="contact" className="p-10 md:p-20">
 				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Contact Us</h3>
-				<form onSubmit={handleSubmit(submitForm)} className="max-w-lg mx-auto mt-8">
+				<form onSubmit={handleSubmit(submitForm)} className="max-w-lg mx-auto mt-8 bg-white md:shadow-lg md:rounded-lg md:p-6">
 					<div className="mb-4">
-						<label htmlFor="name" className="block text-sm font-semibold text-gray-700">
+						<label htmlFor="name" className="block text-sm md:text-lg font-semibold text-gray-800">
 							Name
 						</label>
-						<input type="text" id="name" name="name" value={values.name} onChange={handleChange} className="mt-1 p-2 w-full border rounded-md" />
+						<input
+							type="text"
+							id="name"
+							name="name"
+							value={values.name}
+							onChange={handleChange}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						/>
 						{errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
 					</div>
 					<div className="mb-4">
-						<label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+						<label htmlFor="email" className="block text-sm md:text-lg font-semibold text-gray-800">
 							Email
 						</label>
-						<input type="email" id="email" name="email" value={values.email} onChange={handleChange} className="mt-1 p-2 w-full border rounded-md" />
+						<input
+							type="email"
+							id="email"
+							name="email"
+							value={values.email}
+							onChange={handleChange}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						/>
 						{errors.email && <span className="text-red-500 text-xs">{errors.email}</span>}
 					</div>
 					<div className="mb-4">
-						<label htmlFor="message" className="block text-sm font-semibold text-gray-700">
+						<label htmlFor="message" className="block text-sm md:text-lg font-semibold text-gray-800">
 							Message
 						</label>
-						<textarea id="message" name="message" value={values.message} onChange={handleChange} rows={4} className="mt-1 p-2 w-full border rounded-md"></textarea>
+						<textarea
+							id="message"
+							name="message"
+							value={values.message}
+							onChange={handleChange}
+							rows={4}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						></textarea>
 						{errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
 					</div>
-					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
+					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-full transition duration-300 ease-in-out">
 						{isSubmitting ? (
 							<>
 								<LoadingSpinner />
