@@ -44,7 +44,7 @@ const LandingPage: React.FC = () => {
 		message: "",
 	};
 
-	const { values, handleChange, handleSubmit, errors, reset } = useFormHandler({
+	const { values, handleChange, handleSubmit, errors, reset, isSubmitting } = useFormHandler({
 		initialValues: formInitialValues,
 		validate: validateContactForm,
 	});
@@ -238,7 +238,7 @@ const LandingPage: React.FC = () => {
 						<textarea id="message" name="message" value={values.message} onChange={handleChange} rows={4} className="mt-1 p-2 w-full border rounded-md"></textarea>
 						{errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
 					</div>
-					<button type="submit" className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded">
+					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded">
 						Send Message
 					</button>
 				</form>
