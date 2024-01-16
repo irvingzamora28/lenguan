@@ -10,6 +10,7 @@ import useFormHandler from "../../hooks/useFormHandler";
 import { ContactFormData, FormErrors, FormValues } from "../../types/form";
 import { FormSubmitService } from "../../services/FormSubmitService";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingSpinner from "../Items/Misc/LoadingSpinner";
 
 const LandingPage: React.FC = () => {
 	const { handleLoginAsGuest } = useUserGuestLogin();
@@ -238,8 +239,15 @@ const LandingPage: React.FC = () => {
 						<textarea id="message" name="message" value={values.message} onChange={handleChange} rows={4} className="mt-1 p-2 w-full border rounded-md"></textarea>
 						{errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
 					</div>
-					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded">
-						Send Message
+					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center">
+						{isSubmitting ? (
+							<>
+								<LoadingSpinner />
+								<span className="ml-2">Submitting...</span>
+							</>
+						) : (
+							"Send Message"
+						)}
 					</button>
 				</form>
 			</section>
