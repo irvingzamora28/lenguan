@@ -79,6 +79,19 @@
 	animation: spin 3s ease-in-out;
 }
 
+@keyframes custom-loading-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.animate-loading-spin {
+	animation: custom-loading-spin 1s linear infinite;
+}
+
 @keyframes scale-up {
 	from {
 		transform: scale(0.5);

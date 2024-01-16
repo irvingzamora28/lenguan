@@ -53,12 +53,13 @@ class RegisterTest extends TestCase
             'email' => $email,
             'password' => $password,
             'password_confirmation' => $password,
+            'guest_data' => null,
         ];
 
         // Make a POST request to the registration endpoint and check the response
         $response = $this->postJson('/api/register', $data);
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'User registered successfully. Please check your email to verify your account.']);
+        $response->assertStatus(201)
+            ->assertJson(['message' => 'Welcome! Please check your email to verify your account. Meantime you can have access, enjoy!']);
 
         // Check that a username was generated for the user with the correct format
         $user = User::where('email', $email)->first();
@@ -179,12 +180,13 @@ class RegisterTest extends TestCase
             'email' => $existingEmailDifferentDomain,
             'password' => $password,
             'password_confirmation' => $password,
+            'guest_data' => null,
         ];
 
         // Make a POST request to the registration endpoint and check the response
         $response = $this->postJson('/api/register', $data);
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'User registered successfully. Please check your email to verify your account.']);
+        $response->assertStatus(201)
+            ->assertJson(['message' => 'Welcome! Please check your email to verify your account. Meantime you can have access, enjoy!']);
 
         // Check that the user was created with the correct username
         $this->assertDatabaseHas('users', [

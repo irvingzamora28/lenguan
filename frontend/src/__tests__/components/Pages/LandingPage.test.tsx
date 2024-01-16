@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./../../../redux/store";
 import { BrowserRouter, MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import useUserGuestLogin from "../../../hooks/useUserGuestLogin";
+import { FormSubmitService } from "../../../services/FormSubmitService";
 
 window.HTMLElement.prototype.scrollIntoView = function () {};
 
@@ -25,6 +26,12 @@ vi.mock("react-router-dom", async () => {
 		useNavigate: () => mockNavigate,
 	};
 });
+
+vi.mock("../../../services/FormSubmitService", () => ({
+	FormSubmitService: {
+		submit: vi.fn(() => Promise.resolve({ data: { success: true } })),
+	},
+}));
 
 describe("LandingPage", () => {
 	it("should render the landing page", () => {
@@ -206,6 +213,33 @@ describe("LandingPage", () => {
 		await waitFor(() => {
 			// Check if navigate was called with the expected path
 			expect(mockNavigate).toHaveBeenCalledWith("/");
+		});
+	});
+
+	it("should handle contact form submission", async () => {
+		const { getByLabelText, getByText } = render(
+			<Provider store={store}>
+				<BrowserRouter>
+					<LandingPage />
+				</BrowserRouter>
+			</Provider>
+		);
+
+		fireEvent.change(getByLabelText(/name/i), { target: { value: "John Doe" } });
+		fireEvent.change(getByLabelText(/email/i), { target: { value: "john@example.com" } });
+		fireEvent.change(getByLabelText(/message/i), { target: { value: "Hello, this is a test message." } });
+
+		fireEvent.click(getByText(/send message/i));
+
+		await waitFor(() => {
+			expect(getByText(/thanks for leaving a message/i)).toBeInTheDocument();
+		});
+
+		// Optionally, verify that the mock was called
+		expect(FormSubmitService.submit).toHaveBeenCalledWith({
+			name: "John Doe",
+			email: "john@example.com",
+			message: "Hello, this is a test message.",
 		});
 	});
 });

@@ -6,6 +6,11 @@ import { testimonials } from "../../constants/testimonials";
 import "../../assets/scss/globals.scss";
 import { Link } from "react-router-dom";
 import useUserGuestLogin from "../../hooks/useUserGuestLogin";
+import useFormHandler from "../../hooks/useFormHandler";
+import { ContactFormData, FormErrors, FormValues } from "../../types/form";
+import { FormSubmitService } from "../../services/FormSubmitService";
+import { ToastContainer, toast } from "react-toastify";
+import LoadingSpinner from "../Items/Misc/LoadingSpinner";
 
 const LandingPage: React.FC = () => {
 	const { handleLoginAsGuest } = useUserGuestLogin();
@@ -19,8 +24,61 @@ const LandingPage: React.FC = () => {
 		}
 	};
 
+	const validateContactForm = (values: FormValues): FormErrors => {
+		let errors: FormErrors = {};
+
+		if (!values.email) {
+			errors.email = "Email is required";
+		} else if (!/\S+@\S+\.\S+/.test(values.email)) {
+			errors.email = "Email address is invalid";
+		}
+		if (!values.name) {
+			errors.name = "Name is required";
+		}
+
+		return errors;
+	};
+
+	const formInitialValues = {
+		name: "",
+		email: "",
+		message: "",
+	};
+
+	const { values, handleChange, handleSubmit, errors, reset, isSubmitting } = useFormHandler({
+		initialValues: formInitialValues,
+		validate: validateContactForm,
+	});
+
+	const submitForm = async (formData: FormValues) => {
+		console.log(formData);
+		const submitData: ContactFormData = {
+			name: formData.name,
+			email: formData.email,
+			message: formData.message,
+		};
+		const response = await FormSubmitService.submit(submitData);
+		if (response?.data.success) {
+			toast.success("Thanks for leaving a message. We will contact you soon! 😊", {
+				position: "top-right",
+				autoClose: 5000,
+			});
+			reset();
+		} else {
+			toast.error("There was an error submitting the form. Please try again later.", {
+				position: "top-right",
+				autoClose: 5000,
+			});
+		}
+		const section = document.querySelector("#welcome");
+		if (section) {
+			section.scrollIntoView({ behavior: "smooth" });
+		}
+	};
+
 	return (
 		<div>
+			<ToastContainer />
 			<header className="flex flex-wrap justify-between items-center p-6 md:flex-row flex-col">
 				<h1 className="text-2xl font-bold mb-2 md:mb-0 text-primary-800">Lenguan</h1>
 				<nav>
@@ -40,6 +98,11 @@ const LandingPage: React.FC = () => {
 								Testimonials
 							</a>
 						</li>
+						<li>
+							<a href="#contact" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+								Contact
+							</a>
+						</li>
 					</ul>
 				</nav>
 				<div className="mt-6 md:mt-0 flex space-x-4">
@@ -52,7 +115,7 @@ const LandingPage: React.FC = () => {
 				</div>
 			</header>
 
-			<section className="bg-cover bg-center h-screen relative title_image">
+			<section id="welcome" className="bg-cover bg-center h-screen relative title_image">
 				<div className="flex items-center justify-center h-full">
 					<div className="text-center text-white">
 						<h2 className="text-6xl md:text-7xl font-bold title_text-outline">Welcome to Lenguan</h2>
@@ -149,6 +212,65 @@ const LandingPage: React.FC = () => {
 						<TestimonialCard key={index} {...testimonial} />
 					))}
 				</div>
+			</section>
+
+			{/* Contact Form Section */}
+			<section id="contact" className="p-10 md:p-20">
+				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Contact Us</h3>
+				<form onSubmit={handleSubmit(submitForm)} className="max-w-lg mx-auto mt-8 bg-white md:shadow-lg md:rounded-lg md:p-6">
+					<div className="mb-4">
+						<label htmlFor="name" className="block text-sm md:text-lg font-semibold text-gray-800">
+							Name
+						</label>
+						<input
+							type="text"
+							id="name"
+							name="name"
+							value={values.name}
+							onChange={handleChange}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						/>
+						{errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
+					</div>
+					<div className="mb-4">
+						<label htmlFor="email" className="block text-sm md:text-lg font-semibold text-gray-800">
+							Email
+						</label>
+						<input
+							type="email"
+							id="email"
+							name="email"
+							value={values.email}
+							onChange={handleChange}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						/>
+						{errors.email && <span className="text-red-500 text-xs">{errors.email}</span>}
+					</div>
+					<div className="mb-4">
+						<label htmlFor="message" className="block text-sm md:text-lg font-semibold text-gray-800">
+							Message
+						</label>
+						<textarea
+							id="message"
+							name="message"
+							value={values.message}
+							onChange={handleChange}
+							rows={4}
+							className="mt-1 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+						></textarea>
+						{errors.message && <span className="text-red-500 text-xs">{errors.message}</span>}
+					</div>
+					<button type="submit" disabled={isSubmitting} className="bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center w-full transition duration-300 ease-in-out">
+						{isSubmitting ? (
+							<>
+								<LoadingSpinner />
+								<span className="ml-2">Submitting...</span>
+							</>
+						) : (
+							"Send Message"
+						)}
+					</button>
+				</form>
 			</section>
 
 			{/* Footer Section */}
