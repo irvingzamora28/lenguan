@@ -1,25 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Lenguan - Language Learning Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Introduction
 
-## About Laravel
+Welcome to **Lenguan**, a unique and comprehensive online platform designed for efficient and enjoyable language learning. Our platform is suitable for learners of all ages, from students to seniors, and caters to various user groups including travelers, business professionals, and immigrants. Lenguan combines gamification, spaced repetition, and social learning features to make language acquisition both fun and effective.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Current Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Language Lessons**: Comprehensive lessons across various languages.
+-   **Practice Exercises**: Interactive exercises to enhance language skills.
+-   **Language Game Challenges**: Fun and engaging games to practice languages.
+
+### Upcoming Features
+
+-   **Leaderboards**: Track your progress and compete with others.
+-   **Speech Recognition Challenges**: Improve pronunciation and listening skills using advanced speech recognition technology.
+-   **Friend Requests**: Connect with other learners, make friends and practice languages together.
+-   **Multi-player Challenges**: Engage in fun, interactive multi-player games and challenges to enhance learning.
+
+## Target Audience
+
+-   Students
+-   Travelers
+-   Business Professionals
+-   Immigrants
+-   Bilingual Learners
+-   Seniors
+
+## Requirements
+
+-   PHP 8.0 or higher
+-   Composer
+-   Git
+-   MongoDB
+-   Node.js (LTS version)
+-   Yarn
+-   Serve
+
+## Installation
+
+1. **Clone the Repository**
+
+```
+git clone git@github.com:irvingzamora28/lenguan.git
+cd lenguan
+```
+
+2. **Configure Environment**
+   Update the \`.env\` file with the following settings to configure database and mail client:
+
+```
+DB_CONNECTION=mongodb
+DB_HOST=127.0.0.1
+DB_PORT=27017
+DB_DATABASE=lenguan
+DB_USERNAME=
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+```
+
+3. **Backend Setup**
+   Run the following commands:
+
+```
+php artisan migrate --seed
+php artisan key:generate
+php artisan serve
+```
+
+4. **Frontend Setup**
+   Change to the frontend directory:
+
+```
+cd frontend
+```
+
+Install yarn packages:
+
+```
+yarn install
+```
+
+Build and start the server:
+
+```
+yarn build
+yarn start
+```
+
+## Usage
+
+After installation, you can access the Lenguan platform by navigating to the URL provided by the \`yarn start\` command for frontend access, and the backend will be available as per the \`php artisan serve\` command output.
 
 ## Testing
 
@@ -30,25 +109,29 @@ To run tests in this Laravel project, you need to set up a separate testing envi
 #### Creating the `.env.testing` File
 
 1. **Duplicate your existing `.env` file**:
-   - This will serve as a starting point for your testing environment.
-   - Rename the duplicated file to `.env.testing`.
+
+-   This will serve as a starting point for your testing environment.
+-   Rename the duplicated file to `.env.testing`.
 
 2. **Customize the `.env.testing` File**:
-   - Modify the `.env.testing` file to meet the needs of your testing environment. This typically involves setting up a database that is separate from your main development or production database.
-   - For MongoDB, your `.env.testing` file might look something like this:
-     ```
-     APP_NAME=Lenguan
-     APP_ENV=testing
-     APP_DEBUG=true
 
-     DB_CONNECTION=mongodb
-     DB_HOST=127.0.0.1
-     DB_PORT=27017
-     DB_DATABASE=testing_lenguan
-     DB_USERNAME=
-     DB_PASSWORD=
-     ```
-   - Ensure that any other necessary environment variables are appropriately configured for the testing environment.
+-   Modify the `.env.testing` file to meet the needs of your testing environment. This typically involves setting up a database that is separate from your main development or production database.
+-   For MongoDB, your `.env.testing` file might look something like this:
+
+```
+APP_NAME=Lenguan
+APP_ENV=testing
+APP_DEBUG=true
+
+DB_CONNECTION=mongodb
+DB_HOST=127.0.0.1
+DB_PORT=27017
+DB_DATABASE=testing_lenguan
+DB_USERNAME=
+DB_PASSWORD=
+```
+
+-   Ensure that any other necessary environment variables are appropriately configured for the testing environment.
 
 ### Running Tests
 
@@ -64,48 +147,4 @@ This command directs Laravel to use the settings from the .env.testing file when
 
 Ensure that any sensitive or environment-specific settings in the .env.testing file are correctly configured to prevent unintended consequences.
 
-Using a separate database for testing, such as testing_lenguan for MongoDB, ensures that your tests do not interfere with your production or development databases.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Using a separate database for testing, such as **testing_lenguan** for MongoDB, ensures that your tests do not interfere with your production or development databases.
