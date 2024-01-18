@@ -11,6 +11,17 @@ import { ContactFormData, FormErrors, FormValues } from "../../types/form";
 import { FormSubmitService } from "../../services/FormSubmitService";
 import { ToastContainer, toast } from "react-toastify";
 import LoadingSpinner from "../Items/Misc/LoadingSpinner";
+import featureExercisesImage from "../../assets/images/feature-exercises.png";
+import featureChallengesImage from "../../assets/images/feature-challenges.png";
+import featureLessonsImage from "../../assets/images/feature-lessons.png";
+import futureFeatureLeaderboardsImage from "../../assets/images/future-feature-leaderboards.png";
+import futureFeatureSpeechImage from "../../assets/images/future-feature-speech.png";
+import futureFeatureRequestsImage from "../../assets/images/future-feature-friend-requests.png";
+import futureFeatureGamesImage from "../../assets/images/future-feature-games.png";
+import languageEnglishImage from "../../assets/images/language-english.png";
+import languageSpanishImage from "../../assets/images/language-spanish.png";
+import languageGermanImage from "../../assets/images/language-german.png";
+import heroImage from "../../assets/images/hero-image.png";
 
 const LandingPage: React.FC = () => {
 	const { handleLoginAsGuest } = useUserGuestLogin();
@@ -76,6 +87,10 @@ const LandingPage: React.FC = () => {
 		}
 	};
 
+	const heroStyle = {
+		backgroundImage: `url(${heroImage})`,
+	};
+
 	return (
 		<div>
 			<ToastContainer />
@@ -115,7 +130,7 @@ const LandingPage: React.FC = () => {
 				</div>
 			</header>
 
-			<section id="welcome" className="bg-cover bg-center h-screen relative title_image">
+			<section id="welcome" className="bg-cover bg-center h-screen relative title_image" style={heroStyle}>
 				<div className="flex items-center justify-center h-full">
 					<div className="text-center text-white">
 						<h2 className="text-6xl md:text-7xl font-bold title_text-outline">Welcome to Lenguan</h2>
@@ -135,17 +150,17 @@ const LandingPage: React.FC = () => {
 				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Our Features</h3>
 				<div className="flex flex-wrap justify-around mt-10">
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/feature-lessons.png" alt="Language Lessons" className="w-full h-auto mb-3" />
+						<img src={featureLessonsImage} alt="Language Lessons" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Language Lessons</h4>
 						<p className="text-slate-500">Comprehensive lessons across various languages.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/feature-exercises.png" alt="Practice Exercises" className="w-full h-auto mb-3" />
+						<img src={featureExercisesImage} alt="Practice Exercises" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Practice Exercises</h4>
 						<p className="text-slate-500">Interactive exercises to enhance language skills.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/feature-challenges.png" alt="Language Game Challenges" className="w-full h-auto mb-3" />
+						<img src={featureChallengesImage} alt="Language Game Challenges" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Language Game Challenges</h4>
 						<p className="text-slate-500">Fun and engaging games to practice languages.</p>
 					</div>
@@ -157,22 +172,22 @@ const LandingPage: React.FC = () => {
 				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Upcoming Features</h3>
 				<div className="flex flex-wrap justify-around mt-10">
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/future-feature-leaderboards.png" alt="Leaderboards" className="w-full h-auto mb-3 scale-125" />
+						<img src={futureFeatureLeaderboardsImage} alt="Leaderboards" className="w-full h-auto mb-3 scale-125" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Leaderboards</h4>
 						<p className="text-slate-500">Track your progress and compete with others.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/future-feature-speech.png" alt="Speech Recognition Challenges" className="w-full h-auto mb-3" />
+						<img src={futureFeatureSpeechImage} alt="Speech Recognition Challenges" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Speech Recognition Challenges</h4>
 						<p className="text-slate-500">Improve pronunciation and listening skills using advanced speech recognition technology.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/future-feature-friend-requests.png" alt="Friend Requests" className="w-full h-auto mb-3" />
+						<img src={futureFeatureRequestsImage} alt="Friend Requests" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Friend Requests</h4>
 						<p className="text-slate-500">Connect with other learners, make friends and practice languages together.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/future-feature-games.png" alt="Multi-player Challenges" className="w-full h-auto mb-3" />
+						<img src={futureFeatureGamesImage} alt="Multi-player Challenges" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Multi-player Challenges</h4>
 						<p className="text-slate-500">Engage in fun, interactive multi-player games and challenges to enhance learning.</p>
 					</div>
@@ -184,17 +199,17 @@ const LandingPage: React.FC = () => {
 				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Languages We Offer</h3>
 				<div className="flex flex-wrap justify-around mt-10">
 					<div className="w-full md:w-1/3 p-4 pt-8">
-						<img src="src/assets/images/language-english.png" alt="English Language" className="w-36 h-auto mb-3 -ml-1 sm:ml-0" />
+						<img src={languageEnglishImage} alt="English Language" className="w-36 h-auto mb-3 -ml-1 sm:ml-0" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">English</h4>
 						<p className="text-slate-500">Explore comprehensive courses in English, perfect for all levels from beginner to advanced learners.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/language-spanish.png" alt="Spanish Language" className="w-44 h-auto -mb-3 scale-105 -ml-5" />
+						<img src={languageSpanishImage} alt="Spanish Language" className="w-44 h-auto -mb-3 scale-105 -ml-5" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Spanish</h4>
 						<p className="text-slate-500">Dive into the rich and diverse world of Spanish, suitable for enthusiastic learners and cultural explorers.</p>
 					</div>
 					<div className="w-full md:w-1/3 p-4">
-						<img src="src/assets/images/language-german.png" alt="German Language" className="w-36 h-auto mb-3 pt-3" />
+						<img src={languageGermanImage} alt="German Language" className="w-36 h-auto mb-3 pt-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">German</h4>
 						<p className="text-slate-500">Master the German language, from its intricate grammar to its unique expressions, tailored for all proficiency levels.</p>
 					</div>

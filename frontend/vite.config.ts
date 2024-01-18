@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
 	build: {
 		manifest: true,
-		outDir: "public",
+		outDir: "dist",
 		assetsDir: "assets",
 		rollupOptions: {
 			input: {
