@@ -1,5 +1,6 @@
 import io from "socket.io-client";
 
-const socket = io(process.env.REACT_APP_SOCKET_IO_SERVER_URL || "http://localhost:3001");
+const socketServerUrl = import.meta.env.VITE_SOCKET_IO_SERVER_URL || "http://localhost:3001";
+const socket = io(socketServerUrl);
 
 export default socket;
