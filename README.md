@@ -48,7 +48,8 @@ cd lenguan
 ```
 
 2. **Configure Environment**
-   Update the \`.env\` file with the following settings to configure database and mail client:
+
+Update the \`.env\` file with the following settings to configure database and mail client:
 
 ```
 DB_CONNECTION=mongodb
@@ -68,7 +69,8 @@ MAIL_FROM_ADDRESS="hello@example.com"
 ```
 
 3. **Backend Setup**
-   Run the following commands:
+
+Run the following commands:
 
 ```
 php artisan migrate --seed
@@ -77,7 +79,8 @@ php artisan serve
 ```
 
 4. **Frontend Setup**
-   Change to the frontend directory:
+
+Change to the frontend directory:
 
 ```
 cd frontend
@@ -95,6 +98,42 @@ Build and start the server:
 yarn build
 yarn start
 ```
+
+5. **Socket.io communication**
+
+To allow socket.io to work properly, the following environment variables need to be added to the frontend/.env, these can be taken from frontend/.env.example
+
+```
+SOCKETIO_ALLOWED_ORIGINS=http://127.0.0.1,http://localhost:3000
+VITE_SOCKET_IO_SERVER_URL=http://127.0.0.1:3001
+```
+
+6. **Backend communication**
+
+To allow the frontend react app to communicate with the backend we need to set the following variables:
+
+```
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+7. **CSRF Token session**
+
+Wee need to define the sites that are stateful domains, this tells Laravel Sanctum that your ReactJS app running on `http://localhost:3000` is allowed to maintain a session state with the Laravel backend.
+
+```
+SANCTUM_STATEFUL_DOMAINS=http://127.0.0.1:3000
+SESSION_SECURE_COOKIE=false
+```
+
+Note: In a production environment, replace `http://localhost:3000` with the actual frontend domain and once ssl is enabled, set `SESSION_SECURE_COOKIE=true`
+
+Now to allow frontend and backend communication, configure cors in the backend:
+
+```
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+```
+
+Note: In a production environment, replace `http://localhost:3000` with the actual frontend domain to allow cross-origin requests from the frontend.
 
 ## Usage
 
