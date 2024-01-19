@@ -17,7 +17,7 @@ describe("auth reducer", () => {
 	});
 
 	it("should handle loginSuccess", () => {
-		const dummyUser: User = { id: 123, name: "John Doe", email: "test@example.com" };
+		const dummyUser: User = { id: 123, name: "John Doe", email: "test@example.com", native_language_code: "en" };
 		const dummyToken = "dummyToken";
 		const actual = authReducer(initialState, loginSuccess({ user: dummyUser, token: dummyToken }));
 		expect(actual.isAuthenticated).toEqual(true);

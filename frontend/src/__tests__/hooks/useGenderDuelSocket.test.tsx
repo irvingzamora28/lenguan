@@ -10,12 +10,18 @@ beforeEach(() => {
 });
 
 describe("useGenderDuelSocket hook", () => {
+	const mockLanguage = {
+		_id: "1",
+		name: "English",
+		code: "en",
+	};
+
 	it("should handle initial state", () => {
 		socket.emit = vi.fn();
 		socket.on = vi.fn();
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testuser"));
+		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
 
 		expect(result.current.connectionError).toBeFalsy();
 		expect(result.current.playerNumber).toBeNull();
@@ -36,7 +42,7 @@ describe("useGenderDuelSocket hook", () => {
 		});
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testuser"));
+		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
 
 		expect(result.current.playerNumber).toEqual(1);
 		expect(result.current.gameStatus).toEqual("waiting-for-opponent");
@@ -44,8 +50,8 @@ describe("useGenderDuelSocket hook", () => {
 	});
 
 	it("should handle gender click correctly", () => {
-        const word = { gender: "der", word: "Haus", translation: "House", difficulty_level: 1, category: "Housing" };
-        socket.emit = vi.fn();
+		const word = { gender: "der", word: "Haus", translation: "House", difficulty_level: 1, category: "Housing" };
+		socket.emit = vi.fn();
 		socket.on = vi.fn().mockImplementation((event, cb) => {
 			if (event === "new-word") {
 				cb(word);
@@ -53,20 +59,20 @@ describe("useGenderDuelSocket hook", () => {
 		});
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testUsername"));
+		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
 
 		act(() => {
 			result.current.handleGenderClick("der");
 		});
 
-        expect(socket.emit).toHaveBeenCalledWith("correct-gender-clicked", "der");
+		expect(socket.emit).toHaveBeenCalledWith("correct-gender-clicked", "der");
 		expect(result.current.correctGender).toBe("der");
 		expect(result.current.incorrectGender).toBeNull();
 	});
 
-    it("should handle gender click incorrectly", () => {
-        const word = { word: "Katze", gender: "die", translation: "cat", difficulty_level: 1, category: "Animals" };
-        socket.emit = vi.fn();
+	it("should handle gender click incorrectly", () => {
+		const word = { word: "Katze", gender: "die", translation: "cat", difficulty_level: 1, category: "Animals" };
+		socket.emit = vi.fn();
 		socket.on = vi.fn().mockImplementation((event, cb) => {
 			if (event === "new-word") {
 				cb(word);
@@ -74,7 +80,7 @@ describe("useGenderDuelSocket hook", () => {
 		});
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testUsername"));
+		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
 
 		act(() => {
 			result.current.handleGenderClick("der");

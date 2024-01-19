@@ -23,13 +23,13 @@ describe("useAudioPlayer hook", () => {
 	it("should initialize with a new SpeechSynthesisUtterance instance", () => {
 		const speechSynthesisUtteranceSpy = vi.spyOn(window, "SpeechSynthesisUtterance");
 
-		renderHook(() => useAudioPlayer({ text: "Test", mp3File: "" }));
+		renderHook(() => useAudioPlayer({ text: "Test", mp3File: "", autoplay: false }));
 
 		expect(speechSynthesisUtteranceSpy).toHaveBeenCalled();
 	});
 
 	it("should handle play/pause correctly", () => {
-		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "" }));
+		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "", autoplay: false }));
 
 		// Test play functionality
 		act(() => {
@@ -48,7 +48,7 @@ describe("useAudioPlayer hook", () => {
 	});
 
 	it("should handle restart correctly", () => {
-		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "" }));
+		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "", autoplay: false }));
 
 		act(() => {
 			result.current.handleRestart();
@@ -59,7 +59,7 @@ describe("useAudioPlayer hook", () => {
 	});
 
 	it("should handle repeat correctly", () => {
-		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "" }));
+		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "", autoplay: false }));
 
 		act(() => {
 			result.current.handleRepeat();
@@ -75,7 +75,7 @@ describe("useAudioPlayer hook", () => {
 	});
 
 	it("should handle progress bar click correctly", () => {
-		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "" }));
+		const { result } = renderHook(() => useAudioPlayer({ text: "Test", mp3File: "", autoplay: false }));
 
 		act(() => {
 			result.current.handleAudioPlayerProgressBarClick({
