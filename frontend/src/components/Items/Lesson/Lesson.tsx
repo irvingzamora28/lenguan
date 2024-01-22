@@ -3,6 +3,8 @@ import Markdown from "markdown-to-jsx";
 import TextToSpeechPlayer from "../Misc/TextToSpeechPlayer";
 import TipBox from "./TipBox";
 import Mnemonic from "./Mnemonic";
+import Table from "./Table";
+import TableBody from "./TableBody";
 
 interface LessonProps {
 	content: string;
@@ -45,8 +47,9 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 							},
 						},
 						table: {
+							component: Table,
 							props: {
-								className: "table-auto w-full text-center",
+								className: "min-w-full text-left border-collapse bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-800 dark:to-blue-900 rounded-none md:rounded-lg",
 							},
 						},
 						thead: {
@@ -54,9 +57,20 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 								className: "border-b font-medium dark:border-neutral-500",
 							},
 						},
-						tr: {
+						th: {
 							props: {
-								className: "border-b dark:border-neutral-500",
+								className: "px-4 py-2 font-semibold text-sm sm:text-base text-slate-50 dark:text-gray-200",
+							},
+						},
+						tbody: {
+							component: TableBody,
+							props: {
+								className: "bg-white dark:bg-neutral-800 dark:text-gray-200",
+							},
+						},
+						td: {
+							props: {
+								className: "px-4 py-2 border-b dark:border-neutral-100",
 							},
 						},
 						p: {
