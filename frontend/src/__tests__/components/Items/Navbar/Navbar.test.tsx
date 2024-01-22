@@ -63,7 +63,7 @@ describe("Navbar", () => {
 				<Navbar {...mockProps} />
 			</Provider>
 		);
-		expect(getByText("Logo")).toBeInTheDocument();
+		expect(getByText("Lenguan")).toBeInTheDocument();
 	});
 
 	it("should toggle aside menu", () => {

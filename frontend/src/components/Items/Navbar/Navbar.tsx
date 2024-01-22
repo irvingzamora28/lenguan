@@ -51,7 +51,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
 				</button>
-				<div>Logo</div>
+				<div>Lenguan</div>
 			</div>
 			<div className="z-10 flex items-center">
 				<GuestLabel />
