@@ -36,15 +36,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 				<NavLink to="/gender-duel" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
 					Gender Duel
 				</NavLink>
-				<NavLink to="/challenge" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
-					Challenge 2
-				</NavLink>
-				<NavLink to="/challenge" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
-					Challenge 3
-				</NavLink>
 			</SubMenu>
 
-			<NavLink to="/leaderboard" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
+			{/* <NavLink to="/leaderboard" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
 				<span className="text-2xl">
 					<MdInsertChartOutlined />
 				</span>
@@ -56,7 +50,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 					<BsFillAwardFill />
 				</span>
 				<span>Awards</span>
-			</NavLink>
+			</NavLink> */}
 			<GuestLabel />
 		</aside>
 	);
