@@ -10,7 +10,7 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     const [asideOpen, setAsideOpen] = useState(() => {
       const storedAsideOpen = localStorage.getItem("asideOpen");
-      return storedAsideOpen !== null ? JSON.parse(storedAsideOpen) : true;
+      return storedAsideOpen !== null ? JSON.parse(storedAsideOpen) : false;
     });
 
     useEffect(() => {
