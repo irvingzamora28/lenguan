@@ -67,7 +67,7 @@ const SelectCoursePage: React.FC = () => {
 							<div className="flex justify-between p-4">
 								<h3 className="text-xl font-semibold mb-2">{course.name}</h3>
 								<div className="flex items-center">
-									<img src={`src/assets/images/flags/${course.native_language_code}.png`} alt={course.native_language_code} className="w-6 h-6 mr-2" />
+									<img src={`assets/images/flags/${course.native_language_code}.png`} alt={course.native_language_code} className="w-6 h-6 mr-2" />
 									<span className="text-sm font-medium">{getLanguageFullName(course.native_language_code)}</span>
 								</div>
 							</div>
