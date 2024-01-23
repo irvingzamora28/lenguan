@@ -23,7 +23,7 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 						},
 						h2: {
 							props: {
-								className: "py-3 text-xl md:text-2xl lg:text-3xl",
+								className: "border-t-2 border-slate-200 py-3 text-xl md:text-2xl lg:text-3xl",
 							},
 						},
 						h3: {
