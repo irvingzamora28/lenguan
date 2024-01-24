@@ -13,8 +13,7 @@ import useUserUsername from "../../../hooks/useUserUsername";
 import { useSelectedLanguage } from "../../../redux/hooks";
 import LoginForm from "../../Items/Forms/LoginForm";
 import useUserGuestLogin from "../../../hooks/useUserGuestLogin";
-import { NavLink } from "react-router-dom";
-import { MdTurnLeft } from "react-icons/md";
+import ButtonGoBack from "../../Items/Games/ButtonGoBack";
 
 const genders = [
 	{
@@ -44,20 +43,16 @@ const GenderDuelPage: React.FC = () => {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-t from-blue-400 to-blue-100">
 			<ToastContainer />
-			{connectionError && <div className="alert">Sorry, we are having trouble connecting to the game server. Please try again later.</div>}
+			{connectionError && (
+				<div className="alert">
+					Sorry, we are having trouble connecting to the game server. Please try again later. <ButtonGoBack />
+				</div>
+			)}
 			{gameStatus !== "playing" && <h1 className="gender_duel__title text-center">Gender Duel</h1>}
 			{playerNumber === 0 ? (
 				<>
 					<p>Game is full. Please wait for an available slot.</p>
-					<NavLink
-						to="/"
-						className="flex items-center justify-center h-12 w-48 rounded-lg drop-shadow-xl my-8 px-8 py-2 overflow-hidden group bg-red-500 relative shadow-lg hover:shadow-2xl hover:bg-red-600 transition duration-300 ease-in-out"
-					>
-						<span className="relative flex text-red-50 text-2xl font-bold">
-							Go back
-							<MdTurnLeft />
-						</span>
-					</NavLink>
+					<ButtonGoBack />
 				</>
 			) : (
 				<>

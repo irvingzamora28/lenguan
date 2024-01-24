@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ButtonGoBack from "./ButtonGoBack";
 
 interface ButtonStartProps {
 	playerNumber: number | null;
@@ -28,7 +29,12 @@ const ButtonStart: React.FC<ButtonStartProps> = ({ playerNumber, username, gameS
 					<p className="text-2xl font-semibold m-4 text-white">GAME READY</p>
 				</>
 			)}
-			{gameStatus === "waiting-for-opponent" && <p className="text-2xl font-semibold m-4 text-white">Waiting for the opponent...</p>}
+			{gameStatus === "waiting-for-opponent" && (
+				<>
+					<p className="text-2xl font-semibold m-4 text-white">Waiting for the opponent...</p>
+					<ButtonGoBack />
+				</>
+			)}
 		</>
 	);
 };
