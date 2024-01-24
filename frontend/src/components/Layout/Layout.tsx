@@ -35,7 +35,7 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
         />
         <div className="flex dark:bg-slate-900 dark:text-slate-200">
           {asideOpen && <SidebarMenu closeSidebar={() => memoizedSetAsideOpen(false)} />}
-          <div className="container mx-auto px-4 py-16 max-h-screen md:max-h-none overflow-y-auto">
+          <div className="container mx-auto px-4 py-16 max-h-screen md:max-h-none overflow-y-auto" id="layout-content">
             {children}
           </div>
         </div>

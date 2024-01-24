@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../assets/scss/components/LessonPage.scss";
 import { Link, useParams } from "react-router-dom";
 import { parseFrontmatter } from "../../../utils/parseFrontmatter";
@@ -22,6 +23,7 @@ type VocabularyItem = {
 };
 
 const LessonPage: React.FC = () => {
+	const navigate = useNavigate();
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const currentLessonNumber = parseInt(lesson_number ? lesson_number : "0");
 	const [lessonContent, setLessonContent] = useState("");
@@ -50,6 +52,10 @@ const LessonPage: React.FC = () => {
 		const [prevExists, nextExists] = await Promise.all([checkLessonExistence(prevLesson), checkLessonExistence(nextLesson)]);
 
 		return { prevExists, nextExists };
+	};
+
+	const navigateToLesson = (lessonNum: number) => {
+		navigate(`/lessons/${lessonNum}`);
 	};
 
 	useEffect(() => {
@@ -82,6 +88,11 @@ const LessonPage: React.FC = () => {
 		};
 
 		fetchFileContent();
+		// After setting the lesson content, scroll to top
+		const layoutContentContainer = document.getElementById("layout-content");
+		if (layoutContentContainer) {
+			layoutContentContainer.scrollTop = 0;
+		}
 	}, [lesson_number]);
 
 	const activities = [
@@ -129,14 +140,14 @@ const LessonPage: React.FC = () => {
 
 			<div className="flex justify-between items-center my-6">
 				{prevLessonExists && (
-					<Link to={`/lessons/${currentLessonNumber - 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+					<button onClick={() => navigateToLesson(currentLessonNumber - 1)} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
 						<MdArrowBack className="mr-2" /> Previous Lesson
-					</Link>
+					</button>
 				)}
 				{nextLessonExists && (
-					<Link to={`/lessons/${currentLessonNumber + 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+					<button onClick={() => navigateToLesson(currentLessonNumber + 1)} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
 						Next Lesson <MdArrowForward className="ml-2" />
-					</Link>
+					</button>
 				)}
 			</div>
 		</Layout>
