@@ -33,17 +33,17 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 						},
 						ul: {
 							props: {
-								className: "pl-5 py-3 list-disc",
+								className: "pl-5 py-0 list-disc",
 							},
 						},
 						ol: {
 							props: {
-								className: "pl-5 py-3 list-decimal",
+								className: "pl-5 py-1 list-decimal",
 							},
 						},
 						li: {
 							props: {
-								className: "pl-2 py-3",
+								className: "pl-2 py-1",
 							},
 						},
 						table: {

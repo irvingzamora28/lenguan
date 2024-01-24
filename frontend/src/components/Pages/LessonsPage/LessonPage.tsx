@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../../../assets/scss/components/LessonPage.scss";
 import { Link, useParams } from "react-router-dom";
 import { parseFrontmatter } from "../../../utils/parseFrontmatter";
 import { parseContent } from "../../../utils/parseContent";
