@@ -24,8 +24,8 @@ const FlashcardVocabulary: React.FC<FlashcardVocabularyProps> = ({ word, transla
 	}, [isFlipped]);
 
 	const genderColor = {
-		fem: "bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-50",
-		masc: "bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-50",
+		fem: "bg-red-100 text-red-700 dark:bg-rose-800 dark:text-rose-200",
+		masc: "bg-blue-100 text-blue-700 dark:bg-sky-600 dark:text-sky-200",
 		neut: "bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-50",
 	}[gender || "neut"];
 
@@ -55,7 +55,7 @@ const FlashcardVocabulary: React.FC<FlashcardVocabularyProps> = ({ word, transla
 
 			{/* Back of the card */}
 			<div
-				className={`w-full ${backCardHeight} flex flex-col justify-around p-6 items-center text-center bg-slate-100 text-gray-800 dark:bg-slate-700 dark:text-slate-400
+				className={`w-full ${backCardHeight} flex flex-col justify-around p-6 items-center text-center bg-slate-100 text-slate-800 ${gender ? genderColor : ""}
                 ${isFlipped ? "animate-flip-to-back" : "animate-flip-to-front"}
                 transition-transform duration-500 ease-in-out transform perspective-1000
                 ${isFlipped ? "rotate-y-180" : "rotate-y-0 hidden"} transition-all duration-500 ease-in-out`}
