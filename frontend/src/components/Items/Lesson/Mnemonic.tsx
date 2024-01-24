@@ -12,7 +12,7 @@ const Mnemonic: React.FC<MnemonicProps> = ({ title, content }) => {
 		<div className="mb-4 relative">
 			<button
 				onClick={() => setIsOpen(!isOpen)}
-				className="flex w-full justify-between items-center px-5 py-3 font-medium text-left text-white bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus-visible:ring focus-visible:ring-teal-300 focus-visible:ring-opacity-75 shadow-lg transition duration-300 ease-in-out transform hover:scale-105 space-x-2 md:w-auto md:whitespace-nowrap"
+				className="flex w-full justify-between items-center px-5 py-3 font-medium text-left text-white bg-gradient-to-r from-teal-500 to-cyan-600 dark:from-indigo-500 dark:to-blue-800 dark:hover:from-indigo-600 dark:hover:to-blue-900  rounded-lg hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus-visible:ring focus-visible:ring-teal-300 focus-visible:ring-opacity-75 shadow-lg transition duration-300 ease-in-out transform hover:scale-105 space-x-2 md:w-auto md:whitespace-nowrap"
 			>
 				<span className="text-sm md:text-base">{title}</span>
 				<span className="text-2xl">🧠</span>

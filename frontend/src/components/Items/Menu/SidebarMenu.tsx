@@ -17,7 +17,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 	};
 
 	return (
-		<aside className="sidebar fixed flex w-72 flex-col border-r-2 border-gray-200 bg-backgroundalt p-2 z-10 h-screen top-[60px]">
+		<aside className="sidebar fixed flex w-72 flex-col border-r-2 border-gray-200 bg-backgroundalt dark:bg-blue-900 dark:border-blue-800 dark:text-slate-200 p-2 z-10 h-screen top-[60px]">
 			<NavLink to="/" onClick={handleClose} className={({ isActive }) => `sidebar__navlink ${isActive ? "sidebar__navlink--active" : "sidebar__navlink--inactive"}`}>
 				<span className="text-2xl">
 					<MdDashboard />

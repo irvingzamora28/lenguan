@@ -9,6 +9,7 @@ export default {
 				secondary: colors.gray, // a softer color to complement cyan
 				accent: colors.orange, // for accent, a contrasting color to cyan
                 background: colors.slate['100'],
+				darkbackground: colors.slate['900'],
                 backgroundalt: colors.white,
 				darkerblue: colors.blue['900'], // dark variant of blue
 				lighterblue: colors.blue['200'], // light variant of blue

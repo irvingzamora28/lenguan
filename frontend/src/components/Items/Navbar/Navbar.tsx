@@ -46,7 +46,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	}, []);
 
 	return (
-		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-10">
+		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-10 dark:bg-blue-900 dark:border-blue-800 dark:text-slate-200">
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
@@ -60,7 +60,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 						<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 					</button>
 					{profileOpen && (
-						<div ref={profileMenuRef} className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md">
+						<div ref={profileMenuRef} className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md dark:bg-blue-900 dark:border-blue-800 dark:divide-blue-800 dark:text-slate-200">
 							<div className="flex items-center space-x-2 p-2">
 								<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 								<div className="font-medium">{user?.name}</div>

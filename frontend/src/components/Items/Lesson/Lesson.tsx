@@ -49,7 +49,7 @@ const Lesson: React.FC<LessonProps> = ({ content }) => {
 						table: {
 							component: Table,
 							props: {
-								className: "min-w-full text-left border-collapse bg-gradient-to-b from-blue-500 to-blue-600 dark:from-blue-800 dark:to-blue-900 rounded-none md:rounded-lg",
+								className: "min-w-full text-left border-collapse bg-gradient-to-b from-blue-500 to-blue-600 dark:from-indigo-800 dark:to-indigo-900 rounded-none md:rounded-lg",
 							},
 						},
 						thead: {

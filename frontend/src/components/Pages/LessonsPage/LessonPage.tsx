@@ -103,7 +103,7 @@ const LessonPage: React.FC = () => {
 					{activities.map((activity, index) => (
 						// Wrap the container with a Link component
 						<Link key={index} to={activity.link} className="no-underline">
-							<div className="bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer">
+							<div className="bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer dark:bg-indigo-900">
 								<div className="flex justify-center text-3xl">{activity.icon}</div>
 								<h3 className="text-xl font-bold">{activity.title}</h3>
 							</div>
@@ -113,10 +113,10 @@ const LessonPage: React.FC = () => {
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-				<div className="md:col-span-3 bg-backgroundalt shadow-md rounded-lg p-4">
+				<div className="md:col-span-3 bg-backgroundalt shadow-md rounded-lg p-4 dark:bg-indigo-900">
 					<Lesson content={lessonContent} />
 				</div>
-				<div className="bg-backgroundalt shadow-md rounded-lg p-4">
+				<div className="bg-backgroundalt shadow-md rounded-lg p-4 dark:bg-indigo-900">
 					<h3 className="text-xl font-bold mb-4">Vocabulary</h3>
 					<ul className="flex flex-wrap justify-center gap-4">
 						{vocabulary.map((item, index) => (

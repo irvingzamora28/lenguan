@@ -7,7 +7,7 @@ interface TipBoxProps {
 
 const TipBox: React.FC<TipBoxProps> = ({ children }) => {
 	return (
-		<div className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md" role="alert">
+		<div className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md dark:bg-indigo-700 dark:text-indigo-50" role="alert">
 			<div className="flex">
 				<div className="py-1 hidden md:block">
 					<svg className="fill-current h-6 w-6 text-blue-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
