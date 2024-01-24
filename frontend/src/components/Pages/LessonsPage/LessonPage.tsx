@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../../assets/scss/components/LessonPage.scss";
 import { Link, useParams } from "react-router-dom";
 import { parseFrontmatter } from "../../../utils/parseFrontmatter";
 import { parseContent } from "../../../utils/parseContent";
@@ -21,6 +23,7 @@ type VocabularyItem = {
 };
 
 const LessonPage: React.FC = () => {
+	const navigate = useNavigate();
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const currentLessonNumber = parseInt(lesson_number ? lesson_number : "0");
 	const [lessonContent, setLessonContent] = useState("");
@@ -49,6 +52,10 @@ const LessonPage: React.FC = () => {
 		const [prevExists, nextExists] = await Promise.all([checkLessonExistence(prevLesson), checkLessonExistence(nextLesson)]);
 
 		return { prevExists, nextExists };
+	};
+
+	const navigateToLesson = (lessonNum: number) => {
+		navigate(`/lessons/${lessonNum}`);
 	};
 
 	useEffect(() => {
@@ -81,6 +88,11 @@ const LessonPage: React.FC = () => {
 		};
 
 		fetchFileContent();
+		// After setting the lesson content, scroll to top
+		const layoutContentContainer = document.getElementById("layout-content");
+		if (layoutContentContainer) {
+			layoutContentContainer.scrollTop = 0;
+		}
 	}, [lesson_number]);
 
 	const activities = [
@@ -103,7 +115,7 @@ const LessonPage: React.FC = () => {
 					{activities.map((activity, index) => (
 						// Wrap the container with a Link component
 						<Link key={index} to={activity.link} className="no-underline">
-							<div className="bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer">
+							<div className="bg-backgroundalt shadow-md rounded-lg p-4 text-center cursor-pointer dark:bg-indigo-900">
 								<div className="flex justify-center text-3xl">{activity.icon}</div>
 								<h3 className="text-xl font-bold">{activity.title}</h3>
 							</div>
@@ -113,10 +125,10 @@ const LessonPage: React.FC = () => {
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-				<div className="md:col-span-3 bg-backgroundalt shadow-md rounded-lg p-4">
+				<div className="md:col-span-3 bg-backgroundalt shadow-md rounded-lg p-4 dark:bg-indigo-900">
 					<Lesson content={lessonContent} />
 				</div>
-				<div className="bg-backgroundalt shadow-md rounded-lg p-4">
+				<div className="bg-backgroundalt shadow-md rounded-lg p-4 dark:bg-indigo-900">
 					<h3 className="text-xl font-bold mb-4">Vocabulary</h3>
 					<ul className="flex flex-wrap justify-center gap-4">
 						{vocabulary.map((item, index) => (
@@ -128,14 +140,14 @@ const LessonPage: React.FC = () => {
 
 			<div className="flex justify-between items-center my-6">
 				{prevLessonExists && (
-					<Link to={`/lessons/${currentLessonNumber - 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+					<button onClick={() => navigateToLesson(currentLessonNumber - 1)} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
 						<MdArrowBack className="mr-2" /> Previous Lesson
-					</Link>
+					</button>
 				)}
 				{nextLessonExists && (
-					<Link to={`/lessons/${currentLessonNumber + 1}`} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
+					<button onClick={() => navigateToLesson(currentLessonNumber + 1)} className="flex items-center border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-2 px-4 rounded-lg shadow">
 						Next Lesson <MdArrowForward className="ml-2" />
-					</Link>
+					</button>
 				)}
 			</div>
 		</Layout>

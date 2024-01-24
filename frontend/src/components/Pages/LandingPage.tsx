@@ -99,22 +99,22 @@ const LandingPage: React.FC = () => {
 				<nav>
 					<ul className="flex space-x-4 mt-2 md:mt-0">
 						<li>
-							<a href="#features" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+							<a href="#features" onClick={handleNavLinkClick} className="text-sm text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
 								Features
 							</a>
 						</li>
 						<li>
-							<a href="#languages" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+							<a href="#languages" onClick={handleNavLinkClick} className="text-sm text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
 								Languages
 							</a>
 						</li>
 						<li>
-							<a href="#testimonials" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+							<a href="#testimonials" onClick={handleNavLinkClick} className="text-sm text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
 								Testimonials
 							</a>
 						</li>
 						<li>
-							<a href="#contact" onClick={handleNavLinkClick} className="text-lg text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
+							<a href="#contact" onClick={handleNavLinkClick} className="text-sm text-slate-700 md:text-xl font-semibold hover:text-primary-500 transition duration-300 ease-in-out">
 								Contact
 							</a>
 						</li>
@@ -147,8 +147,8 @@ const LandingPage: React.FC = () => {
 
 			{/* Current Features Section */}
 			<section id="features" className="p-10 md:p-20">
-				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Our Features</h3>
-				<div className="flex flex-wrap justify-around mt-10">
+				<h3 className="text-3xl md:text-5xl font-bold text-center text-slate-700">Our Features</h3>
+				<div className="flex flex-wrap justify-around mt-2 md:mt-10">
 					<div className="w-full md:w-1/3 p-4">
 						<img src={featureLessonsImage} alt="Language Lessons" className="w-full h-auto mb-3" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Language Lessons</h4>
@@ -169,8 +169,8 @@ const LandingPage: React.FC = () => {
 
 			{/* Upcoming Features Section */}
 			<section id="upcoming-features" className="bg-gray-100 p-10 md:p-20">
-				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Upcoming Features</h3>
-				<div className="flex flex-wrap justify-around mt-10">
+				<h3 className="text-3xl md:text-5xl font-bold text-center text-slate-700">Upcoming Features</h3>
+				<div className="flex flex-wrap justify-around mt-2 md:mt-10">
 					<div className="w-full md:w-1/3 p-4">
 						<img src={futureFeatureLeaderboardsImage} alt="Leaderboards" className="w-full h-auto mb-3 scale-125" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">Leaderboards</h4>
@@ -196,8 +196,8 @@ const LandingPage: React.FC = () => {
 
 			{/* Language Offerings Section */}
 			<section id="languages" className="p-10 md:p-20">
-				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Languages We Offer</h3>
-				<div className="flex flex-wrap justify-around mt-10">
+				<h3 className="text-3xl md:text-5xl font-bold text-center text-slate-700">Languages We Offer</h3>
+				<div className="flex flex-wrap justify-around mt-2 md:mt-10">
 					<div className="w-full md:w-1/3 p-4 pt-8">
 						<img src={languageEnglishImage} alt="English Language" className="w-36 h-auto mb-3 -ml-1 sm:ml-0" />
 						<h4 className="text-lg md:text-xl font-bold text-slate-700">English</h4>
@@ -218,7 +218,7 @@ const LandingPage: React.FC = () => {
 
 			{/* Testimonials Section */}
 			<section id="testimonials" className="bg-gray-100 p-10 md:p-20">
-				<h3 className="text-2xl md:text-3xl font-bold text-center">What Our Users Say</h3>
+				<h3 className="text-3xl md:text-5xl font-bold text-center text-slate-700">What Our Users Say</h3>
 				<div className="block md:hidden">
 					<TestimonialCarousel testimonials={testimonials} />
 				</div>
@@ -231,7 +231,7 @@ const LandingPage: React.FC = () => {
 
 			{/* Contact Form Section */}
 			<section id="contact" className="p-10 md:p-20">
-				<h3 className="text-4xl md:text-5xl font-bold text-center text-slate-700">Contact Us</h3>
+				<h3 className="text-3xl md:text-5xl font-bold text-center text-slate-700">Contact Us</h3>
 				<form onSubmit={handleSubmit(submitForm)} className="max-w-lg mx-auto mt-8 bg-white md:shadow-lg md:rounded-lg md:p-6">
 					<div className="mb-4">
 						<label htmlFor="name" className="block text-sm md:text-lg font-semibold text-gray-800">
@@ -290,7 +290,7 @@ const LandingPage: React.FC = () => {
 
 			{/* Footer Section */}
 			<footer className="bg-gray-200 p-6 text-center">
-				<p className="text-sm md:text-base">&copy; 2023 Lenguan. All rights reserved.</p>
+				<p className="text-sm md:text-base">&copy; 2024 Lenguan. All rights reserved.</p>
 			</footer>
 		</div>
 	);

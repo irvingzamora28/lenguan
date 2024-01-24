@@ -3,9 +3,9 @@
 }
 
 .sidebar__navlink--active {
-  @apply text-primary-600 bg-background;
+  @apply text-primary-600 bg-background dark:bg-darkbackground;
 }
 
 .sidebar__navlink--inactive {
-  @apply hover:bg-background hover:text-primary-600;
+  @apply hover:bg-background dark:hover:bg-darkbackground hover:text-primary-600;
 }
