@@ -51,7 +51,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ closeSidebar }) => {
 				</span>
 				<span>Awards</span>
 			</NavLink> */}
-			<GuestLabel />
+			<div className="flex self-center mt-4">
+				<GuestLabel />
+			</div>
 		</aside>
 	);
 };
