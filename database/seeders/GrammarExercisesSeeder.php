@@ -422,8 +422,8 @@ class GrammarExercisesSeeder extends Seeder
                 "exercises" => [
                     [
                         "prompt" => "Como se llama tu?",
-                        "answer" => "¿Cómo se llama tú?",
-                        "explanation" => "Add the accent on 'Cómo' and the opening question mark to form a correct question."
+                        "answer" => "¿Cómo te llamas tú?",
+                        "explanation" => "Add the accent on 'Cómo' and the opening question mark to form a correct question. Use 'te llamas' for the second person singular 'tú' instead of 'se llama' which is for third person singular."
                     ],
                     [
                         "prompt" => "El es de Espana.",
