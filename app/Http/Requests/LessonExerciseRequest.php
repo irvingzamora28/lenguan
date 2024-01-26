@@ -23,7 +23,7 @@ class LessonExerciseRequest extends FormRequest
     public function rules()
     {
         return [
-            'course_id' => 'required|exists:courses,_id', // Assuming MongoDB uses _id as the primary key
+            'course_id' => 'required|exists:courses,_id',
         ];
     }
 

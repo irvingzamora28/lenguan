@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Exceptions\CourseNotFoundException;
-use App\Exceptions\InvalidAPIParameterException;
 use App\Exceptions\LessonNotFoundException;
 use App\Models\Course;
 use App\Models\Lesson;

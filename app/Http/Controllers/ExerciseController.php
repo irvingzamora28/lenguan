@@ -2,16 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LessonExerciseRequest;
+use Illuminate\Support\Collection;
 
 class ExerciseController extends Controller
 {
 
-    public function exercises(LessonExerciseRequest $request)
+    /**
+     * Get exercises for a lesson.
+     *
+     * @param LessonExerciseRequest $request
+     * @return JsonResponse
+     */
+    public function exercises(LessonExerciseRequest $request): JsonResponse
     {
-        $lesson = $request->get("lesson");
-        $exercisesData = $lesson->exercises->map(function ($exercise) {
+        $lesson = $request->get('lesson');
+
+        $mappedExercises = $this->mapExercises($lesson->exercises);
+
+        return response()->json([
+            'exercise_types' => $mappedExercises->pluck('type')->unique(),
+            'lesson' => $lesson,
+            'exercises' => $mappedExercises
+        ]);
+    }
+
+    /**
+     * Map collection of exercises to array of formatted exercise data.
+     *
+     * @param Collection $exercises
+     * @return Collection
+     */
+    protected function mapExercises(Collection $exercises)
+    {
+        return $exercises->map(function ($exercise) {
             $exerciseDetails = $exercise->exerciseable->toArray();
+            unset($exerciseDetails['created_at'], $exerciseDetails['updated_at'], $exerciseDetails['_id']);
+
             $exerciseType = class_basename($exercise->exerciseable_type);
 
             return [
@@ -19,14 +47,5 @@ class ExerciseController extends Controller
                 'details' => $exerciseDetails
             ];
         });
-
-        // Extract unique types from the exercises data
-        $exerciseTypes = $exercisesData->pluck('type')->unique();
-
-        return response()->json([
-            'exercise_types' => $exerciseTypes,
-            'lesson' => $lesson,
-            'exercises' => $exercisesData,
-        ]);
     }
 }

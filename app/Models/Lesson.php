@@ -14,7 +14,7 @@ class Lesson extends Model
     protected $collection = 'lessons';
 
     protected $fillable = [
-        'name', 'description', 'course_id',
+        'name', 'description', 'course_id', 'lesson_number'
     ];
 
     public function goals(): BelongsToMany
