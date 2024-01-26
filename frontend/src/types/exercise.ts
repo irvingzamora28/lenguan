@@ -5,3 +5,8 @@ export interface VocabularyExercice {
 	answer: string;
 	lesson_id?: string;
 }
+
+export interface LessonExercises {
+	exercise_types: string[];
+	exercises: any[];
+}

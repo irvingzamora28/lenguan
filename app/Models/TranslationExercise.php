@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Eloquent\Model;
 
-class ListeningExercise extends Model
+class TranslationExercise extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mongodb';
-    protected $collection = 'listening_exercises';
+    protected $collection = 'translation_exercises';
 
-    protected $fillable = [
-        'audio_url', 'transcript', 'prompt', 'options', 'answer', 'lesson_id',
-    ];
+    protected $fillable = ['prompt', 'translation', 'lesson_id'];
 
     public function lesson()
     {

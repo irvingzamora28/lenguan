@@ -16,4 +16,9 @@ class GrammarExercise extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function exercises()
+    {
+        return $this->morphOne(Exercise::class, 'exerciseable');
+    }
 }

@@ -16,4 +16,9 @@ class VocabularyExercise extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function exercise()
+    {
+        return $this->morphOne(Exercise::class, 'exerciseable');
+    }
 }

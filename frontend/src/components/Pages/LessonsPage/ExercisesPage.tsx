@@ -10,6 +10,8 @@ import { MdArrowBack } from "react-icons/md";
 
 import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "../../../constants/routes";
 import ModalSimple from "../../Utilities/ModalSimple";
+import { useFetchExercises } from "../../../hooks/fetch/useFetchExercises";
+import { useUser } from "../../../redux/hooks";
 
 interface ExerciseCategory {
 	title: string;
@@ -21,7 +23,8 @@ const ExercisesPage: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const [error, setError] = useState<string | null>(null);
 	const [showModal, setShowModal] = useState(false);
-
+	const user = useUser();
+	const { fetchAllExercises } = useFetchExercises();
 	const exercisesCategories = [
 		{
 			title: "Vocabulary Exercises",
@@ -50,6 +53,24 @@ const ExercisesPage: React.FC = () => {
 		setClickedCategory(category);
 		setShowModal(true);
 	};
+
+	useEffect(() => {
+		const fetchExercises = async () => {
+			try {
+				console.log(lesson_number);
+				console.log(user?.course?._id);
+
+				const response = await fetchAllExercises(user?.course?._id ?? "", lesson_number ?? "");
+				console.log(response);
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		fetchExercises();
+
+		return () => {};
+	}, []);
 
 	return (
 		<Layout>

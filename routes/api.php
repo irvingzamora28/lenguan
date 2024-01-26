@@ -22,6 +22,7 @@ use App\Http\Controllers\LessonController;
 */
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\FormSubmitController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\TextToSpeechController;
@@ -105,6 +106,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user', [UserController::class, 'update']);
     Route::put('/user/language', [UserController::class, 'updateTargetLanguage']);
     Route::put('/user/course', [UserController::class, 'updateTargetCourse']);
+});
+
+Route::group(['prefix' => 'exercises'], function () {
+    Route::get('/all', [ExerciseController::class, 'exercises']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

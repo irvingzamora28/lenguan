@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Course;
+use App\Models\Exercise;
 use App\Models\Lesson;
 use App\Models\GrammarExercise;
 
@@ -685,10 +686,15 @@ class GrammarExercisesSeeder extends Seeder
                 $exercise->prompt = $exerciseData['prompt'];
                 $exercise->answer = $exerciseData['answer'];
                 $exercise->explanation = $exerciseData['explanation'];
-                $exercise->lesson_id = $lesson->id;
 
                 // Save the exercise
                 $exercise->save();
+                $exerciseForGrammar = Exercise::create([
+                    'exerciseable_id' => $exercise->id,
+                    'exerciseable_type' => get_class($exercise),
+                    'lesson_id' => $lesson->id
+
+                ]);
             }
         }
     }

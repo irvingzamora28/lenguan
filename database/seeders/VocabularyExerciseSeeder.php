@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Exercise;
 use App\Models\VocabularyExercise;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -50,10 +51,14 @@ class VocabularyExerciseSeeder extends Seeder
                     $cleanWord = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['word']);
                     $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['translation']);
 
-                    VocabularyExercise::create([
+                    $vocabularyExercise = VocabularyExercise::create([
                         'prompt' => $cleanWord,
                         'answer' => $cleanTranslation,
-                        'lesson_id' => $lesson->id,
+                    ]);
+                    $exerciseForVocabulary = Exercise::create([
+                        'exerciseable_id' => $vocabularyExercise->id,
+                        'exerciseable_type' => get_class($vocabularyExercise),
+                        'lesson_id' => $lesson->id
                     ]);
                 }
             }
