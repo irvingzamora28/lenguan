@@ -30,32 +30,28 @@ const ExercisesPage: React.FC = () => {
 
 	const exercisesCategories = [
 		{
+			type: "VocabularyExercise",
 			title: "Vocabulary Exercises",
 			icon: <FaRegNewspaper />,
 			exercises: [{ title: "Scrambled Words", route: VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, icon: "🔠" }],
 		},
 		{
+			type: "GrammarExercise",
 			title: "Grammar Exercises",
 			icon: <FiBookOpen />,
 			exercises: [{ title: "Verb Conjugation Slot Machine", route: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, icon: "🎰" }],
 		},
-		{ title: "Pronunciation Exercises", icon: <HiOutlineSpeakerphone />, exercises: [] },
-		{ title: "Translation Exercises", icon: <FaDisease />, exercises: [] },
+		{ title: "Pronunciation Exercises", type: "PronunciationExercise", icon: <HiOutlineSpeakerphone />, exercises: [] },
+		{ title: "Translation Exercises", type: "TranslationExercise", icon: <FaDisease />, exercises: [] },
 		{
+			type: "ListeningExercise",
 			title: "Listening Exercises",
 			icon: <FaMicrophoneAlt />,
 			exercises: [{ title: "Listening Exercise", route: LISTENING_EXERCISE_PATH, icon: "👂" }],
 		},
-		{ title: "Writing Exercises", icon: <IoMdCreate />, exercises: [{ title: "Create a Story", route: WRITING_EXERCISE_CREATE_STORYPATH, icon: "✍️" }] },
-		{ title: "Fill-in-the-blank Exercises", icon: <BiAbacus />, exercises: [] },
+		{ title: "Writing Exercises", type: "WritingExercise", icon: <IoMdCreate />, exercises: [{ title: "Create a Story", route: WRITING_EXERCISE_CREATE_STORYPATH, icon: "✍️" }] },
+		{ title: "Fill-in-the-blank Exercises", type: "FillInTheBlankExercise", icon: <BiAbacus />, exercises: [] },
 	];
-
-	const [clickedCategory, setClickedCategory] = useState<ExerciseCategory | null>(null);
-
-	const handleExerciseCategoryClick = (category: ExerciseCategory) => {
-		setClickedCategory(category);
-		setShowModal(true);
-	};
 
 	return (
 		<Layout>
@@ -70,38 +66,30 @@ const ExercisesPage: React.FC = () => {
 					<MdArrowBack className="mr-2" /> Back to lesson
 				</Link>
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:col-span-3">
-					{exercisesCategories.map((exerciseCategory, index) => (
-						<div key={index} onClick={() => handleExerciseCategoryClick(exerciseCategory)} className="exercise-category cursor-pointer bg-backgroundalt shadow-md rounded-lg p-4 text-center">
-							<div className="flex justify-center text-3xl">{exerciseCategory.icon}</div>
-							<h3 className="text-xl font-bold">{exerciseCategory.title}</h3>
+					{exercisesCategories.map((exerciseCategory, categoryIndex) => (
+						<div key={categoryIndex} className="exercise-category mb-8">
+							<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
+								<span>{exerciseCategory.icon}</span>
+								<span>{exerciseCategory.title}</span>
+							</h3>
+							<div className="mt-4 grid gap-4 grid-cols-2">
+								{exerciseCategory.exercises.length > 0 ? (
+									exerciseCategory.exercises.map((exercise, exerciseIndex) => (
+										<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} className="exercise-link">
+											<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
+												<div className="text-3xl mb-2">{exercise.icon}</div>
+												<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
+											</div>
+										</Link>
+									))
+								) : (
+									// Make this paragraph occupy two cols
+									<p className="col-span-2 text-slate-700 ml-10">No exercises available in this category.</p>
+								)}
+							</div>
 						</div>
 					))}
 				</div>
-				<ModalSimple
-					show={showModal}
-					onClose={() => setShowModal(false)}
-					title="Select Exercise"
-					icon={
-						<span className="text-2xl">
-							{" "}
-							<FaCheckCircle />{" "}
-						</span>
-					}
-					color="bg-primary-500"
-					onClickOutside={() => setShowModal(false)}
-				>
-					<div className="flex flex-wrap justify-center text-xl md:text-3xl">
-						{clickedCategory?.exercises.map((exercise, index) => (
-							<Link key={index} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} className="p-2">
-								<button className="w-full md:w-auto h-32 md:h-40 bg-primary-200 text-primary-800 font-bold py-2 px-4 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 ease-in-out disabled:opacity-50 flex items-center justify-center border-2 border-primary-300 relative overflow-hidden">
-									<span className="mr-2 text-lg md:text-2xl">{exercise.icon}</span>
-									{exercise.title}
-									<div className="absolute inset-0 bg-gradient-to-b from-primary-100 to-primary-600 opacity-0 hover:opacity-30  transition-opacity duration-300 ease-in-out"></div>
-								</button>
-							</Link>
-						))}
-					</div>
-				</ModalSimple>
 			</div>
 		</Layout>
 	);
