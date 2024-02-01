@@ -30,7 +30,15 @@ class LessonExerciseRequest extends FormRequest
     // This method gets called after the validation rules pass
     protected function passedValidation()
     {
-        $lesson = Lesson::where(['course_id' => $this->course_id, 'lesson_number' => (int)$this->lesson_number])->first();
+        $lesson = Lesson::where(['course_id' => $this->course_id, 'lesson_number' => (int)$this->lesson_number])
+            ->with(['exercises' => function ($query) {
+                $query->select(['_id', 'exerciseable_id', 'exerciseable_type', 'lesson_id'])
+                    ->with(['exerciseable' => function ($query) {
+                        $query->select(['_id', 'prompt', 'answer', 'lesson_id']);
+                    }]);
+            }])
+            ->select(['_id', 'name', 'lesson_number', 'description', 'is_active', 'course_id', 'content', 'level_id', 'goal_ids'])
+            ->first();
 
         if (!$lesson) {
             $this->customFailedValidation('lesson_number', 'The selected lesson number is invalid for the specified course.');
