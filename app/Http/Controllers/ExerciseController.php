@@ -22,7 +22,7 @@ class ExerciseController extends Controller
         $mappedExercises = $this->mapExercises($lesson->exercises);
 
         return response()->json([
-            'exercise_types' => $mappedExercises->pluck('type')->unique(),
+            'exercise_types' => $mappedExercises->pluck('type')->unique()->values(),
             'lesson' => $lesson,
             'exercises' => $mappedExercises
         ]);
