@@ -4,7 +4,7 @@ import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 
 interface Word {
@@ -29,6 +29,9 @@ const sampleWords = [
 const ScrambledWordsExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
+	const locationState = useLocation().state;
+
+	console.log("locationState", locationState);
 	const [state, setState] = useState({
 		wordIndex: 0,
 		words: [] as Word[],

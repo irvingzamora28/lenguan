@@ -4,12 +4,7 @@ import { MdArrowBack, MdCheck, MdArrowForward } from "react-icons/md";
 import Layout from "../../Layout/Layout";
 import { useTranslation } from "react-i18next";
 import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
-
-interface SentenceExercise {
-	prompt: string;
-	answer: string;
-	explanation: string;
-}
+import { SentenceExercise } from "../../../types/exercise";
 
 const sampleSentences: SentenceExercise[] = [
 	{

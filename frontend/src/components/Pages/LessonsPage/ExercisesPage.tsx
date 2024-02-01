@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiBookOpen } from "react-icons/fi";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { IoMdCreate } from "react-icons/io";
-import { FaRegNewspaper, FaDisease, FaMicrophoneAlt, FaCheckCircle, FaTimes } from "react-icons/fa";
+import { FaRegNewspaper, FaDisease, FaMicrophoneAlt } from "react-icons/fa";
 import { BiAbacus } from "react-icons/bi";
 import Layout from "../../Layout/Layout";
 import { MdArrowBack } from "react-icons/md";
 
 import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "../../../constants/routes";
-import ModalSimple from "../../Utilities/ModalSimple";
 import { useFetchExercises } from "../../../hooks/fetch/useFetchExercises";
 import { useUser } from "../../../redux/hooks";
 import { ErrorBanner } from "../../Utilities/ErrorBanner";
 
 interface ExerciseCategory {
 	title: string;
+	type: string;
 	icon: React.ReactNode;
 	exercises: { title: string; route: string; icon: string }[];
 }
@@ -28,7 +28,7 @@ const ExercisesPage: React.FC = () => {
 	const [exercises, exercisesError] = useFetchExercises(user?.course?._id ?? "", lesson_number ?? "");
 	console.log("exercises", exercises);
 
-	const exercisesCategories = [
+	const exercisesCategories: ExerciseCategory[] = [
 		{
 			type: "VocabularyExercise",
 			title: "Vocabulary Exercises",
@@ -68,24 +68,29 @@ const ExercisesPage: React.FC = () => {
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:col-span-3">
 					{exercisesCategories
 						.filter((exerciseCategory) => exercises?.exercise_types.includes(exerciseCategory.type) && exerciseCategory.exercises.length > 0)
-						.map((exerciseCategory, categoryIndex) => (
-							<div key={categoryIndex} className="exercise-category mb-8">
-								<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
-									<span>{exerciseCategory.icon}</span>
-									<span>{exerciseCategory.title}</span>
-								</h3>
-								<div className="mt-4 grid gap-4 grid-cols-2">
-									{exerciseCategory.exercises.map((exercise, exerciseIndex) => (
-										<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} className="exercise-link">
-											<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
-												<div className="text-3xl mb-2">{exercise.icon}</div>
-												<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
-											</div>
-										</Link>
-									))}
+						.map((exerciseCategory, categoryIndex) => {
+							// Filter the exercises that match the current category type
+							const relevantExercises = exercises?.exercises.filter((e) => e.type === exerciseCategory.type);
+
+							return (
+								<div key={categoryIndex} className="exercise-category mb-8">
+									<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
+										<span>{exerciseCategory.icon}</span>
+										<span>{exerciseCategory.title}</span>
+									</h3>
+									<div className="mt-4 grid gap-4 grid-cols-2">
+										{exerciseCategory.exercises.map((exercise, exerciseIndex) => (
+											<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} state={{ exerciseDetails: relevantExercises }} className="exercise-link">
+												<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
+													<div className="text-3xl mb-2">{exercise.icon}</div>
+													<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
+												</div>
+											</Link>
+										))}
+									</div>
 								</div>
-							</div>
-						))}
+							);
+						})}
 				</div>
 			</div>
 		</Layout>
