@@ -66,29 +66,26 @@ const ExercisesPage: React.FC = () => {
 					<MdArrowBack className="mr-2" /> Back to lesson
 				</Link>
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:col-span-3">
-					{exercisesCategories.map((exerciseCategory, categoryIndex) => (
-						<div key={categoryIndex} className="exercise-category mb-8">
-							<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
-								<span>{exerciseCategory.icon}</span>
-								<span>{exerciseCategory.title}</span>
-							</h3>
-							<div className="mt-4 grid gap-4 grid-cols-2">
-								{exerciseCategory.exercises.length > 0 ? (
-									exerciseCategory.exercises.map((exercise, exerciseIndex) => (
+					{exercisesCategories
+						.filter((exerciseCategory) => exercises?.exercise_types.includes(exerciseCategory.type) && exerciseCategory.exercises.length > 0)
+						.map((exerciseCategory, categoryIndex) => (
+							<div key={categoryIndex} className="exercise-category mb-8">
+								<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
+									<span>{exerciseCategory.icon}</span>
+									<span>{exerciseCategory.title}</span>
+								</h3>
+								<div className="mt-4 grid gap-4 grid-cols-2">
+									{exerciseCategory.exercises.map((exercise, exerciseIndex) => (
 										<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} className="exercise-link">
 											<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
 												<div className="text-3xl mb-2">{exercise.icon}</div>
 												<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
 											</div>
 										</Link>
-									))
-								) : (
-									// Make this paragraph occupy two cols
-									<p className="col-span-2 text-slate-700 ml-10">No exercises available in this category.</p>
-								)}
+									))}
+								</div>
 							</div>
-						</div>
-					))}
+						))}
 				</div>
 			</div>
 		</Layout>
