@@ -12,6 +12,7 @@ import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE
 import ModalSimple from "../../Utilities/ModalSimple";
 import { useFetchExercises } from "../../../hooks/fetch/useFetchExercises";
 import { useUser } from "../../../redux/hooks";
+import { ErrorBanner } from "../../Utilities/ErrorBanner";
 
 interface ExerciseCategory {
 	title: string;
@@ -24,7 +25,9 @@ const ExercisesPage: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [showModal, setShowModal] = useState(false);
 	const user = useUser();
-	const { fetchAllExercises } = useFetchExercises();
+	const [exercises, exercisesError] = useFetchExercises(user?.course?._id ?? "", lesson_number ?? "");
+	console.log("exercises", exercises);
+
 	const exercisesCategories = [
 		{
 			title: "Vocabulary Exercises",
@@ -54,26 +57,10 @@ const ExercisesPage: React.FC = () => {
 		setShowModal(true);
 	};
 
-	useEffect(() => {
-		const fetchExercises = async () => {
-			try {
-				console.log(lesson_number);
-				console.log(user?.course?._id);
-
-				const response = await fetchAllExercises(user?.course?._id ?? "", lesson_number ?? "");
-				console.log(response);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchExercises();
-
-		return () => {};
-	}, []);
-
 	return (
 		<Layout>
+			{/* Display errors if they exist */}
+			{exercisesError && <ErrorBanner message={exercisesError} />}
 			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-8 items-center">
 				<h2 className="text-2xl font-bold sm:col-start-1 sm:col-end-3 text-center sm:text-left">Exercises for Lesson {lesson_number}</h2>
 				<Link

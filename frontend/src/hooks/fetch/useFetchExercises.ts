@@ -1,17 +1,27 @@
-// Create a hook that has different methods to retrieve different types of exercises, like vocabulary exercises, grammar exercises, etc
+import { useEffect, useState } from "react";
 import { ExercisesService } from "../../services/ExerciseService";
-import { useState, useEffect } from "react";
+import { LessonExercises } from "../../types/exercise";
 
-export const useFetchExercises = () => {
-	const fetchAllExercises = async (courseId: string, lessonNumber: string) => {
-		try {
-			console.log(lessonNumber);
-			const fetchedExercises = await ExercisesService.fetchLessonExercises(courseId, lessonNumber);
-			return fetchedExercises;
-		} catch (error) {
-			throw error;
-		}
-	};
+export const useFetchExercises = (courseId: string, lessonNumber: string): [LessonExercises | null, string | null] => {
+	const [exercises, setExercises] = useState<LessonExercises | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
-	return { fetchAllExercises };
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const fetchedExercises = await ExercisesService.fetchLessonExercises(courseId, lessonNumber);
+				if (!fetchedExercises) {
+					setError("Error fetching exercises. Please try again later.");
+				} else {
+					setExercises(fetchedExercises);
+				}
+			} catch (err) {
+				console.error("Error fetching exercises:", err);
+				setError("Error fetching exercises. Please try again later.");
+			}
+		};
+		fetchData();
+	}, [courseId]);
+
+	return [exercises, error];
 };
