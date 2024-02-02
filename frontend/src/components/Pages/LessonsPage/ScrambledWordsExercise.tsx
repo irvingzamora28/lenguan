@@ -6,6 +6,7 @@ import Layout from "../../Layout/Layout";
 import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
+import { GrammarExercise } from "../../../types/exercise";
 
 interface Word {
 	original: string;
@@ -31,7 +32,16 @@ const ScrambledWordsExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const locationState = useLocation().state;
 
-	console.log("locationState", locationState);
+	const [vocabularyExerciseDetails, setVocabularyExerciseDetails] = useState(locationState?.exerciseDetails || []);
+	const [vocabularyExerciseDetailsError, setVocabularyExerciseDetailsError] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (!locationState?.exerciseDetails) {
+			console.error("Exercise details not found in location state");
+			setVocabularyExerciseDetailsError("No exercise details found");
+		}
+	}, [locationState]);
+
 	const [state, setState] = useState({
 		wordIndex: 0,
 		words: [] as Word[],
@@ -43,9 +53,6 @@ const ScrambledWordsExercise: React.FC = () => {
 	});
 
 	const selectedLettersRef = useRef<string[]>([]);
-
-	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(lesson_number);
-	console.log(vocabularyExerciseWords);
 
 	useEffect(() => {
 		selectedLettersRef.current = state.selectedLetters;
@@ -158,10 +165,13 @@ const ScrambledWordsExercise: React.FC = () => {
 	}, [state.selectedLetters, state.words, state.wordIndex, checkWord]);
 
 	useEffect(() => {
-		const transformedVocabularyExerciseWords = vocabularyExerciseWords.map((word) => ({
-			original: word.prompt,
-			translation: word.answer,
-		}));
+		const transformedVocabularyExerciseWords: Word[] = vocabularyExerciseDetails.map((item: { details: GrammarExercise }) => {
+			return {
+				original: item.details.prompt,
+				translation: item.details.answer,
+			};
+		});
+
 		const loadedWords = transformedVocabularyExerciseWords as unknown as Word[];
 		const shuffledWords = loadedWords.map((word) => ({
 			...word,
@@ -171,13 +181,13 @@ const ScrambledWordsExercise: React.FC = () => {
 			words: shuffledWords,
 			availableLetters: shuffledWords[0]?.scrambled.split("") || [],
 		});
-	}, [vocabularyExerciseWords]);
+	}, [vocabularyExerciseDetails]);
 
 	useEffect(() => {
-		if (vocabularyExerciseWordsError) {
-			console.error(vocabularyExerciseWordsError);
+		if (vocabularyExerciseDetailsError) {
+			console.error(vocabularyExerciseDetailsError);
 		}
-	}, [vocabularyExerciseWordsError]);
+	}, [vocabularyExerciseDetailsError]);
 
 	const renderWelcomeScreen = () => (
 		<>
