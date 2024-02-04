@@ -18,7 +18,7 @@ class VerbConjugationExercise extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public function exercises()
+    public function exercise()
     {
         return $this->morphOne(Exercise::class, 'exerciseable');
     }

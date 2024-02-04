@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Lesson;
+use App\Models\VerbConjugationExercise;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LessonExerciseRequest extends FormRequest
@@ -40,7 +41,15 @@ class LessonExerciseRequest extends FormRequest
             ->select(['_id', 'name', 'lesson_number', 'description', 'is_active', 'course_id', 'content', 'level_id', 'goal_ids'])
             ->first();
 
-        if (!$lesson) {
+        if ($lesson) {
+            // Loop through exercises and conditionally load extra relationships
+            foreach ($lesson->exercises as $exercise) {
+                if ($exercise->exerciseable_type === VerbConjugationExercise::class) {
+                    // Load tenseConjugations relationship
+                    $exercise->exerciseable->load('tenseConjugations');
+                }
+            }
+        } else {
             $this->customFailedValidation('lesson_number', 'The selected lesson number is invalid for the specified course.');
         }
 
