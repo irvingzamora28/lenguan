@@ -41,29 +41,7 @@ class LessonExerciseRequest extends FormRequest
             ->select(['_id', 'name', 'lesson_number', 'description', 'is_active', 'course_id', 'content', 'level_id', 'goal_ids'])
             ->first();
 
-        if ($lesson) {
-            // Collect IDs for VerbConjugationExercises
-            $verbConjugationExerciseIds = $lesson->exercises
-                ->where('exerciseable_type', VerbConjugationExercise::class)
-                ->pluck('exerciseable_id')
-                ->all();
-
-            // Batch load tenseConjugations for these IDs
-            $verbConjugationExercisesWithTense = VerbConjugationExercise::whereIn('_id', $verbConjugationExerciseIds)
-                ->with('tenseConjugations')
-                ->get()
-                ->keyBy('_id');
-
-            // Merge the loaded tenseConjugations into the lesson exercises
-            foreach ($lesson->exercises as $exercise) {
-                if ($exercise->exerciseable_type === VerbConjugationExercise::class) {
-                    $exerciseableId = $exercise->exerciseable_id;
-                    if (isset($verbConjugationExercisesWithTense[$exerciseableId])) {
-                        $exercise->setRelation('exerciseable', $verbConjugationExercisesWithTense[$exerciseableId]);
-                    }
-                }
-            }
-        } else {
+        if (!$lesson) {
             $this->customFailedValidation('lesson_number', 'The selected lesson number is invalid for the specified course.');
         }
 

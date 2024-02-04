@@ -16,6 +16,7 @@ return new class extends Migration
             $collection->string('verb');
             $collection->array('pronouns');
             $collection->array('tenses');
+            $collection->embedsMany('conjugations'); // Embed conjugations directly
             $collection->foreignId('lesson_id')->constrained('lessons');
             $collection->timestamps();
         });

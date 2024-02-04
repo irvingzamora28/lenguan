@@ -22,9 +22,4 @@ class VerbConjugationExercise extends Model
     {
         return $this->morphOne(Exercise::class, 'exerciseable');
     }
-
-    public function tenseConjugations(): BelongsToMany
-    {
-        return $this->belongsToMany(TenseConjugation::class, 'tense_conjugation_verb_conjugation_exercise', 'verb_conjugation_exercise_id', 'tense_conjugation_id');
-    }
 }
