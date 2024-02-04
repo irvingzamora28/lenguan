@@ -8,7 +8,13 @@ import { BiAbacus } from "react-icons/bi";
 import Layout from "../../Layout/Layout";
 import { MdArrowBack } from "react-icons/md";
 
-import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "../../../constants/routes";
+import {
+	VERB_CONJUGATION_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH,
+	LISTENING_EXERCISE_PATH,
+	VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH,
+	WRITING_EXERCISE_CREATE_STORYPATH,
+	GRAMMAR_EXERCISE_SENTENCE_CORRECTION_PATH,
+} from "../../../constants/routes";
 import { useFetchExercises } from "../../../hooks/fetch/useFetchExercises";
 import { useUser } from "../../../redux/hooks";
 import { ErrorBanner } from "../../Utilities/ErrorBanner";
@@ -39,7 +45,13 @@ const ExercisesPage: React.FC = () => {
 			type: "GrammarExercise",
 			title: "Grammar Exercises",
 			icon: <FiBookOpen />,
-			exercises: [{ title: "Verb Conjugation Slot Machine", route: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, icon: "🎰" }],
+			exercises: [{ title: "Sentence Correction", route: GRAMMAR_EXERCISE_SENTENCE_CORRECTION_PATH, icon: "🔎" }],
+		},
+		{
+			type: "VerbConjugationExercise",
+			title: "Verb Conjugation Exercises",
+			icon: <FiBookOpen />,
+			exercises: [{ title: "Verb Conjugation Slot Machine", route: VERB_CONJUGATION_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, icon: "🎰" }],
 		},
 		{ title: "Pronunciation Exercises", type: "PronunciationExercise", icon: <HiOutlineSpeakerphone />, exercises: [] },
 		{ title: "Translation Exercises", type: "TranslationExercise", icon: <FaDisease />, exercises: [] },
