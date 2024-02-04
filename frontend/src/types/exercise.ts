@@ -1,4 +1,4 @@
-export interface VocabularyExercice {
+export interface VocabularyExercise {
 	id?: string;
 	prompt: string;
 	options?: string[];

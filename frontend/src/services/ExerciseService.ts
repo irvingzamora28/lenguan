@@ -1,14 +1,14 @@
-import { LessonExercises, VocabularyExercice } from "../types/exercise";
+import { LessonExercises, VocabularyExercise } from "../types/exercise";
 import api from "../utils/api";
 
 export class ExercisesService {
-	public static async fetchVocabularyExercises(lessonNumber?: string): Promise<VocabularyExercice[]> {
+	public static async fetchVocabularyExercises(lessonNumber?: string): Promise<VocabularyExercise[]> {
 		if (!lessonNumber) {
 			throw new Error("Lesson number is required to fetch exercises.");
 		}
 		try {
 			const response = await api.get(`/api/vocabulary-exercises/${lessonNumber}`);
-			const data: VocabularyExercice[] = await response.data.data;
+			const data: VocabularyExercise[] = await response.data.data;
 			return data;
 		} catch (error) {
 			console.error("Error fetching exercises:", error);

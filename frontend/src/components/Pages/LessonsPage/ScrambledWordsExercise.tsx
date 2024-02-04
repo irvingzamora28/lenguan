@@ -14,33 +14,32 @@ interface Word {
 	translation: string;
 }
 
-const sampleWords = [
-	{ translation: "apple", original: "Apfel" },
-	{ translation: "banana", original: "Banane" },
-	{ translation: "orange", original: "Orange" },
-	{ translation: "grape", original: "Traube" },
-	{ translation: "lemon", original: "Zitrone" },
-	{ translation: "pear", original: "Birne" },
-	{ translation: "cherry", original: "Kirsche" },
-	{ translation: "strawberry", original: "Erdbeere" },
-	{ translation: "kiwi", original: "Kiwi" },
-	{ translation: "melon", original: "Melone" },
-];
-
 const ScrambledWordsExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const locationState = useLocation().state;
+	const shouldFetchVocabularyExercises = !locationState?.exerciseDetails;
 
 	const [vocabularyExerciseDetails, setVocabularyExerciseDetails] = useState(locationState?.exerciseDetails || []);
 	const [vocabularyExerciseDetailsError, setVocabularyExerciseDetailsError] = useState<string | null>(null);
+	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(lesson_number, shouldFetchVocabularyExercises);
 
 	useEffect(() => {
-		if (!locationState?.exerciseDetails) {
-			console.error("Exercise details not found in location state");
-			setVocabularyExerciseDetailsError("No exercise details found");
+		if (!shouldFetchVocabularyExercises) {
+			setVocabularyExerciseDetails(locationState.exerciseDetails);
+		} else if (vocabularyExerciseWordsError) {
+			console.error("Error fetching vocabulary exercises:", vocabularyExerciseWordsError);
+		} else {
+			setVocabularyExerciseDetails(
+				vocabularyExerciseWords.map((word) => ({
+					details: {
+						prompt: word.prompt,
+						answer: word.answer,
+					},
+				}))
+			);
 		}
-	}, [locationState]);
+	}, [vocabularyExerciseWords, vocabularyExerciseWordsError, shouldFetchVocabularyExercises, locationState]);
 
 	const [state, setState] = useState({
 		wordIndex: 0,
