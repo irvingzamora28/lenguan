@@ -42,11 +42,25 @@ class LessonExerciseRequest extends FormRequest
             ->first();
 
         if ($lesson) {
-            // Loop through exercises and conditionally load extra relationships
+            // Collect IDs for VerbConjugationExercises
+            $verbConjugationExerciseIds = $lesson->exercises
+                ->where('exerciseable_type', VerbConjugationExercise::class)
+                ->pluck('exerciseable_id')
+                ->all();
+
+            // Batch load tenseConjugations for these IDs
+            $verbConjugationExercisesWithTense = VerbConjugationExercise::whereIn('_id', $verbConjugationExerciseIds)
+                ->with('tenseConjugations')
+                ->get()
+                ->keyBy('_id');
+
+            // Merge the loaded tenseConjugations into the lesson exercises
             foreach ($lesson->exercises as $exercise) {
                 if ($exercise->exerciseable_type === VerbConjugationExercise::class) {
-                    // Load tenseConjugations relationship
-                    $exercise->exerciseable->load('tenseConjugations');
+                    $exerciseableId = $exercise->exerciseable_id;
+                    if (isset($verbConjugationExercisesWithTense[$exerciseableId])) {
+                        $exercise->setRelation('exerciseable', $verbConjugationExercisesWithTense[$exerciseableId]);
+                    }
                 }
             }
         } else {
