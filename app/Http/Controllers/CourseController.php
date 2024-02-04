@@ -47,7 +47,7 @@ class CourseController extends Controller
                     'level_name' => $lesson->level_name,
                     'lesson_number' => $lesson->lesson_number,
                     'goal_ids' => $lesson->goal_ids,
-                    'exercises' => $lesson->exercises->map(function ($exercise) {
+                    'exercise_types' => $lesson->exercises->map(function ($exercise) {
                         return [
                             'exerciseable_type' => class_basename($exercise->exerciseable_type),
                         ];
