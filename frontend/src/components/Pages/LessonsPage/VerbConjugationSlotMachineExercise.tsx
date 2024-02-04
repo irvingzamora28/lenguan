@@ -166,6 +166,14 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 				<h1 className="font-bold text-2xl mb-2">{t("Welcome to Verb Conjugation Slot Machine!")}</h1>
 				<p className="mb-4">{t("Test your skills in verb conjugation.")}</p>
 			</div>
+			<div className="back-button-section flex place-content-center sm:place-content-end">
+				<Link
+					to={`/lessons/${lesson_number}/exercises`}
+					className="back-button-section__link flex items-center w-fit border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow sm:col-start-3 sm:col-end-4 order-last sm:order-none"
+				>
+					<MdArrowBack className="back-button-section__icon mr-2" /> Back to exercises
+				</Link>
+			</div>
 			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-17rem)] bg-gray-100">
 				<button
 					className="items-center mx-auto shadow-box justify-center h-24 w-64 sm:h-20 sm:w-56 drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r from-yellow-400 to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300"
