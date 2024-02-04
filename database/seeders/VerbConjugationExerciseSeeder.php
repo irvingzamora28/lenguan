@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Exercise;
 use App\Models\TenseConjugation;
 use App\Models\VerbConjugationExercise;
 use Illuminate\Database\Seeder;
@@ -1244,12 +1245,17 @@ class VerbConjugationExerciseSeeder extends Seeder
                     'lesson_id' => $lesson->id,
                 ]);
 
+                $exerciseForVerbConjugation = Exercise::create([
+                    'exerciseable_id' => $exercise->id,
+                    'exerciseable_type' => get_class($exercise),
+                    'lesson_id' => $lesson->id
+                ]);
+
                 // Attach conjugations based on verb and tenses
                 foreach ($item['tenses'] as $tense) {
                     $conjugation = TenseConjugation::where('verb', $verb)
                         ->where('tense', $tense)
                         ->first();
-                    echo $verb . " : " . $conjugation->tense . "\n";
                     $exercise->tenseConjugations()->attach($conjugation->id);
                 }
             }
@@ -2427,12 +2433,23 @@ class VerbConjugationExerciseSeeder extends Seeder
                     'lesson_id' => $lesson->id,
                 ]);
 
+                $exerciseForVerbConjugation = Exercise::create([
+                    'exerciseable_id' => $exercise->id,
+                    'exerciseable_type' => get_class($exercise),
+                    'lesson_id' => $lesson->id
+                ]);
+
+                $exerciseForVerbConjugation = Exercise::create([
+                    'exerciseable_id' => $exercise->id,
+                    'exerciseable_type' => get_class($exercise),
+                    'lesson_id' => $lesson->id
+                ]);
+
                 // Attach conjugations based on verb and tenses
                 foreach ($item['tenses'] as $tense) {
                     $conjugation = TenseConjugation::where('verb', $verb)
                         ->where('tense', $tense)
                         ->first();
-                    echo $verb . " : " . $conjugation->tense . "\n";
                     $exercise->tenseConjugations()->attach($conjugation->id);
                 }
             }
@@ -4044,12 +4061,17 @@ class VerbConjugationExerciseSeeder extends Seeder
                     'lesson_id' => $lesson->id,
                 ]);
 
+                $exerciseForVerbConjugation = Exercise::create([
+                    'exerciseable_id' => $exercise->id,
+                    'exerciseable_type' => get_class($exercise),
+                    'lesson_id' => $lesson->id
+                ]);
+
                 // Attach conjugations based on verb and tenses
                 foreach ($item['tenses'] as $tense) {
                     $conjugation = TenseConjugation::where('verb', $verb)
                         ->where('tense', $tense)
                         ->first();
-                    echo $verb . " : " . $conjugation->tense . "\n";
                     $exercise->tenseConjugations()->attach($conjugation->id);
                 }
             }

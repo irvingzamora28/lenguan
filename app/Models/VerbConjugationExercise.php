@@ -11,7 +11,7 @@ class VerbConjugationExercise extends Model
     use HasFactory;
 
     protected $collection = 'verb_conjugation_exercises';
-    protected $fillable = ['prompt', 'options', 'answer', 'lesson_id'];
+    protected $fillable = ['verb', 'tenses', 'pronouns', 'lesson_id'];
 
     public function lesson()
     {
