@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             LessonSeeder::class,
             VocabularyExerciseSeeder::class,
             GrammarExercisesSeeder::class,
+            VerbConjugationExerciseSeeder::class,
         ]);
     }
 }
