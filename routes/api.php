@@ -27,6 +27,7 @@ use App\Http\Controllers\FormSubmitController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\TextToSpeechController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerbConjugationExerciseController;
 use App\Http\Controllers\VocabularyExerciseController;
 
 Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
@@ -91,6 +92,10 @@ Route::group(['prefix' => 'languages'], function () {
 
 Route::group(['prefix' => 'vocabulary-exercises'], function () {
     Route::get('/{lessonNumber}', [VocabularyExerciseController::class, 'getByLessonNumber']);
+});
+
+Route::group(['prefix' => 'verb-conjugation-exercises'], function () {
+    Route::get('/', [VerbConjugationExerciseController::class, 'getByLessonNumber']);
 });
 
 Route::group(['prefix' => 'text-to-speech'], function () {

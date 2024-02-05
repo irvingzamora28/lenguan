@@ -5,6 +5,9 @@ import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
+import { VerbConjugation, VerbConjugationExercise } from "../../../types/exercise";
+import { useFetchVerbConjugationExercises } from "../../../hooks/fetch/useFetchVerbConjugationExercises";
+import { useUser } from "../../../redux/hooks";
 
 interface VerbConjugationState {
 	pronoun: string;
@@ -18,19 +21,38 @@ interface VerbConjugationState {
 	successes: number;
 }
 
-type Conjugation = { pronoun: string; conjugation: string };
-type VerbConjugation = { verb: string; tense: string; conjugations: Conjugation[] };
-
 const VerbConjugationSlotMachineExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const locationState = useLocation().state;
-
+	const user = useUser();
+	const shouldFetchVerbConjugationExercises = !locationState?.exerciseDetails;
 	const [verbConjugationExerciseDetails, setVerbConjugationExerciseDetails] = useState(locationState?.exerciseDetails || []);
+	const [verbConjugationExerciseWords, verbConjugationExerciseWordsError] = useFetchVerbConjugationExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchVerbConjugationExercises);
+
 	const [verbConjugations, setVerbConjugations] = useState<VerbConjugation[]>();
 	const [verbs, setVerbs] = useState<string[]>();
 	const [pronouns, setPronouns] = useState<string[]>();
 	const [tenses, setTenses] = useState<string[]>();
+
+	useEffect(() => {
+		if (!shouldFetchVerbConjugationExercises) {
+			setVerbConjugationExerciseDetails(locationState.exerciseDetails);
+		} else if (verbConjugationExerciseWordsError) {
+			console.error("Error fetching vocabulary exercises:", verbConjugationExerciseWordsError);
+		} else {
+			setVerbConjugationExerciseDetails(
+				verbConjugationExerciseWords.map((word) => ({
+					details: {
+						pronouns: word.pronouns,
+						verb: word.verb,
+						tenses: word.tenses,
+						conjugations: word.conjugations,
+					},
+				}))
+			);
+		}
+	}, [verbConjugationExerciseWords, verbConjugationExerciseWordsError, shouldFetchVerbConjugationExercises, locationState]);
 
 	const [state, setState] = useState<VerbConjugationState>({
 		pronoun: "",
@@ -51,7 +73,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 
 	useEffect(() => {
 		const verbConjugations = verbConjugationExerciseDetails
-			.map((exercise: { details: { tenses: string[]; pronouns: string[]; conjugations: VerbConjugation[] } }) => {
+			.map((exercise: { details: VerbConjugationExercise }) => {
 				// Filter conjugations based on the tenses and pronouns array
 				return exercise.details.tenses
 					.map((tense) => {
@@ -72,8 +94,8 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 			})
 			.flat(); // Flatten the array since map within map creates a nested array
 		setVerbConjugations(verbConjugations);
-		setPronouns(verbConjugationExerciseDetails.map((exercise: { details: { tenses: string[]; pronouns: string[]; conjugations: VerbConjugation[] } }) => exercise.details.pronouns).flat());
-		setTenses(verbConjugationExerciseDetails.map((exercise: { details: { tenses: string[]; pronouns: string[]; conjugations: VerbConjugation[] } }) => exercise.details.tenses).flat());
+		setPronouns(verbConjugationExerciseDetails.map((exercise: { details: VerbConjugationExercise }) => exercise.details.pronouns).flat());
+		setTenses(verbConjugationExerciseDetails.map((exercise: { details: VerbConjugationExercise }) => exercise.details.tenses).flat());
 		const verbs: string[] = Array.from(new Set(verbConjugations.map((item: { verb: string }) => item.verb)));
 		setVerbs(verbs);
 	}, [verbConjugationExerciseDetails]);
