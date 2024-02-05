@@ -217,7 +217,7 @@ const ScrambledWordsExercise: React.FC = () => {
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
 		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
-			<div key={index} className="w-10 h-10 border-2 border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl" onClick={() => returnLetter(index)}>
+			<div key={index} className="w-10 h-10 border-2 cursor-pointer border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl" onClick={() => returnLetter(index)}>
 				{state.selectedLetters[index] || ""}
 			</div>
 		));
@@ -240,11 +240,7 @@ const ScrambledWordsExercise: React.FC = () => {
 					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
 					<div className="flex justify-center space-x-2 mb-4">
 						{state.availableLetters.map((letter, index) => (
-							<button
-								key={index}
-								className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
-								onClick={() => selectLetter(letter, index)}
-							>
+							<button key={index} className="w-10 h-10 bg-green-500 text-white font-bold text-xl rounded xl:hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl" onClick={() => selectLetter(letter, index)}>
 								{letter}
 							</button>
 						))}
