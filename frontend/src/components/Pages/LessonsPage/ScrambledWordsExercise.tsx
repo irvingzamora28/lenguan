@@ -159,6 +159,46 @@ const ScrambledWordsExercise: React.FC = () => {
 		});
 	}, []);
 
+	const removeLastLetter = useCallback(() => {
+		if (state.selectedLetters.length > 0) {
+			const newSelectedLetters = [...state.selectedLetters];
+			const removedLetter = newSelectedLetters.pop() || "";
+
+			setState((prevState) => ({
+				...prevState,
+				selectedLetters: newSelectedLetters,
+				availableLetters: [removedLetter, ...prevState.availableLetters],
+			}));
+		}
+	}, [state.selectedLetters]);
+
+	const handleKeyPress = useCallback(
+		(event: KeyboardEvent) => {
+			const { key } = event;
+
+			if (key === "Backspace") {
+				removeLastLetter();
+			} else {
+				const letterIndex = state.availableLetters.indexOf(event.key);
+
+				if (letterIndex > -1) {
+					selectLetter(state.availableLetters[letterIndex], letterIndex);
+				}
+			}
+		},
+		[state.availableLetters, selectLetter, removeLastLetter]
+	);
+
+	useEffect(() => {
+		if (state.gameStarted) {
+			window.addEventListener("keydown", handleKeyPress);
+		}
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [state.gameStarted, handleKeyPress]);
+
 	useEffect(() => {
 		if (state.selectedLetters.length && state.words[state.wordIndex] && state.selectedLetters.length === state.words[state.wordIndex].original.length) {
 			checkWord();
@@ -219,8 +259,6 @@ const ScrambledWordsExercise: React.FC = () => {
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
 		const getBoxSize = (wordLength: number): string => {
-			console.log("wordLength", wordLength);
-
 			if (wordLength <= 5) return "w-10 h-10 md:w-24 md:h-24 text-3xl md:text-8xl"; // Large boxes for short words
 			if (wordLength <= 8) return "w-8 h-8 md:w-20 md:h-20 p-2 md:p-10 text-3xl md:text-8xl"; // Medium boxes for medium words
 			return "w-6 h-6 md:w-16 md:h-16 p-1 text-xl md:text-6xl"; // Small boxes for long words
