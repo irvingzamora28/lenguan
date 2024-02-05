@@ -218,8 +218,18 @@ const ScrambledWordsExercise: React.FC = () => {
 
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
+		const getBoxSize = (wordLength: number): string => {
+			console.log("wordLength", wordLength);
+
+			if (wordLength <= 5) return "w-10 h-10 md:w-24 md:h-24 text-3xl md:text-8xl"; // Large boxes for short words
+			if (wordLength <= 8) return "w-8 h-8 md:w-20 md:h-20 p-2 md:p-10 text-3xl md:text-8xl"; // Medium boxes for medium words
+			return "w-6 h-6 md:w-16 md:h-16 p-1 text-xl md:text-6xl"; // Small boxes for long words
+		};
+
+		const letterBoxSize = getBoxSize(currentWord.original.length);
+
 		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
-			<div key={index} className="w-10 h-10 border-2 cursor-pointer border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl" onClick={() => returnLetter(index)}>
+			<div key={index} className={`border-2 cursor-pointer border-gray-300 flex items-center justify-center mx-1 ${letterBoxSize}`} onClick={() => returnLetter(index)}>
 				{state.selectedLetters[index] || ""}
 			</div>
 		));
@@ -240,9 +250,13 @@ const ScrambledWordsExercise: React.FC = () => {
 						<div className="mb-4 flex justify-center">{letterBoxes}</div>
 					</div>
 					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
-					<div className="flex justify-center space-x-2 mb-4">
+					<div className="flex flex-wrap justify-center mb-4">
 						{state.availableLetters.map((letter, index) => (
-							<button key={index} className="w-10 h-10 bg-green-500 text-white font-bold text-xl rounded xl:hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl" onClick={() => selectLetter(letter, index)}>
+							<button
+								key={index}
+								className="w-10 h-10 m-1 bg-green-500 text-white font-bold text-xl rounded xl:hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
+								onClick={() => selectLetter(letter, index)}
+							>
 								{letter}
 							</button>
 						))}
