@@ -1,3 +1,5 @@
+import { Lesson } from "./lesson";
+
 export interface VocabularyExercise {
 	id?: string;
 	prompt: string;
@@ -35,4 +37,5 @@ export interface SentenceExercise {
 export interface LessonExercises {
 	exercise_types: string[];
 	exercises: any[];
+	lesson: Lesson;
 }
