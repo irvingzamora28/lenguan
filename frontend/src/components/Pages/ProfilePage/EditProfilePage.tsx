@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../../../redux/hooks";
+import { useCourses, useUser } from "../../../redux/hooks";
 import { useApi } from "../../../hooks/api/useApi";
 import Layout from "../../Layout/Layout";
 import InputField from "../../Items/Forms/InputField";
@@ -12,12 +12,14 @@ import { User } from "../../../types";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 import DropdownField from "../../Items/Forms/DropdownField";
 import { MdArrowBack } from "react-icons/md";
+import { getCourses } from "../../../utils/courses";
 
 interface ValidationErrors {
 	name?: string;
 	username?: string;
 	email?: string;
 	native_language_code?: string;
+	courseId?: string;
 }
 
 const EditProfilePage: React.FC = () => {
@@ -25,13 +27,17 @@ const EditProfilePage: React.FC = () => {
 	const dispatch = useDispatch();
 	const { postRequest } = useApi();
 	const user = useUser();
-	const [formData, setFormData] = useState({ name: "", username: "", email: "", native_language_code: "" });
+	const courses = useCourses();
+	const [formData, setFormData] = useState({ name: "", username: "", email: "", native_language_code: "", courseId: "" });
 	const [error, setError] = useState("");
 	const [profilePicture, setProfilePicture] = useState<File | null>(null);
 	const [profilePicturePreview, setProfilePicturePreview] = useState<string | null>(null);
 	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
 	const profilePreviewUrl = profilePicturePreview || profileImageUrl;
+
+	// Fetch the courses available to select
+	getCourses(courses, dispatch);
 
 	useEffect(() => {
 		if (user) {
@@ -40,6 +46,7 @@ const EditProfilePage: React.FC = () => {
 				username: user.username || "",
 				email: user.email || "",
 				native_language_code: user.native_language_code || "",
+				courseId: user.course?._id || "",
 			});
 		}
 	}, [user]);
@@ -63,6 +70,7 @@ const EditProfilePage: React.FC = () => {
 		formDataToSend.append("username", formData.username);
 		formDataToSend.append("email", formData.email);
 		formDataToSend.append("native_language_code", formData.native_language_code);
+		formDataToSend.append("course_id", formData.courseId);
 		formDataToSend.append("_method", "PUT");
 		if (profilePicture) {
 			console.log("append profilePicture", profilePicture);
@@ -101,6 +109,18 @@ const EditProfilePage: React.FC = () => {
 		};
 	}, [profilePicturePreview]);
 
+	useEffect(() => {
+		if (courses) {
+			console.log(courses);
+			courses.forEach((element) => {
+				console.log(element.name);
+				console.log(element.native_language_code);
+			});
+		}
+
+		return () => {};
+	}, [courses]);
+
 	return (
 		<Layout>
 			<div className="p-4 md:p-8 max-w-screen-md mx-auto">
@@ -127,17 +147,19 @@ const EditProfilePage: React.FC = () => {
 							<InputField label="Name" name="name" value={formData.name} onChange={handleFormFieldChange} error={validationErrors.name} />
 							<InputField label="Username" name="username" value={formData.username} onChange={handleFormFieldChange} error={validationErrors.username} />
 							<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleFormFieldChange} error={validationErrors.email} />
-							<DropdownField
-								label="Speaking Language"
-								name="native_language_code"
-								value={formData.native_language_code}
-								onChange={handleFormFieldChange}
-								options={[
-									{ value: "en", label: "English" },
-									{ value: "es", label: "Spanish" },
-								]}
-								error={validationErrors.native_language_code}
-							/>
+							{courses && (
+								<DropdownField
+									label="Course"
+									name="courseId"
+									value={formData.courseId}
+									onChange={handleFormFieldChange}
+									options={courses.map((course) => ({
+										value: course._id,
+										label: course.name,
+									}))}
+									error={validationErrors.courseId}
+								/>
+							)}
 
 							<div className="flex justify-end mt-6">
 								<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">

@@ -28,6 +28,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users,email,' . $userId . ',_id',
             'image' => 'sometimes|file|image|max:5000', // Accepting image files up to 5MB
             'native_language_code' => 'sometimes|string|in:es,en,de',
+            'course_id' => 'sometimes|exists:courses,_id',
         ];
     }
 }
