@@ -7,6 +7,7 @@ import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabu
 import { Link, useParams, useLocation } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import { GrammarExercise } from "../../../types/exercise";
+import { useUser } from "../../../redux/hooks";
 
 interface Word {
 	original: string;
@@ -18,11 +19,12 @@ const ScrambledWordsExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const locationState = useLocation().state;
+	const user = useUser();
 	const shouldFetchVocabularyExercises = !locationState?.exerciseDetails;
 
 	const [vocabularyExerciseDetails, setVocabularyExerciseDetails] = useState(locationState?.exerciseDetails || []);
 	const [vocabularyExerciseDetailsError, setVocabularyExerciseDetailsError] = useState<string | null>(null);
-	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(lesson_number, shouldFetchVocabularyExercises);
+	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchVocabularyExercises);
 
 	useEffect(() => {
 		if (!shouldFetchVocabularyExercises) {

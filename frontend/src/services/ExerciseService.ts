@@ -2,12 +2,17 @@ import { LessonExercises, VerbConjugationExercise, VocabularyExercise } from "..
 import api from "../utils/api";
 
 export class ExercisesService {
-	public static async fetchVocabularyExercises(lessonNumber?: string): Promise<VocabularyExercise[]> {
+	public static async fetchVocabularyExercises(courseId: string, lessonNumber?: string): Promise<VocabularyExercise[]> {
 		if (!lessonNumber) {
 			throw new Error("Lesson number is required to fetch exercises.");
 		}
 		try {
-			const response = await api.get(`/api/vocabulary-exercises/${lessonNumber}`);
+			const response = await api.get(`/api/vocabulary-exercises`, {
+				params: {
+					course_id: courseId,
+					lesson_number: lessonNumber,
+				},
+			});
 			const data: VocabularyExercise[] = await response.data.data;
 			return data;
 		} catch (error) {

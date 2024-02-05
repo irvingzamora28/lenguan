@@ -27,13 +27,13 @@ class VocabularyExerciseController extends Controller
      * @throws CourseNotFoundException If the course is not found.
      * @throws LessonNotFoundException If the lesson is not found.
      */
-    public function getByLessonNumber($lessonNumber)
+    public function getByLessonNumber(Request $request)
     {
+        $lessonNumber = $request->get('lesson_number');
+        $courseId = $request->get('course_id');
         if (!is_numeric($lessonNumber)) {
-            throw new InvalidAPIParameterException("Invalid vocabulary exercise");
+            throw new InvalidAPIParameterException("Invalid lesson vocabulary exercise");
         }
-
-        $courseId = Course::where('name', 'German for Beginners')->value('id');
 
         if (!$courseId) {
             throw new CourseNotFoundException();

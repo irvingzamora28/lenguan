@@ -91,7 +91,7 @@ Route::group(['prefix' => 'languages'], function () {
 });
 
 Route::group(['prefix' => 'vocabulary-exercises'], function () {
-    Route::get('/{lessonNumber}', [VocabularyExerciseController::class, 'getByLessonNumber']);
+    Route::get('/', [VocabularyExerciseController::class, 'getByLessonNumber']);
 });
 
 Route::group(['prefix' => 'verb-conjugation-exercises'], function () {
