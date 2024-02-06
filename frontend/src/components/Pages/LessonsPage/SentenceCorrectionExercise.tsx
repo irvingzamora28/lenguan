@@ -5,6 +5,7 @@ import Layout from "../../Layout/Layout";
 import { useTranslation } from "react-i18next";
 import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
 import { SentenceExercise } from "../../../types/exercise";
+import { useUser } from "../../../redux/hooks";
 
 const sampleSentences: SentenceExercise[] = [
 	{
@@ -32,6 +33,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const inputRef = useRef<HTMLInputElement>(null);
+	const user = useUser();
 	const [state, setState] = useState<State>({
 		currentSentenceIndex: 0,
 		userAnswer: "",
@@ -120,7 +122,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 						value={state.userAnswer}
 						onChange={(e) => updateState({ userAnswer: e.target.value })}
 					/>
-					<SpecialCharacterInput specialCharacters={["á", "é", "í", "ó", "ú", "ñ", "¿", "¡"]} inputValue={state.userAnswer} setInputValue={(value: string) => updateState({ userAnswer: value })} inputRef={inputRef} />
+					<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userAnswer} setInputValue={(value: string) => updateState({ userAnswer: value })} inputRef={inputRef} />
 
 					<div className="flex justify-end space-x-2 mt-4">
 						<button onClick={handleCheckAnswer} className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition duration-300 flex items-center">
