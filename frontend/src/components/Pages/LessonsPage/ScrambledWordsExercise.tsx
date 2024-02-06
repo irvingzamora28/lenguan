@@ -4,7 +4,7 @@ import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import { GrammarExercise } from "../../../types/exercise";
 import { useUser } from "../../../redux/hooks";
@@ -21,6 +21,7 @@ const ScrambledWordsExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const [showModal, setShowModal] = useState(false);
 	const locationState = useLocation().state;
+	const navigate = useNavigate();
 	const user = useUser();
 	const shouldFetchVocabularyExercises = !locationState?.exerciseDetails;
 
@@ -233,6 +234,11 @@ const ScrambledWordsExercise: React.FC = () => {
 		}
 	}, [vocabularyExerciseDetailsError]);
 
+	const onCloseModal = () => {
+		setShowModal(false);
+		navigate(`/lessons/${lesson_number}/exercises`);
+	};
+
 	const renderWelcomeScreen = () => (
 		<>
 			<div className="welcome-section text-center p-4 mb-6 bg-white shadow-md rounded-md">
@@ -313,7 +319,7 @@ const ScrambledWordsExercise: React.FC = () => {
 						</div>
 					)}
 				</div>
-				<Modal show={showModal} onClose={() => setShowModal(false)} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
+				<Modal show={showModal} onClose={() => onCloseModal()} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
 					<p className="text-xl font-bold text-green-600">You finished the exercise!</p>
 				</Modal>
 			</div>
