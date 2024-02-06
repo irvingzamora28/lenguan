@@ -15,7 +15,7 @@ class Language extends Model
     protected $connection = 'mongodb';
     protected $collection = 'languages';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code', 'special_characters'];
 
     public function nouns()
     {
