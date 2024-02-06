@@ -168,16 +168,16 @@ const SentenceCorrectionExercise: React.FC = () => {
 					/>
 					<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userAnswer} setInputValue={(value: string) => updateState({ userAnswer: value })} inputRef={inputRef} />
 
-					<div className="flex justify-between items-center mt-4">
-						<button onClick={toggleErrorHighlight} className="bg-warning-500 text-white px-4 py-2 rounded hover:bg-warning-700 transition duration-300">
-							{showErrorHighlight ? "Hide Error" : "Show Error ❌"}
-						</button>
-
-						<div className="flex justify-end space-x-2">
-							<button onClick={handleCheckAnswer} className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition duration-300 flex items-center">
-								<MdCheck className="mr-2" /> Check
+					<div className={`flex items-center mt-4 ${state.feedback && !state.isCorrect ? "justify-between" : "justify-end"}`}>
+						{state.feedback && !state.isCorrect && (
+							<button onClick={toggleErrorHighlight} className="bg-warning-500 text-white px-4 py-2 rounded hover:bg-warning-700 transition duration-300">
+								{showErrorHighlight ? "Hide Error" : "Show Error ❌"}
 							</button>
-						</div>
+						)}
+
+						<button onClick={handleCheckAnswer} className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition duration-300 flex items-center">
+							<MdCheck className="mr-2" /> Check
+						</button>
 					</div>
 
 					<div className="flex justify-start space-x-2 mt-4">{showErrorHighlight && <SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].prompt} userInput={state.userAnswer} />}</div>
