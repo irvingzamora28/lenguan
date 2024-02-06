@@ -276,7 +276,7 @@ const ScrambledWordsExercise: React.FC = () => {
 		const letterBoxSize = getBoxSize(currentWord.original.length);
 
 		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
-			<div key={index} className={`border-2 cursor-pointer border-gray-300 flex items-center justify-center mx-1 ${letterBoxSize}`} onClick={() => returnLetter(index)}>
+			<div key={index} className={`border-2 cursor-pointer border-gray-300 flex items-center justify-center m-1 ${letterBoxSize}`} onClick={() => returnLetter(index)}>
 				{state.selectedLetters[index] || ""}
 			</div>
 		));
@@ -294,7 +294,7 @@ const ScrambledWordsExercise: React.FC = () => {
 					<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
 						<h2 className="font-bold text-xl mb-2">Original Word</h2>
 						<p className="text-gray-700 mb-4 text-2xl sm:text-6xl">{currentWord.translation}</p>
-						<div className="mb-4 flex justify-center">{letterBoxes}</div>
+						<div className="mb-4 flex flex-wrap justify-center">{letterBoxes}</div>
 					</div>
 					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
 					<div className="flex flex-wrap justify-center mb-4">
