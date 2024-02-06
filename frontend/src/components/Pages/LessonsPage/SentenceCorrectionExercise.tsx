@@ -28,6 +28,11 @@ const SentenceCorrectionExercise: React.FC = () => {
 	const [grammarExerciseDetails, setGrammarExerciseDetails] = useState(locationState?.exerciseDetails || []);
 	const [grammarExercises, grammarExercisesError] = useFetchGrammarExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchGrammarExercises);
 	const [grammarExerciseSentences, setGrammarExerciseSentences] = useState<GrammarExercise[]>([]);
+	const [showErrorHighlight, setShowErrorHighlight] = useState(false);
+
+	const toggleErrorHighlight = () => {
+		setShowErrorHighlight(!showErrorHighlight);
+	};
 
 	useEffect(() => {
 		if (!shouldFetchGrammarExercises) {
@@ -148,7 +153,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 				<MdArrowBack className="back-button-section__icon mr-2" /> Back to exercises
 			</Link>
 			<div className="flex flex-col items-center justify-center h-fit my-10 sm:my-28 bg-gray-100 col-span-3">
-				<div className="bg-white shadow-lg rounded-lg p-6">
+				<div className="bg-white shadow-lg rounded-lg p-6 w-full">
 					<h3 className="text-xl font-bold mb-4">Correct the sentence</h3>
 					<p className="mb-4 text-gray-700 text-lg">{grammarExerciseSentences[state.currentSentenceIndex].prompt}</p>
 
@@ -163,15 +168,20 @@ const SentenceCorrectionExercise: React.FC = () => {
 					/>
 					<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userAnswer} setInputValue={(value: string) => updateState({ userAnswer: value })} inputRef={inputRef} />
 
-					<div className="flex justify-end space-x-2 mt-4">
-						<button onClick={handleCheckAnswer} className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition duration-300 flex items-center">
-							<MdCheck className="mr-2" /> Check
+					<div className="flex justify-between items-center mt-4">
+						<button onClick={toggleErrorHighlight} className="bg-warning-500 text-white px-4 py-2 rounded hover:bg-warning-700 transition duration-300">
+							{showErrorHighlight ? "Hide Error" : "Show Error ❌"}
 						</button>
+
+						<div className="flex justify-end space-x-2">
+							<button onClick={handleCheckAnswer} className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition duration-300 flex items-center">
+								<MdCheck className="mr-2" /> Check
+							</button>
+						</div>
 					</div>
 
-					<div className="flex justify-start space-x-2 mt-4">
-						<SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].prompt} userInput={state.userAnswer} />
-					</div>
+					<div className="flex justify-start space-x-2 mt-4">{showErrorHighlight && <SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].prompt} userInput={state.userAnswer} />}</div>
+
 					{state.feedback && <p className={`mt-4 ${state.isCorrect ? "text-green-600" : "text-red-600"}  font-semibold`}>{state.feedback}</p>}
 					{state.showExplanation && <p className="text-gray-700 mt-4">Explanation: {grammarExerciseSentences[state.currentSentenceIndex].explanation}</p>}
 					<div className="flex justify-end space-x-2 mt-2">
