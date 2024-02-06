@@ -7,6 +7,7 @@ import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
 import { GrammarExercise, SentenceExercise } from "../../../types/exercise";
 import { useUser } from "../../../redux/hooks";
 import { useFetchGrammarExercises } from "../../../hooks/fetch/useFetchGrammarExercises";
+import SentenceErrorHighlight from "../../Items/Exercises/SentenceErrorHighlight";
 
 interface State {
 	currentSentenceIndex: number;
@@ -168,6 +169,9 @@ const SentenceCorrectionExercise: React.FC = () => {
 						</button>
 					</div>
 
+					<div className="flex justify-start space-x-2 mt-4">
+						<SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].prompt} userInput={state.userAnswer} />
+					</div>
 					{state.feedback && <p className={`mt-4 ${state.isCorrect ? "text-green-600" : "text-red-600"}  font-semibold`}>{state.feedback}</p>}
 					{state.showExplanation && <p className="text-gray-700 mt-4">Explanation: {grammarExerciseSentences[state.currentSentenceIndex].explanation}</p>}
 					<div className="flex justify-end space-x-2 mt-2">
