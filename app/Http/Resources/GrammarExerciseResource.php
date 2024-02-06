@@ -18,6 +18,7 @@ class GrammarExerciseResource extends JsonResource
             'prompt' => $this->prompt,
             'answer' => $this->answer,
             'options' => $this->options,
+            'explanation' => $this->explanation,
         ];
     }
 }

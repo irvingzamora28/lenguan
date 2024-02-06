@@ -41,7 +41,7 @@ class GrammarExerciseController extends Controller
             throw new LessonNotFoundException;
         }
         $grammarExercises = GrammarExercise::where('lesson_id', $lessonId)
-            ->select('prompt', 'answer', 'options')
+            ->select('prompt', 'answer', 'options', 'explanation')
             ->get();
         return GrammarExerciseResource::collection($grammarExercises);
     }
