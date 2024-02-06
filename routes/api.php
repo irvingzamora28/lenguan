@@ -25,6 +25,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\FormSubmitController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\GrammarExerciseController;
 use App\Http\Controllers\TextToSpeechController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerbConjugationExerciseController;
@@ -96,6 +97,10 @@ Route::group(['prefix' => 'vocabulary-exercises'], function () {
 
 Route::group(['prefix' => 'verb-conjugation-exercises'], function () {
     Route::get('/', [VerbConjugationExerciseController::class, 'getByLessonNumber']);
+});
+
+Route::group(['prefix' => 'grammar-exercises'], function () {
+    Route::get('/', [GrammarExerciseController::class, 'getByLessonNumber']);
 });
 
 Route::group(['prefix' => 'text-to-speech'], function () {

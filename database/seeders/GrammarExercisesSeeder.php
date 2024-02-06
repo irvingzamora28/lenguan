@@ -686,6 +686,7 @@ class GrammarExercisesSeeder extends Seeder
                 $exercise->prompt = $exerciseData['prompt'];
                 $exercise->answer = $exerciseData['answer'];
                 $exercise->explanation = $exerciseData['explanation'];
+                $exercise->lesson_id = $lesson->id;
 
                 // Save the exercise
                 $exercise->save();
