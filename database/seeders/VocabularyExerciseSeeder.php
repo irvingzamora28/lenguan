@@ -49,7 +49,7 @@ class VocabularyExerciseSeeder extends Seeder
                 if (array_key_exists('word', $vocabulary) && array_key_exists('translation', $vocabulary)) {
                     // Remove content inside parentheses, special characters, and ellipsis
                     $cleanWord = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['word']);
-                    $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['translation']);
+                    $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\(\)]|\.{3}/', '', $vocabulary['translation']);
 
                     $vocabularyExercise = VocabularyExercise::create([
                         'prompt' => $cleanWord,
