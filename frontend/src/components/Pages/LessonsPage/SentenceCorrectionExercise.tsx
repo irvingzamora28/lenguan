@@ -99,6 +99,12 @@ const SentenceCorrectionExercise: React.FC = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (state.gameStarted && state.currentSentenceIndex < grammarExerciseSentences.length && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [state.gameStarted, state.currentSentenceIndex, grammarExerciseSentences.length]);
+
 	const renderWelcomeScreen = () => (
 		<>
 			<div className="welcome-section text-center p-4 mb-6 bg-white shadow-md rounded-md">

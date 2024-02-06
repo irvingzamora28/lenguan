@@ -1,4 +1,3 @@
-import { VerbConjugationExercise } from "./../types/exercise";
 import { GrammarExercise, LessonExercises, VerbConjugationExercise, VocabularyExercise } from "../types/exercise";
 import api from "../utils/api";
 
