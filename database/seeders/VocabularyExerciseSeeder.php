@@ -54,6 +54,7 @@ class VocabularyExerciseSeeder extends Seeder
                     $vocabularyExercise = VocabularyExercise::create([
                         'prompt' => $cleanWord,
                         'answer' => $cleanTranslation,
+                        'lesson_id' => $lesson->id,
                     ]);
                     $exerciseForVocabulary = Exercise::create([
                         'exerciseable_id' => $vocabularyExercise->id,
