@@ -99,6 +99,12 @@ const SentenceCorrectionExercise: React.FC = () => {
 		}
 	};
 
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === "Enter") {
+			handleCheckAnswer();
+		}
+	};
+
 	useEffect(() => {
 		if (state.gameStarted && state.currentSentenceIndex < grammarExerciseSentences.length && inputRef.current) {
 			inputRef.current.focus();
@@ -152,6 +158,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 						className="border border-gray-300 p-3 rounded-md w-full mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
 						value={state.userAnswer}
 						onChange={(e) => updateState({ userAnswer: e.target.value })}
+						onKeyDown={handleKeyDown}
 					/>
 					<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userAnswer} setInputValue={(value: string) => updateState({ userAnswer: value })} inputRef={inputRef} />
 
