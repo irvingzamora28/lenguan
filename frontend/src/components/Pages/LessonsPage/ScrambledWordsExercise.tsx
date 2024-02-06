@@ -8,6 +8,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import { GrammarExercise } from "../../../types/exercise";
 import { useUser } from "../../../redux/hooks";
+import Modal from "../../Utilities/Modal";
 
 interface Word {
 	original: string;
@@ -18,6 +19,7 @@ interface Word {
 const ScrambledWordsExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
+	const [showModal, setShowModal] = useState(false);
 	const locationState = useLocation().state;
 	const user = useUser();
 	const shouldFetchVocabularyExercises = !locationState?.exerciseDetails;
@@ -96,6 +98,7 @@ const ScrambledWordsExercise: React.FC = () => {
 				});
 			} else {
 				// Handle the end of the word list scenario
+				setShowModal(true);
 			}
 		} else if (selectedLettersRef.current.length === currentWord.original.length) {
 			playSound(incorrectSound);
@@ -310,6 +313,9 @@ const ScrambledWordsExercise: React.FC = () => {
 						</div>
 					)}
 				</div>
+				<Modal show={showModal} onClose={() => setShowModal(false)} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
+					<p className="text-xl font-bold text-green-600">You finished the exercise!</p>
+				</Modal>
 			</div>
 		);
 	};
