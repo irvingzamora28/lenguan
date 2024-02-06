@@ -1,4 +1,5 @@
-import { LessonExercises, VerbConjugationExercise, VocabularyExercise } from "../types/exercise";
+import { VerbConjugationExercise } from "./../types/exercise";
+import { GrammarExercise, LessonExercises, VerbConjugationExercise, VocabularyExercise } from "../types/exercise";
 import api from "../utils/api";
 
 export class ExercisesService {
@@ -16,7 +17,7 @@ export class ExercisesService {
 			const data: VocabularyExercise[] = await response.data.data;
 			return data;
 		} catch (error) {
-			console.error("Error fetching exercises:", error);
+			console.error("Error fetching VocabularyExercise exercises:", error);
 			throw error;
 		}
 	}
@@ -35,7 +36,26 @@ export class ExercisesService {
 			const data: VerbConjugationExercise[] = await response.data.data;
 			return data;
 		} catch (error) {
-			console.error("Error fetching exercises:", error);
+			console.error(`Error fetching VerbConjugationExercise exercises:`, error);
+			throw error;
+		}
+	}
+
+	public static async fetchGrammarExercises(courseId: string, lessonNumber?: string): Promise<GrammarExercise[]> {
+		if (!lessonNumber) {
+			throw new Error("Lesson number is required to fetch exercises.");
+		}
+		try {
+			const response = await api.get(`/api/grammar-exercises`, {
+				params: {
+					course_id: courseId,
+					lesson_number: lessonNumber,
+				},
+			});
+			const data: GrammarExercise[] = await response.data.data;
+			return data;
+		} catch (error) {
+			console.error("Error fetching GrammarExercise exercises:", error);
 			throw error;
 		}
 	}

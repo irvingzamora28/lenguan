@@ -13,7 +13,7 @@ export interface GrammarExercise {
 	prompt: string;
 	options?: string[];
 	answer: string;
-	explanation: string;
+	explanation?: string;
 	lesson_id?: string;
 }
 

@@ -1,24 +1,12 @@
-import React, { useState, useCallback, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { MdArrowBack, MdCheck, MdArrowForward } from "react-icons/md";
 import Layout from "../../Layout/Layout";
 import { useTranslation } from "react-i18next";
 import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
-import { SentenceExercise } from "../../../types/exercise";
+import { GrammarExercise, SentenceExercise } from "../../../types/exercise";
 import { useUser } from "../../../redux/hooks";
-
-const sampleSentences: SentenceExercise[] = [
-	{
-		prompt: "Como se llama tu?",
-		answer: "¿Cómo te llamas tú?",
-		explanation: "Add the accent on 'Cómo' and the opening question mark to form a correct question.",
-	},
-	{
-		prompt: "El es de Espana.",
-		answer: "Él es de España.",
-		explanation: "Correct 'El' to 'Él' for the pronoun and add the tilde on 'España'.",
-	},
-];
+import { useFetchGrammarExercises } from "../../../hooks/fetch/useFetchGrammarExercises";
 
 interface State {
 	currentSentenceIndex: number;
@@ -33,7 +21,43 @@ const SentenceCorrectionExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
 	const inputRef = useRef<HTMLInputElement>(null);
+	const locationState = useLocation().state;
 	const user = useUser();
+	const shouldFetchGrammarExercises = !locationState?.exerciseDetails;
+	const [grammarExerciseDetails, setGrammarExerciseDetails] = useState(locationState?.exerciseDetails || []);
+	const [grammarExercises, grammarExercisesError] = useFetchGrammarExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchGrammarExercises);
+	const [grammarExerciseSentences, setGrammarExerciseSentences] = useState<GrammarExercise[]>([]);
+
+	useEffect(() => {
+		if (!shouldFetchGrammarExercises) {
+			setGrammarExerciseDetails(locationState.exerciseDetails);
+		} else if (grammarExercisesError) {
+			console.error("Error fetching vocabulary exercises:", grammarExercisesError);
+		} else {
+			setGrammarExerciseDetails(
+				grammarExercises.map((word) => ({
+					details: {
+						prompt: word.prompt,
+						answer: word.answer,
+						explanation: word.explanation,
+					},
+				}))
+			);
+		}
+	}, [grammarExercises, grammarExercisesError, shouldFetchGrammarExercises, locationState]);
+
+	useEffect(() => {
+		const grammarExerciseSentences: GrammarExercise[] = grammarExerciseDetails.map((item: { details: GrammarExercise }) => {
+			return {
+				prompt: item.details.prompt,
+				answer: item.details.answer,
+				explanation: item.details.explanation,
+			};
+		});
+
+		setGrammarExerciseSentences(grammarExerciseSentences);
+	}, [grammarExerciseDetails]);
+
 	const [state, setState] = useState<State>({
 		currentSentenceIndex: 0,
 		userAnswer: "",
@@ -48,7 +72,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 	}, []);
 
 	const handleCheckAnswer = () => {
-		const isCorrect = state.userAnswer.trim() === sampleSentences[state.currentSentenceIndex].answer;
+		const isCorrect = state.userAnswer.trim() === grammarExerciseSentences[state.currentSentenceIndex].answer;
 		updateState({ feedback: isCorrect ? "Correct!" : "Incorrect, try again.", showExplanation: !isCorrect && state.userAnswer !== "", isCorrect: isCorrect });
 
 		if (isCorrect) {
@@ -63,7 +87,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 		}
 
 		const nextIndex = state.currentSentenceIndex + 1;
-		if (nextIndex < sampleSentences.length) {
+		if (nextIndex < grammarExerciseSentences.length) {
 			updateState({
 				currentSentenceIndex: nextIndex,
 				userAnswer: "",
@@ -113,11 +137,12 @@ const SentenceCorrectionExercise: React.FC = () => {
 			<div className="flex flex-col items-center justify-center h-fit my-10 sm:my-28 bg-gray-100 col-span-3">
 				<div className="bg-white shadow-lg rounded-lg p-6">
 					<h3 className="text-xl font-bold mb-4">Correct the sentence</h3>
-					<p className="mb-4 text-gray-700 text-lg">{sampleSentences[state.currentSentenceIndex].prompt}</p>
+					<p className="mb-4 text-gray-700 text-lg">{grammarExerciseSentences[state.currentSentenceIndex].prompt}</p>
 
 					<input
 						ref={inputRef}
 						type="text"
+						autoComplete="off"
 						className="border border-gray-300 p-3 rounded-md w-full mb-4 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
 						value={state.userAnswer}
 						onChange={(e) => updateState({ userAnswer: e.target.value })}
@@ -131,7 +156,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 					</div>
 
 					{state.feedback && <p className={`mt-4 ${state.isCorrect ? "text-green-600" : "text-red-600"}  font-semibold`}>{state.feedback}</p>}
-					{state.showExplanation && <p className="text-gray-700 mt-4">Explanation: {sampleSentences[state.currentSentenceIndex].explanation}</p>}
+					{state.showExplanation && <p className="text-gray-700 mt-4">Explanation: {grammarExerciseSentences[state.currentSentenceIndex].explanation}</p>}
 					<div className="flex justify-end space-x-2 mt-2">
 						{state.showExplanation && (
 							<button onClick={handleNextSentence} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 flex items-center">
@@ -162,8 +187,8 @@ const SentenceCorrectionExercise: React.FC = () => {
 	return (
 		<Layout>
 			{!state.gameStarted && renderWelcomeScreen()}
-			{state.gameStarted && state.currentSentenceIndex < sampleSentences.length && renderExerciseScreen()}
-			{state.gameStarted && state.currentSentenceIndex === sampleSentences.length && renderCompletionScreen()}
+			{state.gameStarted && state.currentSentenceIndex < grammarExerciseSentences.length && renderExerciseScreen()}
+			{state.gameStarted && state.currentSentenceIndex === grammarExerciseSentences.length && renderCompletionScreen()}
 		</Layout>
 	);
 };
