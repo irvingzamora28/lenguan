@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Exercise;
 use App\Models\VocabularyExercise;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,31 +19,47 @@ class VocabularyExerciseSeeder extends Seeder
      */
     public function run()
     {
-        $course = Course::where('name', 'German for Beginners')->first();
+        $this->processCourse('German for Beginners', 'german', 'en');
+        $this->processCourse('Spanish for Everyone', 'spanish', 'en');
+        $this->processCourse('Inglés para todos', 'english', 'es');
+    }
 
-        if ($course) {
-            for ($i = 1; $i <= 100; $i++) {
-                $lesson = $course->lessons()->where('lesson_number', $i)->first();
+    private function processCourse($courseName, $language, $lessonLanguage)
+    {
+        $course = Course::where('name', $courseName)->first();
 
-                $mdxFilePath = base_path("frontend/src/lessons/german/lesson{$i}.mdx");
+        if (!$course) {
+            return;
+        }
 
-                if (!file_exists($mdxFilePath)) {
-                    continue;
-                }
+        for ($i = 1; $i <= 100; $i++) {
+            $lesson = $course->lessons()->where('lesson_number', $i)->first();
 
-                // Parse the .mdx file
-                $mdxContent = file_get_contents($mdxFilePath);
-                $parsedMdx = YamlFrontMatter::parse($mdxContent);
+            $mdxFilePath = base_path("frontend/src/lessons/{$language}/{$lessonLanguage}/lesson{$i}.mdx");
 
-                foreach ($parsedMdx->matter('vocabulary') as $vocabulary) {
+            if (!file_exists($mdxFilePath)) {
+                continue;
+            }
+
+            // Parse the .mdx file
+            $mdxContent = file_get_contents($mdxFilePath);
+            $parsedMdx = YamlFrontMatter::parse($mdxContent);
+
+            foreach ($parsedMdx->matter('vocabulary') as $vocabulary) {
+                if (array_key_exists('word', $vocabulary) && array_key_exists('translation', $vocabulary)) {
                     // Remove content inside parentheses, special characters, and ellipsis
                     $cleanWord = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['word']);
-                    $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\/\(\)]|\.{3}/', '', $vocabulary['translation']);
+                    $cleanTranslation = preg_replace('/\(.*?\)|[!@#\$%\^&\*\(\)]|\.{3}/', '', $vocabulary['translation']);
 
-                    VocabularyExercise::create([
+                    $vocabularyExercise = VocabularyExercise::create([
                         'prompt' => $cleanWord,
                         'answer' => $cleanTranslation,
                         'lesson_id' => $lesson->id,
+                    ]);
+                    $exerciseForVocabulary = Exercise::create([
+                        'exerciseable_id' => $vocabularyExercise->id,
+                        'exerciseable_type' => get_class($vocabularyExercise),
+                        'lesson_id' => $lesson->id
                     ]);
                 }
             }

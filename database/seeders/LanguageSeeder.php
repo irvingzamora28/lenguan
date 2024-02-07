@@ -17,10 +17,10 @@ class LanguageSeeder extends Seeder
     public function run()
     {
         $languages = [
-            ['name' => 'English', 'code' => 'en'],
-            ['name' => 'Spanish', 'code' => 'es'],
-            ['name' => 'German', 'code' => 'de'],
-            ['name' => 'French', 'code' => 'fr'],
+            ['name' => 'English', 'code' => 'en', 'special_characters' => [],],
+            ['name' => 'Spanish', 'code' => 'es', 'special_characters' => ['á', 'é', 'í', 'ó', 'ú', 'ñ', '¿', '¡']],
+            ['name' => 'German', 'code' => 'de', 'special_characters' => ['ä', 'ö', 'ü', 'ß']],
+            ['name' => 'French', 'code' => 'fr', 'special_characters' => ['é', 'è', 'ê', 'â', 'ç', 'à']],
         ];
 
         $goals = [

@@ -1,10 +1,14 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
+import { VerbConjugation, VerbConjugationExercise } from "../../../types/exercise";
+import { useFetchVerbConjugationExercises } from "../../../hooks/fetch/useFetchVerbConjugationExercises";
+import { useUser } from "../../../redux/hooks";
+import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
 
 interface VerbConjugationState {
 	pronoun: string;
@@ -18,60 +22,40 @@ interface VerbConjugationState {
 	successes: number;
 }
 
-type Tense = "Präsens" | "Präteritum" | "Perfekt";
-type Pronoun = "ich" | "du" | "er" | "sie (she)" | "es" | "wir" | "ihr" | "sie (they)" | "Sie";
-type Conjugation = { pronoun: Pronoun; conjugation: string };
-type VerbConjugation = { verb: string; tense: Tense; conjugations: Conjugation[] };
-
-const pronouns: Pronoun[] = ["ich", "du", "er", "sie (she)", "es", "wir", "ihr", "sie (they)", "Sie"];
-
-// Define createVerbConjugation as a function type that returns VerbConjugation
-const createVerbConjugation = (verb: string, tense: Tense, conjugations: string[]): VerbConjugation => ({
-	verb,
-	tense,
-	conjugations: pronouns.map((pronoun, index) => ({
-		pronoun,
-		conjugation: conjugations[index],
-	})),
-});
-
-const seinPrasens: string[] = ["bin", "bist", "ist", "ist", "ist", "sind", "seid", "sind", "sind"];
-const seinPrateritum: string[] = ["war", "warst", "war", "war", "war", "waren", "wart", "waren", "waren"];
-const seinPerfekt: string[] = ["bin gewesen", "bist gewesen", "ist gewesen", "ist gewesen", "ist gewesen", "sind gewesen", "seid gewesen", "sind gewesen", "sind gewesen"];
-const habenPrasens: string[] = ["habe", "hast", "hat", "hat", "hat", "haben", "habt", "haben", "haben"];
-const habenPrateritum: string[] = ["hatte", "hattest", "hatte", "hatte", "hatte", "hatten", "hattet", "hatten", "hatten"];
-const habenPerfekt: string[] = ["habe gehabt", "hast gehabt", "hat gehabt", "hat gehabt", "hat gehabt", "haben gehabt", "habt gehabt", "haben gehabt", "haben gehabt"];
-const machenPrasens = ["mache", "machst", "macht", "macht", "macht", "machen", "macht", "machen", "machen"];
-const machenPrateritum = ["machte", "machtest", "machte", "machte", "machte", "machten", "machtet", "machten", "machten"];
-const machenPerfekt = ["habe gemacht", "hast gemacht", "hat gemacht", "hat gemacht", "hat gemacht", "haben gemacht", "habt gemacht", "haben gemacht", "haben gemacht"];
-const gehenPrasens = ["gehe", "gehst", "geht", "geht", "geht", "gehen", "geht", "gehen", "gehen"];
-const gehenPrateritum = ["ging", "gingst", "ging", "ging", "ging", "gingen", "gingt", "gingen", "gingen"];
-const gehenPerfekt = ["bin gegangen", "bist gegangen", "ist gegangen", "ist gegangen", "ist gegangen", "sind gegangen", "seid gegangen", "sind gegangen", "sind gegangen"];
-const kommenPrasens = ["komme", "kommst", "kommt", "kommt", "kommt", "kommen", "kommt", "kommen", "kommen"];
-const kommenPrateritum = ["kam", "kamst", "kam", "kam", "kam", "kamen", "kamt", "kamen", "kamen"];
-const kommenPerfekt = ["bin gekommen", "bist gekommen", "ist gekommen", "ist gekommen", "ist gekommen", "sind gekommen", "seid gekommen", "sind gekommen", "sind gekommen"];
-
-const verbConjugations: VerbConjugation[] = [
-	createVerbConjugation("sein", "Präsens", seinPrasens),
-	createVerbConjugation("sein", "Präteritum", seinPrateritum),
-	createVerbConjugation("sein", "Perfekt", seinPerfekt),
-	createVerbConjugation("haben", "Präsens", habenPrasens),
-	createVerbConjugation("haben", "Präteritum", habenPrateritum),
-	createVerbConjugation("haben", "Perfekt", habenPerfekt),
-	createVerbConjugation("gehen", "Präsens", gehenPrasens),
-	createVerbConjugation("gehen", "Präteritum", gehenPrateritum),
-	createVerbConjugation("gehen", "Perfekt", gehenPerfekt),
-	createVerbConjugation("machen", "Präsens", machenPrasens),
-	createVerbConjugation("machen", "Präteritum", machenPrateritum),
-	createVerbConjugation("machen", "Perfekt", machenPerfekt),
-	createVerbConjugation("kommen", "Präsens", kommenPrasens),
-	createVerbConjugation("kommen", "Präteritum", kommenPrateritum),
-	createVerbConjugation("kommen", "Perfekt", kommenPerfekt),
-];
-
 const VerbConjugationSlotMachineExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
+	const inputRef = useRef<HTMLInputElement>(null);
+	const locationState = useLocation().state;
+	const user = useUser();
+	const shouldFetchVerbConjugationExercises = !locationState?.exerciseDetails;
+	const [verbConjugationExerciseDetails, setVerbConjugationExerciseDetails] = useState(locationState?.exerciseDetails || []);
+	const [verbConjugationExerciseWords, verbConjugationExerciseWordsError] = useFetchVerbConjugationExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchVerbConjugationExercises);
+
+	const [verbConjugations, setVerbConjugations] = useState<VerbConjugation[]>();
+	const [verbs, setVerbs] = useState<string[]>();
+	const [pronouns, setPronouns] = useState<string[]>();
+	const [tenses, setTenses] = useState<string[]>();
+
+	useEffect(() => {
+		if (!shouldFetchVerbConjugationExercises) {
+			setVerbConjugationExerciseDetails(locationState.exerciseDetails);
+		} else if (verbConjugationExerciseWordsError) {
+			console.error("Error fetching vocabulary exercises:", verbConjugationExerciseWordsError);
+		} else {
+			setVerbConjugationExerciseDetails(
+				verbConjugationExerciseWords.map((word) => ({
+					details: {
+						pronouns: word.pronouns,
+						verb: word.verb,
+						tenses: word.tenses,
+						conjugations: word.conjugations,
+					},
+				}))
+			);
+		}
+	}, [verbConjugationExerciseWords, verbConjugationExerciseWordsError, shouldFetchVerbConjugationExercises, locationState]);
+
 	const [state, setState] = useState<VerbConjugationState>({
 		pronoun: "",
 		verb: "",
@@ -89,29 +73,55 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 		setState((prevState) => ({ ...prevState, ...newState }));
 	}, []);
 
+	useEffect(() => {
+		const verbConjugations = verbConjugationExerciseDetails
+			.map((exercise: { details: VerbConjugationExercise }) => {
+				// Filter conjugations based on the tenses and pronouns array
+				return exercise.details.tenses
+					.map((tense) => {
+						return exercise.details.conjugations
+							.filter((conjugation) => conjugation.tense === tense)
+							.map((conjugation) => {
+								// Filter individual conjugations based on the pronouns array
+								const filteredConjugations = conjugation.conjugations.filter((c) => exercise.details.pronouns.includes(c.pronoun));
+
+								return {
+									verb: conjugation.verb,
+									tense: conjugation.tense,
+									conjugations: filteredConjugations,
+								};
+							});
+					})
+					.flat();
+			})
+			.flat(); // Flatten the array since map within map creates a nested array
+		setVerbConjugations(verbConjugations);
+		setPronouns(verbConjugationExerciseDetails.map((exercise: { details: VerbConjugationExercise }) => exercise.details.pronouns).flat());
+		setTenses(verbConjugationExerciseDetails.map((exercise: { details: VerbConjugationExercise }) => exercise.details.tenses).flat());
+		const verbs: string[] = Array.from(new Set(verbConjugations.map((item: { verb: string }) => item.verb)));
+		setVerbs(verbs);
+	}, [verbConjugationExerciseDetails]);
+
 	const randomizeSelection = useCallback(() => {
 		setIsAnimating(true); // Start the animation
 		setTimeout(() => {
-			const randomPronoun = pronouns[Math.floor(Math.random() * pronouns.length)];
-			const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
-			const randomTense = tenses[Math.floor(Math.random() * tenses.length)];
+			const randomPronoun = pronouns && pronouns.length > 0 ? pronouns[Math.floor(Math.random() * pronouns.length)] : "";
+			const randomVerb = verbs && verbs.length > 0 ? verbs[Math.floor(Math.random() * verbs.length)] : "";
+			const randomTense = tenses && tenses.length > 0 ? tenses[Math.floor(Math.random() * tenses.length)] : "";
 			setState((prevState) => ({ ...prevState, pronoun: randomPronoun, verb: randomVerb, tense: randomTense }));
 			setIsAnimating(false); // Stop the animation
 		}, 3000);
-	}, []);
+	}, [pronouns, verbs, tenses]);
 
 	const playSound = useCallback((soundEffect: string) => {
 		new Audio(soundEffect).play();
 	}, []);
 
-	const verbs = ["sein", "haben", "machen", "gehen", "kommen"];
-	const tenses = ["Präsens", "Präteritum", "Perfekt"];
-
 	const checkAnswer = useCallback(() => {
 		if (state.userInput.trim() === "") return;
 
 		// Find the verb conjugation set for the selected verb and tense
-		const conjugationSet = verbConjugations.find((vc) => vc.verb === state.verb && vc.tense === state.tense);
+		const conjugationSet = verbConjugations?.find((vc) => vc.verb === state.verb && vc.tense === state.tense);
 
 		if (!conjugationSet) {
 			console.error("Conjugation set not found");
@@ -152,19 +162,32 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 			}));
 			playSound(incorrectSound);
 		}
-
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
 		randomizeSelection(); // Prepare for the next question
 	}, [state, randomizeSelection]);
 
 	useEffect(() => {
-		randomizeSelection();
-	}, []);
+		// Check verbs, tenses and pronouns are not empty
+		if (verbs?.length && tenses?.length && pronouns?.length) {
+			randomizeSelection();
+		}
+	}, [verbs, tenses, pronouns]);
 
 	const renderWelcomeScreen = () => (
 		<>
 			<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
 				<h1 className="font-bold text-2xl mb-2">{t("Welcome to Verb Conjugation Slot Machine!")}</h1>
 				<p className="mb-4">{t("Test your skills in verb conjugation.")}</p>
+			</div>
+			<div className="back-button-section flex place-content-center sm:place-content-end">
+				<Link
+					to={`/lessons/${lesson_number}/exercises`}
+					className="back-button-section__link flex items-center w-fit border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow sm:col-start-3 sm:col-end-4 order-last sm:order-none"
+				>
+					<MdArrowBack className="back-button-section__icon mr-2" /> Back to exercises
+				</Link>
 			</div>
 			<div className="flex flex-col items-center justify-center min-h-[calc(100vh-18rem)] sm:min-h-[calc(100vh-17rem)] bg-gray-100">
 				<button
@@ -186,7 +209,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					<div className="flex justify-center space-x-2 text-xl md:text-4xl">
 						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
 							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-								{[...pronouns, ...pronouns].map((pronoun, index) => (
+								{(pronouns || []).map((pronoun, index) => (
 									<div key={index} className="flex items-center justify-center h-16 md:h-24">
 										{isAnimating ? pronoun : state.pronoun}
 									</div>
@@ -195,7 +218,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 						</div>
 						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
 							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-								{[...verbs, ...verbs].map((verb, index) => (
+								{(verbs || []).map((verb, index) => (
 									<div key={index} className="flex items-center justify-center h-16 md:h-24">
 										{isAnimating ? verb : state.verb}
 									</div>
@@ -204,7 +227,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 						</div>
 						<div className="overflow-hidden h-16 w-28 md:h-24 md:w-48 text-gray-900 text-center bg-white shadow-md rounded-md">
 							<div className={`transition-transform duration-2000 ${isAnimating ? "spinAnimation" : ""}`}>
-								{[...tenses, ...tenses].map((tense, index) => (
+								{(tenses || []).map((tense, index) => (
 									<div key={index} className="flex items-center justify-center h-16 md:h-24">
 										{isAnimating ? tense : state.tense}
 									</div>
@@ -214,6 +237,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					</div>
 					<div className="mt-4">
 						<input
+							ref={inputRef}
 							type="text"
 							autoFocus
 							className="border-2 p-2 w-full"
@@ -229,6 +253,8 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 						<button className="mt-2 p-2 bg-blue-500 text-white w-full rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300 ease-in-out" onClick={checkAnswer}>
 							Check
 						</button>
+
+						<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userInput} setInputValue={(value: string) => updateState({ userInput: value })} inputRef={inputRef} />
 					</div>
 					{state.feedback && (
 						<div className={`mt-4 p-2 border-2 ${state.isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>

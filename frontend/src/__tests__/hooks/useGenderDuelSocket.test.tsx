@@ -14,6 +14,7 @@ describe("useGenderDuelSocket hook", () => {
 		_id: "1",
 		name: "English",
 		code: "en",
+		special_characters: [],
 	};
 
 	it("should handle initial state", () => {

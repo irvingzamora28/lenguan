@@ -23,11 +23,16 @@ class CourseController extends Controller
 
     public function lessons($course_id)
     {
-        $course = Course::with(['levels.lessons' => function ($query) {
-            $query->with('goals')
-                ->where('is_active', true)
-                ->select('_id', 'name', 'description', 'lesson_number', 'level_id');
-        }])->findOrFail($course_id);
+        $course = Course::with([
+            'levels.lessons' => function ($query) {
+                $query->with('goals')
+                    ->with(['exercises' => function ($query) {
+                        $query->select(['exerciseable_type', 'lesson_id']);
+                    }])
+                    ->where('is_active', true)
+                    ->select('_id', 'name', 'description', 'lesson_number', 'level_id');
+            }
+        ])->findOrFail($course_id);
 
         $lessons = $course->levels->flatMap(function ($level) use ($course) {
             return $level->lessons->map(function ($lesson) use ($level, $course) {
@@ -42,6 +47,11 @@ class CourseController extends Controller
                     'level_name' => $lesson->level_name,
                     'lesson_number' => $lesson->lesson_number,
                     'goal_ids' => $lesson->goal_ids,
+                    'exercise_types' => $lesson->exercises->map(function ($exercise) {
+                        return [
+                            'exerciseable_type' => class_basename($exercise->exerciseable_type),
+                        ];
+                    })->pluck('exerciseable_type')->unique()->values(),
                     'goals' => $lesson->goals->map(function ($goal) {
                         return [
                             '_id' => $goal->_id,

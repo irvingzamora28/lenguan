@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Exceptions\CourseNotFoundException;
-use App\Exceptions\InvalidAPIParameterException;
 use App\Exceptions\LessonNotFoundException;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -28,8 +27,7 @@ class VocabularyExerciseControllerTest extends TestCase
         $lesson = Lesson::factory()->create(['course_id' => $course->id]);
         $exercises = VocabularyExercise::factory()->count(3)->create(['lesson_id' => $lesson->id]);
 
-        $response = $this->get('/api/vocabulary-exercises/' . $lesson->lesson_number);
-
+        $response = $this->get('/api/vocabulary-exercises/?' . http_build_query(['course_id' => $course->id, 'lesson_number' => $lesson->lesson_number]));
         $response->assertStatus(200);
         $response->assertJsonCount(3, 'data');
         $response->assertJsonStructure([
@@ -45,12 +43,12 @@ class VocabularyExerciseControllerTest extends TestCase
 
     public function testGetByLessonNumberWithInvalidLessonNumber()
     {
-        $response = $this->get('/api/vocabulary-exercises/invalid');
+        $response = $this->get('/api/vocabulary-exercises/?' . http_build_query(['course_id' => "1", 'lesson_number' => 'invalid']));
 
         $response->assertStatus(400);
 
         $response->assertJson([
-            'message' => 'Invalid vocabulary exercise',
+            'message' => 'Invalid lesson vocabulary exercise',
         ]);
     }
 
@@ -59,7 +57,7 @@ class VocabularyExerciseControllerTest extends TestCase
     {
         $exception = new CourseNotFoundException();
 
-        $response = $this->get('/api/vocabulary-exercises/1');
+        $response = $this->get('/api/vocabulary-exercises/?' . http_build_query(['lesson_number' => 1]));
 
         $response->assertStatus($exception->getCode());
 
@@ -74,7 +72,7 @@ class VocabularyExerciseControllerTest extends TestCase
 
         $exception = new LessonNotFoundException();
 
-        $response = $this->get('/api/vocabulary-exercises/100');
+        $response = $this->get('/api/vocabulary-exercises/?' . http_build_query(['course_id' => $course->id, 'lesson_number' => "100"]));
 
         $response->assertStatus($exception->getCode());
 

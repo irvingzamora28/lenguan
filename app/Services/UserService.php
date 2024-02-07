@@ -27,6 +27,7 @@ class UserService implements UserServiceInterface
         }
 
         $user->update($data);
+        $this->updateUserCourse($user, $data);
         return $user;
     }
 

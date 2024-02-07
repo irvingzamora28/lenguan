@@ -18,6 +18,7 @@ describe("languageSlice", () => {
 			_id: "some_id",
 			name: "French",
 			code: "fr",
+			special_characters: ["é", "è", "ê", "â", "ç", "à"],
 		};
 
 		const actual = languageSlice.reducer(initialState, languageSlice.actions.setLanguage(mockLanguage));

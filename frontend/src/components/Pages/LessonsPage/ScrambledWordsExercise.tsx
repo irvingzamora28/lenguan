@@ -4,8 +4,11 @@ import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
 import Layout from "../../Layout/Layout";
 import { useFetchVocabularyExercises } from "../../../hooks/fetch/useFetchVocabularyExercises";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
+import { GrammarExercise } from "../../../types/exercise";
+import { useUser } from "../../../redux/hooks";
+import Modal from "../../Utilities/Modal";
 
 interface Word {
 	original: string;
@@ -13,22 +16,36 @@ interface Word {
 	translation: string;
 }
 
-const sampleWords = [
-	{ translation: "apple", original: "Apfel" },
-	{ translation: "banana", original: "Banane" },
-	{ translation: "orange", original: "Orange" },
-	{ translation: "grape", original: "Traube" },
-	{ translation: "lemon", original: "Zitrone" },
-	{ translation: "pear", original: "Birne" },
-	{ translation: "cherry", original: "Kirsche" },
-	{ translation: "strawberry", original: "Erdbeere" },
-	{ translation: "kiwi", original: "Kiwi" },
-	{ translation: "melon", original: "Melone" },
-];
-
 const ScrambledWordsExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
+	const [showModal, setShowModal] = useState(false);
+	const locationState = useLocation().state;
+	const navigate = useNavigate();
+	const user = useUser();
+	const shouldFetchVocabularyExercises = !locationState?.exerciseDetails;
+
+	const [vocabularyExerciseDetails, setVocabularyExerciseDetails] = useState(locationState?.exerciseDetails || []);
+	const [vocabularyExerciseDetailsError, setVocabularyExerciseDetailsError] = useState<string | null>(null);
+	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(user?.course?._id ?? "", lesson_number ?? "", shouldFetchVocabularyExercises);
+
+	useEffect(() => {
+		if (!shouldFetchVocabularyExercises) {
+			setVocabularyExerciseDetails(locationState.exerciseDetails);
+		} else if (vocabularyExerciseWordsError) {
+			console.error("Error fetching vocabulary exercises:", vocabularyExerciseWordsError);
+		} else {
+			setVocabularyExerciseDetails(
+				vocabularyExerciseWords.map((word) => ({
+					details: {
+						prompt: word.prompt,
+						answer: word.answer,
+					},
+				}))
+			);
+		}
+	}, [vocabularyExerciseWords, vocabularyExerciseWordsError, shouldFetchVocabularyExercises, locationState]);
+
 	const [state, setState] = useState({
 		wordIndex: 0,
 		words: [] as Word[],
@@ -40,9 +57,6 @@ const ScrambledWordsExercise: React.FC = () => {
 	});
 
 	const selectedLettersRef = useRef<string[]>([]);
-
-	const [vocabularyExerciseWords, vocabularyExerciseWordsError] = useFetchVocabularyExercises(lesson_number);
-	console.log(vocabularyExerciseWords);
 
 	useEffect(() => {
 		selectedLettersRef.current = state.selectedLetters;
@@ -85,6 +99,7 @@ const ScrambledWordsExercise: React.FC = () => {
 				});
 			} else {
 				// Handle the end of the word list scenario
+				setShowModal(true);
 			}
 		} else if (selectedLettersRef.current.length === currentWord.original.length) {
 			playSound(incorrectSound);
@@ -148,6 +163,46 @@ const ScrambledWordsExercise: React.FC = () => {
 		});
 	}, []);
 
+	const removeLastLetter = useCallback(() => {
+		if (state.selectedLetters.length > 0) {
+			const newSelectedLetters = [...state.selectedLetters];
+			const removedLetter = newSelectedLetters.pop() || "";
+
+			setState((prevState) => ({
+				...prevState,
+				selectedLetters: newSelectedLetters,
+				availableLetters: [removedLetter, ...prevState.availableLetters],
+			}));
+		}
+	}, [state.selectedLetters]);
+
+	const handleKeyPress = useCallback(
+		(event: KeyboardEvent) => {
+			const { key } = event;
+
+			if (key === "Backspace") {
+				removeLastLetter();
+			} else {
+				const letterIndex = state.availableLetters.indexOf(event.key);
+
+				if (letterIndex > -1) {
+					selectLetter(state.availableLetters[letterIndex], letterIndex);
+				}
+			}
+		},
+		[state.availableLetters, selectLetter, removeLastLetter]
+	);
+
+	useEffect(() => {
+		if (state.gameStarted) {
+			window.addEventListener("keydown", handleKeyPress);
+		}
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyPress);
+		};
+	}, [state.gameStarted, handleKeyPress]);
+
 	useEffect(() => {
 		if (state.selectedLetters.length && state.words[state.wordIndex] && state.selectedLetters.length === state.words[state.wordIndex].original.length) {
 			checkWord();
@@ -155,10 +210,13 @@ const ScrambledWordsExercise: React.FC = () => {
 	}, [state.selectedLetters, state.words, state.wordIndex, checkWord]);
 
 	useEffect(() => {
-		const transformedVocabularyExerciseWords = vocabularyExerciseWords.map((word) => ({
-			original: word.prompt,
-			translation: word.answer,
-		}));
+		const transformedVocabularyExerciseWords: Word[] = vocabularyExerciseDetails.map((item: { details: GrammarExercise }) => {
+			return {
+				original: item.details.prompt,
+				translation: item.details.answer,
+			};
+		});
+
 		const loadedWords = transformedVocabularyExerciseWords as unknown as Word[];
 		const shuffledWords = loadedWords.map((word) => ({
 			...word,
@@ -168,13 +226,18 @@ const ScrambledWordsExercise: React.FC = () => {
 			words: shuffledWords,
 			availableLetters: shuffledWords[0]?.scrambled.split("") || [],
 		});
-	}, [vocabularyExerciseWords]);
+	}, [vocabularyExerciseDetails]);
 
 	useEffect(() => {
-		if (vocabularyExerciseWordsError) {
-			console.error(vocabularyExerciseWordsError);
+		if (vocabularyExerciseDetailsError) {
+			console.error(vocabularyExerciseDetailsError);
 		}
-	}, [vocabularyExerciseWordsError]);
+	}, [vocabularyExerciseDetailsError]);
+
+	const onCloseModal = () => {
+		setShowModal(false);
+		navigate(`/lessons/${lesson_number}/exercises`);
+	};
 
 	const renderWelcomeScreen = () => (
 		<>
@@ -204,8 +267,16 @@ const ScrambledWordsExercise: React.FC = () => {
 
 	const renderExerciseScreen = () => {
 		const currentWord = state.words[state.wordIndex];
+		const getBoxSize = (wordLength: number): string => {
+			if (wordLength <= 5) return "w-10 h-10 md:w-24 md:h-24 text-3xl md:text-8xl"; // Large boxes for short words
+			if (wordLength <= 8) return "w-8 h-8 md:w-20 md:h-20 p-2 md:p-10 text-3xl md:text-8xl"; // Medium boxes for medium words
+			return "w-6 h-6 md:w-16 md:h-16 p-1 text-xl md:text-6xl"; // Small boxes for long words
+		};
+
+		const letterBoxSize = getBoxSize(currentWord.original.length);
+
 		const letterBoxes = Array.from(currentWord.original).map((_, index) => (
-			<div key={index} className="w-10 h-10 border-2 border-gray-300 flex items-center justify-center mx-1 text-2xl sm:w-24 sm:h-24 sm:text-6xl" onClick={() => returnLetter(index)}>
+			<div key={index} className={`border-2 cursor-pointer border-gray-300 flex items-center justify-center m-1 ${letterBoxSize}`} onClick={() => returnLetter(index)}>
 				{state.selectedLetters[index] || ""}
 			</div>
 		));
@@ -223,14 +294,14 @@ const ScrambledWordsExercise: React.FC = () => {
 					<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
 						<h2 className="font-bold text-xl mb-2">Original Word</h2>
 						<p className="text-gray-700 mb-4 text-2xl sm:text-6xl">{currentWord.translation}</p>
-						<div className="mb-4 flex justify-center">{letterBoxes}</div>
+						<div className="mb-4 flex flex-wrap justify-center">{letterBoxes}</div>
 					</div>
 					<h2 className="font-bold text-xl mb-2">Scrambled Word</h2>
-					<div className="flex justify-center space-x-2 mb-4">
+					<div className="flex flex-wrap justify-center mb-4">
 						{state.availableLetters.map((letter, index) => (
 							<button
 								key={index}
-								className="w-10 h-10 bg-green-500 text-white font-bold py-3 px-5 text-xl rounded hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
+								className="w-10 h-10 m-1 bg-green-500 text-white font-bold text-xl rounded xl:hover:bg-green-700 transition duration-300 sm:w-20 sm:h-20 sm:text-6xl"
 								onClick={() => selectLetter(letter, index)}
 							>
 								{letter}
@@ -248,6 +319,9 @@ const ScrambledWordsExercise: React.FC = () => {
 						</div>
 					)}
 				</div>
+				<Modal show={showModal} onClose={() => onCloseModal()} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
+					<p className="text-xl font-bold text-green-600">You finished the exercise!</p>
+				</Modal>
 			</div>
 		);
 	};

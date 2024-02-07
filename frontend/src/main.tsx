@@ -30,8 +30,16 @@ import QuizzesPage from "./components/Pages/LessonsPage/QuizzesPage";
 import MultipleChoiceQuiz from "./components/Pages/LessonsPage/MultipleChoiceQuiz";
 import SentenceFormationQuiz from "./components/Pages/LessonsPage/SentenceFormationQuiz";
 import TipsTricksPage from "./components/Pages/LessonsPage/TipsTricksPage";
-import { GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, LISTENING_EXERCISE_PATH, SELECT_COURSE_PATH, VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, WRITING_EXERCISE_CREATE_STORYPATH } from "./constants/routes";
+import {
+	GRAMMAR_EXERCISE_SENTENCE_CORRECTION_PATH,
+	VERB_CONJUGATION_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH,
+	LISTENING_EXERCISE_PATH,
+	SELECT_COURSE_PATH,
+	VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH,
+	WRITING_EXERCISE_CREATE_STORYPATH,
+} from "./constants/routes";
 import LandingPage from "./components/Pages/LandingPage";
+import SentenceCorrectionExercise from "./components/Pages/LessonsPage/SentenceCorrectionExercise";
 
 interface RouteType {
 	path: string;
@@ -54,7 +62,8 @@ const privateRoutes = [
 	{ path: "/lessons/:lesson_number/tips-and-tricks", element: <TipsTricksPage /> },
 	{ path: LISTENING_EXERCISE_PATH, element: <ListeningExercise /> },
 	{ path: VOCABULARY_EXERCISE_SCRAMBLED_WORDS_PATH, element: <ScrambledWordsExercise /> },
-	{ path: GRAMMAR_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, element: <VerbConjugationSlotMachineExercise /> },
+	{ path: VERB_CONJUGATION_EXERCISE_VERB_CONJUGATION_SLOT_MACHINE_PATH, element: <VerbConjugationSlotMachineExercise /> },
+	{ path: GRAMMAR_EXERCISE_SENTENCE_CORRECTION_PATH, element: <SentenceCorrectionExercise /> },
 	{ path: WRITING_EXERCISE_CREATE_STORYPATH, element: <CreateStoryWritingExercise /> },
 	{ path: "/timed-flashcards/:lesson_number", element: <TimedFlashcards /> },
 	{ path: "/memory-game", element: <MemoryGame /> },

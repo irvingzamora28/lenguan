@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Eloquent\Model;
 use MongoDB\Laravel\Relations\BelongsToMany;
-use MongoDB\Laravel\Relations\HasMany;
 
 class Lesson extends Model
 {
@@ -15,7 +14,7 @@ class Lesson extends Model
     protected $collection = 'lessons';
 
     protected $fillable = [
-        'name', 'description', 'course_id',
+        'name', 'description', 'course_id', 'lesson_number'
     ];
 
     public function goals(): BelongsToMany
@@ -43,13 +42,28 @@ class Lesson extends Model
         return $this->hasMany(Exercise::class);
     }
 
-    public function quizzes()
-    {
-        return $this->hasMany(Quiz::class);
-    }
+    // TODO: Create Quiz model and add relationship for quizzes
+    // public function quizzes()
+    // {
+    //     return $this->hasMany(Quiz::class);
+    // }
 
     public function vocabularyExercises()
     {
         return $this->hasMany(VocabularyExercise::class);
+    }
+
+    public function grammarExercises()
+    {
+        return $this->hasMany(GrammarExercise::class);
+    }
+
+    public function pronunciationExercises()
+    {
+        return $this->hasMany(PronunciationExercise::class);
+    }
+    public function translationExercises()
+    {
+        return $this->hasMany(TranslationExercise::class);
     }
 }

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { ExercisesService } from "../../services/ExerciseService";
-import { VocabularyExercice } from "../../types/exercise";
+import { VocabularyExercise } from "../../types/exercise";
 
-export const useFetchVocabularyExercises = (lessonNumber?: string): [VocabularyExercice[], string | null] => {
-	const [vocabularyExercises, setVocabularyExercises] = useState<VocabularyExercice[]>([]);
+export const useFetchVocabularyExercises = (courseId: string, lessonNumber: string, shouldFetch = true): [VocabularyExercise[], string | null] => {
+	const [vocabularyExercises, setVocabularyExercises] = useState<VocabularyExercise[]>([]);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (!shouldFetch) return;
 		const fetchData = async () => {
 			try {
-				const fetchedVocabularyExercises = await ExercisesService.fetchVocabularyExercises(lessonNumber);
+				const fetchedVocabularyExercises = await ExercisesService.fetchVocabularyExercises(courseId, lessonNumber);
 
 				if (!fetchedVocabularyExercises.length) {
 					setError("Error fetching VocabularyExercises. Please try again later.");
@@ -22,7 +23,7 @@ export const useFetchVocabularyExercises = (lessonNumber?: string): [VocabularyE
 			}
 		};
 		fetchData();
-	}, [lessonNumber]);
+	}, [lessonNumber, shouldFetch]);
 
 	return [vocabularyExercises, error];
 };

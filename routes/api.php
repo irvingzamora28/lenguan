@@ -22,10 +22,13 @@ use App\Http\Controllers\LessonController;
 */
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\FormSubmitController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\GrammarExerciseController;
 use App\Http\Controllers\TextToSpeechController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerbConjugationExerciseController;
 use App\Http\Controllers\VocabularyExerciseController;
 
 Route::get('fetch-nouns', [GameController::class, 'fetchNouns']);
@@ -89,7 +92,15 @@ Route::group(['prefix' => 'languages'], function () {
 });
 
 Route::group(['prefix' => 'vocabulary-exercises'], function () {
-    Route::get('/{lessonNumber}', [VocabularyExerciseController::class, 'getByLessonNumber']);
+    Route::get('/', [VocabularyExerciseController::class, 'getByLessonNumber']);
+});
+
+Route::group(['prefix' => 'verb-conjugation-exercises'], function () {
+    Route::get('/', [VerbConjugationExerciseController::class, 'getByLessonNumber']);
+});
+
+Route::group(['prefix' => 'grammar-exercises'], function () {
+    Route::get('/', [GrammarExerciseController::class, 'getByLessonNumber']);
 });
 
 Route::group(['prefix' => 'text-to-speech'], function () {
@@ -105,6 +116,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user', [UserController::class, 'update']);
     Route::put('/user/language', [UserController::class, 'updateTargetLanguage']);
     Route::put('/user/course', [UserController::class, 'updateTargetCourse']);
+});
+
+Route::group(['prefix' => 'exercises'], function () {
+    Route::get('/all', [ExerciseController::class, 'exercises']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

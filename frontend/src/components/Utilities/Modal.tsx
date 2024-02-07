@@ -1,3 +1,5 @@
+import React, { useEffect, useRef } from "react";
+
 type ModalProps = {
 	show: boolean;
 	onClose: () => void;
@@ -8,6 +10,17 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ show, onClose, title, icon, color = "bg-green-500", children }) => {
+	const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		if (show) {
+			// Add focus after 500ms so the modal doesn't close accidenally on open if a user presses Enter
+			setTimeout(() => {
+				closeButtonRef.current?.focus();
+			}, 500);
+		}
+	}, [show]);
+
 	if (!show) {
 		return null;
 	}
@@ -21,7 +34,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, title, icon, color = "bg-g
 				</div>
 				<div className="p-6 text-center">{children}</div>
 				<div className="bg-gray-100 px-6 py-3 flex justify-center">
-					<button onClick={onClose} className="bg-rose-500 text-white font-bold py-2 px-4 rounded hover:bg-rose-600 transition duration-300 ease-in-out">
+					<button ref={closeButtonRef} onClick={onClose} className="bg-rose-500 text-white font-bold py-2 px-4 rounded hover:bg-rose-600 transition duration-300 ease-in-out">
 						Close
 					</button>
 				</div>

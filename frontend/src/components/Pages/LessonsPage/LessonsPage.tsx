@@ -61,7 +61,8 @@ const LessonsPage: React.FC = () => {
 								name={lesson.name}
 								description={lesson.description}
 								progress={lesson.progress}
-								goals={lesson.goals.map((goal: Goal): string => goal.name)}
+								goals={lesson.goals.map((goal: Goal): Goal => goal)}
+								exercise_types={lesson.exercise_types}
 							/>
 						))}
 					</div>
