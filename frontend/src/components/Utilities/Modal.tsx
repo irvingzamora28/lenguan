@@ -14,7 +14,10 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, title, icon, color = "bg-g
 
 	useEffect(() => {
 		if (show) {
-			closeButtonRef.current?.focus();
+			// Add focus after 500ms so the modal doesn't close accidenally on open if a user presses Enter
+			setTimeout(() => {
+				closeButtonRef.current?.focus();
+			}, 500);
 		}
 	}, [show]);
 

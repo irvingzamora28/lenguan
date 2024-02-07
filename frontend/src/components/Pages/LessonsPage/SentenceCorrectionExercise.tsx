@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { MdArrowBack, MdCheck, MdArrowForward } from "react-icons/md";
 import Layout from "../../Layout/Layout";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import { GrammarExercise, SentenceExercise } from "../../../types/exercise";
 import { useUser } from "../../../redux/hooks";
 import { useFetchGrammarExercises } from "../../../hooks/fetch/useFetchGrammarExercises";
 import SentenceErrorHighlight from "../../Items/Exercises/SentenceErrorHighlight";
+import Modal from "../../Utilities/Modal";
 
 interface State {
 	currentSentenceIndex: number;
@@ -23,6 +24,8 @@ const SentenceCorrectionExercise: React.FC = () => {
 	const { t } = useTranslation();
 	const inputRef = useRef<HTMLInputElement>(null);
 	const locationState = useLocation().state;
+	const [showModal, setShowModal] = useState(false);
+	const navigate = useNavigate();
 	const user = useUser();
 	const shouldFetchGrammarExercises = !locationState?.exerciseDetails;
 	const [grammarExerciseDetails, setGrammarExerciseDetails] = useState(locationState?.exerciseDetails || []);
@@ -102,7 +105,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 				showExplanation: false,
 			});
 		} else {
-			updateState({ gameStarted: false, currentSentenceIndex: 0 }); // Reset for completion screen
+			setShowModal(true);
 		}
 	};
 
@@ -117,6 +120,11 @@ const SentenceCorrectionExercise: React.FC = () => {
 			inputRef.current.focus();
 		}
 	}, [state.gameStarted, state.currentSentenceIndex, grammarExerciseSentences.length]);
+
+	const onCloseModal = () => {
+		setShowModal(false);
+		navigate(`/lessons/${lesson_number}/exercises`);
+	};
 
 	const renderWelcomeScreen = () => (
 		<>
@@ -194,6 +202,9 @@ const SentenceCorrectionExercise: React.FC = () => {
 					</div>
 				</div>
 			</div>
+			<Modal show={showModal} onClose={() => onCloseModal()} title="Congratulations" icon={<span className="text-6xl">🎉</span>} color="bg-green-500">
+				<p className="text-xl font-bold text-green-600">You finished the exercise!</p>
+			</Modal>
 		</div>
 	);
 
