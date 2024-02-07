@@ -64,7 +64,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ closeModal }) => {
 			if (response?.data.success) {
 				toast.success("Thank you for your feedback!", { position: "top-right", autoClose: 5000 });
 				reset();
-				closeModal();
+				setFeedbackSubmitted(true);
 			}
 		} catch (error) {
 			toast.error("There was an error submitting your feedback. Please try again later.", { position: "top-right", autoClose: 5000 });
