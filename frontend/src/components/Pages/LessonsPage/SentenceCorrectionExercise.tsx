@@ -83,6 +83,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 
 		if (isCorrect) {
 			handleNextSentence();
+			setShowErrorHighlight(false);
 		}
 	};
 
@@ -180,7 +181,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 						</button>
 					</div>
 
-					<div className="flex justify-start space-x-2 mt-4">{showErrorHighlight && <SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].prompt} userInput={state.userAnswer} />}</div>
+					<div className="flex justify-start space-x-2 mt-4">{showErrorHighlight && <SentenceErrorHighlight correctText={grammarExerciseSentences[state.currentSentenceIndex].answer} userInput={state.userAnswer} />}</div>
 
 					{state.feedback && <p className={`mt-4 ${state.isCorrect ? "text-green-600" : "text-red-600"}  font-semibold`}>{state.feedback}</p>}
 					{state.showExplanation && <p className="text-gray-700 mt-4">Explanation: {grammarExerciseSentences[state.currentSentenceIndex].explanation}</p>}

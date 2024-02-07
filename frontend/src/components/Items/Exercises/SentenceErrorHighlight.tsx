@@ -7,7 +7,6 @@ interface SentenceErrorHighlightProps {
 
 const SentenceErrorHighlight: React.FC<SentenceErrorHighlightProps> = ({ userInput, correctText }) => {
 	const findFirstErrorIndex = (input: string, correct: string) => {
-		// Handle case where input is correct except for missing punctuation at the end
 		if (input === correct.slice(0, -1)) {
 			return input.length;
 		}
@@ -20,7 +19,12 @@ const SentenceErrorHighlight: React.FC<SentenceErrorHighlightProps> = ({ userInp
 		return null;
 	};
 
-	const findErrorWordIndices = (input: string, correct: string, errorIdx: number) => {
+	const findErrorWordIndexes = (input: string, correct: string, errorIdx: number) => {
+		// Check if error is just the missing period at the end
+		if (errorIdx === input.length && correct[errorIdx] === ".") {
+			return [errorIdx, errorIdx + 1];
+		}
+
 		let start = input.slice(0, errorIdx).lastIndexOf(" ") + 1;
 		let end = correct.indexOf(" ", start);
 		end = end === -1 ? correct.length : end;
@@ -28,7 +32,7 @@ const SentenceErrorHighlight: React.FC<SentenceErrorHighlightProps> = ({ userInp
 	};
 
 	const errorIndex = findFirstErrorIndex(userInput, correctText);
-	const errorWordIndices = errorIndex !== null ? findErrorWordIndices(userInput, correctText, errorIndex) : null;
+	const errorWordIndices = errorIndex !== null ? findErrorWordIndexes(userInput, correctText, errorIndex) : null;
 
 	if (errorIndex === null) {
 		return <span>{correctText}</span>;
