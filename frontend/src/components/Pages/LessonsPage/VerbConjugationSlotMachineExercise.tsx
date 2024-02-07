@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import correctSound from "../../../assets/audio/correct-choice.mp3";
 import incorrectSound from "../../../assets/audio/incorrect-choice.mp3";
@@ -8,6 +8,7 @@ import { MdArrowBack } from "react-icons/md";
 import { VerbConjugation, VerbConjugationExercise } from "../../../types/exercise";
 import { useFetchVerbConjugationExercises } from "../../../hooks/fetch/useFetchVerbConjugationExercises";
 import { useUser } from "../../../redux/hooks";
+import SpecialCharacterInput from "../../Items/Misc/SpecialCharacterInput";
 
 interface VerbConjugationState {
 	pronoun: string;
@@ -24,6 +25,7 @@ interface VerbConjugationState {
 const VerbConjugationSlotMachineExercise: React.FC = () => {
 	const { lesson_number } = useParams<{ lesson_number: string }>();
 	const { t } = useTranslation();
+	const inputRef = useRef<HTMLInputElement>(null);
 	const locationState = useLocation().state;
 	const user = useUser();
 	const shouldFetchVerbConjugationExercises = !locationState?.exerciseDetails;
@@ -160,7 +162,9 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 			}));
 			playSound(incorrectSound);
 		}
-
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
 		randomizeSelection(); // Prepare for the next question
 	}, [state, randomizeSelection]);
 
@@ -233,6 +237,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					</div>
 					<div className="mt-4">
 						<input
+							ref={inputRef}
 							type="text"
 							autoFocus
 							className="border-2 p-2 w-full"
@@ -248,6 +253,8 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 						<button className="mt-2 p-2 bg-blue-500 text-white w-full rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300 ease-in-out" onClick={checkAnswer}>
 							Check
 						</button>
+
+						<SpecialCharacterInput specialCharacters={user?.course?.language.special_characters ?? []} inputValue={state.userInput} setInputValue={(value: string) => updateState({ userInput: value })} inputRef={inputRef} />
 					</div>
 					{state.feedback && (
 						<div className={`mt-4 p-2 border-2 ${state.isCorrect ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
