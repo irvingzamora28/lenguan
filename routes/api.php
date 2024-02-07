@@ -110,6 +110,7 @@ Route::group(['prefix' => 'text-to-speech'], function () {
 
 Route::group(['prefix' => 'form'], function () {
     Route::post('/contact', [FormSubmitController::class, 'contactForm'])->middleware('throttle:contact-form-submission');
+    Route::post('/feedback', [FormSubmitController::class, 'feedbackForm'])->middleware('throttle:feedback-form-submission');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

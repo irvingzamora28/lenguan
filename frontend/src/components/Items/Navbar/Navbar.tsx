@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/authSlice";
@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import useUserProfileImageUrl from "../../../hooks/user/useUserProfileImageUrl";
 import GuestLabel from "../../Utilities/GuestLabel";
+import { MdOutlineFeedback } from "react-icons/md";
+import FeedbackModal from "../Misc/FeedbackModal";
 
 interface NavBarProps {
 	asideOpen: boolean;
@@ -23,6 +25,11 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
 	const profileImageUrl = useUserProfileImageUrl(user?.profile_image_path);
+	const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+
+	const toggleFeedbackModal = () => {
+		setFeedbackModalOpen(!feedbackModalOpen);
+	};
 
 	const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
 		dispatch(logout());
@@ -54,13 +61,20 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 				<div>Lenguan</div>
 			</div>
 			<div className="z-10 flex items-center">
+				{/* Feedback Button */}
+				<button type="button" className="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-700" onClick={toggleFeedbackModal}>
+					<span className="hidden sm:inline-block"> Give Feedback</span> <MdOutlineFeedback className="inline mx-1" />
+				</button>
 				<GuestLabel />
 				<div className="relative mx-2">
 					<button type="button" onClick={() => setProfileOpen(!profileOpen)} className="h-9 w-9 overflow-hidden rounded-full profile-button" aria-label="profile">
 						<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 					</button>
 					{profileOpen && (
-						<div ref={profileMenuRef} className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md dark:bg-blue-900 dark:border-blue-800 dark:divide-blue-800 dark:text-slate-200">
+						<div
+							ref={profileMenuRef}
+							className="absolute right-0 mt-1 w-48 divide-y divide-gray-200 rounded-md border border-gray-200 bg-backgroundalt shadow-md dark:bg-blue-900 dark:border-blue-800 dark:divide-blue-800 dark:text-slate-200"
+						>
 							<div className="flex items-center space-x-2 p-2">
 								<img src={profileImageUrl} alt={`${user?.name}'s Profile`} className="rounded-full h-9 w-9 object-cover mx-auto" />
 								<div className="font-medium">{user?.name}</div>
@@ -85,6 +99,8 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 					)}
 				</div>
 			</div>
+			{/* Feedback Modal */}
+			{feedbackModalOpen && <FeedbackModal closeModal={toggleFeedbackModal} />}
 		</header>
 	);
 });
