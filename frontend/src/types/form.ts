@@ -16,3 +16,12 @@ export interface ContactFormData {
 	email: string;
 	message: string;
 }
+
+export interface FeedbackFormData {
+	usability?: string;
+	feature_request?: string;
+	learning_materials?: string;
+	new_languages?: string;
+	course_pace?: string;
+	general_feedback: string;
+}
