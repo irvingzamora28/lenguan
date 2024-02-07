@@ -43,13 +43,13 @@ vi.mock("../../redux/hooks", () => ({
 	useUser: () => useUserMock(),
 }));
 
-const mockUser = { id: 123, name: "John Doe", email: "test@example.com", native_language_code: "en", learning_language: { _id: "4", name: "German", code: "de" } };
+const mockUser = { id: 123, name: "John Doe", email: "test@example.com", native_language_code: "en", learning_language: { _id: "4", name: "German", code: "de", special_characters: ["ü", "ö", "ä", "ß"] } };
 describe("useUserRegister from RegisterPage", () => {
 	const mockLanguageData = [
-		{ _id: "1", name: "English", code: "en" },
-		{ _id: "2", name: "Spanish", code: "es" },
-		{ _id: "3", name: "French", code: "fr" },
-		{ _id: "4", name: "German", code: "de" },
+		{ _id: "1", name: "English", code: "en", special_characters: [] },
+		{ _id: "2", name: "Spanish", code: "es", special_characters: ["ñ", "¿", "¡", "á", "é", "í", "ó", "ú"] },
+		{ _id: "3", name: "French", code: "fr", special_characters: ["é", "è", "ê", "â", "ç", "à"] },
+		{ _id: "4", name: "German", code: "de", special_characters: ["ü", "ö", "ä", "ß"] },
 	];
 
 	const mockPreloadedState = {
