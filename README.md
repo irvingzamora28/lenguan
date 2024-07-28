@@ -30,7 +30,7 @@ Welcome to **Lenguan**, a unique and comprehensive online platform designed for 
 
 ## Requirements
 
--   PHP 8.0 or higher
+-   PHP 8.2 or higher
 -   Composer
 -   Git
 -   MongoDB
