@@ -147,16 +147,20 @@ io.on("connection", (socket: GenderDuelSocket) => {
 
     socket.on("disconnect", () => {
         console.log(`User disconnected: ${socket.id}`);
-        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
-        if (gameRoomId) {
-            const player = gameState[gameRoomId].players[socket.id];
-            if (player) {
+
+        for (const gameRoomId in gameState) {
+            if (gameState[gameRoomId].players[socket.id]) {
                 delete gameState[gameRoomId].players[socket.id];
+                console.log(`gameRoomId: ${gameRoomId}`);
                 io.to(gameRoomId).emit("update-score", gameState[gameRoomId].players);
+
                 if (Object.keys(gameState[gameRoomId].players).length === 0) {
                     delete gameState[gameRoomId];
                 }
+                break; // Exit the loop once the player is found and removed
             }
         }
+        // Removed player from all rooms
+        console.log(gameState);
     });
 });
