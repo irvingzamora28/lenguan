@@ -2,6 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import useGenderDuelSocket from "../../hooks/useGenderDuelSocket";
 import socket from "../../../socket-server/socket";
 import { vi, Mocked, MockedFunction } from "vitest";
+import { User } from "../../types";
 
 vi.mock("../../socket-server/socket");
 
@@ -17,12 +18,20 @@ describe("useGenderDuelSocket hook", () => {
 		special_characters: [],
 	};
 
+    const mockUser: User = {
+        id: 1,
+        name: "testuser",
+        username: "testuser",
+        email: "<EMAIL>",
+        native_language_code: "en",
+    };
+
 	it("should handle initial state", () => {
 		socket.emit = vi.fn();
 		socket.on = vi.fn();
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
+		const { result } = renderHook(() => useGenderDuelSocket(mockUser, mockLanguage, "1234"));
 
 		expect(result.current.connectionError).toBeFalsy();
 		expect(result.current.playerNumber).toBeNull();
@@ -43,7 +52,7 @@ describe("useGenderDuelSocket hook", () => {
 		});
 		socket.off = vi.fn();
 
-		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
+		const { result } = renderHook(() => useGenderDuelSocket(mockUser, mockLanguage, "1234"));
 
 		expect(result.current.playerNumber).toEqual(1);
 		expect(result.current.gameStatus).toEqual("waiting-for-opponent");
@@ -59,8 +68,7 @@ describe("useGenderDuelSocket hook", () => {
 			}
 		});
 		socket.off = vi.fn();
-
-		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
+		const { result } = renderHook(() => useGenderDuelSocket(mockUser, mockLanguage, "1234"));
 
 		act(() => {
 			result.current.handleGenderClick("der");
@@ -80,8 +88,7 @@ describe("useGenderDuelSocket hook", () => {
 			}
 		});
 		socket.off = vi.fn();
-
-		const { result } = renderHook(() => useGenderDuelSocket("testuser", mockLanguage));
+		const { result } = renderHook(() => useGenderDuelSocket(mockUser, mockLanguage, "1234"));
 
 		act(() => {
 			result.current.handleGenderClick("der");
