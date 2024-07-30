@@ -11,12 +11,21 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
 	const isGuest = useIsGuest();
 	const location = useLocation();
 
-	const publicAndPrivateRoutes = ["/gender-duel"];
+	// List of public routes that can also be accessed by authenticated users
+    const publicAndPrivateRoutes = ["/gender-duel", "/gender-duel/:room_id"];
 
-	// If the user is authenticated or is a guest, allow them to access the public routes.
-	// If the user is not authenticated or is a guest, redirect them to the login page.
-	// If the route is a public and private route, allow them to access the route.
-	return isAuthenticated || isGuest ? publicAndPrivateRoutes.includes(location.pathname) ? <>{children}</> : <Navigate to="/" state={{ from: location }} /> : <>{children}</>;
+    // Helper function to check if the current path matches any of the public and private routes
+    const isPublicAndPrivateRoute = (pathname: string) => {
+        return publicAndPrivateRoutes.some(route => {
+            const regex = new RegExp(`^${route.replace(/:\w+/g, "\\w+")}$`);
+            return regex.test(pathname);
+        });
+    };
+
+    // If the user is authenticated or is a guest, allow them to access the public routes.
+    // If the user is not authenticated or is a guest, redirect them to the login page.
+    // If the route is a public and private route, allow them to access the route.
+    return isAuthenticated || isGuest ? isPublicAndPrivateRoute(location.pathname) ? <>{children}</> : <Navigate to="/" state={{ from: location }} /> : <>{children}</>;
 };
 
 export default PublicRoute;

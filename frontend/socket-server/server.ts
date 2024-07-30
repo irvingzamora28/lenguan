@@ -11,7 +11,7 @@ interface GenderDuelSocket extends BaseSocket {
 
 interface Player {
 	id: string;
-	name: string;
+	username: string;
 	score: number;
 }
 
@@ -42,9 +42,9 @@ const io = new SocketIOServer(server, {
 const MAX_PLAYERS = 2;
 const MAX_WORDS = 20;
 
-const gameState: GameState = {
-	players: {},
-};
+// const gameState: GameState = {
+// 	players: {},
+// };
 
 let intervalId: NodeJS.Timeout;
 
@@ -79,21 +79,21 @@ const words = [
 	},
 ];
 
-const emitNewWord = async () => {
-	const newWord = GenderDuelWordService.getNextWord();
-	if (newWord) {
-		io.emit("new-word", newWord);
-		console.log(`New word emitted: ${newWord.word}`);
-
-		clearInterval(intervalId);
+const gameState: { [gameRoomId: string]: GameState } = {};
+const emitNewWord = async (gameRoomId: string) => {
+    const newWord = GenderDuelWordService.getNextWord();
+    if (newWord) {
+        io.to(gameRoomId).emit("new-word", newWord);
+        console.log(`New word emitted: ${newWord.word} in room ${gameRoomId}`);
+        clearInterval(intervalId);
 		intervalId = setInterval(() => {
 			if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-				emitNewWord();
+				emitNewWord(gameRoomId);
 			}
 		}, 10000);
-	} else {
-		console.log("No words available");
-	}
+    } else {
+        console.log("No words available");
+    }
 };
 
 server.listen(3001, () => {
@@ -101,103 +101,96 @@ server.listen(3001, () => {
 });
 
 io.on("connection", (socket: GenderDuelSocket) => {
-	console.log(`User connected: ${socket.id}`);
+    console.log(`User connected: ${socket.id}`);
 
-	socket.on("start-game", (data: StartGamePayload) => {
-		const selectedLanguage = data.selectedLanguage;
+    socket.on("start-single-player-game", async ({ selectedLanguage }) => {
+        GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
+            .then(() => {
+                console.log("Words fetched successfully");
+                io.to(socket.id).emit("start-game");
+                emitNewWord(socket.id); // Use socket ID as room ID for single player
+            })
+            .catch((err: any) => console.log("Error fetching words:", err));
+    });
 
-		if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-			GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
-				.then(() => {
-					console.log("Words fetched successfully");
-					io.emit("start-game");
-					emitNewWord();
-				})
-				.catch((err: any) => console.log("Error fetching words:", err));
-		}
-	});
+    socket.on("join-game-room", async ({ username, gameRoomId }) => {
+        socket.join(gameRoomId);
 
-	socket.on("game-state-request", () => {
-		socket.emit("game-state", gameState);
-	});
+        if (!gameState[gameRoomId]) {
+            gameState[gameRoomId] = { players: {} };
+        }
 
-	socket.on("register-player", (playerName: string) => {
-		console.log(`availablePlayerNumbers: ${availablePlayerNumbers}`);
+        const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
+        gameState[gameRoomId].players[socket.id] = {
+            id: socket.id,
+            username: username,
+            score: 0,
+        };
 
-		if (availablePlayerNumbers.length > 0) {
-			const playerNumber = availablePlayerNumbers.shift()!;
-			const player: Player = {
-				id: socket.id,
-				name: playerName,
-				score: 0,
-			};
-			gameState.players[socket.id] = player;
-			console.log(`Player ${playerNumber} connected`);
-			console.log(`Number of players connected: ${Object.keys(gameState.players).length}`);
-			socket.emit("player-assignment", {
-				playerNumber,
-				connectedPlayers: Object.keys(gameState.players).length,
-				maxPlayers: MAX_PLAYERS,
-			});
+        io.to(gameRoomId).emit("player-assignment", {
+            playerNumber,
+            connectedPlayers: Object.keys(gameState[gameRoomId].players).length,
+            maxPlayers: MAX_PLAYERS,
+        });
 
-			socket.playerNumber = playerNumber;
+        if (Object.keys(gameState[gameRoomId].players).length === MAX_PLAYERS) {
+            io.to(gameRoomId).emit("game-ready");
+            emitNewWord(gameRoomId);
+        }
+        console.log(gameState);
+        // Print all players in the room
+        Object.values(gameState[gameRoomId].players).forEach((player) => {
+            console.log(`${player.username} (${player.id})`);
+        });
+    });
 
-			// If the game is full, start the game
-			if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-				io.emit("game-ready");
-				emitNewWord();
-			}
-		} else {
-			socket.emit("player-assignment", {
-				playerNumber: 0,
-				connectedPlayers: Object.keys(gameState.players).length,
-				maxPlayers: MAX_PLAYERS,
-			});
-		}
-	});
+    socket.on("start-game", (data: StartGamePayload) => {
+        const selectedLanguage = data.selectedLanguage;
+        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
 
-	socket.on("correct-gender-clicked", (gender: string) => {
-		console.log(`Correct gender clicked ${gender}`);
-		console.log(gameState.players);
-		console.log(`gameState.players.length: ${Object.keys(gameState.players).length} `);
-		console.log(gameState.players);
+        if (gameRoomId && Object.keys(gameState[gameRoomId].players).length === MAX_PLAYERS) {
+            GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
+                .then(() => {
+                    console.log("Words fetched successfully");
+                    io.to(gameRoomId).emit("start-game");
+                    emitNewWord(gameRoomId);
+                })
+                .catch((err: any) => console.log("Error fetching words:", err));
+        }
+    });
 
-		if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-			const playerId = socket.id;
-			const player = gameState.players[playerId];
-			console.log(`playerId: ${playerId}`);
-			if (player) {
-				player.score++;
+    socket.on("correct-gender-clicked", (gender: string) => {
+        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
+        if (gameRoomId) {
+            const player = gameState[gameRoomId].players[socket.id];
+            if (player && player.score < 10) {
+                player.score++;
+                io.to(gameRoomId).emit("update-score", gameState[gameRoomId].players);
 
-				if (player.score >= 10) {
-					io.emit("game-over", `Player ${player.name} wins!`);
-					for (let playerId in gameState.players) {
-						gameState.players[playerId].score = 0;
-					}
-				} else {
-					io.emit("update-score", gameState.players);
-					clearInterval(intervalId);
+                if (player.score >= 10) {
+                    io.to(gameRoomId).emit("game-over", `Player ${player.username} wins!`);
+                    for (const playerId in gameState[gameRoomId].players) {
+                        gameState[gameRoomId].players[playerId].score = 0;
+                    }
+                } else {
+                    emitNewWord(gameRoomId);
+                }
+            }
+        }
+    });
 
-					intervalId = setInterval(() => {
-						emitNewWord();
-					}, 1000);
-				}
-			}
-		}
-	});
-
-	socket.on("disconnect", () => {
-		console.log(`User disconnected: ${socket.id}`);
-		const player = gameState.players[socket.id];
-		console.log(`player: ${player}`);
-
-		if (player) {
-			availablePlayerNumbers.push(socket.playerNumber!);
-			availablePlayerNumbers.sort(); // Keep the array sorted
-			delete gameState.players[socket.id];
-			console.log(`Player ${player.name} disconnected`);
-			console.log(`Number of players connected: ${Object.keys(gameState.players).length}`);
-			console.log(`availablePlayerNumbers: ${availablePlayerNumbers}`);
-		}
-	});
+    socket.on("disconnect", () => {
+        console.log(`User disconnected: ${socket.id}`);
+        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
+        if (gameRoomId) {
+            const player = gameState[gameRoomId].players[socket.id];
+            if (player) {
+                delete gameState[gameRoomId].players[socket.id];
+                io.to(gameRoomId).emit("update-score", gameState[gameRoomId].players);
+                if (Object.keys(gameState[gameRoomId].players).length === 0) {
+                    delete gameState[gameRoomId];
+                }
+            }
+        }
+    });
 });

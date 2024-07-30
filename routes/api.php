@@ -9,6 +9,7 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\GameRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,6 +122,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::group(['prefix' => 'exercises'], function () {
     Route::get('/all', [ExerciseController::class, 'exercises']);
+});
+
+
+Route::group(['prefix' => 'game-rooms'], function () {
+    Route::get('/', [GameRoomController::class, 'index']);
+    Route::post('/', [GameRoomController::class, 'store']);
+    Route::get('/{gameRoom}', [GameRoomController::class, 'show']);
+    Route::post('/{gameRoom}/join', [GameRoomController::class, 'join']);
+    Route::patch('/{gameRoom}', [GameRoomController::class, 'updateState']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

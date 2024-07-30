@@ -73,6 +73,7 @@ const publicRoutes = [
 	{ path: "/login", element: <LoginPage /> },
 	{ path: "/register", element: <RegisterPage /> },
 	{ path: "/gender-duel", element: <GenderDuelPage /> },
+	{ path: "/gender-duel/:room_id", element: <GenderDuelPage /> },
 ];
 
 const router = createBrowserRouter([
