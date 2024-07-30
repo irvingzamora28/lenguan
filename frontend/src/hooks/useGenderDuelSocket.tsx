@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import socket from "../../socket-server/socket";
 import correctSound from "../assets/audio/correct-choice.mp3";
 import incorrectSound from "../assets/audio/incorrect-choice.mp3";
-import { Word, Players } from "../types";
+import { Word, Players, User } from "../types";
 import { Language } from "../types/language";
 
-const useGenderDuelSocket = (username: string | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null) => {
+const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null) => {
     const [connectionError, setConnectionError] = useState(false);
     const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
     const [playerNumber, setPlayerNumber] = useState<number | null>(null);
@@ -20,10 +20,10 @@ const useGenderDuelSocket = (username: string | null | undefined, selectedLangua
     const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 
     useEffect(() => {
-        if (username && gameRoomId) {
-            socket.emit("join-game-room", { username, gameRoomId });
+        if (user && gameRoomId) {
+            socket.emit("join-game-room", { user, gameRoomId });
         }
-    }, [username, gameRoomId]);
+    }, [user, gameRoomId]);
 
     useEffect(() => {
         socket.on("connect_error", (err) => {

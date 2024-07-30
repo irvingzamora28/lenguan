@@ -42,44 +42,10 @@ const io = new SocketIOServer(server, {
 const MAX_PLAYERS = 2;
 const MAX_WORDS = 20;
 
-// const gameState: GameState = {
-// 	players: {},
-// };
-
 let intervalId: NodeJS.Timeout;
 
-const availablePlayerNumbers = Array.from(
-	{
-		length: MAX_PLAYERS,
-	},
-	(_, i) => i + 1
-);
-
-const words = [
-	{
-		word: "Haus",
-		gender: "das",
-		translation: "house",
-		difficulty_level: 1,
-		category: "Housing",
-	},
-	{
-		word: "Apfel",
-		gender: "der",
-		translation: "apple",
-		difficulty_level: 1,
-		category: "Food & Drinks",
-	},
-	{
-		word: "Katze",
-		gender: "die",
-		translation: "cat",
-		difficulty_level: 1,
-		category: "Animals",
-	},
-];
-
 const gameState: { [gameRoomId: string]: GameState } = {};
+
 const emitNewWord = async (gameRoomId: string) => {
     const newWord = GenderDuelWordService.getNextWord();
     if (newWord) {
@@ -113,7 +79,7 @@ io.on("connection", (socket: GenderDuelSocket) => {
             .catch((err: any) => console.log("Error fetching words:", err));
     });
 
-    socket.on("join-game-room", async ({ username, gameRoomId }) => {
+    socket.on("join-game-room", async ({ user, gameRoomId }) => {
         socket.join(gameRoomId);
 
         if (!gameState[gameRoomId]) {
@@ -122,8 +88,8 @@ io.on("connection", (socket: GenderDuelSocket) => {
 
         const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
         gameState[gameRoomId].players[socket.id] = {
-            id: socket.id,
-            username: username,
+            id: user.id,
+            username: user.username,
             score: 0,
         };
 

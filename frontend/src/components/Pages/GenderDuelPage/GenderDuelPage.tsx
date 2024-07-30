@@ -43,7 +43,7 @@ const GenderDuelPage: React.FC = () => {
     const selectedLanguage = useSelectedLanguage();
     const { room_id } = useParams<{ room_id: string }>();
     const [connectionError, setConnectionError] = useState(false);
-    const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleStartSinglePlayerGame } = useGenderDuelSocket(username, selectedLanguage, room_id || null);
+    const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleStartSinglePlayerGame } = useGenderDuelSocket(user, selectedLanguage, room_id || null);
     const isGuest = useIsGuest();
 
     useEffect(() => {
