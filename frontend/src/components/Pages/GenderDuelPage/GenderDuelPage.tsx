@@ -16,7 +16,6 @@ import ButtonGoBack from "../../Items/Games/ButtonGoBack";
 import ButtonCreateGameRoom from "../../Items/Games/ButtonCreateGameRoom";
 import JoinGameRoomForm from "../../Items/Games/JoinGameRoomForm";
 import { useNavigate, useParams } from "react-router-dom";
-import { GameRoomService } from "../../../services/GameRoomService";
 
 const genders = [
     {
@@ -42,24 +41,17 @@ const GenderDuelPage: React.FC = () => {
     const { errorMessages, loginData, handleChange, handleLogin } = useUserLogin();
     const { room_id } = useParams<{ room_id: string }>();
     const [connectionError, setConnectionError] = useState(false);
-    const [singlePlayerRoom, setSinglePlayerRoom] = useState(true);
-    const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(user, user?.learning_language || null, room_id || null, singlePlayerRoom ? 1 : 2); // Set maxPlayers explicitly
-    const isGuest = useIsGuest();
+    const [singlePlayerRoom, setSinglePlayerRoom] = useState(false);
+    const [maxPlayers, setMaxPlayers] = useState(0); // Initialize maxPlayers to 0
     const navigate = useNavigate();
 
-    const handleSinglePlayerGame = async () => {
-        try {
-            const gameRoom = await GameRoomService.createGameRoom(user?.id.toString() || "", isGuest, 1);
-            console.log('Created single player game room:', gameRoom);
-            console.log('Created single player game room id:', gameRoom._id);
-            console.log(`Navigating to game room: /gender-duel/${gameRoom.room_code}`);
-
-            setSinglePlayerRoom(true);
-            navigate(`/gender-duel/${gameRoom.room_code}`);
-        } catch (error) {
-            console.error('Error creating single player game room:', error);
-        }
-    };
+    const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(
+        user,
+        user?.learning_language || null,
+        room_id || null,
+        maxPlayers // Pass maxPlayers
+    );
+    const isGuest = useIsGuest();
 
     useEffect(() => {
         console.log("This is the room_id:", room_id);
@@ -85,7 +77,7 @@ const GenderDuelPage: React.FC = () => {
                         <LoginForm onLogin={handleLogin} onChange={handleChange} errorMessages={errorMessages} onLoginAsGuest={handleLoginAsGuest} />
                     ) : (
                         <>
-                            {room_id ? (
+                            {room_id || singlePlayerRoom ? (
                                 <>
                                     <ButtonStart playerNumber={playerNumber} username={user.username ?? ""} gameStatus={gameStatus} handleStartGame={handleStartGame} />
                                     {gameStatus === "playing" && word && (
@@ -104,17 +96,14 @@ const GenderDuelPage: React.FC = () => {
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center space-y-4">
-                                    <ButtonCreateGameRoom userId={user.id} isGuest={isGuest} maxPlayers={2} />
+                                    <ButtonCreateGameRoom
+                                        userId={user.id.toString()}
+                                        isGuest={isGuest}
+                                        setSinglePlayerRoom={setSinglePlayerRoom}
+                                        setMaxPlayers={setMaxPlayers}
+                                        navigate={navigate}
+                                    />
                                     <JoinGameRoomForm />
-                                    <button
-                                        onClick={handleSinglePlayerGame}
-                                        className="flex items-center shadow-box justify-center h-12 md:h-16 w-80 max-w-sm md:w-full drop-shadow-xl rounded-lg px-8 py-4 overflow-hidden group bg-rose-400 relative hover:bg-gradient-to-r hover:from-rose-400 hover:to-rose-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-rose-400 transition-all ease-out duration-300"
-                                    >
-                                        <span className="absolute right-0 w-12 h-44 -mt-12 transition-all duration-1000 transform translate-x-16 bg-white opacity-10 rotate-12 group-hover:-translate-x-72 ease"></span>
-                                        <span className="relative text-lg md:text-2xl font-bold">
-                                            Single Player
-                                        </span>
-                                    </button>
                                 </div>
                             )}
                         </>
