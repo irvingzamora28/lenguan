@@ -2,27 +2,28 @@ import express from "express";
 import dotenv from "dotenv";
 import { Server as HttpServer } from "http";
 import { Server as SocketIOServer, Socket as BaseSocket } from "socket.io";
-import { GenderDuelWordService } from "../src/services/GenderDuelWordService.ts";
-import { Language } from "../src/types/language.ts";
+import { GenderDuelWordService } from "../src/services/GenderDuelWordService";
+import { Language } from "../src/types/language";
 
 interface GenderDuelSocket extends BaseSocket {
-	playerNumber?: number;
+    playerNumber?: number;
 }
 
 interface Player {
-	id: string;
-	username: string;
-	score: number;
+    id: string;
+    username: string;
+    score: number;
 }
 
 interface GameState {
-	players: {
-		[id: string]: Player;
-	};
+    players: {
+        [id: string]: Player;
+    };
+    maxPlayers: number;
 }
 
 interface StartGamePayload {
-	selectedLanguage: Language;
+    selectedLanguage: Language;
 }
 
 const app = express();
@@ -32,14 +33,13 @@ dotenv.config();
 const allowedOrigins = process.env.SOCKETIO_ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"];
 
 const io = new SocketIOServer(server, {
-	cors: {
-		origin: allowedOrigins,
-		methods: ["GET", "POST"],
-		credentials: true,
-	},
+    cors: {
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
 });
 
-const MAX_PLAYERS = 2;
 const MAX_WORDS = 20;
 
 let intervalId: NodeJS.Timeout;
@@ -52,38 +52,29 @@ const emitNewWord = async (gameRoomId: string) => {
         io.to(gameRoomId).emit("new-word", newWord);
         console.log(`New word emitted: ${newWord.word} in room ${gameRoomId}`);
         clearInterval(intervalId);
-		intervalId = setInterval(() => {
-			if (Object.keys(gameState.players).length === MAX_PLAYERS) {
-				emitNewWord(gameRoomId);
-			}
-		}, 10000);
+        intervalId = setInterval(() => {
+            if (Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
+                emitNewWord(gameRoomId);
+            }
+        }, 10000);
     } else {
         console.log("No words available");
     }
 };
 
 server.listen(3001, () => {
-	console.log("Socket.IO server is running on port 3001");
+    console.log("Socket.IO server is running on port 3001");
 });
 
 io.on("connection", (socket: GenderDuelSocket) => {
     console.log(`User connected: ${socket.id}`);
 
-    socket.on("start-single-player-game", async ({ selectedLanguage }) => {
-        GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
-            .then(() => {
-                console.log("Words fetched successfully");
-                io.to(socket.id).emit("start-game");
-                emitNewWord(socket.id); // Use socket ID as room ID for single player
-            })
-            .catch((err: any) => console.log("Error fetching words:", err));
-    });
-
-    socket.on("join-game-room", async ({ user, gameRoomId }) => {
+    socket.on("join-game-room", async ({ user, gameRoomId, maxPlayers }) => {
         socket.join(gameRoomId);
+        console.log(`User ${user.username} joined game room ${gameRoomId}`);
 
         if (!gameState[gameRoomId]) {
-            gameState[gameRoomId] = { players: {} };
+            gameState[gameRoomId] = { players: {}, maxPlayers: maxPlayers };
         }
 
         const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
@@ -93,13 +84,15 @@ io.on("connection", (socket: GenderDuelSocket) => {
             score: 0,
         };
 
+        socket.playerNumber = playerNumber;
+
         io.to(gameRoomId).emit("player-assignment", {
             playerNumber,
             connectedPlayers: Object.keys(gameState[gameRoomId].players).length,
-            maxPlayers: MAX_PLAYERS,
+            maxPlayers: gameState[gameRoomId].maxPlayers,
         });
 
-        if (Object.keys(gameState[gameRoomId].players).length === MAX_PLAYERS) {
+        if (Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
             io.to(gameRoomId).emit("game-ready");
             emitNewWord(gameRoomId);
         }
@@ -110,11 +103,14 @@ io.on("connection", (socket: GenderDuelSocket) => {
         });
     });
 
-    socket.on("start-game", (data: StartGamePayload) => {
-        const selectedLanguage = data.selectedLanguage;
-        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
+    socket.on("start-game", async ({ selectedLanguage }) => {
+        console.log(`Start game in socket.id ${socket.id}`);
 
-        if (gameRoomId && Object.keys(gameState[gameRoomId].players).length === MAX_PLAYERS) {
+        // Find the game room this socket is part of
+        const gameRoomId = Object.keys(gameState).find(roomId => gameState[roomId].players[socket.id]);
+        console.log(`Start game in room ${gameRoomId}`);
+
+        if (gameRoomId) {
             GenderDuelWordService.fetchWords(MAX_WORDS, selectedLanguage._id)
                 .then(() => {
                     console.log("Words fetched successfully");
@@ -122,11 +118,14 @@ io.on("connection", (socket: GenderDuelSocket) => {
                     emitNewWord(gameRoomId);
                 })
                 .catch((err: any) => console.log("Error fetching words:", err));
+        } else {
+            console.log(`gameRoomId is undefined for socket.id ${socket.id}.`);
         }
     });
 
     socket.on("correct-gender-clicked", (gender: string) => {
-        const gameRoomId = Object.keys(socket.rooms).find((room) => room !== socket.id);
+        // Find the game room this socket is part of
+        const gameRoomId = Object.keys(gameState).find(roomId => gameState[roomId].players[socket.id]);
         if (gameRoomId) {
             const player = gameState[gameRoomId].players[socket.id];
             if (player && player.score < 10) {

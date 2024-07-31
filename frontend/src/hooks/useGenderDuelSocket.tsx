@@ -5,7 +5,7 @@ import incorrectSound from "../assets/audio/incorrect-choice.mp3";
 import { Word, Players, User } from "../types";
 import { Language } from "../types/language";
 
-const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null) => {
+const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null, maxPlayers: number) => {
     const [connectionError, setConnectionError] = useState(false);
     const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
     const [playerNumber, setPlayerNumber] = useState<number | null>(null);
@@ -16,14 +16,13 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
     const [incorrectGender, setIncorrectGender] = useState<string | null>(null);
     const [appearing, setAppearing] = useState(false);
     const [soundEffect, setSoundEffect] = useState<string | null>(null);
-    const [maxPlayers, setMaxPlayers] = useState<number | null>(null);
     const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 
     useEffect(() => {
         if (user && gameRoomId) {
-            socket.emit("join-game-room", { user, gameRoomId });
+            socket.emit("join-game-room", { user, gameRoomId, maxPlayers });
         }
-    }, [user, gameRoomId]);
+    }, [user, gameRoomId, maxPlayers]);
 
     useEffect(() => {
         socket.on("connect_error", (err) => {
@@ -52,7 +51,6 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
         socket.on("player-assignment", (assignedData: { playerNumber: number; connectedPlayers: number; maxPlayers: number }) => {
             const { playerNumber, connectedPlayers, maxPlayers } = assignedData;
             setPlayerNumber(playerNumber);
-            setMaxPlayers(maxPlayers);
             setConnectedPlayers(connectedPlayers);
 
             if (playerNumber === 0) {
@@ -137,11 +135,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
         socket.emit("start-game", { selectedLanguage });
     };
 
-    const handleStartSinglePlayerGame = () => {
-        socket.emit("start-single-player-game", { selectedLanguage });
-    };
-
-    return { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleStartSinglePlayerGame };
+    return { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame };
 };
 
 export default useGenderDuelSocket;
