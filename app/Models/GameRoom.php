@@ -14,5 +14,6 @@ class GameRoom extends Model
         'room_code',
         'players',
         'game_state',
+        'max_players',
     ];
 }

@@ -89,7 +89,7 @@ const GenderDuelPage: React.FC = () => {
                                 </>
                             ) : (
                                 <div className="flex flex-col items-center space-y-4">
-                                    <ButtonCreateGameRoom userId={user.id} isGuest={isGuest} />
+                                    <ButtonCreateGameRoom userId={user.id} isGuest={isGuest} maxPlayers={4} />
                                     <JoinGameRoomForm />
                                     <button
                                         onClick={handleStartSinglePlayerGame}

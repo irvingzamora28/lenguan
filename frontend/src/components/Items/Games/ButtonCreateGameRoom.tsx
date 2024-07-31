@@ -5,16 +5,17 @@ import { GameRoomService } from '../../../services/GameRoomService';
 interface ButtonCreateGameRoomProps {
     userId: number;
     isGuest: boolean;
+    maxPlayers: number;
 }
 
-const ButtonCreateGameRoom: React.FC<ButtonCreateGameRoomProps> = ({ userId, isGuest }) => {
+const ButtonCreateGameRoom: React.FC<ButtonCreateGameRoomProps> = ({ userId, isGuest, maxPlayers }) => {
     const [isCreating, setIsCreating] = useState(false);
     const navigate = useNavigate();
 
     const handleButtonCreateGameRoom = async () => {
         setIsCreating(true);
         try {
-            const gameRoom = await GameRoomService.createGameRoom(userId.toString(), isGuest);
+            const gameRoom = await GameRoomService.createGameRoom(userId.toString(), isGuest, maxPlayers);
             console.log('Created game room:', gameRoom);
             console.log('Created game room id:', gameRoom._id);
             console.log(`Navigating to game room: /gender-duel/${gameRoom.room_code}`);
@@ -38,7 +39,6 @@ const ButtonCreateGameRoom: React.FC<ButtonCreateGameRoomProps> = ({ userId, isG
           </span>
         </button>
       );
-    };
+};
 
-    export default ButtonCreateGameRoom;
-
+export default ButtonCreateGameRoom;

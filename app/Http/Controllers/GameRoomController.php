@@ -32,7 +32,8 @@ class GameRoomController extends Controller
     public function store(StoreGameRoomRequest $request): JsonResponse
     {
         $userId = $request->input('user_id');
-        $gameRoom = $this->gameRoomService->createGameRoom($userId);
+        $maxPlayers = $request->input('max_players');
+        $gameRoom = $this->gameRoomService->createGameRoom($userId, $maxPlayers);
         return response()->json($gameRoom);
     }
 

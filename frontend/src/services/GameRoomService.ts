@@ -31,10 +31,11 @@ export class GameRoomService {
 	 * Create a new game room
 	 * @param userId The ID of the user creating the game room
      * @param isGuest Tells if the user is guest or not
+     * @param maxPlayers The maximum number of players in the game room
 	 */
-	public static async createGameRoom(userId: string, isGuest: boolean): Promise<GameRoom> {
+	public static async createGameRoom(userId: string, isGuest: boolean, maxPlayers: number): Promise<GameRoom> {
 		try {
-			const response = await api.post("/api/game-rooms", { user_id: userId, is_guest: isGuest });
+			const response = await api.post("/api/game-rooms", { user_id: userId, is_guest: isGuest, max_players: maxPlayers });
 			const data: GameRoom = await response.data;
 			GameRoomService.gameRooms.push(data);
 			return data;

@@ -17,13 +17,14 @@ class GameRoomService
         return GameRoom::find($id);
     }
 
-    public function createGameRoom(string $userId): GameRoom
+    public function createGameRoom(string $userId, int $maxPlayers): GameRoom
     {
         $roomCode = $this->generateRoomCode();
         $gameRoom = GameRoom::create([
             'room_code' => $roomCode,
             'players' => [$userId],
             'game_state' => 'waiting',
+            'max_players' => $maxPlayers,
         ]);
 
         return $gameRoom;
