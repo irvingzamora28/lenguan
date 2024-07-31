@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 // Hooks
-import { useIsAuthenticated, useIsGuest, useSelectedLanguage, useSelectedCourse, useUser } from "../../redux/hooks";
+import { useIsAuthenticated, useIsGuest, useUser } from "../../redux/hooks";
 
 // Utils and constants
 import { routeTitles } from "./../../utils/routeLoginTitles";
@@ -24,9 +24,7 @@ interface RouteCondition {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, fallback }) => {
 	const isAuthenticated = useIsAuthenticated();
 	const isGuest = useIsGuest();
-	const selectedLanguage = useSelectedLanguage();
 	const user = useUser();
-	const selectedCourse = useSelectedCourse();
 	const location = useLocation();
 
 	const routesToCheck: RouteCondition[] = [

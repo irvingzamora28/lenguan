@@ -2,7 +2,7 @@ import React from "react";
 import LessonCard from "../../Items/Cards/LessonCard";
 import Filter from "../../Items/Forms/Filter";
 import Layout from "../../Layout/Layout";
-import { useSelectedCourse, useSelectedLanguage, useUser } from "../../../redux/hooks";
+import { useUser } from "../../../redux/hooks";
 import { Goal } from "../../../types/goal";
 import { useFilteredLessons } from "../../../hooks/filter/useFilteredLessons";
 import { useFetchLessons } from "../../../hooks/fetch/useFetchLessons";
@@ -10,9 +10,6 @@ import { useFetchGoals } from "../../../hooks/fetch/useFetchGoals";
 import { ErrorBanner } from "../../Utilities/ErrorBanner";
 
 const LessonsPage: React.FC = () => {
-	// TODO: Remove useSelectedLanguage and useSelectedCourse, they are not needed anymore
-	const selectedLanguage = useSelectedLanguage();
-	const selectedCourse = useSelectedCourse();
 	const user = useUser();
 
 	const [lessons, lessonsError] = useFetchLessons(user?.course?._id);

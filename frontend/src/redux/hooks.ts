@@ -24,22 +24,12 @@ export function useUser() {
 	return user;
 }
 
-export function useSelectedLanguage() {
-	const selectedLanguage = useAppSelector((state) => state.language.selectedLanguage);
-	return selectedLanguage;
-}
-
 export function useLanguages() {
     console.log('useLanguages');
 
 	const languages = useAppSelector((state) => state.language.languages);
     console.log(`useLanguages`, languages);
 	return languages;
-}
-
-export function useSelectedCourse() {
-	const selectedCourse = useAppSelector((state) => state.course.selectedCourse);
-	return selectedCourse;
 }
 
 export function useCourses() {

@@ -3,7 +3,6 @@ import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../../../../redux/authSlice";
-import languageReducer from "../../../../redux/languageSlice";
 import Navbar from "../../../../components/Items/Navbar/Navbar";
 import { vi } from "vitest";
 
@@ -26,13 +25,6 @@ describe("Navbar", () => {
 
 	const mockUser = { id: 123, name: "John Doe", email: "test@example.com", native_language_code: "en", learning_language: { _id: "4", name: "German", code: "de", special_characters: ["ü", "ö", "ä", "ß"] } };
 
-	const mockLanguageData = [
-		{ _id: "1", name: "English", code: "en", special_characters: [] },
-		{ _id: "2", name: "Spanish", code: "es", special_characters: ["ñ", "¿", "¡", "á", "é", "í", "ó", "ú"] },
-		{ _id: "3", name: "French", code: "fr", special_characters: ["é", "è", "ê", "â", "ç", "à"] },
-		{ _id: "4", name: "German", code: "de", special_characters: ["ü", "ö", "ä", "ß"] },
-	];
-
 	const mockPreloadedState = {
 		auth: {
 			user: mockUser,
@@ -42,17 +34,11 @@ describe("Navbar", () => {
 			token: null,
 			error: null,
 		},
-		language: {
-			selectedLanguage: mockLanguageData[3],
-			languages: mockLanguageData,
-			courseProgress: {},
-		},
 	};
 
 	const mockStore = configureStore({
 		reducer: {
 			auth: authReducer,
-			language: languageReducer,
 		},
 		preloadedState: mockPreloadedState,
 	});

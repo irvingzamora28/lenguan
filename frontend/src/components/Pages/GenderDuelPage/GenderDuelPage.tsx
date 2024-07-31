@@ -10,7 +10,7 @@ import GenderDuelGenderButtons from "../../Items/Games/GenderDuel/GenderDuelGend
 import useGenderDuelSocket from "../../../hooks/useGenderDuelSocket";
 import useUserLogin from "../../../hooks/useUserLogin";
 import useUserUsername from "../../../hooks/useUserUsername";
-import { useIsGuest, useSelectedLanguage } from "../../../redux/hooks";
+import { useIsGuest} from "../../../redux/hooks";
 import LoginForm from "../../Items/Forms/LoginForm";
 import useUserGuestLogin from "../../../hooks/useUserGuestLogin";
 import ButtonGoBack from "../../Items/Games/ButtonGoBack";
@@ -40,7 +40,6 @@ const GenderDuelPage: React.FC = () => {
     const { user, username, handleEnterAsGuest } = useUserUsername();
     const { handleLoginAsGuest } = useUserGuestLogin();
     const { errorMessages, loginData, handleChange, handleLogin } = useUserLogin();
-    const selectedLanguage = useSelectedLanguage();
     const { room_id } = useParams<{ room_id: string }>();
     const [connectionError, setConnectionError] = useState(false);
     const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleStartSinglePlayerGame } = useGenderDuelSocket(user, selectedLanguage, room_id || null);
