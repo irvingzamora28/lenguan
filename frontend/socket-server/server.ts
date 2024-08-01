@@ -4,6 +4,7 @@ import { Server as HttpServer } from "http";
 import { Server as SocketIOServer, Socket as BaseSocket } from "socket.io";
 import { GenderDuelWordService } from "../src/services/GenderDuelWordService";
 import { Language } from "../src/types/language";
+import { exit } from "process";
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
@@ -73,10 +74,17 @@ io.on("connection", (socket: GenderDuelSocket) => {
         socket.join(gameRoomId);
         console.log(`User ${user.username} joined game room ${gameRoomId}`);
 
-        if (!gameState[gameRoomId]) {
+        // If the game room does not exist and maxPlayers is 0 (No button single-player or multi-player was clicked), we do nothing.
+        if (!gameState[gameRoomId] && maxPlayers == 0) {
+            return;
+        }
+
+        // If the game room does not exist and maxPlayers is not 0 (Multi-player or single-player button was clicked), we create it.
+        if (!gameState[gameRoomId] && maxPlayers!= 0) {
             gameState[gameRoomId] = { players: {}, maxPlayers: maxPlayers };
         }
 
+        // Join game room
         const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
         gameState[gameRoomId].players[socket.id] = {
             id: user.id,

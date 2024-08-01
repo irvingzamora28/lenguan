@@ -19,7 +19,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
     const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
 
     useEffect(() => {
-        if (user && gameRoomId && maxPlayers > 0) {
+        if (user && gameRoomId) {
             socket.emit("join-game-room", { user, gameRoomId, maxPlayers });
         }
     }, [user, gameRoomId, maxPlayers]);
