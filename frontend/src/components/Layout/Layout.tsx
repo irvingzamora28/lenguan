@@ -4,9 +4,10 @@ import SidebarMenu from "../Items/Menu/SidebarMenu";
 
 interface LayoutProps {
   children: React.ReactNode;
+  isVisible?: boolean;
 }
 
-const Layout = React.memo<LayoutProps>(({ children }) => {
+const Layout = React.memo<LayoutProps>(({ children, isVisible = true }) => {
     const [profileOpen, setProfileOpen] = useState(false);
     const [asideOpen, setAsideOpen] = useState(() => {
       const storedAsideOpen = localStorage.getItem("asideOpen");
@@ -32,6 +33,7 @@ const Layout = React.memo<LayoutProps>(({ children }) => {
           setAsideOpen={memoizedSetAsideOpen}
           profileOpen={profileOpen}
           setProfileOpen={memoizedSetProfileOpen}
+          isVisible={isVisible}
         />
         <div className="flex dark:bg-slate-900 dark:text-slate-200">
           {asideOpen && <SidebarMenu closeSidebar={() => memoizedSetAsideOpen(false)} />}

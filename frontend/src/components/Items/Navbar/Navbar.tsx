@@ -17,10 +17,11 @@ interface NavBarProps {
 	setAsideOpen: (open: boolean) => void;
 	profileOpen: boolean;
 	setProfileOpen: (open: boolean) => void;
+    isVisible?: boolean;
 }
 
 // TODO: Remove all references of old selectedLanguage state
-const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, setProfileOpen }) => {
+const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, setProfileOpen, isVisible = true }) => {
 	const dispatch = useDispatch();
 	const user = useUser();
 	const profileMenuRef = useRef<HTMLDivElement>(null);
@@ -53,7 +54,7 @@ const Navbar = React.memo<NavBarProps>(({ asideOpen, setAsideOpen, profileOpen, 
 	}, []);
 
 	return (
-		<header className="flex w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-10 dark:bg-blue-900 dark:border-blue-800 dark:text-slate-200">
+		<header className={`${isVisible ? "flex" : "hidden"} w-full items-center justify-between border-b-2 border-gray-200 bg-backgroundalt p-2 fixed z-10 dark:bg-blue-900 dark:border-blue-800 dark:text-slate-200`}>
 			<div className="flex items-center space-x-2">
 				<button type="button" className="text-3xl" onClick={() => setAsideOpen(!asideOpen)} aria-label="menu">
 					<FiMenu />
