@@ -4,7 +4,6 @@ import { Server as HttpServer } from "http";
 import { Server as SocketIOServer, Socket as BaseSocket } from "socket.io";
 import { GenderDuelWordService } from "../src/services/GenderDuelWordService";
 import { Language } from "../src/types/language";
-import { exit } from "process";
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
@@ -54,7 +53,7 @@ const emitNewWord = async (gameRoomId: string) => {
         console.log(`New word emitted: ${newWord.word} in room ${gameRoomId}`);
         clearInterval(intervalId);
         intervalId = setInterval(() => {
-            if (Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
+            if (gameState[gameRoomId] && Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
                 emitNewWord(gameRoomId);
             }
         }, 10000);
@@ -75,46 +74,45 @@ io.on("connection", (socket: GenderDuelSocket) => {
         console.log(`User ${user.username} joined game room ${gameRoomId}`);
 
         // If the game room does not exist and maxPlayers is 0 (No button single-player or multi-player was clicked), we do nothing.
-        if (!gameState[gameRoomId] && maxPlayers == 0) {
+        if (!gameState[gameRoomId] && maxPlayers === 0) {
             return;
         }
 
         // If the game room does not exist and maxPlayers is not 0 (Multi-player or single-player button was clicked), we create it.
-        if (!gameState[gameRoomId] && maxPlayers!= 0) {
+        if (!gameState[gameRoomId] && maxPlayers !== 0) {
             gameState[gameRoomId] = { players: {}, maxPlayers: maxPlayers };
         }
 
-        // Join game room
-        const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
-        gameState[gameRoomId].players[socket.id] = {
-            id: user.id,
-            username: user.username,
-            score: 0,
-        };
+        if (gameState[gameRoomId]) {
+            const playerNumber = Object.keys(gameState[gameRoomId].players).length + 1;
+            gameState[gameRoomId].players[socket.id] = {
+                id: user.id,
+                username: user.username,
+                score: 0,
+            };
 
-        socket.playerNumber = playerNumber;
+            socket.playerNumber = playerNumber;
 
-        io.to(gameRoomId).emit("player-assignment", {
-            playerNumber,
-            connectedPlayers: Object.keys(gameState[gameRoomId].players).length,
-            maxPlayers: gameState[gameRoomId].maxPlayers,
-        });
+            io.to(gameRoomId).emit("player-assignment", {
+                playerNumber,
+                connectedPlayers: Object.keys(gameState[gameRoomId].players).length,
+                maxPlayers: gameState[gameRoomId].maxPlayers,
+            });
 
-        if (Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
-            io.to(gameRoomId).emit("game-ready");
-            emitNewWord(gameRoomId);
+            if (Object.keys(gameState[gameRoomId].players).length === gameState[gameRoomId].maxPlayers) {
+                io.to(gameRoomId).emit("game-ready");
+                emitNewWord(gameRoomId);
+            }
+        } else {
+            console.error(`Game room ${gameRoomId} does not exist in gameState.`);
         }
+
         console.log(gameState);
-        // Print all players in the room
-        Object.values(gameState[gameRoomId].players).forEach((player) => {
-            console.log(`${player.username} (${player.id})`);
-        });
     });
 
     socket.on("start-game", async ({ selectedLanguage }) => {
         console.log(`Start game in socket.id ${socket.id}`);
 
-        // Find the game room this socket is part of
         const gameRoomId = Object.keys(gameState).find(roomId => gameState[roomId].players[socket.id]);
         console.log(`Start game in room ${gameRoomId}`);
 
@@ -149,6 +147,8 @@ io.on("connection", (socket: GenderDuelSocket) => {
                     emitNewWord(gameRoomId);
                 }
             }
+        } else {
+            console.error(`Game room ${gameRoomId} does not exist or player not found.`);
         }
     });
 
@@ -167,7 +167,6 @@ io.on("connection", (socket: GenderDuelSocket) => {
                 break; // Exit the loop once the player is found and removed
             }
         }
-        // Removed player from all rooms
         console.log(gameState);
     });
 });
