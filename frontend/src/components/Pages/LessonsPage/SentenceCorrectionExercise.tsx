@@ -127,7 +127,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 	};
 
 	const renderWelcomeScreen = () => (
-		<>
+		<div className="container mx-auto px-4 py-16 ">
 			<div className="welcome-section text-center p-4 mb-6 bg-white shadow-md rounded-md">
 				<h1 className="welcome-section__title font-bold text-2xl mb-2">Welcome to Sentence Correction!</h1>
 				<p className="welcome-section__description mb-4">Correct the grammatical errors in each sentence.</p>
@@ -149,7 +149,7 @@ const SentenceCorrectionExercise: React.FC = () => {
 					<span className="start-button-section__text relative gender_duel__text-shadow text-4xl sm:text-3xl font-bold">{t("start")}</span>
 				</button>
 			</div>
-		</>
+		</div>
 	);
 
 	const renderExerciseScreen = () => (

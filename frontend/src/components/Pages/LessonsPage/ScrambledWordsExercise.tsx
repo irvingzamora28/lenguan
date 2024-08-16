@@ -340,9 +340,11 @@ const ScrambledWordsExercise: React.FC = () => {
 
 	return (
 		<Layout>
-			{!state.gameStarted && renderWelcomeScreen()}
-			{state.gameStarted && state.words[state.wordIndex] && renderExerciseScreen()}
-			{state.words.length > 0 && state.wordIndex >= state.words.length && renderCompletionScreen()}
+			<div className="container mx-auto px-4 py-16 ">
+				{!state.gameStarted && renderWelcomeScreen()}
+				{state.gameStarted && state.words[state.wordIndex] && renderExerciseScreen()}
+				{state.words.length > 0 && state.wordIndex >= state.words.length && renderCompletionScreen()}
+			</div>
 		</Layout>
 	);
 };

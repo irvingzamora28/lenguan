@@ -123,50 +123,52 @@ const EditProfilePage: React.FC = () => {
 
 	return (
 		<Layout>
-			<div className="p-4 md:p-8 max-w-screen-md mx-auto">
-				<div className="bg-white shadow-lg rounded-lg overflow-hidden">
-					<div className="p-4 md:p-6">
-						<div className="flex justify-between items-center mb-4">
-							<h2 className="text-2xl font-semibold">Edit Profile</h2>
-							<Link to="/profile" className="flex items-center border border-blue-500 py-2 px-4 rounded-lg shadow text-primary-500 hover:text-primary-600 transition-colors duration-200">
-								<MdArrowBack className="mr-2" />
-								Back to Profile
-							</Link>
+			<div className="container mx-auto px-4 py-16 ">
+				<div className="p-4 md:p-8 max-w-screen-md mx-auto">
+					<div className="bg-white shadow-lg rounded-lg overflow-hidden">
+						<div className="p-4 md:p-6">
+							<div className="flex justify-between items-center mb-4">
+								<h2 className="text-2xl font-semibold">Edit Profile</h2>
+								<Link to="/profile" className="flex items-center border border-blue-500 py-2 px-4 rounded-lg shadow text-primary-500 hover:text-primary-600 transition-colors duration-200">
+									<MdArrowBack className="mr-2" />
+									Back to Profile
+								</Link>
+							</div>
+							<form onSubmit={handleSubmit}>
+								{error && <div className="mb-4 text-red-600">{error}</div>}
+
+								{/* Image upload and preview */}
+								<div className="relative inline-block mb-4">
+									<input type="file" name="profilePicture" id="profilePictureInput" className="hidden" onChange={handleImageChange} />
+									<img src={profilePreviewUrl} alt="Profile Preview" className="rounded-full h-32 w-32 object-cover" />
+									<label htmlFor="profilePictureInput" className="absolute bottom-0 right-0 bg-primary-500 hover:bg-primary-600 text-white rounded-full p-2 cursor-pointer">
+										<FaCamera />
+									</label>
+								</div>
+								<InputField label="Name" name="name" value={formData.name} onChange={handleFormFieldChange} error={validationErrors.name} />
+								<InputField label="Username" name="username" value={formData.username} onChange={handleFormFieldChange} error={validationErrors.username} />
+								<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleFormFieldChange} error={validationErrors.email} />
+								{courses && (
+									<DropdownField
+										label="Course"
+										name="courseId"
+										value={formData.courseId}
+										onChange={handleFormFieldChange}
+										options={courses.map((course) => ({
+											value: course._id,
+											label: course.name,
+										}))}
+										error={validationErrors.courseId}
+									/>
+								)}
+
+								<div className="flex justify-end mt-6">
+									<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">
+										Save Changes
+									</button>
+								</div>
+							</form>
 						</div>
-						<form onSubmit={handleSubmit}>
-							{error && <div className="mb-4 text-red-600">{error}</div>}
-
-							{/* Image upload and preview */}
-							<div className="relative inline-block mb-4">
-								<input type="file" name="profilePicture" id="profilePictureInput" className="hidden" onChange={handleImageChange} />
-								<img src={profilePreviewUrl} alt="Profile Preview" className="rounded-full h-32 w-32 object-cover" />
-								<label htmlFor="profilePictureInput" className="absolute bottom-0 right-0 bg-primary-500 hover:bg-primary-600 text-white rounded-full p-2 cursor-pointer">
-									<FaCamera />
-								</label>
-							</div>
-							<InputField label="Name" name="name" value={formData.name} onChange={handleFormFieldChange} error={validationErrors.name} />
-							<InputField label="Username" name="username" value={formData.username} onChange={handleFormFieldChange} error={validationErrors.username} />
-							<InputField label="Email" type="email" name="email" value={formData.email} onChange={handleFormFieldChange} error={validationErrors.email} />
-							{courses && (
-								<DropdownField
-									label="Course"
-									name="courseId"
-									value={formData.courseId}
-									onChange={handleFormFieldChange}
-									options={courses.map((course) => ({
-										value: course._id,
-										label: course.name,
-									}))}
-									error={validationErrors.courseId}
-								/>
-							)}
-
-							<div className="flex justify-end mt-6">
-								<button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">
-									Save Changes
-								</button>
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>

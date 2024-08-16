@@ -67,48 +67,50 @@ const ExercisesPage: React.FC = () => {
 
 	return (
 		<Layout>
-			{/* Display errors if they exist */}
-			{exercisesError && <ErrorBanner message={exercisesError} />}
-			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-8 items-center">
-				<h2 className="text-2xl sm:text-2xl font-bold text-gray-800 sm:col-start-1 sm:col-end-3 text-center sm:text-left">
-					Exercises for Lesson {lesson_number} :
-					<p className="text-lg text-secondary-500 hover:text-secondary-700 transition duration-300 ease-in-out" style={{ marginTop: "0.5rem" }}>
-						{exercises?.lesson.name}
-					</p>
-				</h2>
+			<div className="container mx-auto px-4 py-16 ">
+				{/* Display errors if they exist */}
+				{exercisesError && <ErrorBanner message={exercisesError} />}
+				<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-8 items-center">
+					<h2 className="text-2xl sm:text-2xl font-bold text-gray-800 sm:col-start-1 sm:col-end-3 text-center sm:text-left">
+						Exercises for Lesson {lesson_number} :
+						<p className="text-lg text-secondary-500 hover:text-secondary-700 transition duration-300 ease-in-out" style={{ marginTop: "0.5rem" }}>
+							{exercises?.lesson.name}
+						</p>
+					</h2>
 
-				<Link
-					to={`/lessons/${lesson_number}`}
-					className="flex items-center w-fit justify-self-center sm:justify-self-end border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow sm:col-start-3 sm:col-end-4 order-last sm:order-none"
-				>
-					<MdArrowBack className="mr-2" /> Back to lesson
-				</Link>
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:col-span-3 lg:my-16">
-					{exercisesCategories
-						.filter((exerciseCategory) => exercises?.exercise_types.includes(exerciseCategory.type) && exerciseCategory.exercises.length > 0)
-						.map((exerciseCategory, categoryIndex) => {
-							// Filter the exercises that match the current category type
-							const relevantExercises = exercises?.exercises.filter((e) => e.type === exerciseCategory.type);
+					<Link
+						to={`/lessons/${lesson_number}`}
+						className="flex items-center w-fit justify-self-center sm:justify-self-end border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-bold py-2 px-4 my-2 rounded-lg shadow sm:col-start-3 sm:col-end-4 order-last sm:order-none"
+					>
+						<MdArrowBack className="mr-2" /> Back to lesson
+					</Link>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:col-span-3 lg:my-16">
+						{exercisesCategories
+							.filter((exerciseCategory) => exercises?.exercise_types.includes(exerciseCategory.type) && exerciseCategory.exercises.length > 0)
+							.map((exerciseCategory, categoryIndex) => {
+								// Filter the exercises that match the current category type
+								const relevantExercises = exercises?.exercises.filter((e) => e.type === exerciseCategory.type);
 
-							return (
-								<div key={categoryIndex} className="exercise-category mb-8">
-									<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
-										<span>{exerciseCategory.icon}</span>
-										<span>{exerciseCategory.title}</span>
-									</h3>
-									<div className="mt-4 grid gap-4 grid-cols-2">
-										{exerciseCategory.exercises.map((exercise, exerciseIndex) => (
-											<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} state={{ exerciseDetails: relevantExercises }} className="exercise-link">
-												<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
-													<div className="text-3xl mb-2">{exercise.icon}</div>
-													<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
-												</div>
-											</Link>
-										))}
+								return (
+									<div key={categoryIndex} className="exercise-category mb-8">
+										<h3 className="flex text-2xl space-x-4 items-center font-bold text-slate-800">
+											<span>{exerciseCategory.icon}</span>
+											<span>{exerciseCategory.title}</span>
+										</h3>
+										<div className="mt-4 grid gap-4 grid-cols-2">
+											{exerciseCategory.exercises.map((exercise, exerciseIndex) => (
+												<Link key={exerciseIndex} to={exercise.route.replace(":lesson_number", lesson_number ?? "")} state={{ exerciseDetails: relevantExercises }} className="exercise-link">
+													<div className="exercise-card bg-slate-200 hover:bg-slate-300 transition-colors duration-300 ease-in-out rounded-lg shadow-md p-4 flex flex-col items-center justify-center">
+														<div className="text-3xl mb-2">{exercise.icon}</div>
+														<span className="text-md font-semibold text-slate-700">{exercise.title}</span>
+													</div>
+												</Link>
+											))}
+										</div>
 									</div>
-								</div>
-							);
-						})}
+								);
+							})}
+					</div>
 				</div>
 			</div>
 		</Layout>

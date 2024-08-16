@@ -176,7 +176,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 	}, [verbs, tenses, pronouns]);
 
 	const renderWelcomeScreen = () => (
-		<>
+		<div className="container mx-auto px-4 py-16 ">
 			<div className="text-center p-4 mb-6 bg-white shadow-md rounded-md">
 				<h1 className="font-bold text-2xl mb-2">{t("Welcome to Verb Conjugation Slot Machine!")}</h1>
 				<p className="mb-4">{t("Test your skills in verb conjugation.")}</p>
@@ -198,7 +198,7 @@ const VerbConjugationSlotMachineExercise: React.FC = () => {
 					<span className="relative gender_duel__text-shadow text-4xl sm:text-3xl font-bold">{t("start")}</span>
 				</button>
 			</div>
-		</>
+		</div>
 	);
 
 	const renderExerciseScreen = () => (
