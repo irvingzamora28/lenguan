@@ -129,6 +129,16 @@ io.on("connection", (socket: GenderDuelSocket) => {
         }
     });
 
+    socket.on("cancel-game", (gameRoomId: string) => {
+        if (gameState[gameRoomId]) {
+            delete gameState[gameRoomId]; // Remove the game state for the canceled game
+            io.to(gameRoomId).emit("game-canceled"); // Notify other players in the room (if any) that the game has been canceled
+        }
+        socket.leave(gameRoomId); // Remove the socket from the room
+        console.log(`Game ${gameRoomId} has been canceled`);
+    });
+
+
     socket.on("correct-gender-clicked", (gender: string) => {
         // Find the game room this socket is part of
         const gameRoomId = Object.keys(gameState).find(roomId => gameState[roomId].players[socket.id]);

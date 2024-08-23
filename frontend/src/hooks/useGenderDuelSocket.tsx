@@ -4,6 +4,7 @@ import correctSound from "../assets/audio/correct-choice.mp3";
 import incorrectSound from "../assets/audio/incorrect-choice.mp3";
 import { Word, Players, User } from "../types";
 import { Language } from "../types/language";
+import { useNavigate } from "react-router-dom";
 
 const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null, maxPlayers: number) => {
     const [connectionError, setConnectionError] = useState(false);
@@ -17,6 +18,16 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
     const [appearing, setAppearing] = useState(false);
     const [soundEffect, setSoundEffect] = useState<string | null>(null);
     const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
+
+    const navigate = useNavigate();
+
+    const handleCancelGame = () => {
+        if (gameRoomId) {
+            socket.emit("cancel-game", gameRoomId); // Notify server about game cancellation
+            setGameStatus("ready"); // Update the gameStatus to "waiting"
+            navigate("/gender-duel"); // Navigate the user back to the menu
+        }
+    };
 
     useEffect(() => {
         if (user && gameRoomId) {
@@ -135,7 +146,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
         socket.emit("start-game", { selectedLanguage });
     };
 
-    return { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame };
+    return { connectionError, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame };
 };
 
 export default useGenderDuelSocket;

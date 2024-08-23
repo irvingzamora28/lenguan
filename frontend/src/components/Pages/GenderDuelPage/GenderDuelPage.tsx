@@ -46,13 +46,18 @@ const GenderDuelPage: React.FC = () => {
 	const [maxPlayers, setMaxPlayers] = useState(0); // Initialize maxPlayers to 0
 	const navigate = useNavigate();
 
-	const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame } = useGenderDuelSocket(
+	const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame } = useGenderDuelSocket(
 		user,
 		user?.learning_language || null,
 		room_id || null,
 		maxPlayers // Pass maxPlayers
 	);
 	const isGuest = useIsGuest();
+
+    const handleCancelGameClick = () => {
+        handleCancelGame();
+        setSinglePlayerRoom(false);
+    };
 
 	useEffect(() => {
 		console.log("This is the room_id:", room_id);
@@ -96,7 +101,17 @@ const GenderDuelPage: React.FC = () => {
 												resetAnimation={resetAnimation}
 											/>
 										)}
-										{gameStatus === "playing" && <GenderDuelScoreBoard players={players} />}
+										{gameStatus === "playing" && (
+                                            <>
+                                                <GenderDuelScoreBoard players={players} />
+                                                <button
+                                                    onClick={handleCancelGameClick}
+                                                    className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                                                >
+                                                    Cancel Game & Go Back
+                                                </button>
+                                            </>
+                                        )}
 									</>
 								) : (
 									<div className="flex flex-col items-center space-y-4">
