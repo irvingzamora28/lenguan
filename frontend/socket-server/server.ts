@@ -4,15 +4,10 @@ import { Server as HttpServer } from "http";
 import { Server as SocketIOServer, Socket as BaseSocket } from "socket.io";
 import { GenderDuelWordService } from "../src/services/GenderDuelWordService";
 import { Language } from "../src/types/language";
+import { Player } from "../src/types/player";
 
 interface GenderDuelSocket extends BaseSocket {
     playerNumber?: number;
-}
-
-interface Player {
-    id: string;
-    username: string;
-    score: number;
 }
 
 interface GameState {
@@ -88,6 +83,7 @@ io.on("connection", (socket: GenderDuelSocket) => {
             gameState[gameRoomId].players[socket.id] = {
                 id: user.id,
                 username: user.username,
+                name: user.name,
                 score: 0,
             };
 
