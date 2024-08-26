@@ -119,7 +119,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
 
     const handleGenderClick = (gender: string) => {
         if (word && word.gender === gender) {
-            socket.emit("correct-gender-clicked", gender);
+            socket.emit("correct-gender-clicked", { user, gameRoomId, gender });
             setCorrectGender(gender);
             setSoundEffect(correctSound);
 
