@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/scss/components/GenderDuelPage.scss";
-import { FaMars, FaVenus, FaNeuter } from "react-icons/fa";
+import { FaMars, FaVenus, FaNeuter, FaArrowLeft } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ButtonStart from "../../Items/Games/ButtonStart";
@@ -46,7 +46,7 @@ const GenderDuelPage: React.FC = () => {
 	const [maxPlayers, setMaxPlayers] = useState(0); // Initialize maxPlayers to 0
 	const navigate = useNavigate();
 
-	const { playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame } = useGenderDuelSocket(
+	const { playerNumber, roomDoesNotExist, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame, resetRoomDoesNotExist } = useGenderDuelSocket(
 		user,
 		user?.learning_language || null,
 		room_id || null,
@@ -54,16 +54,17 @@ const GenderDuelPage: React.FC = () => {
 	);
 	const isGuest = useIsGuest();
 
-    const handleCancelGameClick = () => {
-        handleCancelGame();
-        setSinglePlayerRoom(false);
-    };
+	const handleCancelGameClick = () => {
+        resetRoomDoesNotExist();
+		handleCancelGame();
+		setSinglePlayerRoom(false);
+	};
 
 	useEffect(() => {
 		console.log("This is the room_id:", room_id);
 	}, [room_id]);
 
-    const isNavbarVisible = gameStatus !== "playing";
+	const isNavbarVisible = gameStatus !== "playing";
 
 	return (
 		<Layout isVisible={isNavbarVisible}>
@@ -101,17 +102,11 @@ const GenderDuelPage: React.FC = () => {
 												resetAnimation={resetAnimation}
 											/>
 										)}
-										{gameStatus === "playing" && (
-                                            <>
-                                                <GenderDuelScoreBoard players={players} />
-                                                <button
-                                                    onClick={handleCancelGameClick}
-                                                    className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-                                                >
-                                                    Cancel Game & Go Back
-                                                </button>
-                                            </>
-                                        )}
+										{gameStatus === "playing" && <GenderDuelScoreBoard players={players} />}
+										<button onClick={handleCancelGameClick} className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 flex items-center justify-center">
+											<FaArrowLeft className="mr-2" />
+											{roomDoesNotExist ? "Go Back" : "Cancel Game"}
+										</button>
 									</>
 								) : (
 									<div className="flex flex-col items-center space-y-4">
@@ -122,6 +117,12 @@ const GenderDuelPage: React.FC = () => {
 							</>
 						)}
 					</>
+				)}
+				{roomDoesNotExist && (
+					<div className="bg-slate-500 text-white text-center py-4 px-6 rounded-lg shadow-lg max-w-md mx-auto mt-8">
+						<h2 className="text-2xl font-bold mb-2">Room Not Found</h2>
+						<p className="mb-4">Sorry, the room you are trying to join does not exist.</p>
+					</div>
 				)}
 			</div>
 		</Layout>

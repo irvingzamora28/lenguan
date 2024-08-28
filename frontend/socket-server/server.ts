@@ -82,6 +82,7 @@ const handleJoinGameRoom = (socket: GenderDuelSocket, user: Player, gameRoomId: 
         }
     } else {
         console.error(`Game room ${gameRoomId} does not exist in gameState.`);
+        io.to(gameRoomId).emit("room-does-not-exist");
     }
 
     console.log(gameState);
