@@ -73,6 +73,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
             } else {
                 setGameStatus("ready");
             }
+            setRoomDoesNotExist(false);
         });
 
         socket.on("new-word", (newWord: Word) => {
