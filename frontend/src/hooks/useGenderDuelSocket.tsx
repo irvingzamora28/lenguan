@@ -6,7 +6,7 @@ import { Word, Players, User } from "../types";
 import { Language } from "../types/language";
 import { useNavigate } from "react-router-dom";
 
-const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null, maxPlayers: number) => {
+const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: Language | null, gameRoomId: string | null, maxPlayers: number, onGameOver: (message: string) => void) => {
     const [connectionError, setConnectionError] = useState(false);
     const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
     const [roomDoesNotExist, setRoomDoesNotExist] = useState(false);
@@ -19,6 +19,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
     const [appearing, setAppearing] = useState(false);
     const [soundEffect, setSoundEffect] = useState<string | null>(null);
     const [connectedPlayers, setConnectedPlayers] = useState<number>(0);
+    const [gameOverMessage, setGameOverMessage] = useState<string | null>(null);
 
     const navigate = useNavigate();
 
@@ -87,8 +88,8 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
         });
 
         socket.on("game-over", (message: string) => {
+            onGameOver(message);
             setGameStatus("game-over");
-            alert(message);
         });
 
         socket.on("game-ready", () => {
@@ -156,7 +157,7 @@ const useGenderDuelSocket = (user: User | null | undefined, selectedLanguage: La
         socket.emit("start-game", { selectedLanguage });
     };
 
-    return { connectionError, roomDoesNotExist, playerNumber, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame, resetRoomDoesNotExist };
+    return { connectionError, roomDoesNotExist, playerNumber, gameStatus, word, players, appearing, correctGender, gameOverMessage, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame, resetRoomDoesNotExist };
 };
 
 export default useGenderDuelSocket;

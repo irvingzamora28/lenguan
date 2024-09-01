@@ -17,6 +17,7 @@ import ButtonCreateGameRoom from "../../Items/Games/ButtonCreateGameRoom";
 import JoinGameRoomForm from "../../Items/Games/JoinGameRoomForm";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
+import Modal from "../../Utilities/Modal";
 
 const genders = [
 	{
@@ -44,18 +45,33 @@ const GenderDuelPage: React.FC = () => {
 	const [connectionError, setConnectionError] = useState(false);
 	const [singlePlayerRoom, setSinglePlayerRoom] = useState(false);
 	const [maxPlayers, setMaxPlayers] = useState(0); // Initialize maxPlayers to 0
+	const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState({ title: "", message: "", icon: "" });
+
+    const handleGameOver = (message: string) => {
+        setModalContent({
+            title: "Game Over",
+            message: message,
+            icon: message.includes("wins") ? "🏆" : "🎉", // Different icons for multiplayer vs single-player
+        });
+        setShowModal(true);
+		setSinglePlayerRoom(false);
+    };
+
 	const navigate = useNavigate();
 
-	const { playerNumber, roomDoesNotExist, gameStatus, word, players, appearing, correctGender, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame, resetRoomDoesNotExist } = useGenderDuelSocket(
-		user,
-		user?.learning_language || null,
-		room_id || null,
-		maxPlayers // Pass maxPlayers
-	);
+	const { playerNumber, roomDoesNotExist, gameStatus, word, players, appearing, correctGender, gameOverMessage, incorrectGender, handleGenderClick, resetAnimation, handleStartGame, handleCancelGame, resetRoomDoesNotExist } =
+		useGenderDuelSocket(
+			user,
+			user?.learning_language || null,
+			room_id || null,
+			maxPlayers, // Pass maxPlayers,
+            handleGameOver,
+		);
 	const isGuest = useIsGuest();
 
 	const handleCancelGameClick = () => {
-        resetRoomDoesNotExist();
+		resetRoomDoesNotExist();
 		handleCancelGame();
 		setSinglePlayerRoom(false);
 	};
@@ -124,6 +140,18 @@ const GenderDuelPage: React.FC = () => {
 						<p className="mb-4">Sorry, the room you are trying to join does not exist.</p>
 					</div>
 				)}
+				<Modal
+                    show={showModal}
+                    onClose={() => {
+                        setShowModal(false);
+                        navigate("/gender-duel");
+                    }}
+                    title={modalContent.title}
+                    icon={<span className="text-6xl">{modalContent.icon}</span>}
+                    color="bg-green-500"
+                >
+                    <p className="text-xl font-bold text-green-600">{modalContent.message}</p>
+                </Modal>
 			</div>
 		</Layout>
 	);

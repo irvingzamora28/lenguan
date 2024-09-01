@@ -118,7 +118,7 @@ const handleCorrectGenderClick = (socket: GenderDuelSocket, user: Player, gameRo
 
     if (!gameState[gameRoomId]) {
         console.error(`Invalid gameRoomId: ${gameRoomId}. Room does not exist.`);
-        return; // Exit the handler early if the room doesn't exist
+        return;
     }
 
     // Check if socket.userId or socket.gameRoomId are undefined
@@ -134,19 +134,27 @@ const handleCorrectGenderClick = (socket: GenderDuelSocket, user: Player, gameRo
         console.log(`User ${user.id} rejoined room ${socket.gameRoomId}`);
     }
 
-    if (gameState[gameRoomId]) {
-        const player = gameState[gameRoomId].players[user.id];
+    const gameRoom = gameState[gameRoomId];
+
+    if (gameRoom) {
+        const player = gameRoom.players[user.id];
         if (player && player.score < 10) {
             player.score++;
-            gameState[gameRoomId].active = true; // Set active to true on correct gender click
-            io.to(gameRoomId).emit("update-score", gameState[gameRoomId].players);
+            gameRoom.active = true;
+            io.to(gameRoomId).emit("update-score", gameRoom.players);
             console.log(`Player ${user.username} scored ${player.score}`);
 
             if (player.score >= 10) {
-                io.to(gameRoomId).emit("game-over", `Player ${player.username} wins!`);
-                console.log(`Player ${user.username} wins!`);
-                for (const userId in gameState[gameRoomId].players) {
-                    gameState[gameRoomId].players[userId].score = 0;
+                if (Object.keys(gameRoom.players).length > 1) {
+                    io.to(gameRoomId).emit("game-over", `Player ${player.username} wins!`);
+                    console.log(`Player ${user.username} wins!`);
+                } else {
+                    io.to(gameRoomId).emit("game-over", "Congratulations! You've completed the game.");
+                    console.log(`Single-player game completed by ${user.username}`);
+                }
+
+                for (const userId in gameRoom.players) {
+                    gameRoom.players[userId].score = 0;
                 }
             } else {
                 emitNewWord(gameRoomId);
