@@ -105,7 +105,7 @@ const GenderDuelPage: React.FC = () => {
 							<>
 								{room_id || singlePlayerRoom ? (
 									<>
-										<ButtonStart playerNumber={playerNumber} username={user.username ?? ""} gameStatus={gameStatus} handleStartGame={handleStartGame} />
+										<ButtonStart playerNumber={playerNumber} username={user.username ?? ""} gameStatus={gameStatus} handleStartGame={handleStartGame} roomId={room_id} />
 										{gameStatus === "playing" && word && (
 											<GenderDuelGenderButtons
 												appearing={appearing}
